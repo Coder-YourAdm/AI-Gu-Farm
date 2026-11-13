@@ -365,14 +365,23 @@ def make_solver(backend: str) -> tuple[Callable, str]:
             "  缺它无法判分，先用 --backend mock 联调链路。"
         ) from e
     try:
-        from app.llm import complete as _complete  # type: ignore
+        from app import llm as _llm  # type: ignore
+        _complete = _llm.complete
     except Exception as e:  # noqa: BLE001
         raise SystemExit(
-            f"✗ 缺少 B 的模型客户端：{e}\n"
-            "  B 需提供 app/llm.py:\n"
+            f"✗ 缺少模型客户端：{e}\n"
+            "  需要 app/llm.py：\n"
             "      complete(messages: list[dict]) -> (text, tokens_in, tokens_out)\n"
-            "  缺它无法出答案，先用 --backend mock 联调链路。"
+            "  仓库里已有一份按此签名写好的实现，检查文件是否被删。"
         ) from e
+
+    # 配置错一次就够了：不 preflight 的话，10 道题并发会吐出 10 条一样的报错。
+    _preflight = getattr(_llm, "preflight", None)
+    if _preflight is not None:
+        try:
+            _preflight()
+        except Exception as e:  # noqa: BLE001
+            raise SystemExit(f"✗ {e}") from e
 
     try:
         from app.executor import solver_view as _solver_view  # type: ignore
