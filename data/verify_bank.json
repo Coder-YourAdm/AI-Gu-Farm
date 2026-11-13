@@ -1,0 +1,318 @@
+{
+ "frozen": true,
+ "source": "方案/技术规格_v5.md 附录 A（A.1 积分 / A.2 行列式）",
+ "note": "task 是规格 §2.1 的 Task（可直接喂 judge）；answer_format 是 SolverTask 字段，由 solver_view 产出；family 仅供规则学习，三者都不混",
+ "n_tasks": 10,
+ "tasks": [
+  {
+   "src": "I1",
+   "family": "integral",
+   "mock_wrong_reason": "分子漏乘或漏除以 2，得 5/4",
+   "answer_format": "integer, fraction or finite decimal",
+   "task": {
+    "id": "V01",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+     "coeffs": [
+      1,
+      1
+     ],
+     "lower": 0,
+     "upper": 1
+    },
+    "signature": "poly|coeffs=1,1|lower=0|upper=1",
+    "statement": "计算定积分 ∫_{0}^{1} (x + 1) dx。",
+    "reference": {
+     "kind": "rational",
+     "numerator": "3",
+     "denominator": "2"
+    }
+   }
+  },
+  {
+   "src": "I3",
+   "family": "integral",
+   "mock_wrong_reason": "区间代入时用 0 而非 1，得 40/3",
+   "answer_format": "integer, fraction or finite decimal",
+   "task": {
+    "id": "V02",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+     "coeffs": [
+      0,
+      0,
+      5
+     ],
+     "lower": 1,
+     "upper": 2
+    },
+    "signature": "poly|coeffs=0,0,5|lower=1|upper=2",
+    "statement": "计算定积分 ∫_{1}^{2} (5x²) dx。",
+    "reference": {
+     "kind": "rational",
+     "numerator": "35",
+     "denominator": "3"
+    }
+   }
+  },
+  {
+   "src": "I4",
+   "family": "integral",
+   "mock_wrong_reason": "把 n!/r^n 写成 n!/r^(n+1)，得 1/2",
+   "answer_format": "integer, fraction or finite decimal",
+   "task": {
+    "id": "V03",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+     "n": 1,
+     "rate": 2,
+     "c": 1
+    },
+    "signature": "gamma|c=1|n=1|rate=2",
+    "statement": "计算定积分 ∫₀^∞ x e^{-2x} dx。",
+    "reference": {
+     "kind": "rational",
+     "numerator": "1",
+     "denominator": "4"
+    }
+   }
+  },
+  {
+   "src": "I5",
+   "family": "integral",
+   "mock_wrong_reason": "阶乘与幂次错位，分母少乘一个 8",
+   "answer_format": "integer, fraction or finite decimal",
+   "task": {
+    "id": "V04",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+     "n": 9,
+     "rate": 8,
+     "c": 5
+    },
+    "signature": "gamma|c=5|n=9|rate=8",
+    "statement": "计算定积分 ∫₀^∞ 5x⁹ e^{-8x} dx。",
+    "reference": {
+     "kind": "rational",
+     "numerator": "14175",
+     "denominator": "8388608"
+    }
+   }
+  },
+  {
+   "src": "I7",
+   "family": "integral",
+   "mock_wrong_reason": "丢掉负系数，得 120",
+   "answer_format": "integer, fraction or finite decimal",
+   "task": {
+    "id": "V05",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+     "k": 5,
+     "rate": 1,
+     "c": -2
+    },
+    "signature": "gaussian_odd|c=-2|k=5|rate=1",
+    "statement": "计算定积分 ∫₀^∞ -2x¹¹ e^{-1x²} dx。",
+    "reference": {
+     "kind": "integer",
+     "value": "-120"
+    }
+   }
+  },
+  {
+   "src": "D1",
+   "family": "det",
+   "mock_wrong_reason": "交换了主次对角项顺序，得 -5",
+   "answer_format": "integer",
+   "task": {
+    "id": "V06",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "determinant",
+    "template": "det",
+    "params": {
+     "matrix": [
+      [
+       2,
+       1
+      ],
+      [
+       1,
+       3
+      ]
+     ]
+    },
+    "signature": "det|matrix=2,1;1,3",
+    "statement": "计算矩阵 [[2,1],[1,3]] 的行列式。",
+    "reference": {
+     "kind": "integer",
+     "value": "5"
+    }
+   }
+  },
+  {
+   "src": "D2",
+   "family": "det",
+   "mock_wrong_reason": "展开式符号错，得 3",
+   "answer_format": "integer",
+   "task": {
+    "id": "V07",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "determinant",
+    "template": "det",
+    "params": {
+     "matrix": [
+      [
+       1,
+       2,
+       3
+      ],
+      [
+       4,
+       5,
+       6
+      ],
+      [
+       7,
+       8,
+       10
+      ]
+     ]
+    },
+    "signature": "det|matrix=1,2,3;4,5,6;7,8,10",
+    "statement": "计算矩阵 [[1,2,3],[4,5,6],[7,8,10]] 的行列式。",
+    "reference": {
+     "kind": "integer",
+     "value": "-3"
+    }
+   }
+  },
+  {
+   "src": "D3",
+   "family": "det",
+   "mock_wrong_reason": "主元为 0 时未判定奇异，返回 None 或报错",
+   "answer_format": "integer",
+   "task": {
+    "id": "V08",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "determinant",
+    "template": "det",
+    "params": {
+     "matrix": [
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       4
+      ]
+     ]
+    },
+    "signature": "det|matrix=1,2;2,4",
+    "statement": "计算矩阵 [[1,2],[2,4]] 的行列式。",
+    "reference": {
+     "kind": "integer",
+     "value": "0"
+    }
+   }
+  },
+  {
+   "src": "D6",
+   "family": "det",
+   "mock_wrong_reason": "首元素为 0 未换行，符号未翻转，得 1",
+   "answer_format": "integer",
+   "task": {
+    "id": "V09",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "determinant",
+    "template": "det",
+    "params": {
+     "matrix": [
+      [
+       0,
+       1
+      ],
+      [
+       1,
+       0
+      ]
+     ]
+    },
+    "signature": "det|matrix=0,1;1,0",
+    "statement": "计算矩阵 [[0,1],[1,0]] 的行列式。",
+    "reference": {
+     "kind": "integer",
+     "value": "-1"
+    }
+   }
+  },
+  {
+   "src": "D7",
+   "family": "det",
+   "mock_wrong_reason": "多轮换行后符号累计错，得 -23",
+   "answer_format": "integer",
+   "task": {
+    "id": "V10",
+    "source": "verify_bank",
+    "by": null,
+    "gen": null,
+    "type": "determinant",
+    "template": "det",
+    "params": {
+     "matrix": [
+      [
+       0,
+       2,
+       1
+      ],
+      [
+       3,
+       0,
+       1
+      ],
+      [
+       4,
+       5,
+       0
+      ]
+     ]
+    },
+    "signature": "det|matrix=0,2,1;3,0,1;4,5,0",
+    "statement": "计算矩阵 [[0,2,1],[3,0,1],[4,5,0]] 的行列式。",
+    "reference": {
+     "kind": "integer",
+     "value": "23"
+    }
+   }
+  }
+ ]
+}
