@@ -22,8 +22,10 @@ BoHack 2026 天津青年黑客松参赛方案，赛道主题「日新 / 生生�
 ├── A_任务清单.md             A 的判分内核逐项清单（含 24 条用例与期望值）
 ├── A_to_B_接口契约.md        B 对接用的 JSON 结构与函数约定
 ├── A_executor_实现说明.md    六函数内部逻辑与八个"不要优化"（给 B 的模型读）
-├── app/                      判分内核：executor / scoring / ancestor 等
-├── tools/                    开发期工具：sympy_crosscheck.py（不进判分链路）
+├── app/                      判分内核：executor / scoring / ancestor
+├── tests/                    99 条验收（executor 48 + scoring 24 + ancestor 27）
+├── tools/                    开发期工具：sympy_crosscheck / check_statement（不进判分链路）
+├── data/                     数据目录；ancestors.example.json 是祖先文件格式示例
 └── 分工方案_v7.3.md          三人分工：到人、到时、到验收动作
 ```
 
