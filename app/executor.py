@@ -102,6 +102,72 @@ def _split_exponent(s: str) -> tuple[str, int | None]:
     return s, None
 
 
+# ---------------------------------------------------------------------------
+# 题面生成（规格 §2.5）
+#
+# 题面必须由执行器确定性生成：同输入永远同输出，且不出现模板名、rate/c/n
+# 这类变量名，也不写「用阶乘公式」。24 条用例里至少 4 条断言题面逐字相等。
+# ---------------------------------------------------------------------------
+
+_SUP = "⁰¹²³⁴⁵⁶⁷⁸⁹"
+
+
+def _sup(n: int) -> str:
+    """正整数 -> Unicode 上标；超过 19 回退成 ^n。"""
+    if n > 19:
+        return "^%d" % n
+    return "".join(_SUP[int(d)] for d in str(n))
+
+
+def _poly_expr(coeffs: list[int]) -> str:
+    """多项式表达式：降幂、系数 1 省略、-1 只留负号、指数 1 不写上标。"""
+    terms = [(a, i) for i, a in enumerate(coeffs) if a != 0]
+    out = ""
+    for idx, (a, i) in enumerate(reversed(terms)):
+        neg = a < 0
+        mag = abs(a)
+        coef = "" if (mag == 1 and i > 0) else str(mag)
+        if i == 0:
+            var = ""
+        elif i == 1:
+            var = "x"
+        else:
+            var = "x" + _sup(i)
+        piece = coef + var
+        if idx == 0:
+            out += ("-" if neg else "") + piece
+        else:
+            out += (" - " if neg else " + ") + piece
+    return out
+
+
+def statement(template: str, params: dict) -> str:
+    """模板 + 参数 -> 题面字符串（纯函数，同输入同输出）。"""
+    if template == "poly":
+        return "计算定积分 ∫_{%d}^{%d} (%s) dx。" % (
+            params["lower"], params["upper"], _poly_expr(params["coeffs"]))
+
+    if template == "gamma":
+        c, n, rate = params["c"], params["n"], params["rate"]
+        coef = "" if c == 1 else ("-" if c == -1 else str(c))
+        var = "x" if n == 1 else "x" + _sup(n)
+        return "计算定积分 ∫₀^∞ %s%s e^{-%dx} dx。" % (coef, var, rate)
+
+    if template == "gaussian_odd":
+        c, k, rate = params["c"], params["k"], params["rate"]
+        exp = 2 * k + 1
+        coef = "" if c == 1 else ("-" if c == -1 else str(c))
+        var = "x" if exp == 1 else "x" + _sup(exp)
+        return "计算定积分 ∫₀^∞ %s%s e^{-%dx²} dx。" % (coef, var, rate)
+
+    if template == "det":
+        m = params["matrix"]
+        rows = ", ".join("[" + ", ".join(str(v) for v in row) + "]" for row in m)
+        return "计算下列 %d 阶矩阵的行列式：[%s]。" % (len(m), rows)
+
+    raise ValueError("unknown template: %r" % (template,))
+
+
 def validate_task(raw: dict) -> tuple[bool, str]:
     """校验出题对象是否符合模板 schema。
 
