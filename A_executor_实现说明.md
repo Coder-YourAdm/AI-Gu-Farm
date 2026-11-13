@@ -220,7 +220,17 @@ a[i][j] = (a[i][j]*a[k][k] - a[i][k]*a[k][j]) // prev   # // 是整除，必然�
 
 **唯一抛异常的情况**
 
-`reference` 结构损坏（`kind` 不认识、缺字段、整个不是 dict）时 `_ref_fraction` 抛 `ValueError`。
+`reference` 结构有任何问题时，`_ref_fraction` 抛 **`ValueError`，而且只会是 ValueError**：
+
+| 情况 | 异常信息 |
+|---|---|
+| 整体不是 dict | `reference 必须是对象，收到 NoneType` |
+| `kind` 不认识 | `reference.kind 非法：'weird'` |
+| 缺 `value` / `numerator` / `denominator` | `reference 缺 denominator 字段` |
+| 字段不是整数（含 bool、`"3/4"`） | `reference.value 不是整数：'3/4'` |
+| 分母为 0 | `reference 的 denominator 为 0` |
+
+两个曾经漏掉的坑（B 提的，已修）：**不能**写 `reference["value"]`（缺键抛 `KeyError`），**不能**直接 `Fraction(a, 0)`（抛 `ZeroDivisionError`）。B 侧只按 `ValueError` 兜底，漏一个就会冒到主循环把整趟跑挂。
 
 ```python
 try:
@@ -247,7 +257,8 @@ except ValueError:
 | `_as_int(v, field, lo, hi)` | 严格整数校验 | `ValueError` |
 | `_check_params(t, params)` | 模板参数校验 | `ValueError` |
 | `bareiss(m)` | 精确行列式 | 不会失败 |
-| `_ref_fraction(ref)` | reference → Fraction | `ValueError` |
+| `_reference_int(ref, key)` | 从 reference 取整数字段（缺键/类型错都抛 ValueError） | `ValueError` |
+| `_ref_fraction(ref)` | reference → Fraction（任何结构问题都抛 ValueError） | `ValueError` |
 
 **`statement()` 虽然是公开的，但只应该通过 `normalize_task` 调用**——绕过它会让 `Task.statement` 和 `Task.signature` 不一致。
 
