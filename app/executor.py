@@ -10,6 +10,7 @@
 4. solver_view() 是白名单，任何泄漏 reference 的写法都是错的。
 """
 
+import json
 import re
 from decimal import Decimal, InvalidOperation
 from fractions import Fraction
@@ -168,18 +169,93 @@ def statement(template: str, params: dict) -> str:
     raise ValueError("unknown template: %r" % (template,))
 
 
+_TEMPLATES = ("poly", "gamma", "gaussian_odd", "det")
+
+
+def _as_int(value, field: str, lo: int, hi: int) -> int:
+    """严格整数校验：bool 也非法。
+
+    `type(True) is int` 为 False，所以这一行同时挡住 bool、float、字符串。
+    只写 isinstance(v, int) 会放过 True——那是 JSON 里 `true` 最常见的伪装。
+    """
+    if type(value) is not int:
+        raise ValueError("%s 必须是 int，收到 %s" % (field, type(value).__name__))
+    if not (lo <= value <= hi):
+        raise ValueError("%s 越界：%r 不在 [%d, %d]" % (field, value, lo, hi))
+    return value
+
+
+def _check_params(template: str, params: dict) -> None:
+    """按模板逐项校验参数，越界一律抛 ValueError。"""
+    if template == "poly":
+        if set(params) != {"coeffs", "lower", "upper"}:
+            raise ValueError("poly 参数键必须恰为 coeffs/lower/upper，收到 %s" % sorted(params))
+        coeffs = params["coeffs"]
+        if not isinstance(coeffs, list) or not (2 <= len(coeffs) <= 5):
+            raise ValueError("coeffs 必须是长度 2..5 的列表")
+        for v in coeffs:
+            _as_int(v, "coeffs 元素", -5, 5)
+        if coeffs[-1] == 0:
+            raise ValueError("coeffs 最高次系数不能为 0")
+        if not any(c != 0 for c in coeffs[1:]):
+            raise ValueError("至少需要一个 i>=1 的非零系数")
+        lower = _as_int(params["lower"], "lower", -3, 3)
+        _as_int(params["upper"], "upper", lower + 1, lower + 6)
+        return
+
+    if template == "gamma":
+        if set(params) != {"c", "n", "rate"}:
+            raise ValueError("gamma 参数键必须恰为 c/n/rate，收到 %s" % sorted(params))
+        _as_int(params["n"], "n", 1, 9)
+        _as_int(params["rate"], "rate", 1, 8)
+        _as_int(params["c"], "c", -5, 5)
+        if params["c"] == 0:
+            raise ValueError("c 不能为 0（答案恒为 0，无区分度）")
+        return
+
+    if template == "gaussian_odd":
+        if set(params) != {"c", "k", "rate"}:
+            raise ValueError("gaussian_odd 参数键必须恰为 c/k/rate，收到 %s" % sorted(params))
+        _as_int(params["k"], "k", 0, 5)
+        _as_int(params["rate"], "rate", 1, 8)
+        _as_int(params["c"], "c", -5, 5)
+        if params["c"] == 0:
+            raise ValueError("c 不能为 0（答案恒为 0，无区分度）")
+        return
+
+    if set(params) != {"matrix"}:
+        raise ValueError("det 参数键必须恰为 matrix，收到 %s" % sorted(params))
+    m = params["matrix"]
+    if not isinstance(m, list) or not (2 <= len(m) <= 5):
+        raise ValueError("矩阵必须是 2..5 行的列表")
+    for row in m:
+        if not isinstance(row, list) or len(row) != len(m):
+            raise ValueError("矩阵必须是方阵")
+        for v in row:
+            _as_int(v, "矩阵元素", -9, 9)
+
+
 def validate_task(raw: dict) -> tuple[bool, str]:
     """校验出题对象是否符合模板 schema。
 
     返回 (ok, reason)。ok=False 时 reason 是拒绝原因，调用方按「本次尝试失败」处理。
-
-    必须拒绝的情况：
-    - 未知键；模板名不在 poly / gamma / gaussian_odd / det 之内
-    - 用 bool / float / 字符串冒充 int（必须写 type(v) is int，
-      isinstance(True, int) 是 True，光靠 isinstance 拦不住）
-    - 参数越界：rate=0、c=0、n=0、coeffs 末项为 0、upper <= lower、非方阵、阶数不在 2..5
+    这里只做 schema 与边界，不做数学求解——拒绝要在求值之前完成。
     """
-    raise NotImplementedError("A1-1：validate_task")
+    if not isinstance(raw, dict):
+        return False, "出题对象必须是 JSON 对象"
+    if set(raw) != {"template", "params"}:
+        return False, "出题对象只能有 template 与 params，收到 %s" % sorted(raw)
+    template = raw["template"]
+    if template not in _TEMPLATES:
+        return False, "未知模板：%r" % (template,)
+    params = raw["params"]
+    if not isinstance(params, dict):
+        return False, "params 必须是对象"
+    try:
+        _check_params(template, params)
+    except ValueError as exc:
+        return False, str(exc)
+    return True, ""
 
 
 def normalize_task(raw: dict, *, task_id: str, source: str, by: str | None, gen: int | None) -> dict:
@@ -188,7 +264,23 @@ def normalize_task(raw: dict, *, task_id: str, source: str, by: str | None, gen:
     填 id / source / by / gen / type / template / params / signature / statement / reference。
     reference 只能来自 solve_exact()，不能来自模型 claim。
     """
-    raise NotImplementedError("A1-2：normalize_task")
+    ok, reason = validate_task(raw)
+    if not ok:
+        raise ValueError("出题对象未通过校验：%s" % reason)
+    template = raw["template"]
+    params = raw["params"]
+    return {
+        "id": task_id,
+        "source": source,
+        "by": by,
+        "gen": gen,
+        "type": "det" if template == "det" else "integral",
+        "template": template,
+        "params": params,
+        "signature": signature({"template": template, "params": params}),
+        "statement": statement(template, params),
+        "reference": solve_exact({"template": template, "params": params}),
+    }
 
 
 def bareiss(m: list[list[int]]) -> int:
@@ -252,22 +344,54 @@ def solve_exact(task: dict) -> dict:
     }
 
 
+_DECIMAL_TOL = Fraction(1, 10 ** 8)   # 大纲容差：1e-8 * max(1, |ref|)
+
+
+def _ref_fraction(reference: dict) -> Fraction:
+    """后端 reference -> Fraction。字符串形式保存，避免大整数被 JSON 变 float。"""
+    if reference["kind"] == "integer":
+        return Fraction(int(reference["value"]))
+    return Fraction(int(reference["numerator"]), int(reference["denominator"]))
+
+
 def solver_view(task: dict) -> dict:
     """白名单构造给模型的 SolverTask。
 
     键集合必须恰为 {type, statement, answer_format}。
     不得出现 template / params / by / gen / signature / reference / 历史答题结果（S6）。
     """
-    raise NotImplementedError("A1-4：solver_view")
+    answer_format = (
+        "integer only" if task["type"] == "det"
+        else "integer, fraction or finite decimal"
+    )
+    return {
+        "type": task["type"],
+        "statement": task["statement"],
+        "answer_format": answer_format,
+    }
 
 
 def signature(task: dict) -> str:
     """规范化签名，用于硬去重。
 
     固定键序 + 规范参数；矩阵含完整元素，poly 含上下限。
-    可以对规范 JSON 做 SHA-256，但数学等价性由规范化规则承担，不要求哈希解决。
+    只保证本项目所定义形式的重复检测，不承担任意数学等价判定。
     """
-    raise NotImplementedError("A1-5：signature")
+    template = task["template"]
+    params = task["params"]
+    if template == "poly":
+        body = "coeffs=%s|lower=%d|upper=%d" % (
+            ",".join(str(v) for v in params["coeffs"]),
+            params["lower"],
+            params["upper"],
+        )
+    elif template == "det":
+        body = "matrix=" + ";".join(
+            ",".join(str(v) for v in row) for row in params["matrix"]
+        )
+    else:
+        body = "|".join("%s=%d" % (k, params[k]) for k in sorted(params))
+    return "%s|%s" % (template, body)
 
 
 def judge(task: dict, raw_answer: str | None) -> str:
@@ -278,4 +402,44 @@ def judge(task: dict, raw_answer: str | None) -> str:
     数值合法但不等是 wrong；两者都计 0 且占分母。
     积分可比分数与有限十进制（1e-8 相对容差），行列式只接整数。
     """
-    raise NotImplementedError("A1-6：judge")
+    if not isinstance(raw_answer, str):
+        return "unanswered"
+    if len(raw_answer) > MAX_RESPONSE_CHARS:      # S1：超长在 json.loads 之前就拒
+        return "unanswered"
+    try:
+        payload = json.loads(raw_answer)
+    except (ValueError, TypeError):
+        return "unanswered"
+    if not isinstance(payload, dict) or set(payload) != {"value"}:
+        return "unanswered"
+    value = payload["value"]
+    if not isinstance(value, str):
+        return "unanswered"
+    value = value.strip()
+    if not value or len(value) > MAX_ANSWER_CHARS:
+        return "unanswered"
+
+    is_det = task["type"] == "det"
+    used_decimal = False
+    try:
+        if is_det:
+            answer = Fraction(parse_integer(value))
+        else:
+            try:
+                answer = Fraction(parse_integer(value))
+            except ValueError:
+                try:
+                    answer = parse_fraction(value)
+                except ValueError:
+                    answer = parse_decimal(value)
+                    used_decimal = True
+    except ValueError:
+        return "unanswered"
+
+    reference = _ref_fraction(task["reference"])
+    if is_det:
+        return "right" if answer == reference else "wrong"
+    if used_decimal:
+        tol = _DECIMAL_TOL * max(1, abs(reference))
+        return "right" if abs(answer - reference) <= tol else "wrong"
+    return "right" if answer == reference else "wrong"
