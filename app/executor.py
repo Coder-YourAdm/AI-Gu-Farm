@@ -346,19 +346,40 @@ def solve_exact(task: dict) -> dict:
 _DECIMAL_TOL = Fraction(1, 10 ** 8)   # 大纲容差：1e-8 * max(1, |ref|)
 
 
+def _reference_int(reference: dict, key: str) -> int:
+    """从 reference 里取一个整数字段；缺键 / 类型不对 / 非整数一律 ValueError。"""
+    if key not in reference:
+        raise ValueError("reference 缺 %s 字段" % key)
+    raw = reference[key]
+    if isinstance(raw, bool) or not isinstance(raw, (int, str)):
+        raise ValueError("reference.%s 必须是整数字符串或 int，收到 %r" % (key, raw))
+    try:
+        return int(raw)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("reference.%s 不是整数：%r" % (key, raw)) from exc
+
+
 def _ref_fraction(reference: dict) -> Fraction:
     """后端 reference -> Fraction。字符串形式保存，避免大整数被 JSON 变 float。
 
-    结构非法时抛 ValueError：这属于数据/执行器故障，不是模型答错，
+    **任何结构问题都抛 ValueError**：不是对象、kind 不认识、字段缺失、
+    字段不是整数、分母为 0。这些是数据/执行器故障，不是模型答错，
     上层应当中止该代而不是把它记成 wrong（规格 §15）。
+
+    两个坑：不能写 `reference["value"]`（缺键抛 KeyError，调用方按
+    ValueError 兜不住）；不能直接 `Fraction(a, 0)`（抛 ZeroDivisionError）。
     """
     if not isinstance(reference, dict):
         raise ValueError("reference 必须是对象，收到 %s" % type(reference).__name__)
     kind = reference.get("kind")
     if kind == "integer":
-        return Fraction(int(reference["value"]))
+        return Fraction(_reference_int(reference, "value"))
     if kind == "rational":
-        return Fraction(int(reference["numerator"]), int(reference["denominator"]))
+        numerator = _reference_int(reference, "numerator")
+        denominator = _reference_int(reference, "denominator")
+        if denominator == 0:
+            raise ValueError("reference 的 denominator 为 0")
+        return Fraction(numerator, denominator)
     raise ValueError("reference.kind 非法：%r" % (kind,))
 
 

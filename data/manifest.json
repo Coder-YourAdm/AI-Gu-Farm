@@ -78,7 +78,7 @@
   },
   "backfilled": {
     "by": "tests/backfill_datasets.py",
-    "executor_sha256": "951bb07c144f8aff3d8f94c0c5d43798a3f8507b89e6c53407d47d82b180c59b",
+    "executor_sha256": "33930ae561688682c94af645da2ea6bc5e0fd7fc6d47bbdd8838e8bf0988f3db",
     "tasks": 125,
     "unique_signatures": 125,
     "judge_selfcheck": "reference→right / perturbed→wrong / 拒答→unanswered",
