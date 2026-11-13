@@ -1,18 +1,18 @@
 # A · 判分内核任务清单
 
-> **权威顺序**：`方案/技术规格_v5.md`（v5.1）> `分工方案_v7.3.md` 的 A 段。两者冲突时以技术规格为准，它自己写了「字段名逐字照抄，一个都不改」。
-> **负责人**：A ｜ **交付**：今晚 A1 → 00–06H A2 → 06–12H A3/A4
+> **权威顺序**：`方案/技术规格_v5.md`（v5.1）> `分工方案_v7.3.md` 的 A 段。两者冲突时以技术规格为准，它自己写了「字段名逐字照抄，一个都不改」。  
+> **负责人**：A ｜ **交付**：今晚 A1 → 00–06H A2 → 06–12H A3/A4  
 > **核心原则**：先拒绝，再计算；全程 `Fraction`，不碰 float；期望值手算，不许拿 `solve()` 的输出当答案。
 
 ---
 
 ## 0 开工前 15 分钟（三人一起，念完贴群里）
 
-- [ ] `Task` 键名：`id / source / by / gen / type / template / params / signature / statement / reference`
-- [ ] `SolverTask` 键名：`type / statement / answer_format` —— 多一个键就破坏 `S6`
-- [ ] 执行器 6 个函数：`validate_task` / `normalize_task` / `solve_exact` / `solver_view` / `signature` / `judge`
-- [ ] `config.json` 里 A 用到的键：`seed / fitness_window / set_weight / bounty / max_response_chars / max_answer_chars / max_number_digits`
-- [ ] 说清一句话：**24 条用例的期望值由 A 手算，C 独立再算一遍交叉核对，分歧不超过 2 条且要查清**
+- [x] `Task` 键名：`id / source / by / gen / type / template / params / signature / statement / reference`
+- [x] `SolverTask` 键名：`type / statement / answer_format` —— 多一个键就破坏 `S6`
+- [x] 执行器 6 个函数：`validate_task` / `normalize_task` / `solve_exact` / `solver_view` / `signature` / `judge`
+- [x] `config.json` 里 A 用到的键：`seed / fitness_window / set_weight / bounty / max_response_chars / max_answer_chars / max_number_digits`
+- [x] 说清一句话：**24 条用例的期望值由 A 手算，C 独立再算一遍交叉核对，分歧不超过 2 条且要查清**
 
 ---
 
@@ -56,7 +56,7 @@
 
 - [ ] Unicode 上标（`x⁴` 不是 `x^4`）；指数为 1 省略上标；指数为 0 并入常数项
 - [ ] 系数 1 省略、-1 写 `-x⁴`、其他负数把负号放项首
-- [ ] 降幂排列，项间 ` + ` / ` - `，系数取绝对值
+- [ ] 降幂排列，项间 `+` / `-`，系数取绝对值
 - [ ] `gamma` 上限写 `∞` 不写 `+∞`
 - [ ] `gaussian_odd` 展开成具体奇数次（`k=2` → `x⁵`），不写 `2k+1`
 - [ ] `det` 用 `[[2, 1], [1, 3]]` 行优先、逗号后一个空格
@@ -148,12 +148,12 @@
 
 ## 交接物（做完就推，不等别人）
 
-| 交给谁 | 交什么 | 对方怎么验 |
-|---|---|---|
-| B | `judge()` 可用 | B 的 mock 一代能评分跑通 |
-| B | `solve_exact()` 可用 | 参考值能进 `Task["reference"]` |
-| C | 24 条期望值 | C 独立手算 16 条，与 A 分歧 ≤2 条且查清 |
-| C | 祖先指标字段名 | C 的大屏按这套字段画图，不改代码 |
+| 交给谁 | 交什么                | 对方怎么验                      |
+| --- | ------------------ | -------------------------- |
+| B   | `judge()` 可用       | B 的 mock 一代能评分跑通           |
+| B   | `solve_exact()` 可用 | 参考值能进 `Task["reference"]`  |
+| C   | 24 条期望值            | C 独立手算 16 条，与 A 分歧 ≤2 条且查清 |
+| C   | 祖先指标字段名            | C 的大屏按这套字段画图，不改代码          |
 
 ---
 
@@ -169,10 +169,27 @@
 
 ## 时间点自查
 
-| 时点 | 应该已经完成 |
-|---|---|
-| 今晚收工 | A1 六个函数 + 三族 + Bareiss + `statement()`，I1–I8 绿 |
-| 00–06H | A2 24 条全绿 |
-| 06–12H | A3 三条回归 + A4 四个字段 |
-| 12–18H | 协助 B 做 store 恢复测试与挑战校验 |
-| 22H 前 | `config.json` 冻结，A 不再改判分逻辑 |
+| 时点     | 应该已经完成                                         |
+| ------ | ---------------------------------------------- |
+| 今晚收工   | A1 六个函数 + 三族 + Bareiss + `statement()`，I1–I8 绿 |
+| 00–06H | A2 24 条全绿                                      |
+| 06–12H | A3 三条回归 + A4 四个字段                              |
+| 12–18H | 协助 B 做 store 恢复测试与挑战校验                         |
+| 22H 前  | `config.json` 冻结，A 不再改判分逻辑                     |
+
+---
+
+## 复审记录（2026-11-13 20:20，commit `1e2550d`）
+
+A1 完成后自查出 4 处问题，已全部修复，pytest 从 36 涨到 **39 passed**：
+
+| # | 问题 | 处理 |
+| --- | --- | --- |
+| 1 | `parse_fraction("5")` 返回 5，偏离规格「fraction 只接 `a/b`」 | 去掉兜底，裸整数必须走 `parse_integer`，三条分支互斥 |
+| 2 | `judge` 遇损坏 `reference` 抛 `KeyError`，看不出是数据坏了 | 改 `_ref_fraction` 显式校验并抛 `ValueError`（§15：参考值异常要中止） |
+| 3 | S1 只断言返回 `unanswered`，没做 mock 计数 | 补 `test_S1_oversized_never_reaches_json_loads`，断言 `calls == []` |
+| 4 | S6 断言 `"9" not in ...` 太脆，换题面就误判 | 改为检查泄漏键名 + 题面一致性 |
+
+**交给 B 的注意事项**：`judge()` 会在 `reference` 损坏时抛 `ValueError`，orchestrator 必须捕获并中止该代，**不能记成 `wrong`**。详见 `A_to_B_接口契约.md` §6。
+
+**仍未覆盖的契约**：S4（需 `dedup_set`）、S7（需出题重做机制）、S8 的 RNG 部分（需快照）——等 B 的 orchestrator 起来后补进 `tests/test_contracts.py`，测试文件头部已注明。
