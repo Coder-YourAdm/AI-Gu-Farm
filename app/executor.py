@@ -10,9 +10,95 @@
 4. solver_view() 是白名单，任何泄漏 reference 的写法都是错的。
 """
 
+import re
+from decimal import Decimal, InvalidOperation
+from fractions import Fraction
+
 MAX_DIGITS = 64            # 分子/分母/整数的位数上限（规格 §2.4）
 MAX_ANSWER_CHARS = 100     # {"value": "..."} 里字符串去空白后的长度上限
 MAX_RESPONSE_CHARS = 8000  # 原始响应字符上限，超了在 json.loads 之前就拒（S1）
+MAX_EXPONENT = 30          # 十进制指数绝对值上限（规格 §2.4）
+
+# ---------------------------------------------------------------------------
+# 答案解析（规格 §2.4）
+#
+# 识别顺序固定：integer -> fraction -> decimal，三条都必须 fullmatch。
+# 所有词法检查（长度 / 位数 / 指数）放在 int / Fraction / Decimal 之前——
+# 先做完词法，再转换，避免被 "1e999999" 这种构造喂出一个天文数字的大整数。
+# 全程不出现 float：Decimal 只负责把有限十进制精确转成 Fraction。
+# ---------------------------------------------------------------------------
+
+_INT_RE = re.compile(r"[+-]?[0-9]+")
+_FRAC_RE = re.compile(r"([+-]?[0-9]+)/([0-9]+)")
+_DEC_RE = re.compile(r"[+-]?(?:[0-9]+\.[0-9]*|\.[0-9]+|[0-9]+)(?:[eE][+-]?[0-9]+)?")
+
+
+def parse_integer(s: str) -> int:
+    """整数字面量 -> int。正则 `[+-]?[0-9]+`，位数 <= 64。
+
+    bool 的防御不在这里：字符串 "1" 永远解析不出 True。
+    真正要防的是 JSON 里的 `true` 被 json.loads 变成 Python True 之后
+    冒充参数——那一步必须在 validate_task 里写 `type(v) is int`。
+    """
+    if not isinstance(s, str):
+        raise ValueError("整数必须从字符串解析，收到 %s" % type(s).__name__)
+    if not _INT_RE.fullmatch(s):
+        raise ValueError("不是合法整数：%r" % s)
+    if len(s.lstrip("+-")) > MAX_DIGITS:
+        raise ValueError("整数位数超过 %d" % MAX_DIGITS)
+    return int(s)
+
+
+def parse_fraction(s: str) -> Fraction:
+    """`a/b` -> Fraction（自动约分、分母恒正）。分母为 0 直接拒。
+
+    也接受不带斜杠的整数，方便调用方少写一个分支。
+    """
+    if not isinstance(s, str):
+        raise ValueError("分数必须从字符串解析，收到 %s" % type(s).__name__)
+    if _INT_RE.fullmatch(s):
+        return Fraction(parse_integer(s))
+    m = _FRAC_RE.fullmatch(s)
+    if not m:
+        raise ValueError("不是合法分数：%r" % s)
+    num_s, den_s = m.group(1), m.group(2)
+    if len(num_s.lstrip("+-")) > MAX_DIGITS or len(den_s) > MAX_DIGITS:
+        raise ValueError("分子或分母位数超过 %d" % MAX_DIGITS)
+    den = int(den_s)
+    if den == 0:
+        raise ValueError("分母为 0：%r" % s)
+    return Fraction(int(num_s), den)
+
+
+def parse_decimal(s: str) -> Fraction:
+    """有限十进制 -> Fraction。必须实际含小数点或 e/E，指数绝对值 <= 30。
+
+    `"5"` 会先被 integer 分支接走；走到这里还不带小数点或指数的，
+    说明调用方顺序错了，直接拒掉而不是猜。
+    """
+    if not isinstance(s, str):
+        raise ValueError("十进制必须从字符串解析，收到 %s" % type(s).__name__)
+    if not _DEC_RE.fullmatch(s):
+        raise ValueError("不是合法有限十进制：%r" % s)
+    if "." not in s and "e" not in s and "E" not in s:
+        raise ValueError("纯整数请走 integer 分支：%r" % s)
+    mantissa, exp = _split_exponent(s)
+    if len(mantissa.lstrip("+-").replace(".", "")) > MAX_DIGITS:
+        raise ValueError("尾数位数超过 %d" % MAX_DIGITS)
+    if exp is not None and abs(exp) > MAX_EXPONENT:
+        raise ValueError("指数绝对值超过 %d：%r" % (MAX_EXPONENT, s))
+    try:
+        return Fraction(Decimal(s))
+    except (InvalidOperation, ValueError, OverflowError) as exc:
+        raise ValueError("十进制无法精确转换：%r" % s) from exc
+
+
+def _split_exponent(s: str) -> tuple[str, int | None]:
+    """`1.25e-3` -> ("1.25", -3)；不含指数时 -> (s, None)。"""
+    for i, ch in enumerate(s):
+        if ch in "eE":
+            return s[:i], int(s[i + 1:])
+    return s, None
 
 
 def validate_task(raw: dict) -> tuple[bool, str]:
