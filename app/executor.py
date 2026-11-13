@@ -13,6 +13,7 @@
 import re
 from decimal import Decimal, InvalidOperation
 from fractions import Fraction
+from math import factorial
 
 MAX_DIGITS = 64            # 分子/分母/整数的位数上限（规格 §2.4）
 MAX_ANSWER_CHARS = 100     # {"value": "..."} 里字符串去空白后的长度上限
@@ -124,6 +125,30 @@ def normalize_task(raw: dict, *, task_id: str, source: str, by: str | None, gen:
     raise NotImplementedError("A1-2：normalize_task")
 
 
+def bareiss(m: list[list[int]]) -> int:
+    """Bareiss 精确消元，全程整数运算，不产生分数。
+
+    主元为 0 就换行并翻转符号；某列全零则行列式为 0。
+    `// prev` 是整数除法——整数矩阵在 Bareiss 下必然除尽，不会丢精度。
+    """
+    a = [row[:] for row in m]
+    n, sign, prev = len(a), 1, 1
+    for k in range(n - 1):
+        if a[k][k] == 0:
+            for i in range(k + 1, n):
+                if a[i][k] != 0:
+                    a[k], a[i] = a[i], a[k]
+                    sign = -sign
+                    break
+            else:
+                return 0
+        for i in range(k + 1, n):
+            for j in range(k + 1, n):
+                a[i][j] = (a[i][j] * a[k][k] - a[i][k] * a[k][j]) // prev
+        prev = a[k][k]
+    return sign * a[-1][-1]
+
+
 def solve_exact(task: dict) -> dict:
     """仅接受已验证参数，返回可 JSON 化的 reference（精确值，不含浮点）。
 
@@ -136,7 +161,29 @@ def solve_exact(task: dict) -> dict:
           否则 {"kind":"rational","numerator":"3","denominator":"2"}；
           det 一律用 integer 形式。
     """
-    raise NotImplementedError("A1-3：solve_exact")
+    t, p = task["template"], task["params"]
+    if t == "poly":
+        l, u = p["lower"], p["upper"]
+        val = sum(
+            Fraction(a * (u ** (i + 1) - l ** (i + 1)), i + 1)
+            for i, a in enumerate(p["coeffs"])
+        )
+    elif t == "gamma":
+        val = Fraction(p["c"] * factorial(p["n"]), p["rate"] ** (p["n"] + 1))
+    elif t == "gaussian_odd":
+        val = Fraction(p["c"] * factorial(p["k"]), 2 * p["rate"] ** (p["k"] + 1))
+    elif t == "det":
+        return {"kind": "integer", "value": str(bareiss(p["matrix"]))}
+    else:
+        raise ValueError("unknown template: %r" % (t,))
+
+    if val.denominator == 1:
+        return {"kind": "integer", "value": str(val.numerator)}
+    return {
+        "kind": "rational",
+        "numerator": str(val.numerator),
+        "denominator": str(val.denominator),
+    }
 
 
 def solver_view(task: dict) -> dict:
