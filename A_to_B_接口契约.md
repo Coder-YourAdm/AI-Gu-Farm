@@ -139,7 +139,7 @@ judge(task: dict, raw_answer: str | None) -> str
 
 ### ⚠️ 唯一会抛异常的地方
 
-`judge` 在 `reference` 结构损坏时抛 `ValueError`（数据故障，不是模型答错）。B 必须捕获：
+`judge` 在 `reference` 结构有问题时抛 `ValueError`（数据故障，不是模型答错）。**保证只抛 ValueError**，不会漏成 `KeyError` 或 `ZeroDivisionError`；覆盖：不是 dict、`kind` 不认识、缺 `value`/`numerator`/`denominator`、字段不是整数、分母为 0。B 必须捕获：
 
 ```python
 try:
