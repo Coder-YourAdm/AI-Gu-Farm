@@ -143,6 +143,95 @@ def _not_implemented(name: str) -> int:
     return 2
 
 
+# --------------------------------------------------------------------------
+# B7 留出评测（独立命令；主循环跑完才允许执行）
+# --------------------------------------------------------------------------
+
+def _evaluate(cfg: Config, args: argparse.Namespace) -> int:
+    """`--evaluate RUN_ID`：只读冻结检查点，输出独立 evaluation 文件。
+
+    明确拒绝在「运行还没结束」时执行：结果不能反向触发重跑选优（规格 §5）。
+    """
+    import asyncio
+
+    import app.executor as executor
+    from .evaluate import (evaluate_run, format_report, load_holdout_tasks,
+                           plan_path, prepare_evaluation, write_evaluation,
+                           write_plan)
+    from .llm import LLMClient, ProtocolError
+
+    run_id = args.evaluate
+    holdout = Path(args.holdout)
+    if not holdout.exists():
+        print(f"留出卷不存在: {holdout}（C 交付 data/holdout.jsonl 后才有）",
+              file=sys.stderr)
+        return 2
+
+    try:
+        tasks = load_holdout_tasks(holdout, executor)
+    except (ValueError, FileNotFoundError) as e:
+        print(f"留出卷解析失败: {e}", file=sys.stderr)
+        return 2
+
+    if args.plan_only:
+        # 不校验 model/base_url：这一步不花钱，只审计划
+        try:
+            prep = prepare_evaluation(run_id=run_id, cfg=cfg, tasks=tasks,
+                                      store_root=args.runs_root)
+        except ProtocolError as e:
+            print(f"计划生成失败: {e}", file=sys.stderr)
+            return 2
+        path = write_plan(prep["plan"], run_id=run_id, root=args.runs_root,
+                          order_seed=prep["order_seed"])
+        print(f"计划槽位 {len(prep['plan'])} 个；检查点 "
+              f"{sorted(prep['populations'])}；缺失 {prep['missing'] or '无'}")
+        for w in prep["warnings"]:
+            print(f"  ⚠ {w}")
+        print(f"计划已写入 {path}（尚未发起任何模型调用）")
+        return 0
+
+    try:
+        cfg.require_runtime_ready()
+    except MissingConfigError as e:
+        print(f"配置未就绪: {e}", file=sys.stderr)
+        return 2
+
+    async def _go():
+        async with LLMClient(cfg, run_id=f"holdout_{run_id}") as chat:
+            return await evaluate_run(run_id=run_id, cfg=cfg, engine=executor,
+                                      chat=chat, tasks=tasks,
+                                      store_root=args.runs_root)
+
+    try:
+        result = asyncio.run(_go())
+    except ProtocolError as e:
+        print(f"评测中止: {e}", file=sys.stderr)
+        return 2
+
+    path = write_evaluation(result, root=args.runs_root)
+    print(format_report(result))
+    print(f"\n结果已写入 {path}")
+    return 0
+
+
+def _pair(cfg: Config, args: argparse.Namespace) -> int:
+    """`--pair E,F`：两份评测结果做配对，输出 E−F 与各自相对 g0 的变化。"""
+    from .evaluate import format_pair, load_evaluation, pair_evaluations
+
+    parts = [p.strip() for p in args.pair.split(",") if p.strip()]
+    if len(parts) != 2:
+        print("--pair 需要两个运行 ID，用逗号分隔：--pair E1,F1", file=sys.stderr)
+        return 2
+    try:
+        e = load_evaluation(parts[0], root=args.runs_root)
+        f = load_evaluation(parts[1], root=args.runs_root)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        print(f"读取评测结果失败: {exc}", file=sys.stderr)
+        return 2
+    print(format_pair(pair_evaluations(e, f)))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="python -m app.run", description="AI 养蛊机运行入口")
     p.add_argument("--config", type=str, default="config.dev.json")
@@ -156,6 +245,17 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--resume", type=str, default=None)
     p.add_argument("--branch", type=str, default=None)
     p.add_argument("--to-gen", type=int, default=None)
+    # B7 留出评测：独立命令，只读冻结检查点
+    p.add_argument("--evaluate", type=str, default=None,
+                   help="对指定 run_id 做留出评测（只读快照）")
+    p.add_argument("--plan-only", dest="plan_only", action="store_true",
+                   help="只生成并落盘评测计划，不发起任何模型调用")
+    p.add_argument("--pair", type=str, default=None,
+                   help="两份评测结果配对：--pair E_run,F_run")
+    p.add_argument("--holdout", type=str, default="data/holdout.jsonl",
+                   help="留出卷 JSONL 路径（C 交付）")
+    p.add_argument("--runs-root", dest="runs_root", type=str, default="runs",
+                   help="快照与评测结果的根目录")
     return p
 
 
@@ -187,6 +287,10 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.dry_run:
         return _dry_run(cfg, args)
+    if args.evaluate:
+        return _evaluate(cfg, args)
+    if args.pair:
+        return _pair(cfg, args)
 
     # 没有 --dry-run 也没给其他动作：说明用法
     print("未指定动作。开发阶段用：python -m app.run --dry-run --config config.dev.json",

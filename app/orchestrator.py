@@ -358,6 +358,40 @@ def allocate_slots(*, gen: int, population: Sequence[Individual],
     return slots
 
 
+def judge_call(engine: Engine, task: dict, res: CallResult, *,
+               slot_id: str = "") -> tuple[str, str | None]:
+    """模型回包 -> (三态, 记录用的原始答案)。
+
+    **唯一的判分入口**：一代事务与留出评测（`evaluate.py`）都走这里，
+    避免两处各写一遍、把「judge 收文本还是收值」这件事情写岔——B4 就这么错过一次。
+
+    入参口径见契约 §6：`judge` 收的是**文本**，它自己 `json.loads`。B 这边已经
+    做过本地 JSON 提取修复（去围栏、剥离外围文字），所以把抽取成功的对象重新
+    序列化成规范文本再交过去。契约允许的只有「本地提取修复」，不是「格式错就重发」。
+    直接传裸值 `"3/4"` 会让 `json.loads` 失败，全对的一代被判成全员零分。
+    """
+    raw: str | None = None
+    judge_input: str | None = None
+    if res.content_ok and isinstance(res.parsed, Mapping):
+        value = res.parsed.get("value")
+        raw = value if isinstance(value, str) else None
+        judge_input = json.dumps(dict(res.parsed), ensure_ascii=False)
+    try:
+        verdict = engine.judge(task, judge_input)
+    except (ValueError, KeyError) as exc:
+        # 参考值损坏是数据故障，不是模型答错；由调用方中止该代 / 该检查点。
+        # 除 ValueError 外还接 KeyError：A 的 `_ref_fraction` 在 reference 缺字段
+        # （如 {"kind":"integer"} 没有 value）时抛的是 KeyError，与其实现说明
+        # 「缺字段抛 ValueError」不符。这是同一类数据故障，不能让它把整趟跑崩。
+        raise BrokenReference(f"{slot_id} 参考值损坏：{exc!r}") from exc
+    if verdict not in ("right", "wrong", "unanswered"):
+        raise ProtocolError(
+            f"judge 返回未定义状态 {verdict!r}（{slot_id}）；"
+            "只允许 right/wrong/unanswered"
+        )
+    return verdict, raw
+
+
 async def fill_slots(*, slots: Sequence[Slot], genes_by_id: Mapping[str, Genes],
                      tasks_by_id: Mapping[str, dict], engine: Engine,
                      chat: ChatClient, cfg: Config) -> list[CallResult]:
@@ -373,33 +407,8 @@ async def fill_slots(*, slots: Sequence[Slot], genes_by_id: Mapping[str, Genes],
         if res.is_transport_error:
             slot.status = "transport_error"
             return res
-        raw = None
-        if res.content_ok and isinstance(res.parsed, Mapping):
-            value = res.parsed.get("value")
-            raw = value if isinstance(value, str) else None
-        slot.raw_answer = raw
-        # `judge` 的入参是**文本**，不是解析后的对象（契约 §6：它自己 json.loads）。
-        # B 这边已经做过本地 JSON 提取修复（去围栏、剥离外围文字），所以把抽取
-        # 成功的对象重新序列化成规范文本再交过去——契约允许的只有「本地提取修复」，
-        # 不是「格式错就重发一次请求」。
-        # 直接传裸值 "3/4" 会让 json.loads 失败，全对的一代被判成全员零分。
-        judge_input = None
-        if res.content_ok and isinstance(res.parsed, Mapping):
-            judge_input = json.dumps(dict(res.parsed), ensure_ascii=False)
-        try:
-            verdict = engine.judge(task, judge_input)
-        except (ValueError, KeyError) as exc:
-            # 参考值损坏是数据故障，不是模型答错；往上抛，由 run_generation 中止该代。
-            # 除 ValueError 外还接 KeyError：A 的 `_ref_fraction` 在 reference 缺字段
-            # （如 {"kind":"integer"} 没有 value）时抛的是 KeyError，与其实现说明
-            # 「缺字段抛 ValueError」不符。这是同一类数据故障，不能让它把整趟跑崩。
-            raise BrokenReference(f"{slot.slot_id} 参考值损坏：{exc!r}") from exc
-        if verdict not in ("right", "wrong", "unanswered"):
-            raise ProtocolError(
-                f"judge 返回未定义状态 {verdict!r}（{slot.slot_id}）；"
-                "只允许 right/wrong/unanswered"
-            )
-        slot.status = verdict
+        slot.status, slot.raw_answer = judge_call(engine, task, res,
+                                                  slot_id=slot.slot_id)
         return res
 
     return list(await asyncio.gather(*[_one(s) for s in slots]))
