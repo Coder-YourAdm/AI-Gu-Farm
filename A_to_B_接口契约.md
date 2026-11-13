@@ -201,3 +201,33 @@ validate_task({"template": "gamma", "params": {"n": 3, "rate": 0, "c": 1}})
 2. 不要自己算 `reference`，也不要相信模型的任何 claim。
 3. 不要在 `judge` 外层再包一层"格式错就重发一次"——规格只允许本地 JSON 提取修复。
 4. 不要改 `signature` 的拼接格式——它同时用于四套数据集的互斥校验。
+
+---
+
+## 11 祖先指标（`app/ancestor.py`，C 的大屏用这套字段）
+
+```python
+from app.ancestor import ancestor_report
+
+generations = [{"gen": 0, "slots": ancestor_slots, "task_types": {"T1": "integral"}}, ...]
+rows = ancestor_report(generations)      # 每代一行，已带三代均线
+```
+
+| 字段 | 含义 | 空值规则 |
+|---|---|---|
+| `gen` | 代数 | — |
+| `integral_failure` | 积分题的 `1-correct/3` 均值 | 本代无积分题 → `null` |
+| `det_failure` | 行列式同上 | 本代无行列式题 → `null` |
+| `balanced_failure` | `0.5*integral + 0.5*det` | 两型不全 → `null` |
+| `mixed_failure` | 全部六题均值 | 本代无题 → `null` |
+| `task_mix` | `{"integral": n, "det": m}` | — |
+| `unanswered_count` | 祖先 `unanswered` 个数（算错，但单独统计） | — |
+| `*_mean` | 四个指标的**三代均线** | 遇 `null` 断开 |
+
+**画图时三条硬要求**：
+
+1. `null` 当**断线**处理，不要画成 0——0 的意思是"三道题全答对了"，语义完全相反。
+2. 均线不跨缺口连线，缺口之后重新起算，不吃缺口前的值。
+3. 均线只帮助阅读，不证明显著性、单调性或进步方向，图上要注明。
+
+`ancestors.json` 的格式见 `data/ancestors.example.json`；`load_ancestors()` 会校验恰 3 个、id 唯一、`genes` 三字段齐全。
