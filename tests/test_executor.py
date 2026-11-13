@@ -14,6 +14,7 @@ import pytest
 from app.executor import (
     judge,
     normalize_task,
+    parse_fraction,
     signature,
     solver_view,
     solve_exact,
@@ -153,6 +154,22 @@ def test_S1_oversized_response_rejected_before_json():
     assert judge(_integral_task(), "x" * 9000) == "unanswered"
 
 
+def test_S1_oversized_never_reaches_json_loads(monkeypatch):
+    """规格要求用 mock 计数确认未调用 json.loads——只看返回值不够。"""
+    import json as json_module
+
+    calls = []
+    real = json_module.loads
+
+    def spy(text, *args, **kwargs):
+        calls.append(len(text))
+        return real(text, *args, **kwargs)
+
+    monkeypatch.setattr(json_module, "loads", spy)
+    assert judge(_integral_task(), "x" * 9000) == "unanswered"
+    assert calls == [], "超长响应不应进入 json.loads，实际调用 %r" % (calls,)
+
+
 @pytest.mark.parametrize("answer", ['{"value":"sqrt(4)"}',
                                     '{"value":"1; import os"}',
                                     '{"value":"1/0"}'])
@@ -175,9 +192,23 @@ def test_S6_solver_view_whitelist():
     t = _integral_task()
     view = solver_view(t)
     assert set(view) == {"type", "statement", "answer_format"}
-    for leaked in ("reference", "template", "params", "by", "gen", "signature", "id"):
+    for leaked in ("reference", "template", "params", "signature", "by", "gen", "id"):
         assert leaked not in view
-    assert "9" not in str(view["statement"]).replace("∫_{-1}^{2}", "")
+    assert t["statement"] == view["statement"]
+
+
+def test_parse_fraction_rejects_bare_integer():
+    """规格的 fraction 分支是 `a/b`，纯整数必须走 integer 分支。"""
+    with pytest.raises(ValueError):
+        parse_fraction("5")
+
+
+def test_broken_reference_raises_not_wrong():
+    """reference 结构损坏属于数据故障，必须抛出而不是判 wrong。"""
+    with pytest.raises(ValueError):
+        judge({"type": "integral", "reference": {"kind": "weird"}}, '{"value":"1"}')
+    with pytest.raises(ValueError):
+        judge({"type": "integral", "reference": None}, '{"value":"1"}')
 
 
 def test_judge_three_states():

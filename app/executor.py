@@ -54,12 +54,11 @@ def parse_integer(s: str) -> int:
 def parse_fraction(s: str) -> Fraction:
     """`a/b` -> Fraction（自动约分、分母恒正）。分母为 0 直接拒。
 
-    也接受不带斜杠的整数，方便调用方少写一个分支。
+    只接 `[+-]?[0-9]+/[0-9]+`；纯整数请走 parse_integer。
+    三条分支互斥，判分口径才唯一（规格 §2.4）。
     """
     if not isinstance(s, str):
         raise ValueError("分数必须从字符串解析，收到 %s" % type(s).__name__)
-    if _INT_RE.fullmatch(s):
-        return Fraction(parse_integer(s))
     m = _FRAC_RE.fullmatch(s)
     if not m:
         raise ValueError("不是合法分数：%r" % s)
@@ -348,10 +347,19 @@ _DECIMAL_TOL = Fraction(1, 10 ** 8)   # 大纲容差：1e-8 * max(1, |ref|)
 
 
 def _ref_fraction(reference: dict) -> Fraction:
-    """后端 reference -> Fraction。字符串形式保存，避免大整数被 JSON 变 float。"""
-    if reference["kind"] == "integer":
+    """后端 reference -> Fraction。字符串形式保存，避免大整数被 JSON 变 float。
+
+    结构非法时抛 ValueError：这属于数据/执行器故障，不是模型答错，
+    上层应当中止该代而不是把它记成 wrong（规格 §15）。
+    """
+    if not isinstance(reference, dict):
+        raise ValueError("reference 必须是对象，收到 %s" % type(reference).__name__)
+    kind = reference.get("kind")
+    if kind == "integer":
         return Fraction(int(reference["value"]))
-    return Fraction(int(reference["numerator"]), int(reference["denominator"]))
+    if kind == "rational":
+        return Fraction(int(reference["numerator"]), int(reference["denominator"]))
+    raise ValueError("reference.kind 非法：%r" % (kind,))
 
 
 def solver_view(task: dict) -> dict:
