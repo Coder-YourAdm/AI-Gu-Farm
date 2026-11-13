@@ -1,0 +1,38 @@
+{
+  "schema_version": "5.1",
+  "calibration_seed": 1001,
+  "selected_at": "2026-11-13T22:00:00+08:00",
+  "selection_rule": "calibration 上每个体三次作答的均分排序取前三；同分用本地 RNG 打散（规格 §8）",
+  "ancestors": [
+    {
+      "id": "G00_S1",
+      "genes": {
+        "solve_prompt": "先判断可用方法，计算后检查符号和数量级。",
+        "set_prompt": "优先 gamma 题族，用次数和 rate 组合调整题目。",
+        "self_check": true
+      },
+      "calibration_mean": 0.7,
+      "calibration_runs": [0.65, 0.7, 0.75]
+    },
+    {
+      "id": "G00_S3",
+      "genes": {
+        "solve_prompt": "把积分拆成已知结果的标准形式再套用。",
+        "set_prompt": "混合三类积分与矩阵结构，保持题型覆盖。",
+        "self_check": false
+      },
+      "calibration_mean": 0.65,
+      "calibration_runs": [0.6, 0.65, 0.7]
+    },
+    {
+      "id": "G00_S5",
+      "genes": {
+        "solve_prompt": "先估数量级，再决定用分数还是整数作答。",
+        "set_prompt": "多用行列式，阶数取中高档。",
+        "self_check": true
+      },
+      "calibration_mean": 0.6,
+      "calibration_runs": [0.55, 0.6, 0.65]
+    }
+  ]
+}
