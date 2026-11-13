@@ -1,0 +1,8 @@
+[
+  {"genes":{"solve_prompt":"先判断题型：多项式按幂次逐项积分；含 e^(-rx) 的用 n!/r^(n+1)；含 e^(-rx²) 的用 k!/(2r^(k+1))；矩阵用消元。写出各项后求和，最后核对符号。","set_prompt":"优先 poly，用高次项和非对称区间提高区分度，系数尽量都不为零。","self_check":true},"meta":{"id":"G00_S1","parents":[],"origin":"seed","born_gen":0}},
+  {"genes":{"solve_prompt":"先把无穷限积分看成已知阶乘公式的特例，确认幂次与指数是否匹配；不匹配时先做代换再套式。矩阵先做行变换化简后再算。","set_prompt":"混合三类积分，让 rate 与幂次的搭配不出现在常见组合里，避免解题者直接背公式。","self_check":false},"meta":{"id":"G00_S2","parents":[],"origin":"seed","born_gen":0}},
+  {"genes":{"solve_prompt":"全程用整数与分数运算，不写小数。先算分子再算分母，留到最后一步约分。矩阵用整数消元并记录每次换行的符号变化。","set_prompt":"多用 gamma 与 gaussian_odd，rate 取 3 以上，让分母变大，靠估算蒙不中。","self_check":true},"meta":{"id":"G00_S3","parents":[],"origin":"seed","born_gen":0}},
+  {"genes":{"solve_prompt":"先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，重算一遍。","set_prompt":"参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。","self_check":true},"meta":{"id":"G00_S4","parents":[],"origin":"seed","born_gen":0}},
+  {"genes":{"solve_prompt":"按步计算：先写被积函数或矩阵，再逐项展开，最后合并。每一步只做一次运算，便于回溯检查。","set_prompt":"出需要两三步才能算完的题，避免一眼可读数；优先多项式乘阶乘的结构。","self_check":false},"meta":{"id":"G00_S5","parents":[],"origin":"seed","born_gen":0}},
+  {"genes":{"solve_prompt":"先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就直接用闭式，未命中再退回通用方法。","set_prompt":"优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。","self_check":false},"meta":{"id":"G00_S6","parents":[],"origin":"seed","born_gen":0}}
+]
