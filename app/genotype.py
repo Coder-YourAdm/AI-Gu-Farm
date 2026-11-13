@@ -299,7 +299,11 @@ class GeneHistory:
         return len(self._data.get(gene_key(genes), []))
 
     def estimate(self, genes: Genes, window: int, *, current_total: float) -> float:
-        """窗口均值；无样本时等于当代分（不是 0，也不是父代分）。"""
+        """规格 §6.1 的字面公式，**前提是当代样本已追加进历史**。
+
+        代事务里请用 `estimate_including()`：它在「还没追加」时给出同一个值。
+        直接在这里调用而忘了追加，`window>1` 会少算一代，降噪静默失效。
+        """
         if window < 1:
             raise GenotypeError(f"fitness_window 必须 >= 1，当前 {window}")
         h = self._data.get(gene_key(genes), [])
