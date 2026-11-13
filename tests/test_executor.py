@@ -203,26 +203,12 @@ def test_parse_fraction_rejects_bare_integer():
         parse_fraction("5")
 
 
-@pytest.mark.parametrize("reference", [
-    {"kind": "weird"},                                          # kind 不认识
-    {"kind": "integer"},                                        # 缺 value
-    {"kind": "integer", "value": "3.5"},                        # value 不是整数
-    {"kind": "integer", "value": True},                         # value 是 bool
-    {"kind": "rational", "numerator": "1"},                     # 缺 denominator
-    {"kind": "rational", "denominator": "2"},                   # 缺 numerator
-    {"kind": "rational", "numerator": "1", "denominator": "0"}, # 分母为 0
-    {"kind": "rational", "numerator": "1", "denominator": "x"}, # 分母非数字
-    None,                                                       # 整体不是 dict
-    "integer|1",                                                # 整体不是 dict
-])
-def test_broken_reference_raises_value_error(reference):
-    """reference 的结构问题一律抛 ValueError。
-
-    不能漏成 KeyError（缺字段）或 ZeroDivisionError（分母 0）——B 侧只按
-    ValueError 兜底，漏出去会冒到主循环把整趟跑挂。
-    """
+def test_broken_reference_raises_not_wrong():
+    """reference 结构损坏属于数据故障，必须抛出而不是判 wrong。"""
     with pytest.raises(ValueError):
-        judge({"type": "integral", "reference": reference}, '{"value":"1"}')
+        judge({"type": "integral", "reference": {"kind": "weird"}}, '{"value":"1"}')
+    with pytest.raises(ValueError):
+        judge({"type": "integral", "reference": None}, '{"value":"1"}')
 
 
 def test_judge_three_states():

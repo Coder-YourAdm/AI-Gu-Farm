@@ -1,61 +1,94 @@
 # AI 养蛊机 · Prompt Evolver
 
-BoHack 2026 天津青年黑客松参赛方案，赛道主题「日新 / 生生不息」。
+> BoHack 2026 天津青年黑客松参赛作品 · 赛道主题「日新 / 生生不息」
 
-6 个 prompt 个体轮流互相出题、互相解题，按题目区分度淘汰并重组，20 代后测量模型在当前题域上的能力天花板。不做模型训练，不用 LLM 当裁判，全部本地精确判分。
+6 个 prompt 个体互相出题、互相解题；按题目区分度淘汰并重组，20 代后测量模型在当前题域上的能力上限。
 
-**当前状态：设计文档阶段，代码尚未实现。** 文中所有成绩、耗时、成本均为待实测指标，不是已完成结果。
+**不做模型训练，不用 LLM 当裁判**——判分走本地精确算术（`Fraction`，无浮点），
+同一道题任何人任何时候算出的答案都一样。
 
-## 仓库结构
+## 现在能跑什么
 
-```text
-.
-├── 方案/                     设计与施工文档
-│   ├── README.md             方案总览：当前版本、阅读顺序、历史对照
-│   ├── AI养蛊机_项目大纲_v5.md   机制全文（v5.1）
-│   ├── 技术规格_v5.md          施工契约 + 附录 A 24 个用例
-│   ├── v5.1_改动说明.md        本次修订记录
-│   ├── v5_复核.md             审查报告（4 个 P0 + 8 处缺失）
-│   ├── v5_改动说明.md          GPT 初版改动记录
-│   └── 历史版本/              v1 至 v4.3 全部原文与改动说明
-├── 执行清单_v5.md            要做的事：七阶段可勾选任务
-├── A_任务清单.md             A 的判分内核逐项清单（含 24 条用例与期望值）
-├── A_to_B_接口契约.md        B 对接用的 JSON 结构与函数约定
-├── A_executor_实现说明.md    六函数内部逻辑与八个"不要优化"（给 B 的模型读）
-├── app/                      判分内核：executor / scoring / ancestor
-├── tests/                    99 条验收（executor 48 + scoring 24 + ancestor 27）
-├── tools/                    开发期工具：sympy_crosscheck / check_statement（不进判分链路）
-├── data/                     数据目录；ancestors.example.json 是祖先文件格式示例
-└── 分工方案_v7.3.md          三人分工：到人、到时、到验收动作
+| 能力 | 状态 |
+|---|---|
+| 判分内核 `app/executor.py` | ✅ 六函数齐全，39 条单测 |
+| 题集 125 道（`data/`） | ✅ 已回填 `signature`/`statement`/`reference`，`validate_task` 125/125 |
+| 双跑编排 `app/demo.py` | ✅ `pair` / `rollback` / `status`，`--backend mock\|real` |
+| 快照回退 | ✅ `v0_seed` 一键回退，实测逐字节可逆 |
+| 演化大屏 / 双跑对照 / 结果页 | ✅ 三个单文件页面，零依赖、断网可演示 |
+| 真模型调用 `app/llm.py` | ⚠️ 代码就绪，`config.json` 的 `model`/`base_url` 未填、缺 API key |
+| 留出评测 `web/result.json` | ⚠️ 页面已按契约实现，数据待评测产出（现为 mock，页面挂红标） |
+
+**诚实标注**：仓库里 `web/evolve.json`、`web/result.json` 当前是 `is_mock: true` 的
+演示数据，用于跑通链路与排练。页面上有 `mock` 徽章，不会把假数字当真结果展示。
+
+## 跑起来
+
+```bash
+# 1. 静态服务（三个页面）
+python app/serve.py --port 8123
+#   → http://127.0.0.1:8123/index.html    演化大屏
+#   → http://127.0.0.1:8123/evolve.html   双跑对照（赛道「日新」主场）
+#   → http://127.0.0.1:8123/result.html   留出结果页
+
+# 2. 双跑（mock，约 8 秒，不花 token）
+python -m app.demo pair --pair demo_pair_dev --backend mock
+
+# 3. 回退到初始快照
+python -m app.demo rollback --pair demo_pair_dev --to v0_seed
+
+# 4. 真模型（需先填 config.json 的 model / base_url，并 export LLM_API_KEY）
+python -m app.demo pair --pair demo_pair_dev --backend real
 ```
 
-`方案/历史版本/` 内另存 [分工方案_v5.md](方案/历史版本/分工方案_v5.md)，为 v7.3 之前的版本。
+## 目录
 
-## 从哪开始
+```text
+app/
+  executor.py        判分内核：题面生成 / 边界校验 / Bareiss 行列式 / judge（A）
+  llm.py             complete(messages) -> (text, tokens_in, tokens_out)（B 的契约）
+  demo.py            双跑编排：pair / rollback / status
+  export.py          白名单导出，reference / holdout / raw_response 不进静态目录
+  serve.py           标准库静态服务，禁目录列表，--allow-rollback 提供回退接口
+  evolve_schema.py   双跑数据契约校验
+  result_schema.py   结果页数据契约校验 + 防吹牛核对
+data/                125 道题：calibration 20 / common_dev 80 / challenge_pool 5 / holdout 20
+prompts/             setter / solver / 六份种子基因 / crossover / mutate
+web/                 三个单文件页面 + 两份 mock 数据
+tests/               151 条测试
+方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3
+```
 
-| 目的 | 看这份 |
+## 判分为什么值得看
+
+题域限定在两类可精确求解的题：多项式/指数积分、整数矩阵行列式。
+答案一律用 `Fraction` 计算，禁止浮点——`0.1+0.2` 这类问题不会污染分数。
+
+`judge()` 返回三值而非布尔：
+
+| 返回 | 含义 |
 |---|---|
-| 搞懂这个项目在做什么 | [方案/AI养蛊机_项目大纲_v5.md](方案/AI养蛊机_项目大纲_v5.md) |
-| 准备写代码 | [方案/技术规格_v5.md](方案/技术规格_v5.md) |
-| 排期和验收 | [执行清单_v5.md](执行清单_v5.md) |
-| 谁干什么 | [分工方案_v7.3.md](分工方案_v7.3.md) |
-| 做 A（判分内核） | [A_任务清单.md](A_任务清单.md) |
-| 和 A 对接（JSON 与函数） | [A_to_B_接口契约.md](A_to_B_接口契约.md) |
-| 做 B（引擎与运行） | [分工方案_v7.3.md §1 B](分工方案_v7.3.md) 的 B1–B8，附调用数核对表与自检命令 |
-| 看全部文档与历史 | [方案/README.md](方案/README.md) |
+| `right` | 答案正确 |
+| `wrong` | 答案错误（含格式错、超长、非数值） |
+| `unanswered` | 拒答 / 空响应 |
 
-## 当前版本
+**拒答与算错必须分开**——把两者混成一个 `False`，会让「模型拒答」看起来像
+「模型算错」，于是针对错误类型学到的规则全是错的方向。
 
-**方案 v5.1**（2026-11-12）；**分工 v7.3**（2026-11-13）。
+## 测试
 
-核心参数：种群 6、20 代、留 3 淘 3、每代 4 道共同卷解题分 + 互答出题分、两次挑战注入（第 8、15 代）、条件组 E（完整演化）/ A（出题分权重置 0）/ F（冻结对照）、排序用同基因最近 2 次均分。
+```bash
+pytest            # 151 passed, 1 skipped
+```
 
-调用数（无重试理论值）：常规一代 78，E 一趟 2289，F 一趟 2232，E/F 各 3 趟 13563。
+几条值得单说的：
 
-分工 v7.3 相对 v7.2 的关键修正：**云端模型是唯一实验模型**（本地 7B 只做联调与断网演示）、F 组补实现步骤与回归测试、`fitness_window` 落地、`evaluate.py` 独立成步、温度三角色显式传参、交叉算子按大纲改为独立抽 2 次、挑战语义纠正为「注入一道题」。
+- `tests/test_hand_calc.py` —— 附录 A 的 16 条用例用三条独立路径（手算 / 闭式 / 数值积分）交叉验证
+- `tests/test_backfill.py` —— 回填后的题集必须能被 `judge()` 吃下，且重跑逐字节相同
+- `tests/test_result.py` —— 结果页不许写死分数、不许外链、不许把 `reference` 带进导出
+- `tests/test_prompts.py` —— 提示词必须用 `str.replace()` 渲染，`setter.md` 里的 `{coeffs}` 会击穿 `str.format()`
 
-## 尚未完成
+## 已知边界
 
-- 代码实现（大纲与技术规格已可施工，无源码）
-- 商业价值一页说明
-- pilot 前置检查：温度有效性、初始能力带 20–70%、5 代试跑
+- 留出评测（`web/result.json`）尚未由真模型跑出，结果页目前是 mock 数据
+- 附录 A 的 D2 用例矩阵元素 `10` 超出 §2.1 的 `[-9,9]`，属规格前后不一致，见 `给A_边界冲突说明.md`

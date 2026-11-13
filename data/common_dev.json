@@ -1,0 +1,2358 @@
+[
+  {
+    "id": "T00_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 0,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 9,
+      "rate": 7,
+      "c": 5
+    },
+    "signature": "gamma|c=5|n=9|rate=7",
+    "statement": "计算定积分 ∫₀^∞ 5x⁹ e^{-7x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "259200",
+      "denominator": "40353607"
+    }
+  },
+  {
+    "id": "T00_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 0,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 3,
+      "rate": 5,
+      "c": -4
+    },
+    "signature": "gaussian_odd|c=-4|k=3|rate=5",
+    "statement": "计算定积分 ∫₀^∞ -4x⁷ e^{-5x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-12",
+      "denominator": "625"
+    }
+  },
+  {
+    "id": "T00_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 0,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -3,
+          -1,
+          -4,
+          -9
+        ],
+        [
+          -6,
+          -7,
+          -5,
+          3
+        ],
+        [
+          -8,
+          -9,
+          3,
+          1
+        ],
+        [
+          -3,
+          7,
+          2,
+          -4
+        ]
+      ]
+    },
+    "signature": "det|matrix=-3,-1,-4,-9;-6,-7,-5,3;-8,-9,3,1;-3,7,2,-4",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-3, -1, -4, -9], [-6, -7, -5, 3], [-8, -9, 3, 1], [-3, 7, 2, -4]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "5972"
+    }
+  },
+  {
+    "id": "T00_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 0,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          9
+        ],
+        [
+          7,
+          -1
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,9;7,-1",
+    "statement": "计算下列 2 阶矩阵的行列式：[[2, 9], [7, -1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-65"
+    }
+  },
+  {
+    "id": "T01_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 1,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        4,
+        1,
+        1
+      ],
+      "lower": -1,
+      "upper": 1
+    },
+    "signature": "poly|coeffs=4,1,1|lower=-1|upper=1",
+    "statement": "计算定积分 ∫_{-1}^{1} (x² + x + 4) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "26",
+      "denominator": "3"
+    }
+  },
+  {
+    "id": "T01_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 1,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 1,
+      "rate": 7,
+      "c": -5
+    },
+    "signature": "gamma|c=-5|n=1|rate=7",
+    "statement": "计算定积分 ∫₀^∞ -5x e^{-7x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-5",
+      "denominator": "49"
+    }
+  },
+  {
+    "id": "T01_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 1,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          1,
+          9,
+          -8,
+          1
+        ],
+        [
+          -4,
+          -3,
+          9,
+          -6
+        ],
+        [
+          -7,
+          -9,
+          -3,
+          2
+        ],
+        [
+          6,
+          2,
+          -4,
+          -5
+        ]
+      ]
+    },
+    "signature": "det|matrix=1,9,-8,1;-4,-3,9,-6;-7,-9,-3,2;6,2,-4,-5",
+    "statement": "计算下列 4 阶矩阵的行列式：[[1, 9, -8, 1], [-4, -3, 9, -6], [-7, -9, -3, 2], [6, 2, -4, -5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "6835"
+    }
+  },
+  {
+    "id": "T01_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 1,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -9,
+          -7,
+          1
+        ],
+        [
+          5,
+          1,
+          8
+        ],
+        [
+          -5,
+          9,
+          -6
+        ]
+      ]
+    },
+    "signature": "det|matrix=-9,-7,1;5,1,8;-5,9,-6",
+    "statement": "计算下列 3 阶矩阵的行列式：[[-9, -7, 1], [5, 1, 8], [-5, 9, -6]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "822"
+    }
+  },
+  {
+    "id": "T02_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 2,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 2,
+      "c": -1
+    },
+    "signature": "gaussian_odd|c=-1|k=1|rate=2",
+    "statement": "计算定积分 ∫₀^∞ -x³ e^{-2x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-1",
+      "denominator": "8"
+    }
+  },
+  {
+    "id": "T02_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 2,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        1,
+        -3,
+        4
+      ],
+      "lower": 2,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=1,-3,4|lower=2|upper=4",
+    "statement": "计算定积分 ∫_{2}^{4} (4x² - 3x + 1) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "176",
+      "denominator": "3"
+    }
+  },
+  {
+    "id": "T02_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 2,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          6,
+          8,
+          9,
+          0
+        ],
+        [
+          -2,
+          0,
+          0,
+          7,
+          -4
+        ],
+        [
+          1,
+          1,
+          4,
+          4,
+          -5
+        ],
+        [
+          3,
+          5,
+          -7,
+          -2,
+          -8
+        ],
+        [
+          8,
+          -9,
+          7,
+          8,
+          -7
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,6,8,9,0;-2,0,0,7,-4;1,1,4,4,-5;3,5,-7,-2,-8;8,-9,7,8,-7",
+    "statement": "计算下列 5 阶矩阵的行列式：[[2, 6, 8, 9, 0], [-2, 0, 0, 7, -4], [1, 1, 4, 4, -5], [3, 5, -7, -2, -8], [8, -9, 7, 8, -7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "45564"
+    }
+  },
+  {
+    "id": "T02_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 2,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          -8
+        ],
+        [
+          9,
+          7
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,-8;9,7",
+    "statement": "计算下列 2 阶矩阵的行列式：[[2, -8], [9, 7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "86"
+    }
+  },
+  {
+    "id": "T03_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 3,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 1,
+      "rate": 7,
+      "c": -1
+    },
+    "signature": "gamma|c=-1|n=1|rate=7",
+    "statement": "计算定积分 ∫₀^∞ -x e^{-7x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-1",
+      "denominator": "49"
+    }
+  },
+  {
+    "id": "T03_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 3,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 5,
+      "rate": 6,
+      "c": 5
+    },
+    "signature": "gaussian_odd|c=5|k=5|rate=6",
+    "statement": "计算定积分 ∫₀^∞ 5x¹¹ e^{-6x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "25",
+      "denominator": "3888"
+    }
+  },
+  {
+    "id": "T03_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 3,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -2,
+          7,
+          1
+        ],
+        [
+          2,
+          -2,
+          -3
+        ],
+        [
+          6,
+          7,
+          -9
+        ]
+      ]
+    },
+    "signature": "det|matrix=-2,7,1;2,-2,-3;6,7,-9",
+    "statement": "计算下列 3 阶矩阵的行列式：[[-2, 7, 1], [2, -2, -3], [6, 7, -9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-52"
+    }
+  },
+  {
+    "id": "T03_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 3,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -7,
+          2
+        ],
+        [
+          5,
+          0
+        ]
+      ]
+    },
+    "signature": "det|matrix=-7,2;5,0",
+    "statement": "计算下列 2 阶矩阵的行列式：[[-7, 2], [5, 0]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-10"
+    }
+  },
+  {
+    "id": "T04_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 4,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        1,
+        3,
+        5
+      ],
+      "lower": -1,
+      "upper": 3
+    },
+    "signature": "poly|coeffs=1,3,5|lower=-1|upper=3",
+    "statement": "计算定积分 ∫_{-1}^{3} (5x² + 3x + 1) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "188",
+      "denominator": "3"
+    }
+  },
+  {
+    "id": "T04_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 4,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 3,
+      "rate": 8,
+      "c": -1
+    },
+    "signature": "gamma|c=-1|n=3|rate=8",
+    "statement": "计算定积分 ∫₀^∞ -x³ e^{-8x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-3",
+      "denominator": "2048"
+    }
+  },
+  {
+    "id": "T04_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 4,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -7,
+          3
+        ],
+        [
+          9,
+          5
+        ]
+      ]
+    },
+    "signature": "det|matrix=-7,3;9,5",
+    "statement": "计算下列 2 阶矩阵的行列式：[[-7, 3], [9, 5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-62"
+    }
+  },
+  {
+    "id": "T04_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 4,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          7,
+          0,
+          -9,
+          1,
+          2
+        ],
+        [
+          2,
+          -1,
+          8,
+          5,
+          4
+        ],
+        [
+          2,
+          1,
+          -2,
+          9,
+          -7
+        ],
+        [
+          3,
+          9,
+          7,
+          7,
+          -1
+        ],
+        [
+          5,
+          2,
+          6,
+          -9,
+          -2
+        ]
+      ]
+    },
+    "signature": "det|matrix=7,0,-9,1,2;2,-1,8,5,4;2,1,-2,9,-7;3,9,7,7,-1;5,2,6,-9,-2",
+    "statement": "计算下列 5 阶矩阵的行列式：[[7, 0, -9, 1, 2], [2, -1, 8, 5, 4], [2, 1, -2, 9, -7], [3, 9, 7, 7, -1], [5, 2, 6, -9, -2]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-119687"
+    }
+  },
+  {
+    "id": "T05_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 5,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 4,
+      "rate": 2,
+      "c": -3
+    },
+    "signature": "gaussian_odd|c=-3|k=4|rate=2",
+    "statement": "计算定积分 ∫₀^∞ -3x⁹ e^{-2x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-9",
+      "denominator": "8"
+    }
+  },
+  {
+    "id": "T05_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 5,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        5,
+        4,
+        -3
+      ],
+      "lower": 2,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=5,4,-3|lower=2|upper=4",
+    "statement": "计算定积分 ∫_{2}^{4} (-3x² + 4x + 5) dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "-22"
+    }
+  },
+  {
+    "id": "T05_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 5,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          3,
+          -7,
+          -4,
+          4,
+          -7
+        ],
+        [
+          0,
+          -9,
+          -9,
+          6,
+          9
+        ],
+        [
+          -1,
+          0,
+          -1,
+          -2,
+          3
+        ],
+        [
+          4,
+          8,
+          -5,
+          -1,
+          -3
+        ],
+        [
+          -2,
+          9,
+          0,
+          -6,
+          3
+        ]
+      ]
+    },
+    "signature": "det|matrix=3,-7,-4,4,-7;0,-9,-9,6,9;-1,0,-1,-2,3;4,8,-5,-1,-3;-2,9,0,-6,3",
+    "statement": "计算下列 5 阶矩阵的行列式：[[3, -7, -4, 4, -7], [0, -9, -9, 6, 9], [-1, 0, -1, -2, 3], [4, 8, -5, -1, -3], [-2, 9, 0, -6, 3]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-5235"
+    }
+  },
+  {
+    "id": "T05_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 5,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -5,
+          -9,
+          -4
+        ],
+        [
+          2,
+          -3,
+          -9
+        ],
+        [
+          0,
+          -4,
+          -5
+        ]
+      ]
+    },
+    "signature": "det|matrix=-5,-9,-4;2,-3,-9;0,-4,-5",
+    "statement": "计算下列 3 阶矩阵的行列式：[[-5, -9, -4], [2, -3, -9], [0, -4, -5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "47"
+    }
+  },
+  {
+    "id": "T06_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 6,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 3,
+      "rate": 6,
+      "c": 4
+    },
+    "signature": "gamma|c=4|n=3|rate=6",
+    "statement": "计算定积分 ∫₀^∞ 4x³ e^{-6x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "1",
+      "denominator": "54"
+    }
+  },
+  {
+    "id": "T06_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 6,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 5,
+      "rate": 4,
+      "c": -5
+    },
+    "signature": "gaussian_odd|c=-5|k=5|rate=4",
+    "statement": "计算定积分 ∫₀^∞ -5x¹¹ e^{-4x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-75",
+      "denominator": "1024"
+    }
+  },
+  {
+    "id": "T06_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 6,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -6,
+          6,
+          7,
+          6
+        ],
+        [
+          -1,
+          -5,
+          -3,
+          9
+        ],
+        [
+          0,
+          -6,
+          8,
+          -8
+        ],
+        [
+          7,
+          5,
+          -3,
+          -6
+        ]
+      ]
+    },
+    "signature": "det|matrix=-6,6,7,6;-1,-5,-3,9;0,-6,8,-8;7,5,-3,-6",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-6, 6, 7, 6], [-1, -5, -3, 9], [0, -6, 8, -8], [7, 5, -3, -6]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "5622"
+    }
+  },
+  {
+    "id": "T06_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 6,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          1,
+          -8
+        ],
+        [
+          0,
+          7
+        ]
+      ]
+    },
+    "signature": "det|matrix=1,-8;0,7",
+    "statement": "计算下列 2 阶矩阵的行列式：[[1, -8], [0, 7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "7"
+    }
+  },
+  {
+    "id": "T07_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 7,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        -5,
+        1
+      ],
+      "lower": 3,
+      "upper": 8
+    },
+    "signature": "poly|coeffs=-5,1|lower=3|upper=8",
+    "statement": "计算定积分 ∫_{3}^{8} (x - 5) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "5",
+      "denominator": "2"
+    }
+  },
+  {
+    "id": "T07_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 7,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 2,
+      "rate": 1,
+      "c": -5
+    },
+    "signature": "gamma|c=-5|n=2|rate=1",
+    "statement": "计算定积分 ∫₀^∞ -5x² e^{-1x} dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "-10"
+    }
+  },
+  {
+    "id": "T07_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 7,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -5,
+          4,
+          3,
+          3,
+          -3
+        ],
+        [
+          -9,
+          8,
+          9,
+          -8,
+          3
+        ],
+        [
+          -4,
+          1,
+          3,
+          7,
+          -8
+        ],
+        [
+          3,
+          1,
+          -4,
+          4,
+          -8
+        ],
+        [
+          6,
+          7,
+          1,
+          4,
+          1
+        ]
+      ]
+    },
+    "signature": "det|matrix=-5,4,3,3,-3;-9,8,9,-8,3;-4,1,3,7,-8;3,1,-4,4,-8;6,7,1,4,1",
+    "statement": "计算下列 5 阶矩阵的行列式：[[-5, 4, 3, 3, -3], [-9, 8, 9, -8, 3], [-4, 1, 3, 7, -8], [3, 1, -4, 4, -8], [6, 7, 1, 4, 1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-21350"
+    }
+  },
+  {
+    "id": "T07_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 7,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          1,
+          -2,
+          8,
+          2
+        ],
+        [
+          2,
+          5,
+          -3,
+          -8
+        ],
+        [
+          1,
+          4,
+          3,
+          -1
+        ],
+        [
+          -4,
+          8,
+          -5,
+          -9
+        ]
+      ]
+    },
+    "signature": "det|matrix=1,-2,8,2;2,5,-3,-8;1,4,3,-1;-4,8,-5,-9",
+    "statement": "计算下列 4 阶矩阵的行列式：[[1, -2, 8, 2], [2, 5, -3, -8], [1, 4, 3, -1], [-4, 8, -5, -9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-1284"
+    }
+  },
+  {
+    "id": "T08_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 8,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 5,
+      "rate": 1,
+      "c": -5
+    },
+    "signature": "gaussian_odd|c=-5|k=5|rate=1",
+    "statement": "计算定积分 ∫₀^∞ -5x¹¹ e^{-1x²} dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "-300"
+    }
+  },
+  {
+    "id": "T08_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 8,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        1,
+        5,
+        2,
+        3
+      ],
+      "lower": 2,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=1,5,2,3|lower=2|upper=4",
+    "statement": "计算定积分 ∫_{2}^{4} (3x³ + 2x² + 5x + 1) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "748",
+      "denominator": "3"
+    }
+  },
+  {
+    "id": "T08_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 8,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -6,
+          4,
+          -1,
+          9
+        ],
+        [
+          1,
+          -1,
+          9,
+          -3
+        ],
+        [
+          -2,
+          3,
+          -8,
+          1
+        ],
+        [
+          -7,
+          -5,
+          0,
+          1
+        ]
+      ]
+    },
+    "signature": "det|matrix=-6,4,-1,9;1,-1,9,-3;-2,3,-8,1;-7,-5,0,1",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-6, 4, -1, 9], [1, -1, 9, -3], [-2, 3, -8, 1], [-7, -5, 0, 1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-2363"
+    }
+  },
+  {
+    "id": "T08_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 8,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -6,
+          -4,
+          -5,
+          -5
+        ],
+        [
+          -5,
+          5,
+          -6,
+          -1
+        ],
+        [
+          5,
+          9,
+          -8,
+          0
+        ],
+        [
+          9,
+          -7,
+          7,
+          9
+        ]
+      ]
+    },
+    "signature": "det|matrix=-6,-4,-5,-5;-5,5,-6,-1;5,9,-8,0;9,-7,7,9",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-6, -4, -5, -5], [-5, 5, -6, -1], [5, 9, -8, 0], [9, -7, 7, 9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "4578"
+    }
+  },
+  {
+    "id": "T09_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 9,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 4,
+      "rate": 4,
+      "c": 3
+    },
+    "signature": "gamma|c=3|n=4|rate=4",
+    "statement": "计算定积分 ∫₀^∞ 3x⁴ e^{-4x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "9",
+      "denominator": "128"
+    }
+  },
+  {
+    "id": "T09_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 9,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 7,
+      "c": 1
+    },
+    "signature": "gaussian_odd|c=1|k=1|rate=7",
+    "statement": "计算定积分 ∫₀^∞ x³ e^{-7x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "1",
+      "denominator": "98"
+    }
+  },
+  {
+    "id": "T09_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 9,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -2,
+          -3,
+          -8,
+          -6
+        ],
+        [
+          -9,
+          1,
+          -3,
+          -8
+        ],
+        [
+          6,
+          1,
+          -7,
+          6
+        ],
+        [
+          3,
+          -7,
+          -2,
+          7
+        ]
+      ]
+    },
+    "signature": "det|matrix=-2,-3,-8,-6;-9,1,-3,-8;6,1,-7,6;3,-7,-2,7",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-2, -3, -8, -6], [-9, 1, -3, -8], [6, 1, -7, 6], [3, -7, -2, 7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "4313"
+    }
+  },
+  {
+    "id": "T09_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 9,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          7,
+          -9,
+          -4
+        ],
+        [
+          3,
+          -7,
+          -2
+        ],
+        [
+          -4,
+          7,
+          3
+        ]
+      ]
+    },
+    "signature": "det|matrix=7,-9,-4;3,-7,-2;-4,7,3",
+    "statement": "计算下列 3 阶矩阵的行列式：[[7, -9, -4], [3, -7, -2], [-4, 7, 3]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-12"
+    }
+  },
+  {
+    "id": "T10_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 10,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        0,
+        3,
+        5,
+        -3,
+        -1
+      ],
+      "lower": 3,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=0,3,5,-3,-1|lower=3|upper=4",
+    "statement": "计算定积分 ∫_{3}^{4} (-x⁴ - 3x³ + 5x² + 3x) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-12917",
+      "denominator": "60"
+    }
+  },
+  {
+    "id": "T10_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 10,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 8,
+      "rate": 3,
+      "c": -5
+    },
+    "signature": "gamma|c=-5|n=8|rate=3",
+    "statement": "计算定积分 ∫₀^∞ -5x⁸ e^{-3x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-22400",
+      "denominator": "2187"
+    }
+  },
+  {
+    "id": "T10_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 10,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          3,
+          -6
+        ],
+        [
+          4,
+          1
+        ]
+      ]
+    },
+    "signature": "det|matrix=3,-6;4,1",
+    "statement": "计算下列 2 阶矩阵的行列式：[[3, -6], [4, 1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "27"
+    }
+  },
+  {
+    "id": "T10_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 10,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -2,
+          -1
+        ],
+        [
+          -4,
+          7
+        ]
+      ]
+    },
+    "signature": "det|matrix=-2,-1;-4,7",
+    "statement": "计算下列 2 阶矩阵的行列式：[[-2, -1], [-4, 7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-18"
+    }
+  },
+  {
+    "id": "T11_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 11,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 4,
+      "c": 3
+    },
+    "signature": "gaussian_odd|c=3|k=1|rate=4",
+    "statement": "计算定积分 ∫₀^∞ 3x³ e^{-4x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "3",
+      "denominator": "32"
+    }
+  },
+  {
+    "id": "T11_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 11,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        -3,
+        -4,
+        -4,
+        2
+      ],
+      "lower": -3,
+      "upper": 3
+    },
+    "signature": "poly|coeffs=-3,-4,-4,2|lower=-3|upper=3",
+    "statement": "计算定积分 ∫_{-3}^{3} (2x³ - 4x² - 4x - 3) dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "-90"
+    }
+  },
+  {
+    "id": "T11_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 11,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          6,
+          9
+        ],
+        [
+          0,
+          1
+        ]
+      ]
+    },
+    "signature": "det|matrix=6,9;0,1",
+    "statement": "计算下列 2 阶矩阵的行列式：[[6, 9], [0, 1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "6"
+    }
+  },
+  {
+    "id": "T11_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 11,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          4,
+          8
+        ],
+        [
+          -3,
+          3
+        ]
+      ]
+    },
+    "signature": "det|matrix=4,8;-3,3",
+    "statement": "计算下列 2 阶矩阵的行列式：[[4, 8], [-3, 3]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "36"
+    }
+  },
+  {
+    "id": "T12_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 12,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 9,
+      "rate": 2,
+      "c": 1
+    },
+    "signature": "gamma|c=1|n=9|rate=2",
+    "statement": "计算定积分 ∫₀^∞ x⁹ e^{-2x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "2835",
+      "denominator": "8"
+    }
+  },
+  {
+    "id": "T12_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 12,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 2,
+      "rate": 6,
+      "c": -5
+    },
+    "signature": "gaussian_odd|c=-5|k=2|rate=6",
+    "statement": "计算定积分 ∫₀^∞ -5x⁵ e^{-6x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-5",
+      "denominator": "216"
+    }
+  },
+  {
+    "id": "T12_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 12,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -2,
+          4,
+          6
+        ],
+        [
+          -5,
+          6,
+          5
+        ],
+        [
+          7,
+          -8,
+          0
+        ]
+      ]
+    },
+    "signature": "det|matrix=-2,4,6;-5,6,5;7,-8,0",
+    "statement": "计算下列 3 阶矩阵的行列式：[[-2, 4, 6], [-5, 6, 5], [7, -8, 0]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "48"
+    }
+  },
+  {
+    "id": "T12_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 12,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          7,
+          1,
+          9
+        ],
+        [
+          0,
+          -8,
+          -1
+        ],
+        [
+          9,
+          4,
+          -5
+        ]
+      ]
+    },
+    "signature": "det|matrix=7,1,9;0,-8,-1;9,4,-5",
+    "statement": "计算下列 3 阶矩阵的行列式：[[7, 1, 9], [0, -8, -1], [9, 4, -5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "947"
+    }
+  },
+  {
+    "id": "T13_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 13,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        5,
+        2
+      ],
+      "lower": -1,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=5,2|lower=-1|upper=4",
+    "statement": "计算定积分 ∫_{-1}^{4} (2x + 5) dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "40"
+    }
+  },
+  {
+    "id": "T13_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 13,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 4,
+      "rate": 5,
+      "c": -4
+    },
+    "signature": "gamma|c=-4|n=4|rate=5",
+    "statement": "计算定积分 ∫₀^∞ -4x⁴ e^{-5x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-96",
+      "denominator": "3125"
+    }
+  },
+  {
+    "id": "T13_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 13,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          7,
+          5,
+          6,
+          2
+        ],
+        [
+          0,
+          -2,
+          -1,
+          5
+        ],
+        [
+          9,
+          0,
+          -4,
+          -7
+        ],
+        [
+          1,
+          2,
+          8,
+          -8
+        ]
+      ]
+    },
+    "signature": "det|matrix=7,5,6,2;0,-2,-1,5;9,0,-4,-7;1,2,8,-8",
+    "statement": "计算下列 4 阶矩阵的行列式：[[7, 5, 6, 2], [0, -2, -1, 5], [9, 0, -4, -7], [1, 2, 8, -8]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-2937"
+    }
+  },
+  {
+    "id": "T13_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 13,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          9,
+          -5,
+          -8,
+          -9
+        ],
+        [
+          6,
+          0,
+          7,
+          -7
+        ],
+        [
+          5,
+          9,
+          4,
+          -1
+        ],
+        [
+          -9,
+          -9,
+          -7,
+          -5
+        ]
+      ]
+    },
+    "signature": "det|matrix=9,-5,-8,-9;6,0,7,-7;5,9,4,-1;-9,-9,-7,-5",
+    "statement": "计算下列 4 阶矩阵的行列式：[[9, -5, -8, -9], [6, 0, 7, -7], [5, 9, 4, -1], [-9, -9, -7, -5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "10866"
+    }
+  },
+  {
+    "id": "T14_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 14,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 4,
+      "c": 4
+    },
+    "signature": "gaussian_odd|c=4|k=1|rate=4",
+    "statement": "计算定积分 ∫₀^∞ 4x³ e^{-4x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "1",
+      "denominator": "8"
+    }
+  },
+  {
+    "id": "T14_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 14,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        1,
+        -2,
+        -5,
+        -5
+      ],
+      "lower": 3,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=1,-2,-5,-5|lower=3|upper=4",
+    "statement": "计算定积分 ∫_{3}^{4} (-5x³ - 5x² - 2x + 1) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-3437",
+      "denominator": "12"
+    }
+  },
+  {
+    "id": "T14_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 14,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          1,
+          -9,
+          3,
+          -3,
+          3
+        ],
+        [
+          2,
+          -8,
+          9,
+          1,
+          3
+        ],
+        [
+          7,
+          3,
+          -8,
+          -9,
+          7
+        ],
+        [
+          -3,
+          7,
+          5,
+          -1,
+          -9
+        ],
+        [
+          -6,
+          6,
+          -1,
+          4,
+          0
+        ]
+      ]
+    },
+    "signature": "det|matrix=1,-9,3,-3,3;2,-8,9,1,3;7,3,-8,-9,7;-3,7,5,-1,-9;-6,6,-1,4,0",
+    "statement": "计算下列 5 阶矩阵的行列式：[[1, -9, 3, -3, 3], [2, -8, 9, 1, 3], [7, 3, -8, -9, 7], [-3, 7, 5, -1, -9], [-6, 6, -1, 4, 0]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "40092"
+    }
+  },
+  {
+    "id": "T14_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 14,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -9,
+          -9
+        ],
+        [
+          9,
+          -3
+        ]
+      ]
+    },
+    "signature": "det|matrix=-9,-9;9,-3",
+    "statement": "计算下列 2 阶矩阵的行列式：[[-9, -9], [9, -3]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "108"
+    }
+  },
+  {
+    "id": "T15_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 15,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 1,
+      "rate": 7,
+      "c": 3
+    },
+    "signature": "gamma|c=3|n=1|rate=7",
+    "statement": "计算定积分 ∫₀^∞ 3x e^{-7x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "3",
+      "denominator": "49"
+    }
+  },
+  {
+    "id": "T15_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 15,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 3,
+      "c": -3
+    },
+    "signature": "gaussian_odd|c=-3|k=1|rate=3",
+    "statement": "计算定积分 ∫₀^∞ -3x³ e^{-3x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-1",
+      "denominator": "6"
+    }
+  },
+  {
+    "id": "T15_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 15,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -7,
+          4,
+          7,
+          -4
+        ],
+        [
+          9,
+          4,
+          -6,
+          -5
+        ],
+        [
+          8,
+          3,
+          5,
+          -5
+        ],
+        [
+          -6,
+          9,
+          0,
+          5
+        ]
+      ]
+    },
+    "signature": "det|matrix=-7,4,7,-4;9,4,-6,-5;8,3,5,-5;-6,9,0,5",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-7, 4, 7, -4], [9, 4, -6, -5], [8, 3, 5, -5], [-6, 9, 0, 5]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-9245"
+    }
+  },
+  {
+    "id": "T15_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 15,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -9,
+          -3
+        ],
+        [
+          4,
+          9
+        ]
+      ]
+    },
+    "signature": "det|matrix=-9,-3;4,9",
+    "statement": "计算下列 2 阶矩阵的行列式：[[-9, -3], [4, 9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-69"
+    }
+  },
+  {
+    "id": "T16_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 16,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        0,
+        -1
+      ],
+      "lower": 2,
+      "upper": 7
+    },
+    "signature": "poly|coeffs=0,-1|lower=2|upper=7",
+    "statement": "计算定积分 ∫_{2}^{7} (-x) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-45",
+      "denominator": "2"
+    }
+  },
+  {
+    "id": "T16_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 16,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 4,
+      "rate": 8,
+      "c": 3
+    },
+    "signature": "gamma|c=3|n=4|rate=8",
+    "statement": "计算定积分 ∫₀^∞ 3x⁴ e^{-8x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "9",
+      "denominator": "4096"
+    }
+  },
+  {
+    "id": "T16_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 16,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -6,
+          -3,
+          -1,
+          -4
+        ],
+        [
+          -7,
+          5,
+          -5,
+          -8
+        ],
+        [
+          6,
+          4,
+          -2,
+          6
+        ],
+        [
+          -1,
+          -1,
+          4,
+          -6
+        ]
+      ]
+    },
+    "signature": "det|matrix=-6,-3,-1,-4;-7,5,-5,-8;6,4,-2,6;-1,-1,4,-6",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-6, -3, -1, -4], [-7, 5, -5, -8], [6, 4, -2, 6], [-1, -1, 4, -6]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-238"
+    }
+  },
+  {
+    "id": "T16_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 16,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          4,
+          -9,
+          -9,
+          4,
+          7
+        ],
+        [
+          -1,
+          -8,
+          -4,
+          5,
+          -9
+        ],
+        [
+          -9,
+          -5,
+          -5,
+          0,
+          -9
+        ],
+        [
+          8,
+          -9,
+          -9,
+          -1,
+          7
+        ],
+        [
+          0,
+          4,
+          3,
+          -5,
+          9
+        ]
+      ]
+    },
+    "signature": "det|matrix=4,-9,-9,4,7;-1,-8,-4,5,-9;-9,-5,-5,0,-9;8,-9,-9,-1,7;0,4,3,-5,9",
+    "statement": "计算下列 5 阶矩阵的行列式：[[4, -9, -9, 4, 7], [-1, -8, -4, 5, -9], [-9, -5, -5, 0, -9], [8, -9, -9, -1, 7], [0, 4, 3, -5, 9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-23263"
+    }
+  },
+  {
+    "id": "T17_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 17,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 1,
+      "rate": 8,
+      "c": 2
+    },
+    "signature": "gaussian_odd|c=2|k=1|rate=8",
+    "statement": "计算定积分 ∫₀^∞ 2x³ e^{-8x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "1",
+      "denominator": "64"
+    }
+  },
+  {
+    "id": "T17_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 17,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        -3,
+        -2,
+        -2
+      ],
+      "lower": 2,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=-3,-2,-2|lower=2|upper=4",
+    "statement": "计算定积分 ∫_{2}^{4} (-2x² - 2x - 3) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-166",
+      "denominator": "3"
+    }
+  },
+  {
+    "id": "T17_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 17,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          9,
+          -1,
+          6,
+          -7,
+          -6
+        ],
+        [
+          -3,
+          -2,
+          1,
+          -7,
+          -3
+        ],
+        [
+          8,
+          7,
+          -3,
+          -5,
+          8
+        ],
+        [
+          7,
+          6,
+          -2,
+          -3,
+          -5
+        ],
+        [
+          -5,
+          4,
+          5,
+          1,
+          -4
+        ]
+      ]
+    },
+    "signature": "det|matrix=9,-1,6,-7,-6;-3,-2,1,-7,-3;8,7,-3,-5,8;7,6,-2,-3,-5;-5,4,5,1,-4",
+    "statement": "计算下列 5 阶矩阵的行列式：[[9, -1, 6, -7, -6], [-3, -2, 1, -7, -3], [8, 7, -3, -5, 8], [7, 6, -2, -3, -5], [-5, 4, 5, 1, -4]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-84919"
+    }
+  },
+  {
+    "id": "T17_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 17,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          8,
+          2,
+          -9,
+          0
+        ],
+        [
+          -8,
+          -8,
+          -5,
+          -3
+        ],
+        [
+          7,
+          -5,
+          -2,
+          9
+        ],
+        [
+          3,
+          1,
+          -3,
+          -6
+        ]
+      ]
+    },
+    "signature": "det|matrix=8,2,-9,0;-8,-8,-5,-3;7,-5,-2,9;3,1,-3,-6",
+    "statement": "计算下列 4 阶矩阵的行列式：[[8, 2, -9, 0], [-8, -8, -5, -3], [7, -5, -2, 9], [3, 1, -3, -6]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "6234"
+    }
+  },
+  {
+    "id": "T18_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 18,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 5,
+      "rate": 4,
+      "c": -5
+    },
+    "signature": "gamma|c=-5|n=5|rate=4",
+    "statement": "计算定积分 ∫₀^∞ -5x⁵ e^{-4x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-75",
+      "denominator": "512"
+    }
+  },
+  {
+    "id": "T18_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 18,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 5,
+      "rate": 1,
+      "c": -1
+    },
+    "signature": "gaussian_odd|c=-1|k=5|rate=1",
+    "statement": "计算定积分 ∫₀^∞ -x¹¹ e^{-1x²} dx。",
+    "reference": {
+      "kind": "integer",
+      "value": "-60"
+    }
+  },
+  {
+    "id": "T18_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 18,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          -2,
+          2
+        ],
+        [
+          -5,
+          -9,
+          -2
+        ],
+        [
+          3,
+          -7,
+          -1
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,-2,2;-5,-9,-2;3,-7,-1",
+    "statement": "计算下列 3 阶矩阵的行列式：[[2, -2, 2], [-5, -9, -2], [3, -7, -1]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "136"
+    }
+  },
+  {
+    "id": "T18_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 18,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          2,
+          -7,
+          7
+        ],
+        [
+          -3,
+          1,
+          -7,
+          3
+        ],
+        [
+          -5,
+          4,
+          -1,
+          1
+        ],
+        [
+          8,
+          8,
+          3,
+          7
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,2,-7,7;-3,1,-7,3;-5,4,-1,1;8,8,3,7",
+    "statement": "计算下列 4 阶矩阵的行列式：[[2, 2, -7, 7], [-3, 1, -7, 3], [-5, 4, -1, 1], [8, 8, 3, 7]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-562"
+    }
+  },
+  {
+    "id": "T19_01",
+    "source": "common_dev",
+    "by": null,
+    "gen": 19,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        -2,
+        -1
+      ],
+      "lower": 1,
+      "upper": 4
+    },
+    "signature": "poly|coeffs=-2,-1|lower=1|upper=4",
+    "statement": "计算定积分 ∫_{1}^{4} (-x - 2) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-27",
+      "denominator": "2"
+    }
+  },
+  {
+    "id": "T19_02",
+    "source": "common_dev",
+    "by": null,
+    "gen": 19,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 5,
+      "rate": 3,
+      "c": -2
+    },
+    "signature": "gamma|c=-2|n=5|rate=3",
+    "statement": "计算定积分 ∫₀^∞ -2x⁵ e^{-3x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-80",
+      "denominator": "243"
+    }
+  },
+  {
+    "id": "T19_03",
+    "source": "common_dev",
+    "by": null,
+    "gen": 19,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          2,
+          -5,
+          7
+        ],
+        [
+          -8,
+          -6,
+          5
+        ],
+        [
+          7,
+          1,
+          4
+        ]
+      ]
+    },
+    "signature": "det|matrix=2,-5,7;-8,-6,5;7,1,4",
+    "statement": "计算下列 3 阶矩阵的行列式：[[2, -5, 7], [-8, -6, 5], [7, 1, 4]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-155"
+    }
+  },
+  {
+    "id": "T19_04",
+    "source": "common_dev",
+    "by": null,
+    "gen": 19,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          -9,
+          -1,
+          9,
+          0
+        ],
+        [
+          2,
+          5,
+          1,
+          1
+        ],
+        [
+          7,
+          0,
+          3,
+          -3
+        ],
+        [
+          -7,
+          2,
+          7,
+          -9
+        ]
+      ]
+    },
+    "signature": "det|matrix=-9,-1,9,0;2,5,1,1;7,0,3,-3;-7,2,7,-9",
+    "statement": "计算下列 4 阶矩阵的行列式：[[-9, -1, 9, 0], [2, 5, 1, 1], [7, 0, 3, -3], [-7, 2, 7, -9]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "4534"
+    }
+  }
+]

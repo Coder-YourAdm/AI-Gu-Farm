@@ -1,0 +1,162 @@
+[
+  {
+    "id": "X01",
+    "source": "challenge_pool",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "gaussian_odd",
+    "params": {
+      "k": 4,
+      "rate": 8,
+      "c": 3
+    },
+    "signature": "gaussian_odd|c=3|k=4|rate=8",
+    "statement": "计算定积分 ∫₀^∞ 3x⁹ e^{-8x²} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "9",
+      "denominator": "8192"
+    }
+  },
+  {
+    "id": "X02",
+    "source": "challenge_pool",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "poly",
+    "params": {
+      "coeffs": [
+        0,
+        2,
+        -4,
+        -3
+      ],
+      "lower": 0,
+      "upper": 1
+    },
+    "signature": "poly|coeffs=0,2,-4,-3|lower=0|upper=1",
+    "statement": "计算定积分 ∫_{0}^{1} (-3x³ - 4x² + 2x) dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "-13",
+      "denominator": "12"
+    }
+  },
+  {
+    "id": "X03",
+    "source": "challenge_pool",
+    "by": null,
+    "gen": null,
+    "type": "integral",
+    "template": "gamma",
+    "params": {
+      "n": 6,
+      "rate": 4,
+      "c": 5
+    },
+    "signature": "gamma|c=5|n=6|rate=4",
+    "statement": "计算定积分 ∫₀^∞ 5x⁶ e^{-4x} dx。",
+    "reference": {
+      "kind": "rational",
+      "numerator": "225",
+      "denominator": "1024"
+    }
+  },
+  {
+    "id": "X04",
+    "source": "challenge_pool",
+    "by": null,
+    "gen": null,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          9,
+          3,
+          0,
+          0,
+          5
+        ],
+        [
+          -9,
+          -7,
+          -2,
+          -8,
+          -8
+        ],
+        [
+          -9,
+          6,
+          -7,
+          2,
+          0
+        ],
+        [
+          3,
+          4,
+          2,
+          8,
+          3
+        ],
+        [
+          -8,
+          4,
+          8,
+          -4,
+          0
+        ]
+      ]
+    },
+    "signature": "det|matrix=9,3,0,0,5;-9,-7,-2,-8,-8;-9,6,-7,2,0;3,4,2,8,3;-8,4,8,-4,0",
+    "statement": "计算下列 5 阶矩阵的行列式：[[9, 3, 0, 0, 5], [-9, -7, -2, -8, -8], [-9, 6, -7, 2, 0], [3, 4, 2, 8, 3], [-8, 4, 8, -4, 0]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-10476"
+    }
+  },
+  {
+    "id": "X05",
+    "source": "challenge_pool",
+    "by": null,
+    "gen": null,
+    "type": "det",
+    "template": "det",
+    "params": {
+      "matrix": [
+        [
+          7,
+          2,
+          -9,
+          -4
+        ],
+        [
+          -7,
+          8,
+          -8,
+          -8
+        ],
+        [
+          -5,
+          -3,
+          -6,
+          -3
+        ],
+        [
+          2,
+          6,
+          -3,
+          -3
+        ]
+      ]
+    },
+    "signature": "det|matrix=7,2,-9,-4;-7,8,-8,-8;-5,-3,-6,-3;2,6,-3,-3",
+    "statement": "计算下列 4 阶矩阵的行列式：[[7, 2, -9, -4], [-7, 8, -8, -8], [-5, -3, -6, -3], [2, 6, -3, -3]]。",
+    "reference": {
+      "kind": "integer",
+      "value": "-153"
+    }
+  }
+]

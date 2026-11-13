@@ -1,0 +1,196 @@
+{
+  "schema": "result-board",
+  "schema_version": 1,
+  "generated_by": "tests/make_fake_result.py",
+  "generated_at": "2026-11-13T19:40:00+08:00",
+  "is_mock": true,
+  "backend": "mock",
+  "model_id": "mock/offline",
+  "note": "本文件由假数据生成，仅用于结果页联调；现场的正式数字必须来自留出评测产出的同名文件。",
+  "metric": {
+    "name": "留出集正确率",
+    "short": "holdout acc",
+    "unit": "%",
+    "n_tasks": 20,
+    "higher_is_better": true,
+    "definition": "每趟结束后统一评测：个体对 20 道从未参与演化的 holdout 题作答，由执行器精确判分，取完全正确题数除以总题数"
+  },
+  "lineage_order": [
+    "champion",
+    "ancestor_integral",
+    "ancestor_det"
+  ],
+  "runs": [
+    {
+      "run_id": "r1113E01",
+      "tag": "第 1 趟",
+      "condition": "E",
+      "condition_note": "完整代事务",
+      "generations": 20,
+      "status": "ok",
+      "calls": 2289,
+      "duration_min": 74,
+      "started_at": "2026-11-13T10:12:00+08:00",
+      "lineages": [
+        {
+          "key": "champion",
+          "label": "末代冠军",
+          "kind": "champion",
+          "color": "s3",
+          "final_rank": 1,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 15,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_integral",
+          "label": "固定祖先 · 积分",
+          "kind": "ancestor",
+          "color": "s1",
+          "final_rank": 4,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 13,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_det",
+          "label": "固定祖先 · 行列式",
+          "kind": "ancestor",
+          "color": "s2",
+          "final_rank": 5,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 12,
+            "total": 20
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "r1113E02",
+      "tag": "第 2 趟",
+      "condition": "E",
+      "condition_note": "完整代事务",
+      "generations": 20,
+      "status": "ok",
+      "calls": 2289,
+      "duration_min": 79,
+      "started_at": "2026-11-13T13:05:00+08:00",
+      "lineages": [
+        {
+          "key": "champion",
+          "label": "末代冠军",
+          "kind": "champion",
+          "color": "s3",
+          "final_rank": 1,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 14,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_integral",
+          "label": "固定祖先 · 积分",
+          "kind": "ancestor",
+          "color": "s1",
+          "final_rank": 3,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 14,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_det",
+          "label": "固定祖先 · 行列式",
+          "kind": "ancestor",
+          "color": "s2",
+          "final_rank": 6,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 11,
+            "total": 20
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "r1113F01",
+      "tag": "第 3 趟",
+      "condition": "F",
+      "condition_note": "冻结组对照",
+      "generations": 20,
+      "status": "ok",
+      "calls": 2232,
+      "duration_min": 68,
+      "started_at": "2026-11-13T15:48:00+08:00",
+      "lineages": [
+        {
+          "key": "champion",
+          "label": "末代冠军",
+          "kind": "champion",
+          "color": "s3",
+          "final_rank": 2,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 12,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_integral",
+          "label": "固定祖先 · 积分",
+          "kind": "ancestor",
+          "color": "s1",
+          "final_rank": 1,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 13,
+            "total": 20
+          }
+        },
+        {
+          "key": "ancestor_det",
+          "label": "固定祖先 · 行列式",
+          "kind": "ancestor",
+          "color": "s2",
+          "final_rank": 4,
+          "n_individuals": 6,
+          "holdout": {
+            "correct": 12,
+            "total": 20
+          }
+        }
+      ]
+    }
+  ],
+  "conclusion": {
+    "level": "none",
+    "text": "三趟独立运行中，末代冠军的留出正确率相对最好祖先为 +10.0 / 0.0 / −5.0 个百分点，方向不一致；未观察到稳定改善。",
+    "evidence": [
+      {
+        "run_id": "r1113E01",
+        "text": "冠军 15/20 对最好祖先 13/20，末代排名第 1"
+      },
+      {
+        "run_id": "r1113E02",
+        "text": "冠军 14/20 与积分祖先 14/20 持平，末代排名第 1"
+      },
+      {
+        "run_id": "r1113F01",
+        "text": "冠军 12/20 低于积分祖先 13/20，末代排名第 2（该趟为冻结组对照）"
+      }
+    ],
+    "caveat": "留出集 20 题，单个个体的正确率分辨率为 5 个百分点；本结论不外推到 20 题以外的难度分布。"
+  },
+  "provenance": {
+    "source": "holdout evaluation",
+    "runs_count": 3,
+    "payload_sha256": "6f140e5f70cd05519d967db10775bc7254cea6704bd3d59d657c9bbf302269e4"
+  }
+}

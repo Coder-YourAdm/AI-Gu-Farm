@@ -1,317 +1,192 @@
-"""llm 的契约测试：温度必须显式、重试边界、JSON 提取、日志不泄密。
+"""`app/llm.py` 的离线测试：不打真接口，全用假响应。
 
-用 httpx.MockTransport 打桩，不联网、不花钱。
+为什么值得写：这个文件在赛场上唯一一次被真正调用时，错误必须一眼看懂。
+401 重试三次、超时不重试、把 token 用量算错——这些在演示现场都来不及查。
 """
 
 from __future__ import annotations
 
+import io
 import json
+import sys
+import urllib.error
 from pathlib import Path
 
-import httpx
 import pytest
 
-from app.config import Config
-from app.llm import (
-    JSONExtractError,
-    LLMClient,
-    ProtocolError,
-    extract_json_object,
-)
+ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 
-DEV = Path("config.dev.json")
+from app import llm  # noqa: E402
 
 
-def _cfg(**over) -> Config:
-    raw = json.loads(DEV.read_text(encoding="utf-8"))
-    # 占位符不是合法 URL，打桩测试需要一个真实形状的端点
-    raw["base_url"] = "https://api.example.com/v1"
-    raw["model"] = "test-model-pinned"
-    raw.update(over)
-    return Config.from_dict(raw, source_path="in-memory")
+class FakeResp:
+    """最小可用的 urlopen 返回值。"""
+
+    def __init__(self, payload: dict):
+        self._body = json.dumps(payload).encode("utf-8")
+
+    def read(self) -> bytes:
+        return self._body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
 
 
-def _ok_body(content: str, usage: dict | None = None) -> dict:
+def ok_payload(text="42", tin=11, tout=3) -> dict:
     return {
-        "id": "chatcmpl-test",
-        "choices": [{"index": 0, "message": {"role": "assistant", "content": content}}],
-        "usage": usage or {"prompt_tokens": 100, "completion_tokens": 20, "total_tokens": 120},
+        "choices": [{"message": {"role": "assistant", "content": text}}],
+        "usage": {"prompt_tokens": tin, "completion_tokens": tout},
     }
 
 
-@pytest.fixture(autouse=True)
-def _api_key(monkeypatch):
-    monkeypatch.setenv("LLM_API_KEY", "sk-test-secret-value")
+@pytest.fixture
+def cfg(monkeypatch):
+    """让 preflight 认一份可用的配置，密钥走环境变量。"""
+    monkeypatch.setenv("TEST_LLM_KEY", "sk-test")
+    conf = {
+        "model": "test-model-id",
+        "base_url": "https://api.example.com/v1",
+        "api_key_env": "TEST_LLM_KEY",
+        "timeout_s": 5,
+        "network_retries": 2,
+    }
+    monkeypatch.setattr(llm, "_load_config", lambda: conf)
+    return conf
 
 
-# ---------------------------------------------------------------- JSON 提取
+@pytest.fixture
+def capture(monkeypatch):
+    """录下最后一次请求，方便断言 URL / 头 / 载荷。"""
+    box: dict = {"calls": 0, "url": None, "payload": None, "headers": None}
 
-def test_plain_object():
-    assert extract_json_object('{"a": 1}', max_chars=100) == {"a": 1}
+    def fake_urlopen(req, timeout=None):
+        box["calls"] += 1
+        box["url"] = req.full_url
+        box["payload"] = json.loads(req.data.decode("utf-8"))
+        box["headers"] = dict(req.header_items())
+        return FakeResp(ok_payload())
 
-
-def test_strip_one_fence():
-    text = '```json\n{"value": "3/4"}\n```'
-    assert extract_json_object(text, max_chars=100) == {"value": "3/4"}
-
-
-def test_fence_without_language_tag():
-    assert extract_json_object('```\n{"a": 1}\n```', max_chars=100) == {"a": 1}
-
-
-def test_unclosed_fence_falls_back_to_scanning():
-    text = '```json\n{"a": 1}'
-    # 围栏没闭合就不当围栏，退化为「外围是文字、唯一对象」
-    assert extract_json_object(text, max_chars=100) == {"a": 1}
+    monkeypatch.setattr(llm.urllib.request, "urlopen", fake_urlopen)
+    return box
 
 
-def test_two_objects_inside_fence_is_ambiguous():
-    text = '```json\n{"a":1}\n{"b":2}\n```'
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object(text, max_chars=100)
-    assert e.value.code == "ambiguous"
-
-
-def test_prose_around_single_object():
-    text = '按你的要求，结果是 {"value": "5"} ，以上。'
-    assert extract_json_object(text, max_chars=100) == {"value": "5"}
-
-
-def test_braces_inside_strings_do_not_break_scanning():
-    text = '说明：{"value": "7", "note": "含 { 和 } 的字符串"} 完毕'
-    obj = extract_json_object(text, max_chars=200)
-    assert obj["note"] == "含 { 和 } 的字符串"
-
-
-def test_two_objects_is_ambiguous():
-    text = '{"a":1}{"b":2}'
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object(text, max_chars=100)
-    assert e.value.code == "ambiguous"
-
-
-def test_duplicate_key_rejected():
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object('{"a":1,"a":2}', max_chars=100)
-    assert e.value.code == "duplicate_key"
-
-
-@pytest.mark.parametrize("lit", ["NaN", "Infinity", "-Infinity"])
-def test_non_finite_rejected(lit):
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object('{"value": %s}' % lit, max_chars=100)
-    assert e.value.code in ("bad_constant", "no_object")
-
-
-def test_top_level_array_rejected():
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object("[1,2,3]", max_chars=100)
-    assert e.value.code == "not_object"
-
-
-def test_too_long_rejected():
-    with pytest.raises(JSONExtractError) as e:
-        extract_json_object('{"a":"' + "x" * 50 + '"}', max_chars=20)
-    assert e.value.code == "too_long"
-
-
-def test_empty_rejected():
-    with pytest.raises(JSONExtractError):
-        extract_json_object("   ", max_chars=100)
-    with pytest.raises(JSONExtractError):
-        extract_json_object(None, max_chars=100)
-
-
-# ---------------------------------------------------------------- 请求体
-
-async def test_temperature_and_tokens_come_from_role(tmp_path):
-    seen: list[dict] = []
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        seen.append(json.loads(request.content))
-        assert request.headers["authorization"] == "Bearer sk-test-secret-value"
-        return httpx.Response(200, json=_ok_body('{"value":"1"}'))
-
-    cfg = _cfg(solver_temperature=0.7, setter_temperature=0.2,
-               operator_temperature=0.9,
-               max_tokens_solver=1200, max_tokens_setter=400,
-               max_tokens_operator=500)
-    client = LLMClient(cfg, run_id="t1", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    msgs = [{"role": "user", "content": "做题"}]
-
-    await client.chat("solver", msgs)
-    await client.chat("setter", msgs)
-    await client.chat("operator", msgs)
-    await client.aclose()
-
-    assert seen[0]["temperature"] == 0.7 and seen[0]["max_tokens"] == 1200
-    assert seen[1]["temperature"] == 0.2 and seen[1]["max_tokens"] == 400
-    assert seen[2]["temperature"] == 0.9 and seen[2]["max_tokens"] == 500
-    assert seen[0]["model"] == cfg.model
-    assert seen[0]["stream"] is False
-
-
-async def test_unknown_role_rejected(tmp_path):
-    cfg = _cfg()
-    client = LLMClient(cfg, run_id="t2", log_root=tmp_path, _transport=httpx.MockTransport(
-        lambda r: httpx.Response(200, json=_ok_body("{}"))))
-    with pytest.raises(ProtocolError):
-        await client.chat("judge", [{"role": "user", "content": "x"}])
-    await client.aclose()
-
-
-# ---------------------------------------------------------------- 重试与失败
-
-async def test_retryable_5xx_then_success(tmp_path):
-    calls = {"n": 0}
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        calls["n"] += 1
-        if calls["n"] == 1:
-            return httpx.Response(503, text="upstream busy")
-        return httpx.Response(200, json=_ok_body('{"value":"2"}', {"prompt_tokens": 5,
-                                                                 "completion_tokens": 2,
-                                                                 "total_tokens": 7}))
-
-    cfg = _cfg(network_retries=2)
-    client = LLMClient(cfg, run_id="t3", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    res = await client.chat("solver", [{"role": "user", "content": "x"}], slot_id="g01_peer_T01_G00_S1")
-    await client.aclose()
-
-    assert res.status == "ok"
-    assert res.attempts == 2
-    assert res.parsed == {"value": "2"}
-    assert res.usage["input_tokens"] == 5
-    assert res.slot_id == "g01_peer_T01_G00_S1"
-
-
-async def test_429_is_retryable(tmp_path):
-    calls = {"n": 0}
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        calls["n"] += 1
-        if calls["n"] < 3:
-            return httpx.Response(429, text="slow down")
-        return httpx.Response(200, json=_ok_body("{}"))
-
-    client = LLMClient(_cfg(network_retries=2), run_id="t4", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    res = await client.chat("setter", [{"role": "user", "content": "x"}])
-    await client.aclose()
-    assert res.status == "ok" and res.attempts == 3
-
-
-async def test_transport_error_after_retries_exhausted(tmp_path):
-    calls = {"n": 0}
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        calls["n"] += 1
-        raise httpx.ConnectError("connection refused", request=request)
-
-    client = LLMClient(_cfg(network_retries=2), run_id="t5", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    res = await client.chat("solver", [{"role": "user", "content": "x"}])
-    await client.aclose()
-
-    # 1 次首发 + 2 次重试，不静默吞掉
-    assert calls["n"] == 3
-    assert res.status == "transport_error"
-    assert res.attempts == 3
-    assert "ConnectError" in (res.error or "")
-
-
-@pytest.mark.parametrize("status", [401, 403, 404, 422])
-async def test_client_errors_are_not_retried(tmp_path, status):
-    calls = {"n": 0}
-
-    def handler(request: httpx.Request) -> httpx.Response:
-        calls["n"] += 1
-        return httpx.Response(status, text="nope")
-
-    client = LLMClient(_cfg(network_retries=2), run_id="t6", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    with pytest.raises(ProtocolError):
-        await client.chat("solver", [{"role": "user", "content": "x"}])
-    await client.aclose()
-    assert calls["n"] == 1        # 鉴权/端点错误重试只是拖时间
-
-    # 失败也要留下记录
-    lines = (tmp_path / "calls.jsonl").read_text(encoding="utf-8").strip().splitlines()
-    assert json.loads(lines[-1])["status"] == "protocol_error"
-
-
-async def test_missing_api_key_raises(tmp_path, monkeypatch):
+def test_preflight_rejects_placeholders(monkeypatch):
+    """仓库里的 config.json 现在就是占位符状态，报错必须说清改哪里。"""
+    monkeypatch.setattr(llm, "_load_config", lambda: {
+        "model": "REPLACE_WITH_PINNED_MODEL_ID",
+        "base_url": "REPLACE_WITH_ENDPOINT",
+        "api_key_env": "LLM_API_KEY",
+    })
     monkeypatch.delenv("LLM_API_KEY", raising=False)
-    client = LLMClient(_cfg(), run_id="t7", log_root=tmp_path,
-                       _transport=httpx.MockTransport(
-                           lambda r: httpx.Response(200, json=_ok_body("{}"))))
-    with pytest.raises(ProtocolError) as e:
-        await client.chat("solver", [{"role": "user", "content": "x"}])
-    assert "LLM_API_KEY" in str(e.value)
-    await client.aclose()
+    with pytest.raises(llm.LLMError) as ei:
+        llm.preflight()
+    msg = str(ei.value)
+    assert "model" in msg and "base_url" in msg and "LLM_API_KEY" in msg
 
 
-async def test_bad_json_is_parse_error_not_retry(tmp_path):
+def test_preflight_reports_missing_key_only(cfg, monkeypatch):
+    monkeypatch.delenv("TEST_LLM_KEY", raising=False)
+    with pytest.raises(llm.LLMError) as ei:
+        llm.preflight()
+    assert "TEST_LLM_KEY" in str(ei.value)
+    assert "base_url" not in str(ei.value)      # 已填的不该再报
+
+
+def test_request_shape(cfg, capture):
+    text, tin, tout = llm.complete([{"role": "user", "content": "1+1=?"}])
+    assert (text, tin, tout) == ("42", 11, 3)
+    assert capture["url"] == "https://api.example.com/v1/chat/completions"
+    p = capture["payload"]
+    assert p["model"] == "test-model-id"
+    assert p["messages"] == [{"role": "user", "content": "1+1=?"}]
+    assert p["temperature"] == llm.DEFAULT_TEMPERATURE
+    assert p["max_tokens"] == llm.DEFAULT_MAX_TOKENS
+    assert capture["headers"].get("Authorization") == "Bearer sk-test"
+
+
+def test_kwargs_override(cfg, capture):
+    llm.complete([{"role": "user", "content": "x"}], temperature=0.0, max_tokens=400)
+    assert capture["payload"]["temperature"] == 0.0
+    assert capture["payload"]["max_tokens"] == 400
+
+
+def test_endpoint_tolerates_three_base_url_forms(cfg, capture):
+    for base, want in [
+        ("https://a/v1", "https://a/v1/chat/completions"),
+        ("https://a/v1/", "https://a/v1/chat/completions"),
+        ("https://a/v1/chat/completions", "https://a/v1/chat/completions"),
+    ]:
+        cfg["base_url"] = base
+        llm.complete([{"role": "user", "content": "x"}])
+        assert capture["url"] == want, base
+
+
+def test_retries_on_5xx_then_succeeds(cfg, capture, monkeypatch):
+    seq = [urllib.error.HTTPError("u", 502, "bad gateway", {}, io.BytesIO(b"{}")),
+           urllib.error.HTTPError("u", 503, "unavailable", {}, io.BytesIO(b"{}"))]
+
+    def flaky(req, timeout=None):
+        if seq:
+            raise seq.pop(0)
+        return FakeResp(ok_payload())
+
+    monkeypatch.setattr(llm.urllib.request, "urlopen", flaky)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+    text, _, _ = llm.complete([{"role": "user", "content": "x"}])
+    assert text == "42"
+
+
+def test_gives_up_after_retries(cfg, monkeypatch):
     calls = {"n": 0}
 
-    def handler(request: httpx.Request) -> httpx.Response:
+    def always_timeout(req, timeout=None):
         calls["n"] += 1
-        return httpx.Response(200, json=_ok_body("抱歉，我算不出来。"))
+        raise TimeoutError("timed out")
 
-    client = LLMClient(_cfg(network_retries=2), run_id="t8", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    res = await client.chat("solver", [{"role": "user", "content": "x"}])
-    await client.aclose()
-
-    assert calls["n"] == 1                 # 格式失败不重发
-    assert res.status == "ok"
-    assert res.parsed is None
-    assert res.parse_error == "no_object"
-    assert res.content_ok is False
+    monkeypatch.setattr(llm.urllib.request, "urlopen", always_timeout)
+    monkeypatch.setattr(llm.time, "sleep", lambda s: None)
+    with pytest.raises(llm.LLMError) as ei:
+        llm.complete([{"role": "user", "content": "x"}])
+    assert calls["n"] == 3                       # 首发 + 重试 2 次
+    assert "连不上" in str(ei.value) and "curl" in str(ei.value)
 
 
-# ---------------------------------------------------------------- 日志
+def test_401_does_not_retry(cfg, monkeypatch):
+    """重试 401 只是把同一个错误问三遍，白烧配额。"""
+    calls = {"n": 0}
 
-async def test_call_index_and_raw_log(tmp_path):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, json=_ok_body('{"value":"3/4"}'))
+    def unauthorized(req, timeout=None):
+        calls["n"] += 1
+        raise urllib.error.HTTPError(
+            "u", 401, "unauthorized", {},
+            io.BytesIO(b'{"error":{"message":"invalid api key"}}'))
 
-    cfg = _cfg()
-    client = LLMClient(cfg, run_id="E_s42_test", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    res = await client.chat("solver", [{"role": "user", "content": "题面"}],
-                            slot_id="g01_common_T01_G00_S1")
-    await client.aclose()
-
-    index_path = tmp_path / "calls.jsonl"
-    line = json.loads(index_path.read_text(encoding="utf-8").strip().splitlines()[0])
-    for key in ("call_id", "slot_id", "role", "attempt", "model", "base_url",
-                "temperature", "max_tokens", "usage", "status",
-                "started_at", "ended_at"):
-        assert key in line, key
-    assert line["temperature"] == 0.7
-    assert line["slot_id"] == "g01_common_T01_G00_S1"
-
-    raw_path = tmp_path / "raw" / "E_s42_test" / f"{res.call_id}.json"
-    assert raw_path.exists()
-    raw_text = raw_path.read_text(encoding="utf-8")
-    assert "sk-test-secret-value" not in raw_text        # 密钥绝不落盘
-    assert "Authorization" not in raw_text
-    assert json.loads(raw_text)["response_text"] == '{"value":"3/4"}'
+    monkeypatch.setattr(llm.urllib.request, "urlopen", unauthorized)
+    with pytest.raises(llm.LLMError) as ei:
+        llm.complete([{"role": "user", "content": "x"}])
+    assert calls["n"] == 1
+    assert "401" in str(ei.value) and "invalid api key" in str(ei.value)
 
 
-async def test_call_ids_are_unique(tmp_path):
-    def handler(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(200, json=_ok_body("{}"))
+def test_parse_segmented_content_and_missing_usage():
+    data = {
+        "choices": [{"message": {"content": [{"text": "1"}, {"text": "2"}]}}],
+    }
+    assert llm._parse(data) == ("12", 0, 0)
 
-    client = LLMClient(_cfg(concurrency=4), run_id="t9", log_root=tmp_path,
-                       backoff=(0, 0), _transport=httpx.MockTransport(handler))
-    import asyncio as _asyncio
-    results = await _asyncio.gather(*[
-        client.chat("solver", [{"role": "user", "content": str(i)}]) for i in range(8)
-    ])
-    await client.aclose()
-    ids = [r.call_id for r in results]
-    assert len(set(ids)) == 8
+
+def test_parse_rejects_empty_choices():
+    with pytest.raises(llm.LLMError) as ei:
+        llm._parse({"error": "no choices"})
+    assert "choices" in str(ei.value)
+
+
+def test_signature_is_tuple_of_str_int_int(cfg, capture):
+    """契约：调用方按三元组解包。返回 list 或 dict 都会让 demo.py 崩在解包上。"""
+    out = llm.complete([{"role": "user", "content": "x"}])
+    assert isinstance(out, tuple) and len(out) == 3
+    assert isinstance(out[0], str) and isinstance(out[1], int) and isinstance(out[2], int)

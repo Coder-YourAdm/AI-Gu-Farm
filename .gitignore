@@ -11,15 +11,13 @@ __pycache__/
 venv/
 env/
 
-# 运行产物（每趟运行都会写，不进 git；体积大且含原始响应）
+# 运行产物（每趟运行都会写，不进 git）
 runs/
 logs/
 
-# 本地密钥与配置覆盖（永远不要提交）
+# 本地密钥与配置覆盖
 .env
-*.key
 *.local.json
-config.local.json
 
 # 系统与编辑器
 .DS_Store
