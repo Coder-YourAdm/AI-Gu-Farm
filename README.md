@@ -57,6 +57,7 @@ prompts/             setter / solver / 六份种子基因 / crossover / mutate
 web/                 三个单文件页面 + 两份 mock 数据
 tests/               151 条测试
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3
+tools/               开发期交叉验证（sympy 对照 / 题面自检），不进判分链路
 ```
 
 ## 判分为什么值得看
