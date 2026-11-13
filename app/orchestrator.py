@@ -195,6 +195,9 @@ def task_from_raw(raw: Any, *, individual_id: str, gen: int, engine: Engine
         task = engine.normalize_task(dict(raw), task_id="", source="evolved",
                                      by=individual_id, gen=gen)
     except (ValueError, KeyError) as exc:
+        # 这里是「模型出的题字段不全」，不是数据故障：KeyError 来自 normalize_task
+        # 内部直接索引缺字段，属于 schema 不合格，按拒收处理即可，不能让整代崩。
+        # 与 judge_call 里那个 KeyError 分支不是一回事（那个是 reference 损坏）。
         return None, "schema"
     try:
         reference = engine.solve_exact(task)
@@ -378,12 +381,19 @@ def judge_call(engine: Engine, task: dict, res: CallResult, *,
         judge_input = json.dumps(dict(res.parsed), ensure_ascii=False)
     try:
         verdict = engine.judge(task, judge_input)
-    except (ValueError, KeyError) as exc:
-        # 参考值损坏是数据故障，不是模型答错；由调用方中止该代 / 该检查点。
-        # 除 ValueError 外还接 KeyError：A 的 `_ref_fraction` 在 reference 缺字段
-        # （如 {"kind":"integer"} 没有 value）时抛的是 KeyError，与其实现说明
-        # 「缺字段抛 ValueError」不符。这是同一类数据故障，不能让它把整趟跑崩。
-        raise BrokenReference(f"{slot_id} 参考值损坏：{exc!r}") from exc
+    except ValueError as exc:
+        # 契约 §6 的约定路径：reference 结构损坏抛 ValueError。
+        # 这是数据故障，不是模型答错；由调用方中止该代 / 该检查点，不记成 wrong。
+        raise BrokenReference(f"{slot_id} 参考值损坏：{exc}") from exc
+    except KeyError as exc:
+        # 契约要求 ValueError，走到这里说明 A 侧的实现回退了（2026-11-13 之前
+        # `_ref_fraction` 直接 reference["value"] 取值，缺字段抛 KeyError）。
+        # 仍按数据故障中止，不让整趟 4500 次调用崩掉；但把异常类型写进信息，
+        # 让日志里一眼能看出「不是数据坏了，是实现回退了」，不静默掩盖。
+        raise BrokenReference(
+            f"{slot_id} 参考值损坏：{exc!r}（KeyError 形态，"
+            "契约要求 ValueError，疑似 A 侧校验回退）"
+        ) from exc
     if verdict not in ("right", "wrong", "unanswered"):
         raise ProtocolError(
             f"judge 返回未定义状态 {verdict!r}（{slot_id}）；"

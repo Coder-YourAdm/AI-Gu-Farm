@@ -240,24 +240,23 @@ def test_contract_judge_table():
 
 
 def test_contract_judge_raises_on_broken_reference():
-    """契约 §6：reference 结构损坏要抛异常，B 才能中止该代。
+    """契约 §6：reference 结构损坏一律抛 ValueError，B 才能中止该代。
 
-    实测差异（已反馈 A）：`kind` 不认识 / 整个不是 dict -> ValueError，符合文档；
-    但**缺字段**（`{"kind":"integer"}` 没有 `value`）-> KeyError，与实现说明
-    「缺字段抛 ValueError」不符。两者都是数据故障，B 侧一并接住。
+    2026-11-13 之前实测有偏差：缺字段（如 `{"kind":"integer"}` 没有 `value`）
+    抛的是 KeyError，与《实现说明》「缺字段抛 ValueError」不符，已反馈 A。
+    A 在 f5a4b95 修正为 `_reference_int` 显式 raise ValueError，并补了 10 条回归。
+    这条测试现在按契约口径逐种坏法复核，防止将来回退成 KeyError。
     """
-    with pytest.raises(ValueError):
-        executor.judge({"type": "integral", "reference": {"kind": "weird"}},
-                       '{"value":"1"}')
-    with pytest.raises(ValueError):
-        executor.judge({"type": "integral", "reference": None}, '{"value":"1"}')
-    with pytest.raises(KeyError):
-        executor.judge({"type": "integral", "reference": {"kind": "integer"}},
-                       '{"value":"1"}')
-    with pytest.raises(KeyError):
-        executor.judge({"type": "integral",
-                        "reference": {"kind": "rational", "numerator": "1"}},
-                       '{"value":"1"}')
+    broken = [
+        ({"kind": "weird"}, "kind 不认识"),
+        (None, "整体不是对象"),
+        ({"kind": "integer"}, "integer 缺 value"),
+        ({"kind": "rational", "numerator": "1"}, "rational 缺 denominator"),
+        ({"kind": "rational", "numerator": "1", "denominator": "0"}, "分母为 0"),
+    ]
+    for ref, desc in broken:
+        with pytest.raises(ValueError):
+            executor.judge({"type": "integral", "reference": ref}, '{"value":"1"}')
 
 
 # --------------------------------------------------------------------------
