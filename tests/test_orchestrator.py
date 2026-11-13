@@ -732,9 +732,13 @@ def test_double_judge_separates_unanswered_from_wrong():
     task = engine.normalize_task({"template": "det", "params": {"matrix": [[2, 1], [1, 3]]}},
                                  task_id="X", source="evolved", by="a", gen=1)
     engine.solve_exact(task)
-    assert engine.judge(task, "5") == "right"
-    assert engine.judge(task, " 5 ") == "right"
-    assert engine.judge(task, "6") == "wrong"
-    assert engine.judge(task, "5/1") == "unanswered"     # det 只接整数
+    # 入参是整段返回文本（契约 §6），不是裸值
+    assert engine.judge(task, '{"value":"5"}') == "right"
+    assert engine.judge(task, '{"value":" 5 "}') == "right"
+    assert engine.judge(task, '{"value":"6"}') == "wrong"
+    assert engine.judge(task, '{"value":"5/1"}') == "unanswered"   # det 只接整数
+    assert engine.judge(task, '{"value":"5.0"}') == "unanswered"
     assert engine.judge(task, None) == "unanswered"
     assert engine.judge(task, "sqrt(25)") == "unanswered"
+    assert engine.judge(task, '{"value":5}') == "unanswered"       # value 必须是字符串
+    assert engine.judge(task, '{"value":"5","x":1}') == "unanswered"

@@ -278,9 +278,20 @@ class FakeEngine:
         return f"{task['template']}|{body}"
 
     def judge(self, task: dict, raw_answer: str | None) -> str:
+        # 契约 §6：入参是「模型的整段原始返回」，judge 自己做 json.loads。
+        # B4 最初写成接收裸值 "3/4"，与 A 的真实现口径不同——集成时发现，
+        # 已按契约改正（裸值会让 json.loads 失败，全对的一代判成全 unanswered）。
         if not isinstance(raw_answer, str):
             return "unanswered"
-        s = raw_answer.strip()
+        try:
+            payload = json.loads(raw_answer)
+        except ValueError:
+            return "unanswered"
+        if not isinstance(payload, dict) or set(payload) != {"value"}:
+            return "unanswered"
+        if not isinstance(payload["value"], str):
+            return "unanswered"
+        s = payload["value"].strip()
         if not s or len(s) > 100:
             return "unanswered"
         ref = task["reference"]

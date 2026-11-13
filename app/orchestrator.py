@@ -82,6 +82,15 @@ class ChatClient(Protocol):
                    slot_id: str | None = ..., attempt: int = ...) -> CallResult: ...
 
 
+class BrokenReference(RuntimeError):
+    """`judge` 因 `reference` 结构损坏而抛 `ValueError` 时转成这个。
+
+    契约 §6 末段：这属于数据/执行器故障，不是模型答错。必须中止该代，
+    绝不能 catch 成 `wrong`——否则「执行器坏了」会被记成「模型不会做」，
+    整份实验的结论就失真了（规格 §15）。
+    """
+
+
 # --------------------------------------------------------------------------
 # 出题：消息拼装与收集
 # --------------------------------------------------------------------------
@@ -369,7 +378,22 @@ async def fill_slots(*, slots: Sequence[Slot], genes_by_id: Mapping[str, Genes],
             value = res.parsed.get("value")
             raw = value if isinstance(value, str) else None
         slot.raw_answer = raw
-        verdict = engine.judge(task, raw)
+        # `judge` 的入参是**文本**，不是解析后的对象（契约 §6：它自己 json.loads）。
+        # B 这边已经做过本地 JSON 提取修复（去围栏、剥离外围文字），所以把抽取
+        # 成功的对象重新序列化成规范文本再交过去——契约允许的只有「本地提取修复」，
+        # 不是「格式错就重发一次请求」。
+        # 直接传裸值 "3/4" 会让 json.loads 失败，全对的一代被判成全员零分。
+        judge_input = None
+        if res.content_ok and isinstance(res.parsed, Mapping):
+            judge_input = json.dumps(dict(res.parsed), ensure_ascii=False)
+        try:
+            verdict = engine.judge(task, judge_input)
+        except (ValueError, KeyError) as exc:
+            # 参考值损坏是数据故障，不是模型答错；往上抛，由 run_generation 中止该代。
+            # 除 ValueError 外还接 KeyError：A 的 `_ref_fraction` 在 reference 缺字段
+            # （如 {"kind":"integer"} 没有 value）时抛的是 KeyError，与其实现说明
+            # 「缺字段抛 ValueError」不符。这是同一类数据故障，不能让它把整趟跑崩。
+            raise BrokenReference(f"{slot.slot_id} 参考值损坏：{exc!r}") from exc
         if verdict not in ("right", "wrong", "unanswered"):
             raise ProtocolError(
                 f"judge 返回未定义状态 {verdict!r}（{slot.slot_id}）；"
@@ -686,9 +710,18 @@ async def run_generation(*, gen: int, state: RunState, engine: Engine,
     if role_counts != expected:
         raise ProtocolError(f"槽位数不符：{role_counts} != {expected}")
 
-    results = await fill_slots(slots=slots, genes_by_id=state.genes_by_id(),
-                               tasks_by_id=tasks_by_id, engine=engine,
-                               chat=chat, cfg=cfg)
+    try:
+        results = await fill_slots(slots=slots, genes_by_id=state.genes_by_id(),
+                                   tasks_by_id=tasks_by_id, engine=engine,
+                                   chat=chat, cfg=cfg)
+    except BrokenReference as exc:
+        # 契约 §6 / 规格 §15：参考值坏了就中止该代，不排名、不写历史
+        state.phase = "aborted"
+        return build_aborted_record(
+            state=state, gen=gen, reason="invalid_generation", attempts=attempts,
+            refetch_round=refetch,
+            warnings=[f"参考值损坏，中止该代（未计分、未排名）：{exc}"],
+        )
     if any(s.status == "transport_error" for s in slots):
         state.phase = "aborted"
         return build_aborted_record(
