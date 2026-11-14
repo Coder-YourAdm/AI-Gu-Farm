@@ -578,6 +578,7 @@
     sid: "live01",
     on: false,
     busy: false,
+    epoch: 0,                      // 模式切换代号：切换后，旧请求的响应直接丢弃
     i: 0,
     hint: 0,
     turn: 0,
@@ -634,6 +635,12 @@
   function parseFrac(s){
     if (s === null || s === undefined) return null;
     var t = String(s).trim().replace(/\s+/g, "");
+    /* 中文输入法常打出长横（−）和全角数字，先归一化，否则会被当成"空答" */
+    t = t.replace(/[−–—]/g, "-")
+         .replace(/[０-９]/g, function(c){
+           return String.fromCharCode(c.charCodeAt(0) - 0xFEE0);
+         })
+         .replace(/．/g, ".");
     if (!t) return null;
     var m;
     if ((m = /^(-?\d+)\/(\d+)$/.exec(t))){
@@ -783,18 +790,32 @@
     return {ok: false, error: "未知动作：" + action};
   }
 
-  /* 唯一请求出口：endpoint 为空走本地，非空走真接口。 */
+  /* 唯一请求出口：endpoint 为空走本地，非空走真接口。
+     带 8 秒超时：服务挂住时不能让「提交」按钮永久禁用、也不能没有回退。 */
+  var ASK_TIMEOUT_MS = 8000;
   function liveAsk(action, answer){
     if (LIVE.endpoint){
-      return fetch(LIVE.endpoint, {
+      var opts = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({sid: LIVE.sid, action: action, answer: answer})
-      }).then(function(r){
+      };
+      var ctrl = (typeof AbortController !== "undefined") ? new AbortController() : null;
+      var timer = null;
+      if (ctrl){
+        opts.signal = ctrl.signal;
+        timer = setTimeout(function(){ ctrl.abort(); }, ASK_TIMEOUT_MS);
+      }
+      return fetch(LIVE.endpoint, opts).then(function(r){
+        if (timer) clearTimeout(timer);
         return r.json().then(function(j){
           if (!r.ok) throw new Error((j && j.error) || ("HTTP " + r.status));
           return j;
         });
+      }, function(err){
+        if (timer) clearTimeout(timer);
+        if (err && err.name === "AbortError") throw new Error("请求超时（8 秒）");
+        throw err;
       });
     }
     return new Promise(function(resolve){ resolve(liveHandle(action, answer)); });
@@ -851,13 +872,16 @@
      黄色提示 + 自动切回放。页面永远不白屏，回放数据永远不动。 */
   function liveRequest(action, answer){
     if (LIVE.busy) return Promise.resolve(null);
+    var epoch = LIVE.epoch;
     setBusy(true);
     return liveAsk(action, answer).then(function(res){
+      if (epoch !== LIVE.epoch) return;      // 已切模式：丢弃过期响应，别污染回放数据
       if (!res || res.ok === false){
         throw new Error((res && res.error) || "响应里没有 ok 字段");
       }
       applyLiveResp(res, action, answer);
     }).catch(function(err){
+      if (epoch !== LIVE.epoch) return;      // 切回放导致的失败不再二次提示
       var msg = (err && err.message) || String(err);
       LIVE.lastError = msg;
       showNotice("实时模式不可用（" + esc(msg) + "）。已自动切回回放，内容不受影响。");
@@ -867,6 +891,7 @@
 
   function setMode(m){
     var liveMode = m === "live";
+    LIVE.epoch += 1;                 // 让在途请求的响应失效
     LIVE.on = liveMode;
     document.body.classList.toggle("live", liveMode);
     Array.prototype.forEach.call(el("mode").querySelectorAll("button"), function(x){
@@ -875,7 +900,8 @@
     if (liveMode){
       selKC = null; selTurn = null;          // 回放里的过滤/选中的题不该带到实时会话
       el("live-hint").textContent = "实时会话 " + LIVE.sid +
-        "：判分与提示在本地算，B 的 /api/ask 通了自动走后端。";
+        (LIVE.endpoint ? "：判分与提示走后端 " + LIVE.endpoint
+                       : "：本地状态机（未接后端）");
       if (!LIVE.log.length) liveRequest("start");
       else render();
     } else {

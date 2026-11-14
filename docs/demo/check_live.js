@@ -238,6 +238,28 @@ function near(a, b, eps) {
     ok(!!dec && dec.n * half.d === half.n * dec.d, "0.5 与 1/2 仍判相等");
   }
 
+  console.log("== K. 竞态：切实时后立刻切回放，过期响应必须丢弃 ==");
+  dbg.state.endpoint = null;
+  dbg.state.log.length = 0;
+  dbg.setMode("live");
+  dbg.setMode("replay");
+  await new Promise((r) => setTimeout(r, 50));
+  ok(dbg.state.log.length === 0, "过期响应没有写入实时日志", dbg.state.log.length);
+  ok(dbg.state.on === false, "LIVE.on 已回到 false");
+
+  console.log("== L. 输入归一化：长横减号、全角数字 ==");
+  const neg = fracFn("−1");
+  ok(!!neg && String(neg.n) === "-1", "长横减号被识别", neg && String(neg.n));
+  const fw = fracFn("１/２");
+  ok(!!fw && fw.n === 1n && fw.d === 2n, "全角数字被识别",
+     fw && String(fw.n) + "/" + String(fw.d));
+
+  console.log("== M. 空答不抛异常，按 giveup 处理 ==");
+  H("reset", null);
+  const emptyRes = H("submit", "");
+  ok(!!emptyRes && emptyRes.verdict === "wrong" && emptyRes.err === "giveup",
+     "空答判 giveup", emptyRes && emptyRes.err);
+
   console.log("");
   if (failed === 0) {
     console.log("RESULT: PASS（" + 0 + " 项失败）");
