@@ -469,30 +469,19 @@ def rank_population(population: Sequence[Individual], rng: random.Random
 
 def ancestor_metrics(ancestor_slots: Sequence[Slot],
                      tasks_by_id: Mapping[str, dict]) -> dict:
-    """规格 §6.2。unanswered 记为错，但独立于 wrong 另行统计。"""
-    per_task: dict[str, list[int]] = {}
-    for slot in ancestor_slots:
-        per_task.setdefault(slot.task_id, []).append(
-            1 if slot.status == "right" else 0)
+    """规格 §6.2。统一走 A 的 `app.ancestor`，不允许两份实现各写一遍。
 
-    failures = {tid: 1 - sum(v) / len(v) for tid, v in per_task.items()}
-    integral = [f for tid, f in failures.items()
-                if tasks_by_id[tid]["type"] == "integral"]
-    det = [f for tid, f in failures.items() if tasks_by_id[tid]["type"] == "det"]
+    `unanswered` 记为错但单独统计；缺题型给 None 而不是 0；
+    `balanced` 只在两型都有值时计算；`null` 不当 0。
 
-    def _mean(xs: list[float]) -> float | None:
-        return round(sum(xs) / len(xs), 10) if xs else None
+    字段名以 A 的 `generation_failures()` 为准（`task_mix`，不是 `task_counts`）。
+    `export.py` 的 ANC_ALLOWED 只放四个 failure 字段，所以改字段名不影响前端。
+    """
+    from . import ancestor as ancestor_module
 
-    i_fail, d_fail = _mean(integral), _mean(det)
-    balanced = (round(0.5 * i_fail + 0.5 * d_fail, 10)
-                if (i_fail is not None and d_fail is not None) else None)
-    return {
-        "integral_failure": i_fail,
-        "det_failure": d_fail,
-        "balanced_failure": balanced,
-        "mixed_failure": _mean(list(failures.values())),
-        "task_counts": {"integral": len(integral), "det": len(det)},
-    }
+    payload = [slot.to_dict() for slot in ancestor_slots]
+    task_types = {task_id: task["type"] for task_id, task in tasks_by_id.items()}
+    return ancestor_module.generation_failures(payload, task_types)
 
 
 def per_task_stats(slots: Sequence[Slot],
