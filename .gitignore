@@ -31,3 +31,6 @@ data_t*/
 
 # 分享包产物（docs/demo/build_share.py 生成，发完即弃）
 dist/
+
+# Frontend development-only checks
+node_modules/

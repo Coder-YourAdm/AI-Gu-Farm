@@ -1,0 +1,3331 @@
+{
+ "schema": "export/1",
+ "schema_version": "5.1",
+ "run_id": "E_s43_7f878e7097",
+ "condition": "E",
+ "n_gen": 20,
+ "is_mock": false,
+ "generations": [
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 1,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S5",
+    "G00_S4",
+    "G00_S2",
+    "G00_S3",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 28368,
+    "role_ms": {
+     "solver": 475370
+    }
+   },
+   "usage": {
+    "call_count": 81,
+    "input_tokens": 16033,
+    "output_tokens": 32178,
+    "reasoning_tokens": 31119,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 2,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 4,
+    "det": 2
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S6",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G01_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G01_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G01_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G00_S4",
+    "G00_S6",
+    "G01_M1",
+    "G01_C1",
+    "G00_S5",
+    "G01_C2"
+   ],
+   "timing": {
+    "wall_ms": 46799,
+    "role_ms": {
+     "solver": 429505
+    }
+   },
+   "usage": {
+    "call_count": 82,
+    "input_tokens": 17960,
+    "output_tokens": 35510,
+    "reasoning_tokens": 34467,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 3,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 4,
+    "det": 2
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G01_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G02_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G02_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G02_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G02_M1",
+    "G00_S4",
+    "G01_M1",
+    "G02_C2",
+    "G00_S6",
+    "G02_C1"
+   ],
+   "timing": {
+    "wall_ms": 70910,
+    "role_ms": {
+     "solver": 465323
+    }
+   },
+   "usage": {
+    "call_count": 83,
+    "input_tokens": 19270,
+    "output_tokens": 42433,
+    "reasoning_tokens": 41398,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 4,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 2,
+   "task_counts": {
+    "integral": 2,
+    "det": 4
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.166667,
+    "balanced_failure": 0.083333,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G01_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G02_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G03_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G03_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G03_M1",
+     "solve": 4,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 6.0,
+     "est": 6.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G03_M1",
+    "G03_C1",
+    "G00_S4",
+    "G03_C2",
+    "G02_M1",
+    "G01_M1"
+   ],
+   "timing": {
+    "wall_ms": 144725,
+    "role_ms": {
+     "solver": 446014
+    }
+   },
+   "usage": {
+    "call_count": 87,
+    "input_tokens": 23087,
+    "output_tokens": 61653,
+    "reasoning_tokens": 60406,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 5,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.066667,
+    "balanced_failure": 0.033333,
+    "mixed_failure": 0.055556
+   },
+   "individuals": [
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G03_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G03_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G04_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G04_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    }
+   ],
+   "ranking": [
+    "G03_M1",
+    "G04_M1",
+    "G00_S4",
+    "G03_C1",
+    "G04_C2",
+    "G04_C1"
+   ],
+   "timing": {
+    "wall_ms": 70401,
+    "role_ms": {
+     "solver": 516526
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 21845,
+    "output_tokens": 58240,
+    "reasoning_tokens": 57164,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 6,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 2,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.066667,
+    "balanced_failure": 0.033333,
+    "mixed_failure": 0.055556
+   },
+   "individuals": [
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G03_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G05_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G05_C2",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G05_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    }
+   ],
+   "ranking": [
+    "G05_C2",
+    "G03_M1",
+    "G04_M1",
+    "G05_M1",
+    "G05_C1",
+    "G00_S4"
+   ],
+   "timing": {
+    "wall_ms": 159492,
+    "role_ms": {
+     "solver": 749128
+    }
+   },
+   "usage": {
+    "call_count": 92,
+    "input_tokens": 28142,
+    "output_tokens": 96501,
+    "reasoning_tokens": 95222,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 7,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.333333,
+    "balanced_failure": 0.166667,
+    "mixed_failure": 0.277778
+   },
+   "individuals": [
+    {
+     "id": "G03_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G05_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G06_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G06_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G04_M1",
+    "G06_C1",
+    "G06_C2",
+    "G06_M1",
+    "G05_C2",
+    "G03_M1"
+   ],
+   "timing": {
+    "wall_ms": 80278,
+    "role_ms": {
+     "solver": 805242
+    }
+   },
+   "usage": {
+    "call_count": 82,
+    "input_tokens": 21024,
+    "output_tokens": 73220,
+    "reasoning_tokens": 72284,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 8,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.111111,
+    "balanced_failure": null,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G06_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G07_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G07_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G07_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G04_M1",
+    "G07_C2",
+    "G06_C1",
+    "G06_C2",
+    "G07_M1",
+    "G07_C1"
+   ],
+   "timing": {
+    "wall_ms": 98182,
+    "role_ms": {
+     "solver": 994314
+    }
+   },
+   "usage": {
+    "call_count": 89,
+    "input_tokens": 23892,
+    "output_tokens": 90114,
+    "reasoning_tokens": 89151,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 9,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.333333,
+    "balanced_failure": null,
+    "mixed_failure": 0.333333
+   },
+   "individuals": [
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G06_C1",
+     "solve": 2,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G07_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G08_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G08_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G08_M1",
+     "solve": 2,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    }
+   ],
+   "ranking": [
+    "G04_M1",
+    "G08_C1",
+    "G06_C1",
+    "G08_M1",
+    "G07_C2",
+    "G08_C2"
+   ],
+   "timing": {
+    "wall_ms": 105811,
+    "role_ms": {
+     "solver": 1202942
+    }
+   },
+   "usage": {
+    "call_count": 93,
+    "input_tokens": 28378,
+    "output_tokens": 110979,
+    "reasoning_tokens": 109922,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 10,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.4,
+    "balanced_failure": 0.2,
+    "mixed_failure": 0.333333
+   },
+   "individuals": [
+    {
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G08_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G09_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G09_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G09_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    }
+   ],
+   "ranking": [
+    "G04_M1",
+    "G08_C1",
+    "G09_M1",
+    "G09_C1",
+    "G09_C2",
+    "G06_C1"
+   ],
+   "timing": {
+    "wall_ms": 76599,
+    "role_ms": {
+     "solver": 1088597
+    }
+   },
+   "usage": {
+    "call_count": 88,
+    "input_tokens": 23249,
+    "output_tokens": 92171,
+    "reasoning_tokens": 91189,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 11,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.055556,
+    "balanced_failure": null,
+    "mixed_failure": 0.055556
+   },
+   "individuals": [
+    {
+     "id": "G04_M1",
+     "solve": 4,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 6.0,
+     "est": 6.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G08_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G09_M1",
+     "solve": 4,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G10_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G10_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G10_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 7
+    }
+   ],
+   "ranking": [
+    "G04_M1",
+    "G09_M1",
+    "G10_C1",
+    "G10_M1",
+    "G10_C2",
+    "G08_C1"
+   ],
+   "timing": {
+    "wall_ms": 95891,
+    "role_ms": {
+     "solver": 879919
+    }
+   },
+   "usage": {
+    "call_count": 91,
+    "input_tokens": 25747,
+    "output_tokens": 86258,
+    "reasoning_tokens": 85138,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 12,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.166667,
+    "balanced_failure": null,
+    "mixed_failure": 0.166667
+   },
+   "individuals": [
+    {
+     "id": "G04_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G09_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G10_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G11_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G11_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G11_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G09_M1",
+    "G10_C1",
+    "G11_M1",
+    "G04_M1",
+    "G11_C2",
+    "G11_C1"
+   ],
+   "timing": {
+    "wall_ms": 65682,
+    "role_ms": {
+     "solver": 821895
+    }
+   },
+   "usage": {
+    "call_count": 87,
+    "input_tokens": 22118,
+    "output_tokens": 70783,
+    "reasoning_tokens": 69763,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 13,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 2,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.133333,
+    "balanced_failure": 0.066667,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G09_M1",
+     "solve": 4,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G10_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G11_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G12_C1",
+     "solve": 4,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 6.0,
+     "est": 6.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G12_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G12_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G12_C1",
+    "G09_M1",
+    "G12_M1",
+    "G12_C2",
+    "G10_C1",
+    "G11_M1"
+   ],
+   "timing": {
+    "wall_ms": 148676,
+    "role_ms": {
+     "solver": 720778
+    }
+   },
+   "usage": {
+    "call_count": 98,
+    "input_tokens": 32448,
+    "output_tokens": 97370,
+    "reasoning_tokens": 96068,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 14,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.0,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G09_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G12_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G12_M1",
+     "solve": 1,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 1.0,
+     "est": 1.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G13_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G13_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G13_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G13_C1",
+    "G13_M1",
+    "G09_M1",
+    "G13_C2",
+    "G12_C1",
+    "G12_M1"
+   ],
+   "timing": {
+    "wall_ms": 80662,
+    "role_ms": {
+     "solver": 688360
+    }
+   },
+   "usage": {
+    "call_count": 83,
+    "input_tokens": 22486,
+    "output_tokens": 67779,
+    "reasoning_tokens": 66794,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 15,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.2,
+    "balanced_failure": 0.1,
+    "mixed_failure": 0.166667
+   },
+   "individuals": [
+    {
+     "id": "G09_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G13_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G13_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G14_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G14_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G14_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 12
+    }
+   ],
+   "ranking": [
+    "G13_M1",
+    "G14_C2",
+    "G14_C1",
+    "G09_M1",
+    "G14_M1",
+    "G13_C1"
+   ],
+   "timing": {
+    "wall_ms": 100547,
+    "role_ms": {
+     "solver": 758633
+    }
+   },
+   "usage": {
+    "call_count": 90,
+    "input_tokens": 24463,
+    "output_tokens": 87312,
+    "reasoning_tokens": 86272,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 16,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 0,
+    "det": 6
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": null,
+    "det_failure": 0.0,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G13_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G14_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G14_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G15_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G15_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 2.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G15_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G15_C2",
+    "G15_M1",
+    "G15_C1",
+    "G14_C2",
+    "G13_M1",
+    "G14_C1"
+   ],
+   "timing": {
+    "wall_ms": 125566,
+    "role_ms": {
+     "solver": 622709
+    }
+   },
+   "usage": {
+    "call_count": 92,
+    "input_tokens": 25920,
+    "output_tokens": 76972,
+    "reasoning_tokens": 75883,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 17,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 2,
+   "task_counts": {
+    "integral": 1,
+    "det": 5
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G15_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G15_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G15_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G16_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G16_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 2.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G16_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    }
+   ],
+   "ranking": [
+    "G16_C2",
+    "G15_C2",
+    "G15_C1",
+    "G15_M1",
+    "G16_C1",
+    "G16_M1"
+   ],
+   "timing": {
+    "wall_ms": 152038,
+    "role_ms": {
+     "solver": 587806
+    }
+   },
+   "usage": {
+    "call_count": 98,
+    "input_tokens": 29545,
+    "output_tokens": 95866,
+    "reasoning_tokens": 94689,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 18,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 3,
+    "det": 3
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.222222,
+    "balanced_failure": 0.111111,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G15_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G15_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G16_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G17_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G17_C2",
+     "solve": 2,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G17_M1",
+     "solve": 2,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G17_M1",
+    "G17_C2",
+    "G15_C2",
+    "G17_C1",
+    "G16_C2",
+    "G15_C1"
+   ],
+   "timing": {
+    "wall_ms": 104737,
+    "role_ms": {
+     "solver": 815387
+    }
+   },
+   "usage": {
+    "call_count": 92,
+    "input_tokens": 25410,
+    "output_tokens": 91239,
+    "reasoning_tokens": 90180,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 19,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 2,
+    "det": 4
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G15_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G17_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 2.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G17_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G18_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G18_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 2.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G18_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G18_C2",
+    "G17_C2",
+    "G17_M1",
+    "G18_M1",
+    "G15_C2",
+    "G18_C1"
+   ],
+   "timing": {
+    "wall_ms": 127962,
+    "role_ms": {
+     "solver": 588027
+    }
+   },
+   "usage": {
+    "call_count": 92,
+    "input_tokens": 24555,
+    "output_tokens": 77017,
+    "reasoning_tokens": 75896,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "E_s43_7f878e7097",
+   "condition": "E",
+   "gen": 20,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 3,
+    "det": 3
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G17_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G17_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G18_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G19_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G19_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G19_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G19_M1",
+    "G19_C2",
+    "G17_C2",
+    "G17_M1",
+    "G19_C1",
+    "G18_C2"
+   ],
+   "timing": {
+    "wall_ms": 62281,
+    "role_ms": {
+     "solver": 507809
+    }
+   },
+   "usage": {
+    "call_count": 86,
+    "input_tokens": 20733,
+    "output_tokens": 56449,
+    "reasoning_tokens": 55722,
+    "cost": null
+   },
+   "warnings": []
+  }
+ ],
+ "lineage": {
+  "G00_S1": {
+   "id": "G00_S1",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1
+   ],
+   "genes": {
+    "solve_prompt": "先判断题型：多项式按幂次逐项积分；含 e^(-rx) 的用 n!/r^(n+1)；含 e^(-rx²) 的用 k!/(2r^(k+1))；矩阵用消元。写出各项后求和，最后核对符号。",
+    "set_prompt": "优先 poly，用高次项和非对称区间提高区分度，系数尽量都不为零。",
+    "self_check": true
+   }
+  },
+  "G00_S2": {
+   "id": "G00_S2",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1
+   ],
+   "genes": {
+    "solve_prompt": "先把无穷限积分看成已知阶乘公式的特例，确认幂次与指数是否匹配；不匹配时先做代换再套式。矩阵先做行变换化简后再算。",
+    "set_prompt": "混合三类积分，让 rate 与幂次的搭配不出现在常见组合里，避免解题者直接背公式。",
+    "self_check": false
+   }
+  },
+  "G00_S3": {
+   "id": "G00_S3",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数。先算分子再算分母，留到最后一步约分。矩阵用整数消元并记录每次换行的符号变化。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上，让分母变大，靠估算蒙不中。",
+    "self_check": true
+   }
+  },
+  "G00_S4": {
+   "id": "G00_S4",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，重算一遍。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G00_S5": {
+   "id": "G00_S5",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2
+   ],
+   "genes": {
+    "solve_prompt": "按步计算：先写被积函数或矩阵，再逐项展开，最后合并。每一步只做一次运算，便于回溯检查。",
+    "set_prompt": "出需要两三步才能算完的题，避免一眼可读数；优先多项式乘阶乘的结构。",
+    "self_check": false
+   }
+  },
+  "G00_S6": {
+   "id": "G00_S6",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就直接用闭式，未命中再退回通用方法。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G01_C1": {
+   "id": "G01_C1",
+   "parents": [
+    "G00_S4",
+    "G00_S6"
+   ],
+   "origin": "crossover",
+   "born_gen": 1,
+   "seen_gens": [
+    1,
+    2
+   ],
+   "genes": {
+    "solve_prompt": "先识别结构并归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即用闭式，再用幂次、rate、系数估算量级校验，差一个数量级以上则重算。",
+    "set_prompt": "参数跨越不同量级，同批题混有小 rate 与大 rate；优先出需先变形才能归类的结构不明显题，矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G01_C2": {
+   "id": "G01_C2",
+   "parents": [
+    "G00_S5",
+    "G00_S4"
+   ],
+   "origin": "crossover",
+   "born_gen": 1,
+   "seen_gens": [
+    1,
+    2
+   ],
+   "genes": {
+    "solve_prompt": "先估量级：由幂次、rate、系数判断大致范围；再按步精确计算，先写出被积函数或矩阵，逐项展开，最后合并，每一步只做一次运算，便于回溯。",
+    "set_prompt": "出需要两三步才能算完的题，避免一眼就能读出答案；优先选择多项式乘阶乘的结构，参数跨越不同量级，同一批题中既有小 rate，也有大 rate。",
+    "self_check": true
+   }
+  },
+  "G01_M1": {
+   "id": "G01_M1",
+   "parents": [
+    "G00_S4"
+   ],
+   "origin": "mutate",
+   "born_gen": 1,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差两个数量级以上，必复核。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G02_C1": {
+   "id": "G02_C1",
+   "parents": [
+    "G00_S4",
+    "G01_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 2,
+   "seen_gens": [
+    2,
+    3
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，必复核重算。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G02_C2": {
+   "id": "G02_C2",
+   "parents": [
+    "G00_S4",
+    "G01_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 2,
+   "seen_gens": [
+    2,
+    3
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，重算一遍；重算后仍差两个数量级以上，必复核。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G02_M1": {
+   "id": "G02_M1",
+   "parents": [
+    "G00_S6"
+   ],
+   "origin": "mutate",
+   "born_gen": 2,
+   "seen_gens": [
+    2,
+    3,
+    4
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G03_C1": {
+   "id": "G03_C1",
+   "parents": [
+    "G01_M1",
+    "G02_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 3,
+   "seen_gens": [
+    3,
+    4,
+    5
+   ],
+   "genes": {
+    "solve_prompt": "先归类：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代，未命中换元或分块降阶。同时估答案量级，差两个数量级以上必复核。",
+    "set_prompt": "参数跨数量级，同一批题含小 rate 与大 rate；优先结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G03_C2": {
+   "id": "G03_C2",
+   "parents": [
+    "G00_S4",
+    "G02_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 3,
+   "seen_gens": [
+    3,
+    4
+   ],
+   "genes": {
+    "solve_prompt": "先按结构归类：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代，未命中用换元、分块降阶。再估答案量级，偏差超一个数量级则重算。",
+    "set_prompt": "参数跨数量级，同批兼有小/大 rate；优先结构不明显需先变形的题，矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G03_M1": {
+   "id": "G03_M1",
+   "parents": [
+    "G02_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 3,
+   "seen_gens": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G04_C1": {
+   "id": "G04_C1",
+   "parents": [
+    "G00_S4",
+    "G03_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 4,
+   "seen_gens": [
+    4,
+    5
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级，再判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中套闭式并回代验算；未命中用换元或分块降阶。若结果与估计差一个数量级以上，重算。",
+    "set_prompt": "参数跨越不同量级；优先出结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G04_C2": {
+   "id": "G04_C2",
+   "parents": [
+    "G00_S4",
+    "G03_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 4,
+   "seen_gens": [
+    4,
+    5
+   ],
+   "genes": {
+    "solve_prompt": "先按结构归类：单项幂乘指数、奇次幂乘高斯、有限区间多项式或整数方阵；命中套闭式并回代验算。未命中先估答案量级，用换元或分块降阶精算；若偏离一个数量级以上则重算。",
+    "set_prompt": "参数跨不同量级，同批兼顾小/大 rate；优先结构不明显、需变形归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G04_M1": {
+   "id": "G04_M1",
+   "parents": [
+    "G03_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 4,
+   "seen_gens": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G05_C1": {
+   "id": "G05_C1",
+   "parents": [
+    "G03_M1",
+    "G00_S4"
+   ],
+   "origin": "crossover",
+   "born_gen": 5,
+   "seen_gens": [
+    5,
+    6
+   ],
+   "genes": {
+    "solve_prompt": "先估量级：由幂次、rate、系数定大致范围；再套已知模板（单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵）求闭式并回代验算；未命中用换元或分块降阶，结果与估计差一个数量级则重算。",
+    "set_prompt": "优先出结构不明显、需先变形归类的题；矩阵用近奇异非奇异整数矩阵；同批参数跨数量级，兼有小/大 rate，考察量级判断。",
+    "self_check": true
+   }
+  },
+  "G05_C2": {
+   "id": "G05_C2",
+   "parents": [
+    "G03_M1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 5,
+   "seen_gens": [
+    5,
+    6,
+    7
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G05_M1": {
+   "id": "G05_M1",
+   "parents": [
+    "G03_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 5,
+   "seen_gens": [
+    5,
+    6
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G06_C1": {
+   "id": "G06_C1",
+   "parents": [
+    "G03_M1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 6,
+   "seen_gens": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G06_C2": {
+   "id": "G06_C2",
+   "parents": [
+    "G04_M1",
+    "G03_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 6,
+   "seen_gens": [
+    6,
+    7,
+    8
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G06_M1": {
+   "id": "G06_M1",
+   "parents": [
+    "G04_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 6,
+   "seen_gens": [
+    6,
+    7
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出需要先换元或分块才能归类的隐蔽结构题；矩阵取对角占优被扰动的非奇异整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G07_C1": {
+   "id": "G07_C1",
+   "parents": [
+    "G06_C2",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 7,
+   "seen_gens": [
+    7,
+    8
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G07_C2": {
+   "id": "G07_C2",
+   "parents": [
+    "G06_C2",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 7,
+   "seen_gens": [
+    7,
+    8,
+    9
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G07_M1": {
+   "id": "G07_M1",
+   "parents": [
+    "G06_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 7,
+   "seen_gens": [
+    7,
+    8
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构隐蔽、需先变形才能归类的题；矩阵取近奇异、行列式非零且元素为小整数的方阵。",
+    "self_check": true
+   }
+  },
+  "G08_C1": {
+   "id": "G08_C1",
+   "parents": [
+    "G04_M1",
+    "G06_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 8,
+   "seen_gens": [
+    8,
+    9,
+    10,
+    11
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，未命中改用换元法，再试分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G08_C2": {
+   "id": "G08_C2",
+   "parents": [
+    "G04_M1",
+    "G06_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 8,
+   "seen_gens": [
+    8,
+    9
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，未命中改用换元。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G08_M1": {
+   "id": "G08_M1",
+   "parents": [
+    "G04_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 8,
+   "seen_gens": [
+    8,
+    9
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G09_C1": {
+   "id": "G09_C1",
+   "parents": [
+    "G08_C1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 9,
+   "seen_gens": [
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，未命中改用换元法，再分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G09_C2": {
+   "id": "G09_C2",
+   "parents": [
+    "G06_C1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 9,
+   "seen_gens": [
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "解题先识别可否套用已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；能套则用闭式并回代验算，不能套再换元或分块降阶。",
+    "set_prompt": "出题优先选结构不明显的题，需先变形再归类；矩阵采用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G09_M1": {
+   "id": "G09_M1",
+   "parents": [
+    "G04_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 9,
+   "seen_gens": [
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G10_C1": {
+   "id": "G10_C1",
+   "parents": [
+    "G08_C1",
+    "G09_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 10,
+   "seen_gens": [
+    10,
+    11,
+    12,
+    13
+   ],
+   "genes": {
+    "solve_prompt": "先判结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即套闭式并回代验算，未命中先换元，再试分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G10_C2": {
+   "id": "G10_C2",
+   "parents": [
+    "G08_C1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 10,
+   "seen_gens": [
+    10,
+    11
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代验算，未命中先换元，再分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G10_M1": {
+   "id": "G10_M1",
+   "parents": [
+    "G04_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 10,
+   "seen_gens": [
+    10,
+    11
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G11_C1": {
+   "id": "G11_C1",
+   "parents": [
+    "G09_M1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 11,
+   "seen_gens": [
+    11,
+    12
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出结构不明显、需先变形归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G11_C2": {
+   "id": "G11_C2",
+   "parents": [
+    "G09_M1",
+    "G04_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 11,
+   "seen_gens": [
+    11,
+    12
+   ],
+   "genes": {
+    "solve_prompt": "先判断结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中则套闭式并回代验算，未命中改用分块降阶。",
+    "set_prompt": "优先出结构隐蔽、须先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G11_M1": {
+   "id": "G11_M1",
+   "parents": [
+    "G04_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 11,
+   "seen_gens": [
+    11,
+    12,
+    13
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵取近奇异、条件数偏大的小整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G12_C1": {
+   "id": "G12_C1",
+   "parents": [
+    "G09_M1",
+    "G11_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 12,
+   "seen_gens": [
+    12,
+    13,
+    14
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G12_C2": {
+   "id": "G12_C2",
+   "parents": [
+    "G11_M1",
+    "G10_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 12,
+   "seen_gens": [
+    12,
+    13
+   ],
+   "genes": {
+    "solve_prompt": "先判结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中即套闭式并回代验算，未命中先换元，再分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异、条件数偏大但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G12_M1": {
+   "id": "G12_M1",
+   "parents": [
+    "G10_C1"
+   ],
+   "origin": "mutate",
+   "born_gen": 12,
+   "seen_gens": [
+    12,
+    13,
+    14
+   ],
+   "genes": {
+    "solve_prompt": "先试换元与分块降阶，再判能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式回代验算，未命中改数值或级数近似。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G13_C1": {
+   "id": "G13_C1",
+   "parents": [
+    "G12_C1",
+    "G12_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 13,
+   "seen_gens": [
+    13,
+    14,
+    15
+   ],
+   "genes": {
+    "solve_prompt": "先试换元与分块降阶；能归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵就套闭式并回代验算，不能归入则继续换元化简。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G13_C2": {
+   "id": "G13_C2",
+   "parents": [
+    "G12_C1",
+    "G09_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 13,
+   "seen_gens": [
+    13,
+    14
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中先换元，仍难再分块降阶。",
+    "set_prompt": "优先出结构不明显、需先变形才能归类的题；矩阵取近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G13_M1": {
+   "id": "G13_M1",
+   "parents": [
+    "G12_C1"
+   ],
+   "origin": "mutate",
+   "born_gen": 13,
+   "seen_gens": [
+    13,
+    14,
+    15,
+    16
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能识别的题；矩阵取稀疏但满秩、条件数中等偏大的三阶整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G14_C1": {
+   "id": "G14_C1",
+   "parents": [
+    "G13_M1",
+    "G09_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 14,
+   "seen_gens": [
+    14,
+    15,
+    16
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能识别的题；矩阵取近奇异但非奇异的整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G14_C2": {
+   "id": "G14_C2",
+   "parents": [
+    "G09_M1",
+    "G13_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 14,
+   "seen_gens": [
+    14,
+    15,
+    16
+   ],
+   "genes": {
+    "solve_prompt": "先做换元与分块降阶；若可归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵，套闭式后回代验算；否则继续化简。",
+    "set_prompt": "优先出结构不显眼、需先变形才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G14_M1": {
+   "id": "G14_M1",
+   "parents": [
+    "G09_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 14,
+   "seen_gens": [
+    14,
+    15
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算，未命中改用换元或分块降阶。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G15_C1": {
+   "id": "G15_C1",
+   "parents": [
+    "G14_C2",
+    "G14_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 15,
+   "seen_gens": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "genes": {
+    "solve_prompt": "先识别能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代验算，否则换元与分块降阶后继续化简。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、需先换元才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G15_C2": {
+   "id": "G15_C2",
+   "parents": [
+    "G14_C1",
+    "G13_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 15,
+   "seen_gens": [
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就套闭式并回代验算；未命中改用换元。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能识别的题；矩阵取稀疏满秩、近奇异且条件数中等偏大的三阶整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G15_M1": {
+   "id": "G15_M1",
+   "parents": [
+    "G14_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 15,
+   "seen_gens": [
+    15,
+    16,
+    17
+   ],
+   "genes": {
+    "solve_prompt": "先做换元与分块降阶；若可归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵，套闭式后回代验算；否则继续化简。",
+    "set_prompt": "优先出结构不显眼、需先变形才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G16_C1": {
+   "id": "G16_C1",
+   "parents": [
+    "G15_M1",
+    "G15_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 16,
+   "seen_gens": [
+    16,
+    17
+   ],
+   "genes": {
+    "solve_prompt": "先看能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代验算，未命中再做换元与分块降阶。",
+    "set_prompt": "优先出伪装成标准形式、需换元变形才能归类的题；矩阵取稀疏满秩、近奇异非奇异、条件数偏大的三阶小整数方阵。",
+    "self_check": true
+   }
+  },
+  "G16_C2": {
+   "id": "G16_C2",
+   "parents": [
+    "G15_M1",
+    "G15_C1"
+   ],
+   "origin": "crossover",
+   "born_gen": 16,
+   "seen_gens": [
+    16,
+    17,
+    18
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，否则先换元与分块降阶再化简。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、需先换元才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G16_M1": {
+   "id": "G16_M1",
+   "parents": [
+    "G15_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 16,
+   "seen_gens": [
+    16,
+    17
+   ],
+   "genes": {
+    "solve_prompt": "先做换元与分块降阶；若可归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵，套闭式后回代验算；否则继续化简。",
+    "set_prompt": "优先出结构不显眼、需先变形才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G17_C1": {
+   "id": "G17_C1",
+   "parents": [
+    "G15_C1",
+    "G15_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 17,
+   "seen_gens": [
+    17,
+    18
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式或整数方阵；命中套闭式并回代验算，未命中则换元与分块降阶后化简。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能归类的题；矩阵取稀疏满秩、近奇异但非奇异、条件数偏大的三阶小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G17_C2": {
+   "id": "G17_C2",
+   "parents": [
+    "G15_C1",
+    "G16_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 17,
+   "seen_gens": [
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判定是否属于单项幂乘指数、奇次幂乘高斯、有限区间多项式或整数方阵；命中则套闭式并回代验算，未命中先换元、分块降阶再化简。",
+    "set_prompt": "优先出伪装成标准形式、结构不显眼、需先换元归类的题；矩阵选近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G17_M1": {
+   "id": "G17_M1",
+   "parents": [
+    "G16_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 17,
+   "seen_gens": [
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并回代验算，否则先换元与分块降阶再化简。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、需先换元才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G18_C1": {
+   "id": "G18_C1",
+   "parents": [
+    "G15_C2",
+    "G17_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 18,
+   "seen_gens": [
+    18,
+    19
+   ],
+   "genes": {
+    "solve_prompt": "先换元识别结构，命中单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵之一则套闭式，回代验算；未命中则分块降阶。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、需先换元才能归类的题；矩阵取稀疏满秩、近奇异但非奇异、条件数中等偏大的三阶整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G18_C2": {
+   "id": "G18_C2",
+   "parents": [
+    "G15_C2",
+    "G17_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 18,
+   "seen_gens": [
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代验算，未命中先换元再分块降阶化简。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能识别的题；矩阵取稀疏满秩、近奇异非奇异且条件数中等偏大的三阶整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G18_M1": {
+   "id": "G18_M1",
+   "parents": [
+    "G17_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 18,
+   "seen_gens": [
+    18,
+    19
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中则套闭式并做数值回代核对，否则先分块降阶再换元化简。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、需先换元才能归类的题；矩阵用近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G19_C1": {
+   "id": "G19_C1",
+   "parents": [
+    "G17_C2",
+    "G17_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 19,
+   "seen_gens": [
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先归类：单项幂乘指数、奇次幂乘高斯、有限区间多项式或整数方阵；命中套闭式并回代验算，未命中原式换元、分块降阶再化简。",
+    "set_prompt": "优先出伪装成标准形式、结构不显眼、需先换元归类的题；矩阵选近奇异但非奇异、条件数偏大的小整数矩阵，要求套闭式后回代验算。",
+    "self_check": true
+   }
+  },
+  "G19_C2": {
+   "id": "G19_C2",
+   "parents": [
+    "G17_C2",
+    "G17_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 19,
+   "seen_gens": [
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式或整数方阵；能归入则套闭式并回代验算，不能则先换元、分块降阶再化简。",
+    "set_prompt": "优先出结构不显眼、伪装成标准形式、须先换元再归类的题；矩阵取近奇异但非奇异、条件数偏大的小整数矩阵。",
+    "self_check": true
+   }
+  },
+  "G19_M1": {
+   "id": "G19_M1",
+   "parents": [
+    "G18_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 19,
+   "seen_gens": [
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判断能否归入单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵；命中套闭式并回代验算，未命中先换元再分块降阶化简。",
+    "set_prompt": "优先出伪装成标准形式、需先换元才能识别的题；矩阵取对角占优、元素量级悬殊、条件数中等偏大的三阶整数矩阵。",
+    "self_check": true
+   }
+  }
+ },
+ "challenges": [
+  {
+   "task_id": "X04",
+   "born_gen": 8,
+   "window": 6,
+   "state": "retired",
+   "first_success_attempt": null,
+   "threshold_attempt": null,
+   "retired_reason": "window_closed",
+   "observations": [
+    {
+     "gen": 8,
+     "attempt": 1,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 9,
+     "attempt": 2,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 10,
+     "attempt": 3,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 11,
+     "attempt": 4,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 12,
+     "attempt": 5,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 13,
+     "attempt": 6,
+     "correct": 0,
+     "p_t": 0.0
+    }
+   ]
+  },
+  {
+   "task_id": "X05",
+   "born_gen": 15,
+   "window": 6,
+   "state": "retired",
+   "first_success_attempt": 2,
+   "threshold_attempt": null,
+   "retired_reason": "window_closed",
+   "observations": [
+    {
+     "gen": 15,
+     "attempt": 1,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 16,
+     "attempt": 2,
+     "correct": 1,
+     "p_t": 0.166667
+    },
+    {
+     "gen": 17,
+     "attempt": 3,
+     "correct": 1,
+     "p_t": 0.166667
+    },
+    {
+     "gen": 18,
+     "attempt": 4,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 19,
+     "attempt": 5,
+     "correct": 2,
+     "p_t": 0.333333
+    },
+    {
+     "gen": 20,
+     "attempt": 6,
+     "correct": 0,
+     "p_t": 0.0
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "n_gen_completed": 20,
+  "last_gen": 20,
+  "winner": {
+   "id": "G17_C2",
+   "est": 3.0,
+   "total": 3.0
+  },
+  "final_ancestor": {
+   "integral_failure": 0.0,
+   "det_failure": 0.0,
+   "balanced_failure": 0.0,
+   "mixed_failure": 0.0
+  }
+ }
+}

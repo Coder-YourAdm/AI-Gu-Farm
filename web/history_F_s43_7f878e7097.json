@@ -1,0 +1,2381 @@
+{
+ "schema": "export/1",
+ "schema_version": "5.1",
+ "run_id": "F_s43_7f878e7097",
+ "condition": "F",
+ "n_gen": 20,
+ "is_mock": false,
+ "generations": [
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 1,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S5",
+    "G00_S4",
+    "G00_S2",
+    "G00_S3",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 40437,
+    "role_ms": {
+     "solver": 523668
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 15655,
+    "output_tokens": 40824,
+    "reasoning_tokens": 39986,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 2,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    },
+    {
+     "id": "G00_S6",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 2
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S5",
+    "G00_S4",
+    "G00_S2",
+    "G00_S3",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 45143,
+    "role_ms": {
+     "solver": 414135
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 16634,
+    "output_tokens": 35852,
+    "reasoning_tokens": 35069,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 3,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    }
+   ],
+   "ranking": [
+    "G00_S1",
+    "G00_S2",
+    "G00_S6",
+    "G00_S3",
+    "G00_S4",
+    "G00_S5"
+   ],
+   "timing": {
+    "wall_ms": 27719,
+    "role_ms": {
+     "solver": 416495
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 17193,
+    "output_tokens": 30069,
+    "reasoning_tokens": 29360,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 4,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.333333,
+    "balanced_failure": 0.166667,
+    "mixed_failure": 0.055556
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G00_S3",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G00_S6",
+     "solve": 4,
+     "set": 1.0,
+     "bounty": 0.0,
+     "total": 6.0,
+     "est": 6.0,
+     "n_samples": 4
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S5",
+    "G00_S3",
+    "G00_S1",
+    "G00_S2",
+    "G00_S4"
+   ],
+   "timing": {
+    "wall_ms": 29587,
+    "role_ms": {
+     "solver": 435390
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 16930,
+    "output_tokens": 30079,
+    "reasoning_tokens": 29288,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 5,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.666667,
+    "balanced_failure": 0.333333,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    }
+   ],
+   "ranking": [
+    "G00_S5",
+    "G00_S3",
+    "G00_S6",
+    "G00_S2",
+    "G00_S4",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 38285,
+    "role_ms": {
+     "solver": 526395
+    }
+   },
+   "usage": {
+    "call_count": 78,
+    "input_tokens": 16603,
+    "output_tokens": 41134,
+    "reasoning_tokens": 40416,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 6,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    }
+   ],
+   "ranking": [
+    "G00_S1",
+    "G00_S3",
+    "G00_S6",
+    "G00_S2",
+    "G00_S4",
+    "G00_S5"
+   ],
+   "timing": {
+    "wall_ms": 22921,
+    "role_ms": {
+     "solver": 469151
+    }
+   },
+   "usage": {
+    "call_count": 78,
+    "input_tokens": 16715,
+    "output_tokens": 33624,
+    "reasoning_tokens": 32943,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 7,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 7
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S3",
+    "G00_S1",
+    "G00_S4",
+    "G00_S2",
+    "G00_S5"
+   ],
+   "timing": {
+    "wall_ms": 30814,
+    "role_ms": {
+     "solver": 427996
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 17015,
+    "output_tokens": 31587,
+    "reasoning_tokens": 30813,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 8,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G00_S5",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 8
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 8
+    }
+   ],
+   "ranking": [
+    "G00_S2",
+    "G00_S3",
+    "G00_S4",
+    "G00_S1",
+    "G00_S6",
+    "G00_S5"
+   ],
+   "timing": {
+    "wall_ms": 46641,
+    "role_ms": {
+     "solver": 690786
+    }
+   },
+   "usage": {
+    "call_count": 85,
+    "input_tokens": 18859,
+    "output_tokens": 51579,
+    "reasoning_tokens": 50877,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 9,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G00_S3",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G00_S5",
+     "solve": 2,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    },
+    {
+     "id": "G00_S6",
+     "solve": 2,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 9
+    }
+   ],
+   "ranking": [
+    "G00_S5",
+    "G00_S1",
+    "G00_S6",
+    "G00_S4",
+    "G00_S2",
+    "G00_S3"
+   ],
+   "timing": {
+    "wall_ms": 66719,
+    "role_ms": {
+     "solver": 672677
+    }
+   },
+   "usage": {
+    "call_count": 86,
+    "input_tokens": 19510,
+    "output_tokens": 57286,
+    "reasoning_tokens": 56554,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 10,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 10
+    }
+   ],
+   "ranking": [
+    "G00_S2",
+    "G00_S4",
+    "G00_S3",
+    "G00_S1",
+    "G00_S6",
+    "G00_S5"
+   ],
+   "timing": {
+    "wall_ms": 32058,
+    "role_ms": {
+     "solver": 611549
+    }
+   },
+   "usage": {
+    "call_count": 85,
+    "input_tokens": 18662,
+    "output_tokens": 45591,
+    "reasoning_tokens": 44849,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 11,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G00_S3",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 11
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 11
+    }
+   ],
+   "ranking": [
+    "G00_S5",
+    "G00_S2",
+    "G00_S3",
+    "G00_S4",
+    "G00_S1",
+    "G00_S6"
+   ],
+   "timing": {
+    "wall_ms": 34754,
+    "role_ms": {
+     "solver": 490010
+    }
+   },
+   "usage": {
+    "call_count": 85,
+    "input_tokens": 18315,
+    "output_tokens": 37261,
+    "reasoning_tokens": 36453,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 12,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 1.0,
+    "balanced_failure": 0.5,
+    "mixed_failure": 0.166667
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G00_S3",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 12
+    },
+    {
+     "id": "G00_S6",
+     "solve": 4,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 12
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S2",
+    "G00_S5",
+    "G00_S1",
+    "G00_S4",
+    "G00_S3"
+   ],
+   "timing": {
+    "wall_ms": 34456,
+    "role_ms": {
+     "solver": 539091
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 17763,
+    "output_tokens": 41338,
+    "reasoning_tokens": 40597,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 13,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.666667,
+    "balanced_failure": 0.333333,
+    "mixed_failure": 0.111111
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 13
+    },
+    {
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 13
+    },
+    {
+     "id": "G00_S3",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 13
+    },
+    {
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 13
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 13
+    },
+    {
+     "id": "G00_S6",
+     "solve": 4,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 13
+    }
+   ],
+   "ranking": [
+    "G00_S6",
+    "G00_S4",
+    "G00_S2",
+    "G00_S5",
+    "G00_S3",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 32158,
+    "role_ms": {
+     "solver": 637879
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 17767,
+    "output_tokens": 46930,
+    "reasoning_tokens": 46194,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 14,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 0
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 1.0,
+    "balanced_failure": 0.5,
+    "mixed_failure": 0.166667
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    },
+    {
+     "id": "G00_S2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    },
+    {
+     "id": "G00_S3",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    },
+    {
+     "id": "G00_S4",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    },
+    {
+     "id": "G00_S5",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    },
+    {
+     "id": "G00_S6",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 14
+    }
+   ],
+   "ranking": [
+    "G00_S5",
+    "G00_S4",
+    "G00_S6",
+    "G00_S1",
+    "G00_S2",
+    "G00_S3"
+   ],
+   "timing": {
+    "wall_ms": 52684,
+    "role_ms": {
+     "solver": 617829
+    }
+   },
+   "usage": {
+    "call_count": 79,
+    "input_tokens": 17739,
+    "output_tokens": 54830,
+    "reasoning_tokens": 54168,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 15,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 15
+    }
+   ],
+   "ranking": [
+    "G00_S1",
+    "G00_S2",
+    "G00_S5",
+    "G00_S6",
+    "G00_S4",
+    "G00_S3"
+   ],
+   "timing": {
+    "wall_ms": 27850,
+    "role_ms": {
+     "solver": 611853
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 17935,
+    "output_tokens": 43445,
+    "reasoning_tokens": 42737,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 16,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 16
+    }
+   ],
+   "ranking": [
+    "G00_S2",
+    "G00_S6",
+    "G00_S3",
+    "G00_S5",
+    "G00_S4",
+    "G00_S1"
+   ],
+   "timing": {
+    "wall_ms": 41594,
+    "role_ms": {
+     "solver": 578411
+    }
+   },
+   "usage": {
+    "call_count": 85,
+    "input_tokens": 18533,
+    "output_tokens": 47638,
+    "reasoning_tokens": 46886,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 17,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 17
+    },
+    {
+     "id": "G00_S2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 2.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 17
+    },
+    {
+     "id": "G00_S3",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 17
+    },
+    {
+     "id": "G00_S4",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 17
+    },
+    {
+     "id": "G00_S5",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 17
+    },
+    {
+     "id": "G00_S6",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 17
+    }
+   ],
+   "ranking": [
+    "G00_S2",
+    "G00_S5",
+    "G00_S1",
+    "G00_S6",
+    "G00_S3",
+    "G00_S4"
+   ],
+   "timing": {
+    "wall_ms": 34714,
+    "role_ms": {
+     "solver": 685601
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 17951,
+    "output_tokens": 52586,
+    "reasoning_tokens": 51863,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 18,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    },
+    {
+     "id": "G00_S2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    },
+    {
+     "id": "G00_S3",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    },
+    {
+     "id": "G00_S4",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    },
+    {
+     "id": "G00_S5",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    },
+    {
+     "id": "G00_S6",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 18
+    }
+   ],
+   "ranking": [
+    "G00_S4",
+    "G00_S5",
+    "G00_S1",
+    "G00_S3",
+    "G00_S2",
+    "G00_S6"
+   ],
+   "timing": {
+    "wall_ms": 34784,
+    "role_ms": {
+     "solver": 636978
+    }
+   },
+   "usage": {
+    "call_count": 85,
+    "input_tokens": 18736,
+    "output_tokens": 50036,
+    "reasoning_tokens": 49292,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 19,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 0,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 19
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 19
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 19
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 19
+    },
+    {
+     "id": "G00_S5",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 19
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 19
+    }
+   ],
+   "ranking": [
+    "G00_S5",
+    "G00_S2",
+    "G00_S3",
+    "G00_S6",
+    "G00_S1",
+    "G00_S4"
+   ],
+   "timing": {
+    "wall_ms": 32303,
+    "role_ms": {
+     "solver": 521422
+    }
+   },
+   "usage": {
+    "call_count": 84,
+    "input_tokens": 17627,
+    "output_tokens": 42633,
+    "reasoning_tokens": 41955,
+    "cost": null
+   },
+   "warnings": []
+  },
+  {
+   "schema_version": "5.1",
+   "run_id": "F_s43_7f878e7097",
+   "condition": "F",
+   "gen": 20,
+   "status": "completed",
+   "M": 6,
+   "refetch_round": 1,
+   "task_counts": {
+    "integral": 5,
+    "det": 1
+   },
+   "slots": {
+    "peer": 30,
+    "common": 24,
+    "ancestor": 18,
+    "challenge": 6
+   },
+   "ancestor": {
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
+   },
+   "individuals": [
+    {
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 20
+    },
+    {
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 20
+    },
+    {
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 20
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 20
+    },
+    {
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 20
+    },
+    {
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 20
+    }
+   ],
+   "ranking": [
+    "G00_S1",
+    "G00_S3",
+    "G00_S4",
+    "G00_S5",
+    "G00_S6",
+    "G00_S2"
+   ],
+   "timing": {
+    "wall_ms": 70377,
+    "role_ms": {
+     "solver": 565190
+    }
+   },
+   "usage": {
+    "call_count": 89,
+    "input_tokens": 21333,
+    "output_tokens": 54892,
+    "reasoning_tokens": 54060,
+    "cost": null
+   },
+   "warnings": []
+  }
+ ],
+ "lineage": {
+  "G00_S1": {
+   "id": "G00_S1",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先判断题型：多项式按幂次逐项积分；含 e^(-rx) 的用 n!/r^(n+1)；含 e^(-rx²) 的用 k!/(2r^(k+1))；矩阵用消元。写出各项后求和，最后核对符号。",
+    "set_prompt": "优先 poly，用高次项和非对称区间提高区分度，系数尽量都不为零。",
+    "self_check": true
+   }
+  },
+  "G00_S2": {
+   "id": "G00_S2",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先把无穷限积分看成已知阶乘公式的特例，确认幂次与指数是否匹配；不匹配时先做代换再套式。矩阵先做行变换化简后再算。",
+    "set_prompt": "混合三类积分，让 rate 与幂次的搭配不出现在常见组合里，避免解题者直接背公式。",
+    "self_check": false
+   }
+  },
+  "G00_S3": {
+   "id": "G00_S3",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数。先算分子再算分母，留到最后一步约分。矩阵用整数消元并记录每次换行的符号变化。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上，让分母变大，靠估算蒙不中。",
+    "self_check": true
+   }
+  },
+  "G00_S4": {
+   "id": "G00_S4",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，重算一遍。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G00_S5": {
+   "id": "G00_S5",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "按步计算：先写被积函数或矩阵，再逐项展开，最后合并。每一步只做一次运算，便于回溯检查。",
+    "set_prompt": "出需要两三步才能算完的题，避免一眼可读数；优先多项式乘阶乘的结构。",
+    "self_check": false
+   }
+  },
+  "G00_S6": {
+   "id": "G00_S6",
+   "parents": [],
+   "origin": "seed",
+   "born_gen": 0,
+   "seen_gens": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就直接用闭式，未命中再退回通用方法。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  }
+ },
+ "challenges": [
+  {
+   "task_id": "X04",
+   "born_gen": 8,
+   "window": 6,
+   "state": "retired",
+   "first_success_attempt": null,
+   "threshold_attempt": null,
+   "retired_reason": "window_closed",
+   "observations": [
+    {
+     "gen": 8,
+     "attempt": 1,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 9,
+     "attempt": 2,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 10,
+     "attempt": 3,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 11,
+     "attempt": 4,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 12,
+     "attempt": 5,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 13,
+     "attempt": 6,
+     "correct": 0,
+     "p_t": 0.0
+    }
+   ]
+  },
+  {
+   "task_id": "X05",
+   "born_gen": 15,
+   "window": 6,
+   "state": "retired",
+   "first_success_attempt": 3,
+   "threshold_attempt": null,
+   "retired_reason": "window_closed",
+   "observations": [
+    {
+     "gen": 15,
+     "attempt": 1,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 16,
+     "attempt": 2,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 17,
+     "attempt": 3,
+     "correct": 1,
+     "p_t": 0.166667
+    },
+    {
+     "gen": 18,
+     "attempt": 4,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 19,
+     "attempt": 5,
+     "correct": 0,
+     "p_t": 0.0
+    },
+    {
+     "gen": 20,
+     "attempt": 6,
+     "correct": 0,
+     "p_t": 0.0
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "n_gen_completed": 20,
+  "last_gen": 20,
+  "winner": {
+   "id": "G00_S1",
+   "est": 4.0,
+   "total": 4.0
+  },
+  "final_ancestor": {
+   "integral_failure": 0.0,
+   "det_failure": 0.0,
+   "balanced_failure": 0.0,
+   "mixed_failure": 0.0
+  }
+ }
+}

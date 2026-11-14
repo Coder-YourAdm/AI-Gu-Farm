@@ -1,42 +1,11 @@
-# C-group demo self-check runner.
-# Usage: powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
-#        powershell ... -File docs/demo/check_all.ps1 -Strict   # 浏览器不可用时也判失败（发布/合并后回归用）
-param([switch]$Strict)
-
-$ErrorActionPreference = "Stop"
-$env:PYTHONIOENCODING = "utf-8"
-try { chcp 65001 > $null } catch { }
-$root = Resolve-Path (Join-Path $PSScriptRoot "..\..")
-Set-Location $root
-
-Write-Host "== check_pages.py ==" -ForegroundColor Cyan
-python docs/demo/check_pages.py
-if ($LASTEXITCODE -ne 0) { Write-Host "PAGES: FAIL" -ForegroundColor Red; exit 1 }
-
-Write-Host "== check_live.js ==" -ForegroundColor Cyan
-node docs/demo/check_live.js
-if ($LASTEXITCODE -ne 0) { Write-Host "LIVE: FAIL" -ForegroundColor Red; exit 1 }
-
-Write-Host "== check_compare.js ==" -ForegroundColor Cyan
-node docs/demo/check_compare.js
-if ($LASTEXITCODE -ne 0) { Write-Host "COMPARE: FAIL" -ForegroundColor Red; exit 1 }
-
-Write-Host "== check_live_http.js ==" -ForegroundColor Cyan
-node docs/demo/check_live_http.js
-if ($LASTEXITCODE -ne 0) { Write-Host "LIVE_HTTP: FAIL" -ForegroundColor Red; exit 1 }
-
-# Fifth suite: real Chrome/Edge via CDP (layout / clicks / path / navigation).
-# Self-hosted static server, no external deps; SKIPs gracefully if no browser found.
-Write-Host "== check_browser.js ==" -ForegroundColor Cyan
-$browserArgs = @("docs/demo/check_browser.js")
-if ($Strict) { $browserArgs += "--strict" }
-node @browserArgs
-if ($LASTEXITCODE -ne 0) { Write-Host "BROWSER: FAIL" -ForegroundColor Red; exit 1 }
-
-# Sixth suite: real browser + real HTTP, live mode against a mock /api/ask.
-Write-Host "== check_browser_live.js ==" -ForegroundColor Cyan
-node docs/demo/check_browser_live.js
-if ($LASTEXITCODE -ne 0) { Write-Host "BROWSER_LIVE: FAIL" -ForegroundColor Red; exit 1 }
-
-Write-Host "ALL CHECKS PASS" -ForegroundColor Green
-exit 0
+﻿param([switch]$Strict)
+$ErrorActionPreference='Stop'
+Set-Location -LiteralPath (Resolve-Path (Join-Path $PSScriptRoot '..\..'))
+$python=$env:PYTHON
+if(-not $python){$python='python'}
+& $python -X utf8 -B tools/check_web_contract.py --require-compare
+if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+node --check web/app.js
+if($LASTEXITCODE -ne 0){exit $LASTEXITCODE}
+node docs/demo/check_frontend.cjs
+exit $LASTEXITCODE

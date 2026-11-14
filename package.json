@@ -1,0 +1,10 @@
+{
+  "name": "rixin-demo-checks",
+  "private": true,
+  "scripts": {
+    "test:frontend": "node docs/demo/check_frontend.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  }
+}

@@ -1,3 +1,21 @@
+> **当前成品入口（2026-11-14）**
+>
+> [下载完整离线演示包](https://github.com/Coder-YourAdm/AI-Gu-Farm/raw/refs/heads/main/releases/demo_offline.zip) · [前端优化与验证](docs/demo/前端优化与验证.md)
+>
+> 六页源码在 `web/`。双击解压包内 `START_DEMO.bat` 可启动；直接打开 HTML 可浏览离线证据，实时练习需要 Python 3.11+ 本地服务。
+>
+> 已合并远端的“查看答案 / 一键演示 / 记忆定位”，并保留辅助作答口径。新增真实运行切换、配对检查点、筛选排序、权重试算、导出和报告打印。61 项真实 Chrome 检查通过。
+>
+> **结果口径**：末代六人留出均分 E−F 约 +0.33 题/20，未观察到可靠改善；个体留出最高分单列，不能称作适应度冠军。模拟学生、固定回放和真实模型数据明确区分，取消/未启动运行保留。
+>
+> 启动：`python app/serve.py --port 8124 --allow-tutor`，进入 `http://127.0.0.1:8124/cover.html`。
+> 重建成品：`python tools/build_offline_package.py`。
+> 前端检查：`npm install`、`npx playwright install chromium`、`npm run test:frontend`（设置 `PYTHON` / `CHROME_PATH` 可指定本机程序）。旧内联页面自检脚本为历史工具，新版以前述真实浏览器检查为准。
+
+![优化版学习概览](docs/demo/shots/rixin-cover.png)
+
+---
+
 # AI 养蛊机 · Prompt Evolver → 日新 · 智慧考研助教
 
 > **BoHack 2026 天津青年黑客松** · 赛道主题「日新 / 生生不息」
@@ -134,7 +152,7 @@ Elo-lite 难度（修掉 400 刻度与 `[0,1]` 归一化的矛盾）、SM-2 复�
 | 判分内核 `app/executor.py` | ✅ 六函数齐全，48+ 条单测，三态判定 |
 | 题集 125 道 + 数据与页面自检 | ✅ `validate_task` 125/125；`check_web_contract.py --require-compare` PASS |
 | 演化引擎 `app/run.py` | ✅ 真模型 4 趟 × 20 代，协议冻结 |
-| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` **仍是 mock（挂红标）**，真数据已产出待接页 |
+| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` 已接真实数据，主指标见 `web/experiment.json` |
 | 学生模型 / 五级提示 / 对话状态机 | ✅ BKT / KC / 难度 / 排期 / 诊断 / hint / dialog 全合入 |
 | **`POST /api/ask` 实时接口** | ✅ 已实现并接入 `LIVE.endpoint="/api/ask"`；`probe_ask.py` 11 次 PASS |
 | 三页前端 + 7 张截图 | ✅ 零外链、断网可演、双模式回退 |
@@ -230,7 +248,7 @@ python -m app.run --config config.local.json --dry-run --all-seeds
 - 真模型校准随难度分档：原卷 12.8% ／ 行列式降到 2–3 阶后 **52.8%** ／ 全简单 92.8%；
   零格式错误 ⇒ 是题难度而非解析问题，见 [校准结论](docs/校准结论_12h.md)。
 - 正式演化 **未观察到可靠策略改善**；教法 profile 仍是手写基线 `manual-v1`。
-- `web/result.json` 仍是 `is_mock: true`，页面挂红标，不会把假数字当真结果展示。
+- `web/result.json` 为真实个体补充数据，六人均分主指标另见 `web/experiment.json`。
 - 3×3 对照是**模拟学生**、n=3 档 × 10 题，**不报 p 值**、不外推真人。
 - 服务端回显模型与传入 ID 不一致（中转）；严格可复现需换官方直连。
 - 提示级别**实现层已统一**（20:26）：0=无提示、1..4 四档封顶、第 4 级给完整解法但不报最终数值；

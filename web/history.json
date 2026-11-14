@@ -1,127 +1,22 @@
 {
  "schema": "export/1",
  "schema_version": "5.1",
- "run_id": "E_fake_20261113",
+ "run_id": "E_s42_7f878e7097",
  "condition": "E",
- "n_gen": 21,
+ "n_gen": 20,
+ "is_mock": false,
  "generations": [
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
-   "condition": "E",
-   "gen": 0,
-   "status": "completed",
-   "M": 6,
-   "refetch_round": 0,
-   "task_counts": {
-    "integral": 4,
-    "det": 2
-   },
-   "slots": {
-    "peer": 30,
-    "common": 24,
-    "ancestor": 18,
-    "challenge": 0
-   },
-   "ancestor": {
-    "integral_failure": 0.738566,
-    "det_failure": 0.63039,
-    "balanced_failure": 0.708349,
-    "mixed_failure": 0.641888
-   },
-   "individuals": [
-    {
-     "id": "G01",
-     "solve": 1.37,
-     "set": 0.02,
-     "bounty": 0,
-     "total": 1.39,
-     "est": 1.294,
-     "n_samples": 1
-    },
-    {
-     "id": "G02",
-     "solve": 0.87,
-     "set": 0.44,
-     "bounty": 0,
-     "total": 1.31,
-     "est": 1.073,
-     "n_samples": 1
-    },
-    {
-     "id": "G03",
-     "solve": 1.67,
-     "set": 0.05,
-     "bounty": 0,
-     "total": 1.72,
-     "est": 1.572,
-     "n_samples": 1
-    },
-    {
-     "id": "G04",
-     "solve": 0.64,
-     "set": 0.13,
-     "bounty": 0,
-     "total": 0.77,
-     "est": 0.593,
-     "n_samples": 1
-    },
-    {
-     "id": "G05",
-     "solve": 0.63,
-     "set": 0.12,
-     "bounty": 0,
-     "total": 0.75,
-     "est": 0.523,
-     "n_samples": 1
-    },
-    {
-     "id": "G06",
-     "solve": 1.25,
-     "set": 0.13,
-     "bounty": 0,
-     "total": 1.38,
-     "est": 1.174,
-     "n_samples": 1
-    }
-   ],
-   "ranking": [
-    "G03",
-    "G01",
-    "G06",
-    "G02",
-    "G04",
-    "G05"
-   ],
-   "timing": {
-    "wall_ms": 90000,
-    "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
-    }
-   },
-   "usage": {
-    "call_count": 78,
-    "input_tokens": 42000,
-    "output_tokens": 6100,
-    "reasoning_tokens": 0,
-    "cost": 0.42
-   },
-   "warnings": []
-  },
-  {
-   "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 1,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 5,
+    "det": 1
    },
    "slots": {
     "peer": 30,
@@ -130,104 +25,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.732113,
-    "det_failure": 0.666319,
-    "balanced_failure": 0.695989,
-    "mixed_failure": 0.609308
+    "integral_failure": 0.0,
+    "det_failure": 0.0,
+    "balanced_failure": 0.0,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G01",
-     "solve": 0.85,
-     "set": 0.29,
-     "bounty": 0,
-     "total": 1.14,
-     "est": 1.014,
+     "id": "G00_S1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     },
     {
-     "id": "G03",
-     "solve": 1.14,
-     "set": 0.22,
-     "bounty": 0,
-     "total": 1.36,
-     "est": 1.345,
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     },
     {
-     "id": "G06",
-     "solve": 1.28,
-     "set": 0.13,
-     "bounty": 0,
-     "total": 1.41,
-     "est": 1.087,
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     },
     {
-     "id": "G00X0",
-     "solve": 0.82,
-     "set": 0.24,
-     "bounty": 0,
-     "total": 1.06,
-     "est": 0.84,
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     },
     {
-     "id": "G00X1",
-     "solve": 1.79,
-     "set": 0.28,
-     "bounty": 0,
-     "total": 2.07,
-     "est": 2.003,
+     "id": "G00_S5",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     },
     {
-     "id": "G00M1",
-     "solve": 0.81,
-     "set": 0.46,
-     "bounty": 0,
-     "total": 1.27,
-     "est": 0.999,
+     "id": "G00_S6",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 1
     }
    ],
    "ranking": [
-    "G00X1",
-    "G03",
-    "G06",
-    "G01",
-    "G00M1",
-    "G00X0"
+    "G00_S4",
+    "G00_S2",
+    "G00_S3",
+    "G00_S5",
+    "G00_S1",
+    "G00_S6"
    ],
    "timing": {
-    "wall_ms": 90400,
+    "wall_ms": 33261,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 467822
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42120,
-    "output_tokens": 6130,
-    "reasoning_tokens": 0,
-    "cost": 0.43
+    "call_count": 83,
+    "input_tokens": 16995,
+    "output_tokens": 32625,
+    "reasoning_tokens": 31495,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 2,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -236,104 +128,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.672064,
-    "det_failure": 0.612659,
-    "balanced_failure": 0.684575,
-    "mixed_failure": 0.625582
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G03",
-     "solve": 1.11,
-     "set": 0.28,
-     "bounty": 0,
-     "total": 1.39,
-     "est": 1.062,
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G06",
-     "solve": 1.64,
-     "set": 0.49,
-     "bounty": 0,
-     "total": 2.13,
-     "est": 2.07,
+     "id": "G00_S3",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G00X1",
-     "solve": 1.73,
-     "set": 0.22,
-     "bounty": 0,
-     "total": 1.95,
-     "est": 1.817,
+     "id": "G00_S4",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G01X0",
-     "solve": 2.05,
-     "set": 0.5,
-     "bounty": 0,
-     "total": 2.55,
-     "est": 2.355,
-     "n_samples": 2
+     "id": "G01_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G01X1",
-     "solve": 1.68,
-     "set": 0.63,
-     "bounty": 0,
-     "total": 2.31,
-     "est": 2.038,
-     "n_samples": 2
+     "id": "G01_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G01M1",
-     "solve": 1.13,
-     "set": 0.14,
-     "bounty": 0,
-     "total": 1.27,
-     "est": 1.16,
-     "n_samples": 2
+     "id": "G01_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G01X0",
-    "G06",
-    "G01X1",
-    "G00X1",
-    "G01M1",
-    "G03"
+    "G01_C2",
+    "G00_S2",
+    "G00_S4",
+    "G01_C1",
+    "G01_M1",
+    "G00_S3"
    ],
    "timing": {
-    "wall_ms": 90800,
+    "wall_ms": 27085,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 435736
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42240,
-    "output_tokens": 6160,
-    "reasoning_tokens": 0,
-    "cost": 0.44
+    "call_count": 81,
+    "input_tokens": 17044,
+    "output_tokens": 28256,
+    "reasoning_tokens": 27220,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 3,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -342,104 +231,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.674785,
-    "det_failure": 0.608086,
-    "balanced_failure": 0.647753,
-    "mixed_failure": 0.587583
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G06",
-     "solve": 2.05,
-     "set": 0.57,
-     "bounty": 0,
-     "total": 2.62,
-     "est": 2.57,
+     "id": "G00_S2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G00_S4",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G01_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G01X0",
-     "solve": 1.16,
-     "set": 0.63,
-     "bounty": 0,
-     "total": 1.79,
-     "est": 1.601,
-     "n_samples": 2
+     "id": "G02_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G01X1",
-     "solve": 1.89,
-     "set": 0.44,
-     "bounty": 0,
-     "total": 2.33,
-     "est": 2.126,
-     "n_samples": 2
+     "id": "G02_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G02X0",
-     "solve": 1.42,
-     "set": 0.78,
-     "bounty": 0,
-     "total": 2.2,
-     "est": 2.152,
-     "n_samples": 2
-    },
-    {
-     "id": "G02X1",
-     "solve": 1.58,
-     "set": 0.63,
-     "bounty": 0,
-     "total": 2.21,
-     "est": 1.909,
-     "n_samples": 2
-    },
-    {
-     "id": "G02M1",
-     "solve": 1.17,
-     "set": 0.28,
-     "bounty": 0,
-     "total": 1.45,
-     "est": 1.212,
-     "n_samples": 2
+     "id": "G02_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G06",
-    "G02X0",
-    "G01X1",
-    "G02X1",
-    "G01X0",
-    "G02M1"
+    "G00_S2",
+    "G01_C2",
+    "G02_M1",
+    "G00_S4",
+    "G02_C1",
+    "G02_C2"
    ],
    "timing": {
-    "wall_ms": 91200,
+    "wall_ms": 44973,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 347647
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42360,
-    "output_tokens": 6190,
-    "reasoning_tokens": 0,
-    "cost": 0.45
+    "call_count": 82,
+    "input_tokens": 18083,
+    "output_tokens": 28168,
+    "reasoning_tokens": 27137,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 4,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -448,104 +334,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.631693,
-    "det_failure": 0.62721,
-    "balanced_failure": 0.651346,
-    "mixed_failure": 0.60111
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G06",
-     "solve": 2.18,
-     "set": 0.69,
-     "bounty": 0,
-     "total": 2.87,
-     "est": 2.601,
+     "id": "G00_S2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G01_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G02_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G01X1",
-     "solve": 1.53,
-     "set": 0.42,
-     "bounty": 0,
-     "total": 1.95,
-     "est": 1.895,
-     "n_samples": 2
+     "id": "G03_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G02X0",
-     "solve": 1.12,
-     "set": 0.67,
-     "bounty": 0,
-     "total": 1.79,
-     "est": 1.538,
-     "n_samples": 2
+     "id": "G03_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G03X0",
-     "solve": 2.29,
-     "set": 0.7,
-     "bounty": 0,
-     "total": 2.99,
-     "est": 2.812,
-     "n_samples": 2
-    },
-    {
-     "id": "G03X1",
-     "solve": 1.25,
-     "set": 0.62,
-     "bounty": 0,
-     "total": 1.87,
-     "est": 1.575,
-     "n_samples": 2
-    },
-    {
-     "id": "G03M1",
-     "solve": 1.73,
-     "set": 0.36,
-     "bounty": 0,
-     "total": 2.09,
-     "est": 1.959,
-     "n_samples": 2
+     "id": "G03_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G03X0",
-    "G06",
-    "G03M1",
-    "G01X1",
-    "G03X1",
-    "G02X0"
+    "G02_M1",
+    "G01_C2",
+    "G03_C2",
+    "G03_C1",
+    "G03_M1",
+    "G00_S2"
    ],
    "timing": {
-    "wall_ms": 91600,
+    "wall_ms": 30536,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 290911
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42480,
-    "output_tokens": 6220,
-    "reasoning_tokens": 0,
-    "cost": 0.46
+    "call_count": 82,
+    "input_tokens": 18038,
+    "output_tokens": 18886,
+    "reasoning_tokens": 17726,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 5,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -554,104 +437,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.617708,
-    "det_failure": 0.587358,
-    "balanced_failure": 0.623796,
-    "mixed_failure": 0.544569
+    "integral_failure": 0.055556,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.055556
    },
    "individuals": [
     {
-     "id": "G06",
-     "solve": 2.36,
-     "set": 0.83,
-     "bounty": 0,
-     "total": 3.19,
-     "est": 2.899,
+     "id": "G01_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G02_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G03_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G03X0",
-     "solve": 1.62,
-     "set": 0.33,
-     "bounty": 0,
-     "total": 1.95,
-     "est": 1.643,
-     "n_samples": 2
+     "id": "G04_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G03M1",
-     "solve": 2.39,
-     "set": 0.35,
-     "bounty": 0,
-     "total": 2.74,
-     "est": 2.57,
-     "n_samples": 2
+     "id": "G04_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G04X0",
-     "solve": 1.33,
-     "set": 0.76,
-     "bounty": 0,
-     "total": 2.09,
-     "est": 1.822,
-     "n_samples": 2
-    },
-    {
-     "id": "G04X1",
-     "solve": 1.4,
-     "set": 0.59,
-     "bounty": 0,
-     "total": 1.99,
-     "est": 1.798,
-     "n_samples": 2
-    },
-    {
-     "id": "G04M1",
-     "solve": 1.57,
-     "set": 0.82,
-     "bounty": 0,
-     "total": 2.39,
-     "est": 2.242,
-     "n_samples": 2
+     "id": "G04_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G06",
-    "G03M1",
-    "G04M1",
-    "G04X0",
-    "G04X1",
-    "G03X0"
+    "G02_M1",
+    "G01_C2",
+    "G04_C1",
+    "G04_M1",
+    "G04_C2",
+    "G03_C2"
    ],
    "timing": {
-    "wall_ms": 92000,
+    "wall_ms": 32596,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 391379
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42600,
-    "output_tokens": 6250,
-    "reasoning_tokens": 0,
-    "cost": 0.47
+    "call_count": 82,
+    "input_tokens": 18887,
+    "output_tokens": 26769,
+    "reasoning_tokens": 25643,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 6,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -660,104 +540,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.640943,
-    "det_failure": 0.574573,
-    "balanced_failure": 0.57858,
-    "mixed_failure": 0.547378
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G06",
-     "solve": 2.46,
-     "set": 0.63,
-     "bounty": 0,
-     "total": 3.09,
-     "est": 3.003,
+     "id": "G01_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G02_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G04_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G03M1",
-     "solve": 1.46,
-     "set": 0.37,
-     "bounty": 0,
-     "total": 1.83,
-     "est": 1.636,
-     "n_samples": 2
+     "id": "G05_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G04M1",
-     "solve": 2.09,
-     "set": 0.36,
-     "bounty": 0,
-     "total": 2.45,
-     "est": 2.202,
-     "n_samples": 2
+     "id": "G05_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G05X0",
-     "solve": 1.45,
-     "set": 0.4,
-     "bounty": 0,
-     "total": 1.85,
-     "est": 1.839,
-     "n_samples": 2
-    },
-    {
-     "id": "G05X1",
-     "solve": 1.78,
-     "set": 0.67,
-     "bounty": 0,
-     "total": 2.45,
-     "est": 2.353,
-     "n_samples": 2
-    },
-    {
-     "id": "G05M1",
-     "solve": 1.96,
-     "set": 0.68,
-     "bounty": 0,
-     "total": 2.64,
-     "est": 2.387,
-     "n_samples": 2
+     "id": "G05_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G06",
-    "G05M1",
-    "G05X1",
-    "G04M1",
-    "G05X0",
-    "G03M1"
+    "G05_C2",
+    "G02_M1",
+    "G01_C2",
+    "G05_M1",
+    "G05_C1",
+    "G04_C1"
    ],
    "timing": {
-    "wall_ms": 92400,
+    "wall_ms": 52002,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 455997
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42720,
-    "output_tokens": 6280,
-    "reasoning_tokens": 0,
-    "cost": 0.48
+    "call_count": 82,
+    "input_tokens": 18792,
+    "output_tokens": 33938,
+    "reasoning_tokens": 32840,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 7,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -766,104 +643,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.622681,
-    "det_failure": 0.55802,
-    "balanced_failure": 0.551035,
-    "mixed_failure": 0.565457
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G06",
-     "solve": 2.03,
-     "set": 0.67,
-     "bounty": 0,
-     "total": 2.7,
-     "est": 2.537,
+     "id": "G01_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G02_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G05_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G05X1",
-     "solve": 2.38,
-     "set": 0.82,
-     "bounty": 0,
-     "total": 3.2,
-     "est": 2.856,
-     "n_samples": 2
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G05M1",
-     "solve": 1.63,
-     "set": 0.66,
-     "bounty": 0,
-     "total": 2.29,
-     "est": 2.171,
-     "n_samples": 2
+     "id": "G06_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G06X0",
-     "solve": 2.54,
-     "set": 0.57,
-     "bounty": 0,
-     "total": 3.11,
-     "est": 3.043,
-     "n_samples": 2
-    },
-    {
-     "id": "G06X1",
-     "solve": 2.05,
-     "set": 0.67,
-     "bounty": 0,
-     "total": 2.72,
-     "est": 2.623,
-     "n_samples": 2
-    },
-    {
-     "id": "G06M1",
-     "solve": 1.81,
-     "set": 0.97,
-     "bounty": 0,
-     "total": 2.78,
-     "est": 2.625,
-     "n_samples": 2
+     "id": "G06_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G06X0",
-    "G05X1",
-    "G06M1",
-    "G06X1",
-    "G06",
-    "G05M1"
+    "G06_C2",
+    "G05_C2",
+    "G06_C1",
+    "G01_C2",
+    "G06_M1",
+    "G02_M1"
    ],
    "timing": {
-    "wall_ms": 92800,
+    "wall_ms": 45721,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 320524
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42840,
-    "output_tokens": 6310,
-    "reasoning_tokens": 0,
-    "cost": 0.49
+    "call_count": 82,
+    "input_tokens": 18434,
+    "output_tokens": 25812,
+    "reasoning_tokens": 24738,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 8,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -872,104 +746,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.586532,
-    "det_failure": 0.554879,
-    "balanced_failure": 0.53543,
-    "mixed_failure": 0.527051
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G05X1",
-     "solve": 2.22,
-     "set": 0.61,
-     "bounty": 0,
-     "total": 2.83,
-     "est": 2.69,
+     "id": "G05_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G06X0",
-     "solve": 1.71,
-     "set": 0.71,
-     "bounty": 0,
-     "total": 2.42,
-     "est": 2.075,
+     "id": "G06_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G06M1",
-     "solve": 1.96,
-     "set": 0.95,
-     "bounty": 2.0,
-     "total": 4.91,
-     "est": 4.751,
-     "n_samples": 2
+     "id": "G07_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G07X0",
-     "solve": 2.15,
-     "set": 1.05,
-     "bounty": 0,
-     "total": 3.2,
-     "est": 2.852,
-     "n_samples": 2
+     "id": "G07_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G07X1",
-     "solve": 2.31,
-     "set": 0.91,
-     "bounty": 0,
-     "total": 3.22,
-     "est": 3.166,
-     "n_samples": 2
-    },
-    {
-     "id": "G07M1",
-     "solve": 2.0,
-     "set": 1.06,
-     "bounty": 0,
-     "total": 3.06,
-     "est": 2.857,
-     "n_samples": 2
+     "id": "G07_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G06M1",
-    "G07X1",
-    "G07M1",
-    "G07X0",
-    "G05X1",
-    "G06X0"
+    "G07_M1",
+    "G06_C1",
+    "G06_C2",
+    "G07_C2",
+    "G07_C1",
+    "G05_C2"
    ],
    "timing": {
-    "wall_ms": 93200,
+    "wall_ms": 32309,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 581277
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 42960,
-    "output_tokens": 6340,
-    "reasoning_tokens": 0,
-    "cost": 0.5
+    "call_count": 87,
+    "input_tokens": 20241,
+    "output_tokens": 41398,
+    "reasoning_tokens": 40318,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 9,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -978,104 +849,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.564433,
-    "det_failure": 0.550741,
-    "balanced_failure": 0.572144,
-    "mixed_failure": 0.479059
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G06M1",
-     "solve": 1.85,
-     "set": 0.58,
-     "bounty": 0,
-     "total": 2.43,
-     "est": 2.128,
+     "id": "G06_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G06_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G07_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G07X1",
-     "solve": 2.25,
-     "set": 1.1,
-     "bounty": 0,
-     "total": 3.35,
-     "est": 3.151,
-     "n_samples": 2
+     "id": "G08_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G07M1",
-     "solve": 2.46,
-     "set": 0.56,
-     "bounty": 0,
-     "total": 3.02,
-     "est": 2.991,
-     "n_samples": 2
+     "id": "G08_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G08X0",
-     "solve": 2.56,
-     "set": 0.88,
-     "bounty": 0,
-     "total": 3.44,
-     "est": 3.329,
-     "n_samples": 2
-    },
-    {
-     "id": "G08X1",
-     "solve": 2.08,
-     "set": 0.94,
-     "bounty": 0,
-     "total": 3.02,
-     "est": 2.91,
-     "n_samples": 2
-    },
-    {
-     "id": "G08M1",
-     "solve": 2.09,
-     "set": 0.62,
-     "bounty": 0,
-     "total": 2.71,
-     "est": 2.484,
-     "n_samples": 2
+     "id": "G08_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G08X0",
-    "G07X1",
-    "G07M1",
-    "G08X1",
-    "G08M1",
-    "G06M1"
+    "G08_C2",
+    "G07_M1",
+    "G06_C1",
+    "G08_M1",
+    "G08_C1",
+    "G06_C2"
    ],
    "timing": {
-    "wall_ms": 93600,
+    "wall_ms": 38732,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 603704
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43080,
-    "output_tokens": 6370,
-    "reasoning_tokens": 0,
-    "cost": 0.51
+    "call_count": 88,
+    "input_tokens": 20690,
+    "output_tokens": 45415,
+    "reasoning_tokens": 44379,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 10,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1084,104 +952,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.526422,
-    "det_failure": 0.513193,
-    "balanced_failure": 0.516341,
-    "mixed_failure": 0.50129
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07X1",
-     "solve": 2.22,
-     "set": 1.16,
-     "bounty": 0,
-     "total": 3.38,
-     "est": 3.072,
+     "id": "G06_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G07_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G08_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G07M1",
-     "solve": 2.96,
-     "set": 0.82,
-     "bounty": 0,
-     "total": 3.78,
-     "est": 3.725,
-     "n_samples": 2
+     "id": "G09_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G08X0",
-     "solve": 2.9,
-     "set": 1.02,
-     "bounty": 0,
-     "total": 3.92,
-     "est": 3.706,
-     "n_samples": 2
+     "id": "G09_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G09X0",
-     "solve": 3.08,
-     "set": 0.99,
-     "bounty": 0,
-     "total": 4.07,
-     "est": 4.067,
-     "n_samples": 2
-    },
-    {
-     "id": "G09X1",
-     "solve": 2.88,
-     "set": 0.78,
-     "bounty": 0,
-     "total": 3.66,
-     "est": 3.428,
-     "n_samples": 2
-    },
-    {
-     "id": "G09M1",
-     "solve": 3.03,
-     "set": 0.68,
-     "bounty": 0,
-     "total": 3.71,
-     "est": 3.67,
-     "n_samples": 2
+     "id": "G09_M1",
+     "solve": 3,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G09X0",
-    "G07M1",
-    "G08X0",
-    "G09M1",
-    "G09X1",
-    "G07X1"
+    "G09_M1",
+    "G07_M1",
+    "G08_C2",
+    "G09_C1",
+    "G09_C2",
+    "G06_C1"
    ],
    "timing": {
-    "wall_ms": 94000,
+    "wall_ms": 35380,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 464643
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43200,
-    "output_tokens": 6400,
-    "reasoning_tokens": 0,
-    "cost": 0.52
+    "call_count": 87,
+    "input_tokens": 19996,
+    "output_tokens": 33217,
+    "reasoning_tokens": 32136,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 11,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1190,104 +1055,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.553076,
-    "det_failure": 0.499951,
-    "balanced_failure": 0.492886,
-    "mixed_failure": 0.459147
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07M1",
-     "solve": 2.62,
-     "set": 1.2,
-     "bounty": 0,
-     "total": 3.82,
-     "est": 3.524,
+     "id": "G07_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G08_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G09_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G08X0",
-     "solve": 2.14,
-     "set": 0.91,
-     "bounty": 0,
-     "total": 3.05,
-     "est": 2.953,
-     "n_samples": 2
+     "id": "G10_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G09X0",
-     "solve": 2.03,
-     "set": 1.12,
-     "bounty": 0,
-     "total": 3.15,
-     "est": 2.927,
-     "n_samples": 2
+     "id": "G10_C2",
+     "solve": 4,
+     "set": 0.5,
+     "bounty": 0.0,
+     "total": 5.0,
+     "est": 5.0,
+     "n_samples": 1
     },
     {
-     "id": "G10X0",
-     "solve": 2.34,
-     "set": 1.1,
-     "bounty": 0,
-     "total": 3.44,
-     "est": 3.247,
-     "n_samples": 2
-    },
-    {
-     "id": "G10X1",
-     "solve": 2.54,
-     "set": 0.67,
-     "bounty": 0,
-     "total": 3.21,
-     "est": 3.184,
-     "n_samples": 2
-    },
-    {
-     "id": "G10M1",
-     "solve": 3.09,
-     "set": 1.2,
-     "bounty": 0,
-     "total": 4.29,
-     "est": 4.099,
-     "n_samples": 2
+     "id": "G10_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G10M1",
-    "G07M1",
-    "G10X0",
-    "G10X1",
-    "G08X0",
-    "G09X0"
+    "G10_C2",
+    "G07_M1",
+    "G08_C2",
+    "G10_C1",
+    "G10_M1",
+    "G09_M1"
    ],
    "timing": {
-    "wall_ms": 94400,
+    "wall_ms": 32203,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 434395
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43320,
-    "output_tokens": 6430,
-    "reasoning_tokens": 0,
-    "cost": 0.53
+    "call_count": 90,
+    "input_tokens": 21718,
+    "output_tokens": 29697,
+    "reasoning_tokens": 28518,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 12,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 1,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1296,104 +1158,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.530103,
-    "det_failure": 0.46489,
-    "balanced_failure": 0.477552,
-    "mixed_failure": 0.480077
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07M1",
-     "solve": 2.98,
-     "set": 1.12,
-     "bounty": 0,
-     "total": 4.1,
-     "est": 3.976,
+     "id": "G07_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G08_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G10_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G10X0",
-     "solve": 2.83,
-     "set": 1.24,
-     "bounty": 0,
-     "total": 4.07,
-     "est": 3.729,
-     "n_samples": 2
+     "id": "G11_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G10M1",
-     "solve": 3.06,
-     "set": 1.28,
-     "bounty": 0,
-     "total": 4.34,
-     "est": 4.257,
-     "n_samples": 2
+     "id": "G11_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G11X0",
-     "solve": 2.36,
-     "set": 1.2,
-     "bounty": 0,
-     "total": 3.56,
-     "est": 3.498,
-     "n_samples": 2
-    },
-    {
-     "id": "G11X1",
-     "solve": 2.65,
-     "set": 0.83,
-     "bounty": 0,
-     "total": 3.48,
-     "est": 3.156,
-     "n_samples": 2
-    },
-    {
-     "id": "G11M1",
-     "solve": 3.1,
-     "set": 0.97,
-     "bounty": 0,
-     "total": 4.07,
-     "est": 3.836,
-     "n_samples": 2
+     "id": "G11_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G10M1",
-    "G07M1",
-    "G11M1",
-    "G10X0",
-    "G11X0",
-    "G11X1"
+    "G11_C2",
+    "G08_C2",
+    "G11_M1",
+    "G11_C1",
+    "G10_C2",
+    "G07_M1"
    ],
    "timing": {
-    "wall_ms": 94800,
+    "wall_ms": 39887,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 405363
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43440,
-    "output_tokens": 6460,
-    "reasoning_tokens": 0,
-    "cost": 0.54
+    "call_count": 91,
+    "input_tokens": 22145,
+    "output_tokens": 27872,
+    "reasoning_tokens": 26684,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 13,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 1,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1402,104 +1261,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.479714,
-    "det_failure": 0.492752,
-    "balanced_failure": 0.467928,
-    "mixed_failure": 0.431004
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07M1",
-     "solve": 3.27,
-     "set": 1.06,
-     "bounty": 0,
-     "total": 4.33,
-     "est": 4.223,
+     "id": "G08_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 5
+    },
+    {
+     "id": "G11_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G10M1",
-     "solve": 3.24,
-     "set": 0.92,
-     "bounty": 0,
-     "total": 4.16,
-     "est": 4.152,
+     "id": "G11_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
      "n_samples": 2
     },
     {
-     "id": "G11M1",
-     "solve": 2.52,
-     "set": 0.98,
-     "bounty": 0,
-     "total": 3.5,
-     "est": 3.197,
-     "n_samples": 2
+     "id": "G12_C1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G12X0",
-     "solve": 3.45,
-     "set": 0.95,
-     "bounty": 0,
-     "total": 4.4,
-     "est": 4.175,
-     "n_samples": 2
+     "id": "G12_C2",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     },
     {
-     "id": "G12X1",
-     "solve": 2.77,
-     "set": 1.37,
-     "bounty": 0,
-     "total": 4.14,
-     "est": 3.952,
-     "n_samples": 2
-    },
-    {
-     "id": "G12M1",
-     "solve": 3.42,
-     "set": 0.85,
-     "bounty": 0,
-     "total": 4.27,
-     "est": 3.93,
-     "n_samples": 2
+     "id": "G12_M1",
+     "solve": 4,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 4.0,
+     "est": 4.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G07M1",
-    "G12X0",
-    "G10M1",
-    "G12X1",
-    "G12M1",
-    "G11M1"
+    "G11_M1",
+    "G12_C1",
+    "G08_C2",
+    "G11_C2",
+    "G12_M1",
+    "G12_C2"
    ],
    "timing": {
-    "wall_ms": 95200,
+    "wall_ms": 74160,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 481794
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43560,
-    "output_tokens": 6490,
-    "reasoning_tokens": 0,
-    "cost": 0.55
+    "call_count": 92,
+    "input_tokens": 22841,
+    "output_tokens": 39864,
+    "reasoning_tokens": 38665,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 14,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1508,104 +1364,101 @@
     "challenge": 0
    },
    "ancestor": {
-    "integral_failure": 0.495185,
-    "det_failure": 0.438019,
-    "balanced_failure": 0.454557,
-    "mixed_failure": 0.435504
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07M1",
-     "solve": 3.15,
-     "set": 1.15,
-     "bounty": 0,
-     "total": 4.3,
-     "est": 4.165,
+     "id": "G08_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 6
+    },
+    {
+     "id": "G11_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G12_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
      "n_samples": 2
     },
     {
-     "id": "G10M1",
-     "solve": 3.11,
-     "set": 0.99,
-     "bounty": 0,
-     "total": 4.1,
-     "est": 3.852,
-     "n_samples": 2
+     "id": "G13_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G12X0",
-     "solve": 2.42,
-     "set": 1.4,
-     "bounty": 0,
-     "total": 3.82,
-     "est": 3.632,
-     "n_samples": 2
+     "id": "G13_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G13X0",
-     "solve": 3.28,
-     "set": 1.29,
-     "bounty": 0,
-     "total": 4.57,
-     "est": 4.335,
-     "n_samples": 2
-    },
-    {
-     "id": "G13X1",
-     "solve": 2.86,
-     "set": 0.88,
-     "bounty": 0,
-     "total": 3.74,
-     "est": 3.508,
-     "n_samples": 2
-    },
-    {
-     "id": "G13M1",
-     "solve": 2.82,
-     "set": 1.03,
-     "bounty": 0,
-     "total": 3.85,
-     "est": 3.553,
-     "n_samples": 2
+     "id": "G13_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G13X0",
-    "G07M1",
-    "G10M1",
-    "G12X0",
-    "G13M1",
-    "G13X1"
+    "G13_C1",
+    "G13_C2",
+    "G12_C1",
+    "G13_M1",
+    "G08_C2",
+    "G11_M1"
    ],
    "timing": {
-    "wall_ms": 95600,
+    "wall_ms": 36103,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 442556
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43680,
-    "output_tokens": 6520,
-    "reasoning_tokens": 0,
-    "cost": 0.56
+    "call_count": 83,
+    "input_tokens": 19720,
+    "output_tokens": 34012,
+    "reasoning_tokens": 32931,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 15,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1614,104 +1467,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.445181,
-    "det_failure": 0.410088,
-    "balanced_failure": 0.450927,
-    "mixed_failure": 0.435476
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G07M1",
-     "solve": 3.05,
-     "set": 1.46,
-     "bounty": 0,
-     "total": 4.51,
-     "est": 4.273,
+     "id": "G12_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G13_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G10M1",
-     "solve": 3.63,
-     "set": 1.27,
-     "bounty": 0,
-     "total": 4.9,
-     "est": 4.795,
+     "id": "G13_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G13X0",
-     "solve": 3.21,
-     "set": 0.9,
-     "bounty": 0,
-     "total": 4.11,
-     "est": 4.01,
-     "n_samples": 2
+     "id": "G14_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G14X0",
-     "solve": 3.07,
-     "set": 1.25,
-     "bounty": 2.0,
-     "total": 6.32,
-     "est": 6.091,
-     "n_samples": 2
+     "id": "G14_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G14X1",
-     "solve": 3.11,
-     "set": 1.17,
-     "bounty": 0,
-     "total": 4.28,
-     "est": 4.205,
-     "n_samples": 2
-    },
-    {
-     "id": "G14M1",
-     "solve": 3.12,
-     "set": 1.44,
-     "bounty": 0,
-     "total": 4.56,
-     "est": 4.281,
-     "n_samples": 2
+     "id": "G14_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G14X0",
-    "G10M1",
-    "G14M1",
-    "G07M1",
-    "G14X1",
-    "G13X0"
+    "G13_C1",
+    "G14_M1",
+    "G12_C1",
+    "G14_C1",
+    "G14_C2",
+    "G13_C2"
    ],
    "timing": {
-    "wall_ms": 96000,
+    "wall_ms": 41033,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 477405
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43800,
-    "output_tokens": 6550,
-    "reasoning_tokens": 0,
-    "cost": 0.57
+    "call_count": 89,
+    "input_tokens": 21005,
+    "output_tokens": 37445,
+    "reasoning_tokens": 36329,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 16,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 1,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1720,104 +1570,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.43113,
-    "det_failure": 0.438247,
-    "balanced_failure": 0.445755,
-    "mixed_failure": 0.411873
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G10M1",
-     "solve": 3.65,
-     "set": 1.05,
-     "bounty": 0,
-     "total": 4.7,
-     "est": 4.684,
+     "id": "G12_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G13_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G14_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G14X0",
-     "solve": 3.86,
-     "set": 1.33,
-     "bounty": 0,
-     "total": 5.19,
-     "est": 4.921,
-     "n_samples": 2
+     "id": "G15_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G14M1",
-     "solve": 3.23,
-     "set": 1.49,
-     "bounty": 0,
-     "total": 4.72,
-     "est": 4.519,
-     "n_samples": 2
+     "id": "G15_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G15X0",
-     "solve": 3.54,
-     "set": 1.19,
-     "bounty": 0,
-     "total": 4.73,
-     "est": 4.59,
-     "n_samples": 2
-    },
-    {
-     "id": "G15X1",
-     "solve": 2.86,
-     "set": 1.37,
-     "bounty": 0,
-     "total": 4.23,
-     "est": 3.918,
-     "n_samples": 2
-    },
-    {
-     "id": "G15M1",
-     "solve": 3.71,
-     "set": 1.49,
-     "bounty": 0,
-     "total": 5.2,
-     "est": 4.928,
-     "n_samples": 2
+     "id": "G15_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
     }
    ],
    "ranking": [
-    "G15M1",
-    "G14X0",
-    "G10M1",
-    "G15X0",
-    "G14M1",
-    "G15X1"
+    "G15_M1",
+    "G15_C1",
+    "G15_C2",
+    "G14_M1",
+    "G12_C1",
+    "G13_C1"
    ],
    "timing": {
-    "wall_ms": 96400,
+    "wall_ms": 41917,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 434486
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 43920,
-    "output_tokens": 6580,
-    "reasoning_tokens": 0,
-    "cost": 0.58
+    "call_count": 93,
+    "input_tokens": 23170,
+    "output_tokens": 36875,
+    "reasoning_tokens": 35683,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 17,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 1,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1826,104 +1673,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.432278,
-    "det_failure": 0.412605,
-    "balanced_failure": 0.404476,
-    "mixed_failure": 0.375149
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G10M1",
-     "solve": 3.77,
-     "set": 1.42,
-     "bounty": 0,
-     "total": 5.19,
-     "est": 4.844,
+     "id": "G15_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
      "n_samples": 2
     },
     {
-     "id": "G14X0",
-     "solve": 3.52,
-     "set": 1.59,
-     "bounty": 0,
-     "total": 5.11,
-     "est": 4.798,
+     "id": "G15_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
      "n_samples": 2
     },
     {
-     "id": "G15M1",
-     "solve": 3.55,
-     "set": 1.45,
-     "bounty": 0,
-     "total": 5.0,
-     "est": 4.823,
-     "n_samples": 2
+     "id": "G15_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 5
     },
     {
-     "id": "G16X0",
-     "solve": 3.81,
-     "set": 1.35,
-     "bounty": 0,
-     "total": 5.16,
-     "est": 4.846,
-     "n_samples": 2
+     "id": "G16_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G16X1",
-     "solve": 3.7,
-     "set": 1.3,
-     "bounty": 0,
-     "total": 5.0,
-     "est": 4.909,
-     "n_samples": 2
+     "id": "G16_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G16M1",
-     "solve": 3.11,
-     "set": 1.4,
-     "bounty": 0,
-     "total": 4.51,
-     "est": 4.242,
-     "n_samples": 2
+     "id": "G16_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G16X1",
-    "G16X0",
-    "G10M1",
-    "G15M1",
-    "G14X0",
-    "G16M1"
+    "G15_C2",
+    "G16_C1",
+    "G16_C2",
+    "G16_M1",
+    "G15_M1",
+    "G15_C1"
    ],
    "timing": {
-    "wall_ms": 96800,
+    "wall_ms": 37471,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 612900
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 44040,
-    "output_tokens": 6610,
-    "reasoning_tokens": 0,
-    "cost": 0.59
+    "call_count": 90,
+    "input_tokens": 21861,
+    "output_tokens": 44323,
+    "reasoning_tokens": 43208,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 18,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 1,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -1932,104 +1776,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.440564,
-    "det_failure": 0.377917,
-    "balanced_failure": 0.395399,
-    "mixed_failure": 0.410498
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G10M1",
-     "solve": 4.01,
-     "set": 1.13,
-     "bounty": 0,
-     "total": 5.14,
-     "est": 5.087,
+     "id": "G15_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G16_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
      "n_samples": 2
     },
     {
-     "id": "G16X0",
-     "solve": 3.4,
-     "set": 1.17,
-     "bounty": 0,
-     "total": 4.57,
-     "est": 4.495,
+     "id": "G16_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
      "n_samples": 2
     },
     {
-     "id": "G16X1",
-     "solve": 3.44,
-     "set": 1.28,
-     "bounty": 0,
-     "total": 4.72,
-     "est": 4.557,
-     "n_samples": 2
+     "id": "G17_C1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G17X0",
-     "solve": 3.01,
-     "set": 1.58,
-     "bounty": 0,
-     "total": 4.59,
-     "est": 4.454,
-     "n_samples": 2
+     "id": "G17_C2",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     },
     {
-     "id": "G17X1",
-     "solve": 3.86,
-     "set": 1.65,
-     "bounty": 0,
-     "total": 5.51,
-     "est": 5.503,
-     "n_samples": 2
-    },
-    {
-     "id": "G17M1",
-     "solve": 4.0,
-     "set": 1.43,
-     "bounty": 0,
-     "total": 5.43,
-     "est": 5.263,
-     "n_samples": 2
+     "id": "G17_M1",
+     "solve": 2,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 2.0,
+     "est": 2.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G17X1",
-    "G17M1",
-    "G10M1",
-    "G16X1",
-    "G16X0",
-    "G17X0"
+    "G17_C2",
+    "G16_C2",
+    "G15_C2",
+    "G16_C1",
+    "G17_M1",
+    "G17_C1"
    ],
    "timing": {
-    "wall_ms": 97200,
+    "wall_ms": 56990,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 639778
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 44160,
-    "output_tokens": 6640,
-    "reasoning_tokens": 0,
-    "cost": 0.6
+    "call_count": 92,
+    "input_tokens": 23092,
+    "output_tokens": 51054,
+    "reasoning_tokens": 49918,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 19,
    "status": "completed",
    "M": 6,
    "refetch_round": 0,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -2038,104 +1879,101 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.3797,
-    "det_failure": 0.364611,
-    "balanced_failure": 0.401674,
-    "mixed_failure": 0.366248
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G10M1",
-     "solve": 3.59,
-     "set": 1.16,
-     "bounty": 0,
-     "total": 4.75,
-     "est": 4.632,
+     "id": "G15_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G16_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G17_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G17X1",
-     "solve": 3.88,
-     "set": 1.38,
-     "bounty": 0,
-     "total": 5.26,
-     "est": 5.202,
-     "n_samples": 2
+     "id": "G18_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G17M1",
-     "solve": 3.63,
-     "set": 1.22,
-     "bounty": 0,
-     "total": 4.85,
-     "est": 4.632,
-     "n_samples": 2
+     "id": "G18_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G18X0",
-     "solve": 3.1,
-     "set": 1.38,
-     "bounty": 0,
-     "total": 4.48,
-     "est": 4.282,
-     "n_samples": 2
-    },
-    {
-     "id": "G18X1",
-     "solve": 3.1,
-     "set": 1.53,
-     "bounty": 0,
-     "total": 4.63,
-     "est": 4.583,
-     "n_samples": 2
-    },
-    {
-     "id": "G18M1",
-     "solve": 3.62,
-     "set": 1.17,
-     "bounty": 0,
-     "total": 4.79,
-     "est": 4.657,
-     "n_samples": 2
+     "id": "G18_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     }
    ],
    "ranking": [
-    "G17X1",
-    "G18M1",
-    "G10M1",
-    "G17M1",
-    "G18X1",
-    "G18X0"
+    "G18_C1",
+    "G17_C2",
+    "G16_C2",
+    "G18_C2",
+    "G15_C2",
+    "G18_M1"
    ],
    "timing": {
-    "wall_ms": 97600,
+    "wall_ms": 40209,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 471473
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 44280,
-    "output_tokens": 6670,
-    "reasoning_tokens": 0,
-    "cost": 0.61
+    "call_count": 90,
+    "input_tokens": 21606,
+    "output_tokens": 37499,
+    "reasoning_tokens": 36381,
+    "cost": null
    },
    "warnings": []
   },
   {
    "schema_version": "5.1",
-   "run_id": "E_fake_20261113",
+   "run_id": "E_s42_7f878e7097",
    "condition": "E",
    "gen": 20,
    "status": "completed",
    "M": 6,
-   "refetch_round": 0,
+   "refetch_round": 3,
    "task_counts": {
-    "integral": 4,
-    "det": 2
+    "integral": 6,
+    "det": 0
    },
    "slots": {
     "peer": 30,
@@ -2144,175 +1982,209 @@
     "challenge": 6
    },
    "ancestor": {
-    "integral_failure": 0.386354,
-    "det_failure": 0.387824,
-    "balanced_failure": 0.383101,
-    "mixed_failure": 0.376668
+    "integral_failure": 0.0,
+    "det_failure": null,
+    "balanced_failure": null,
+    "mixed_failure": 0.0
    },
    "individuals": [
     {
-     "id": "G10M1",
-     "solve": 4.1,
-     "set": 1.23,
-     "bounty": 0,
-     "total": 5.33,
-     "est": 4.997,
+     "id": "G16_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 4
+    },
+    {
+     "id": "G17_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 3
+    },
+    {
+     "id": "G18_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     },
     {
-     "id": "G17X1",
-     "solve": 3.47,
-     "set": 1.24,
-     "bounty": 0,
-     "total": 4.71,
-     "est": 4.375,
-     "n_samples": 2
+     "id": "G19_C1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G18M1",
-     "solve": 3.25,
-     "set": 1.22,
-     "bounty": 0,
-     "total": 4.47,
-     "est": 4.383,
-     "n_samples": 2
+     "id": "G19_C2",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
+     "n_samples": 1
     },
     {
-     "id": "G19X0",
-     "solve": 4.21,
-     "set": 1.57,
-     "bounty": 0,
-     "total": 5.78,
-     "est": 5.697,
-     "n_samples": 2
-    },
-    {
-     "id": "G19X1",
-     "solve": 3.77,
-     "set": 1.27,
-     "bounty": 0,
-     "total": 5.04,
-     "est": 4.708,
-     "n_samples": 2
-    },
-    {
-     "id": "G19M1",
-     "solve": 3.76,
-     "set": 1.35,
-     "bounty": 0,
-     "total": 5.11,
-     "est": 4.981,
+     "id": "G19_M1",
+     "solve": 3,
+     "set": 0.0,
+     "bounty": 0.0,
+     "total": 3.0,
+     "est": 3.0,
      "n_samples": 2
     }
    ],
    "ranking": [
-    "G19X0",
-    "G10M1",
-    "G19M1",
-    "G19X1",
-    "G18M1",
-    "G17X1"
+    "G19_M1",
+    "G19_C2",
+    "G16_C2",
+    "G17_C2",
+    "G19_C1",
+    "G18_C1"
    ],
    "timing": {
-    "wall_ms": 98000,
+    "wall_ms": 52516,
     "role_ms": {
-     "solve": 51000,
-     "set": 21000,
-     "common": 12000,
-     "ancestor": 6000
+     "solver": 483946
     }
    },
    "usage": {
-    "call_count": 78,
-    "input_tokens": 44400,
-    "output_tokens": 6700,
-    "reasoning_tokens": 0,
-    "cost": 0.62
+    "call_count": 96,
+    "input_tokens": 26099,
+    "output_tokens": 41651,
+    "reasoning_tokens": 40674,
+    "cost": null
    },
    "warnings": []
   }
  ],
  "lineage": {
-  "G01": {
-   "id": "G01",
+  "G00_S1": {
+   "id": "G00_S1",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0,
     1
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "先判断题型：多项式按幂次逐项积分；含 e^(-rx) 的用 n!/r^(n+1)；含 e^(-rx²) 的用 k!/(2r^(k+1))；矩阵用消元。写出各项后求和，最后核对符号。",
+    "set_prompt": "优先 poly，用高次项和非对称区间提高区分度，系数尽量都不为零。",
+    "self_check": true
    }
   },
-  "G02": {
-   "id": "G02",
+  "G00_S2": {
+   "id": "G00_S2",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0
+    1,
+    2,
+    3,
+    4
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "先把无穷限积分看成已知阶乘公式的特例，确认幂次与指数是否匹配；不匹配时先做代换再套式。矩阵先做行变换化简后再算。",
+    "set_prompt": "混合三类积分，让 rate 与幂次的搭配不出现在常见组合里，避免解题者直接背公式。",
     "self_check": false
    }
   },
-  "G03": {
-   "id": "G03",
+  "G00_S3": {
+   "id": "G00_S3",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0,
     1,
     2
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程用整数与分数运算，不写小数。先算分子再算分母，留到最后一步约分。矩阵用整数消元并记录每次换行的符号变化。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上，让分母变大，靠估算蒙不中。",
+    "self_check": true
    }
   },
-  "G04": {
-   "id": "G04",
+  "G00_S4": {
+   "id": "G00_S4",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0
+    1,
+    2,
+    3
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "先估答案量级：由幂次、rate 和系数判断大致范围，再精确计算。若结果与估计差一个数量级以上，重算一遍。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
    }
   },
-  "G05": {
-   "id": "G05",
+  "G00_S5": {
+   "id": "G00_S5",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0
+    1
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "按步计算：先写被积函数或矩阵，再逐项展开，最后合并。每一步只做一次运算，便于回溯检查。",
+    "set_prompt": "出需要两三步才能算完的题，避免一眼可读数；优先多项式乘阶乘的结构。",
     "self_check": false
    }
   },
-  "G06": {
-   "id": "G06",
+  "G00_S6": {
+   "id": "G00_S6",
    "parents": [],
    "origin": "seed",
    "born_gen": 0,
    "seen_gens": [
-    0,
+    1
+   ],
+   "genes": {
+    "solve_prompt": "先看结构能否归入已知模板：单项幂乘指数、奇次幂乘高斯、有限区间多项式、整数方阵。命中就直接用闭式，未命中再退回通用方法。",
+    "set_prompt": "优先出结构不明显、需要先变形才能归类的题；矩阵用近奇异但非奇异的整数矩阵。",
+    "self_check": false
+   }
+  },
+  "G01_C1": {
+   "id": "G01_C1",
+   "parents": [
+    "G00_S4",
+    "G00_S3"
+   ],
+   "origin": "crossover",
+   "born_gen": 1,
+   "seen_gens": [
+    1,
+    2
+   ],
+   "genes": {
+    "solve_prompt": "先估答案量级：由幂次、rate 与系数判断范围；再全程用整数与分数精确计算，不写小数。先算分子再算分母，最后一步约分；矩阵用整数消元并记录换行符号变化。结果与估计差一个数量级以上时重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上并覆盖不同量级，让分母变大，避免靠估算蒙中。",
+    "self_check": true
+   }
+  },
+  "G01_C2": {
+   "id": "G01_C2",
+   "parents": [
+    "G00_S4",
+    "G00_S3"
+   ],
+   "origin": "crossover",
+   "born_gen": 1,
+   "seen_gens": [
     1,
     2,
     3,
@@ -2322,984 +2194,892 @@
     7
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G00X0": {
-   "id": "G00X0",
-   "parents": [
-    "G03",
-    "G06"
-   ],
-   "origin": "crossover",
-   "born_gen": 1,
-   "seen_gens": [
-    0,
-    1
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录每次换行的符号变化。算完估答案量级，若与估计差一个数量级以上就重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G00X1": {
-   "id": "G00X1",
+  "G01_M1": {
+   "id": "G01_M1",
    "parents": [
-    "G01",
-    "G06"
+    "G00_S3"
    ],
-   "origin": "crossover",
+   "origin": "mutate",
    "born_gen": 1,
-   "seen_gens": [
-    0,
-    1,
-    2
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
-   }
-  },
-  "G00M1": {
-   "id": "G00M1",
-   "parents": [
-    "G03"
-   ],
-   "origin": "mutation",
-   "born_gen": 1,
-   "seen_gens": [
-    0,
-    1
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
-   }
-  },
-  "G01X0": {
-   "id": "G01X0",
-   "parents": [
-    "G06",
-    "G00X1"
-   ],
-   "origin": "crossover",
-   "born_gen": 2,
-   "seen_gens": [
-    1,
-    2,
-    3
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G01X1": {
-   "id": "G01X1",
-   "parents": [
-    "G03",
-    "G06"
-   ],
-   "origin": "crossover",
-   "born_gen": 2,
-   "seen_gens": [
-    1,
-    2,
-    3,
-    4
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G01M1": {
-   "id": "G01M1",
-   "parents": [
-    "G06"
-   ],
-   "origin": "mutation",
-   "born_gen": 2,
    "seen_gens": [
     1,
     2
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数。先算分子再算分母，留到最后一步约分。矩阵用整数消元并记录每次换行的符号变化。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上，让分母变大，靠估算蒙不中。",
     "self_check": false
    }
   },
-  "G02X0": {
-   "id": "G02X0",
+  "G02_C1": {
+   "id": "G02_C1",
    "parents": [
-    "G01X0",
-    "G06"
+    "G01_C2",
+    "G00_S4"
    ],
    "origin": "crossover",
-   "born_gen": 3,
-   "seen_gens": [
-    2,
-    3,
-    4
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
-   }
-  },
-  "G02X1": {
-   "id": "G02X1",
-   "parents": [
-    "G01X1",
-    "G01X0"
-   ],
-   "origin": "crossover",
-   "born_gen": 3,
+   "born_gen": 2,
    "seen_gens": [
     2,
     3
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "先由幂次、rate 和系数估答案量级，再全程用整数与分数精确计算：先算分子再算分母，最后一步约分；矩阵用整数消元并记录换行符号变化。结果与估计差一个数量级以上就重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，兼顾小 rate 与大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G02M1": {
-   "id": "G02M1",
+  "G02_C2": {
+   "id": "G02_C2",
    "parents": [
-    "G01X0"
+    "G00_S4",
+    "G01_C2"
    ],
-   "origin": "mutation",
-   "born_gen": 3,
+   "origin": "crossover",
+   "born_gen": 2,
    "seen_gens": [
     2,
     3
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号。先估答案量级，再精算；若差一个数量级以上，重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G03X0": {
-   "id": "G03X0",
+  "G02_M1": {
+   "id": "G02_M1",
    "parents": [
-    "G01X1",
-    "G06"
+    "G00_S4"
    ],
-   "origin": "crossover",
-   "born_gen": 4,
+   "origin": "mutate",
+   "born_gen": 2,
    "seen_gens": [
+    2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "先按幂次与 rate 估出答案量级，再精确计算；若结果偏离估计一个数量级以上，必须重算。",
+    "set_prompt": "参数跨越不同量级，同一批题里既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
    }
   },
-  "G03X1": {
-   "id": "G03X1",
+  "G03_C1": {
+   "id": "G03_C1",
    "parents": [
-    "G02X0",
-    "G06"
+    "G00_S2",
+    "G02_M1"
    ],
    "origin": "crossover",
-   "born_gen": 4,
+   "born_gen": 3,
    "seen_gens": [
     3,
     4
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "先按幂次与 rate 估出答案量级，再用代换化为阶乘公式精确计算；偏差超过一个数量级必须重算。矩阵先做行变换化简后再算。",
+    "set_prompt": "混合三类积分，rate 与幂次的搭配避开常见组合，且参数跨越不同量级，同一批题里既有小 rate 也有大 rate。",
+    "self_check": true
    }
   },
-  "G03M1": {
-   "id": "G03M1",
+  "G03_C2": {
+   "id": "G03_C2",
    "parents": [
-    "G02X0"
+    "G02_M1",
+    "G01_C2"
    ],
-   "origin": "mutation",
-   "born_gen": 4,
+   "origin": "crossover",
+   "born_gen": 3,
    "seen_gens": [
     3,
     4,
+    5
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，算完若偏离估计一个数量级以上，必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G03_M1": {
+   "id": "G03_M1",
+   "parents": [
+    "G01_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 3,
+   "seen_gens": [
+    3,
+    4
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录每次换行的符号变化。算完估答案量级，若与估计差一个数量级以上就重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 2 至 6；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G04_C1": {
+   "id": "G04_C1",
+   "parents": [
+    "G01_C2",
+    "G03_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 4,
+   "seen_gens": [
+    4,
     5,
     6
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录每次换行的符号变化；先按幂次与 rate 估答案量级，算完若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
    }
   },
-  "G04X0": {
-   "id": "G04X0",
+  "G04_C2": {
+   "id": "G04_C2",
    "parents": [
-    "G03M1",
-    "G03X0"
+    "G02_M1",
+    "G01_C2"
    ],
    "origin": "crossover",
-   "born_gen": 5,
+   "born_gen": 4,
    "seen_gens": [
     4,
     5
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分，矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 不少于 3；同批题参数跨不同量级，小 rate 与大 rate 并现，考察数量级判断。",
     "self_check": true
    }
   },
-  "G04X1": {
-   "id": "G04X1",
+  "G04_M1": {
+   "id": "G04_M1",
    "parents": [
-    "G03X0",
-    "G06"
+    "G03_C2"
    ],
-   "origin": "crossover",
-   "born_gen": 5,
+   "origin": "mutate",
+   "born_gen": 4,
    "seen_gens": [
     4,
     5
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 用对数估算答案量级，算完若偏离估计半个数量级以上就重算并注明原因。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G04M1": {
-   "id": "G04M1",
+  "G05_C1": {
+   "id": "G05_C1",
    "parents": [
-    "G06"
+    "G04_C1",
+    "G02_M1"
    ],
-   "origin": "mutation",
+   "origin": "crossover",
    "born_gen": 5,
    "seen_gens": [
-    4,
     5,
     6
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "先按幂次与 rate 估答案量级，再全程用整数与分数运算，不写小数；先算分子再算分母，最后一步约分；矩阵用整数消元并记录换行符号变化；结果偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G05X0": {
-   "id": "G05X0",
+  "G05_C2": {
+   "id": "G05_C2",
    "parents": [
-    "G03M1",
-    "G04M1"
+    "G02_M1",
+    "G04_C1"
    ],
    "origin": "crossover",
-   "born_gen": 6,
+   "born_gen": 5,
+   "seen_gens": [
+    5,
+    6,
+    7,
+    8
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后一步约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估量级，算完若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G05_M1": {
+   "id": "G05_M1",
+   "parents": [
+    "G01_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 5,
    "seen_gens": [
     5,
     6
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G05X1": {
-   "id": "G05X1",
-   "parents": [
-    "G04M1",
-    "G03M1"
-   ],
-   "origin": "crossover",
-   "born_gen": 6,
-   "seen_gens": [
-    5,
-    6,
-    7,
-    8
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G05M1": {
-   "id": "G05M1",
-   "parents": [
-    "G03M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 6,
-   "seen_gens": [
-    5,
-    6,
-    7
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G06X0": {
-   "id": "G06X0",
-   "parents": [
-    "G05X1",
-    "G06"
-   ],
-   "origin": "crossover",
-   "born_gen": 7,
-   "seen_gens": [
-    6,
-    7,
-    8
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录每次换行的符号变化。算完用两种独立方法交叉验算，若结果不一致就逐步回溯重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
     "self_check": true
    }
   },
-  "G06X1": {
-   "id": "G06X1",
+  "G06_C1": {
+   "id": "G06_C1",
    "parents": [
-    "G06",
-    "G05M1"
+    "G02_M1",
+    "G05_C2"
    ],
    "origin": "crossover",
-   "born_gen": 7,
+   "born_gen": 6,
+   "seen_gens": [
+    6,
+    7,
+    8,
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": true
+   }
+  },
+  "G06_C2": {
+   "id": "G06_C2",
+   "parents": [
+    "G01_C2",
+    "G02_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 6,
+   "seen_gens": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "genes": {
+    "solve_prompt": "先按幂次与 rate 估出答案量级，再用整数和分数精确计算，不写小数；先算分子后算分母，最后一步约分；矩阵用整数消元并记录换行符号变化。结果偏离估计一个数量级以上就重算。",
+    "set_prompt": "同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断；多用 gamma 与 gaussian_odd，rate 取 3 以上。",
+    "self_check": true
+   }
+  },
+  "G06_M1": {
+   "id": "G06_M1",
+   "parents": [
+    "G01_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 6,
    "seen_gens": [
     6,
     7
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，留到最后一步约分；矩阵用整数消元并记录每次换行的符号变化。算完估答案量级，若与估计差一个数量级以上就重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同一批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": false
    }
   },
-  "G06M1": {
-   "id": "G06M1",
+  "G07_C1": {
+   "id": "G07_C1",
    "parents": [
-    "G05M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 7,
-   "seen_gens": [
-    6,
-    7,
-    8,
-    9
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
-   }
-  },
-  "G07X0": {
-   "id": "G07X0",
-   "parents": [
-    "G05X1",
-    "G06M1"
+    "G05_C2",
+    "G06_C1"
    ],
    "origin": "crossover",
-   "born_gen": 8,
+   "born_gen": 7,
    "seen_gens": [
     7,
     8
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程用整数与分数运算，不写小数；先按幂次与 rate 估答案量级，再精确计算：先算分子再算分母，最后一步约分；矩阵用整数消元并记录换行符号变化；算完若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 不低于 3；同批题参数跨越不同量级，既有小 rate 也有大 rate，用以考察数量级判断。",
+    "self_check": true
    }
   },
-  "G07X1": {
-   "id": "G07X1",
+  "G07_C2": {
+   "id": "G07_C2",
    "parents": [
-    "G05X1",
-    "G06M1"
+    "G06_C1",
+    "G06_C2"
    ],
    "origin": "crossover",
-   "born_gen": 8,
+   "born_gen": 7,
    "seen_gens": [
     7,
-    8,
-    9,
-    10
+    8
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "先按幂次与 rate 估答案量级，再用整数和分数精确计算，不写小数；先算分子后算分母，最后一步约分；矩阵用整数消元，记录换行符号变化。偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同批题参数跨越不同量级，小 rate 与大 rate 兼顾，考察数量级判断。",
+    "self_check": true
    }
   },
-  "G07M1": {
-   "id": "G07M1",
+  "G07_M1": {
+   "id": "G07_M1",
    "parents": [
-    "G06X0"
+    "G06_C1"
    ],
-   "origin": "mutation",
-   "born_gen": 8,
+   "origin": "mutate",
+   "born_gen": 7,
    "seen_gens": [
     7,
     8,
     9,
     10,
     11,
-    12,
-    13,
-    14,
-    15
+    12
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G08X0": {
-   "id": "G08X0",
-   "parents": [
-    "G07M1",
-    "G06M1"
-   ],
-   "origin": "crossover",
-   "born_gen": 9,
-   "seen_gens": [
-    8,
-    9,
-    10,
-    11
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6；同批题参数控制在同一量级，重点考察运算精度。",
     "self_check": true
    }
   },
-  "G08X1": {
-   "id": "G08X1",
+  "G08_C1": {
+   "id": "G08_C1",
    "parents": [
-    "G06M1",
-    "G07M1"
+    "G07_M1",
+    "G06_C1"
    ],
    "origin": "crossover",
-   "born_gen": 9,
+   "born_gen": 8,
    "seen_gens": [
     8,
     9
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题参数跨越两个量级，重点考察运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G08M1": {
-   "id": "G08M1",
+  "G08_C2": {
+   "id": "G08_C2",
    "parents": [
-    "G06M1"
+    "G07_M1",
+    "G06_C1"
    ],
-   "origin": "mutation",
-   "born_gen": 9,
+   "origin": "crossover",
+   "born_gen": 8,
+   "seen_gens": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G08_M1": {
+   "id": "G08_M1",
+   "parents": [
+    "G06_C1"
+   ],
+   "origin": "mutate",
+   "born_gen": 8,
    "seen_gens": [
     8,
     9
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "多用 gamma 与 gaussian_odd，rate 取 3 以上；同批题参数跨越不同量级，既有小 rate 也有大 rate，考察数量级判断。",
+    "self_check": false
+   }
+  },
+  "G09_C1": {
+   "id": "G09_C1",
+   "parents": [
+    "G06_C1",
+    "G07_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 9,
+   "seen_gens": [
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题参数控制在同一量级，重点考察运算精度与量级判断。",
     "self_check": true
    }
   },
-  "G09X0": {
-   "id": "G09X0",
+  "G09_C2": {
+   "id": "G09_C2",
    "parents": [
-    "G08X0",
-    "G07X1"
+    "G06_C1",
+    "G07_M1"
    ],
    "origin": "crossover",
-   "born_gen": 10,
+   "born_gen": 9,
+   "seen_gens": [
+    9,
+    10
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅；rate 取 3 至 6，同批题参数跨越不同量级，重点考察数量级判断与运算精度。",
+    "self_check": true
+   }
+  },
+  "G09_M1": {
+   "id": "G09_M1",
+   "parents": [
+    "G07_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 9,
    "seen_gens": [
     9,
     10,
     11
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G09X1": {
-   "id": "G09X1",
-   "parents": [
-    "G07X1",
-    "G08X0"
-   ],
-   "origin": "crossover",
-   "born_gen": 10,
-   "seen_gens": [
-    9,
-    10
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G09M1": {
-   "id": "G09M1",
-   "parents": [
-    "G08X0"
-   ],
-   "origin": "mutation",
-   "born_gen": 10,
-   "seen_gens": [
-    9,
-    10
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G10X0": {
-   "id": "G10X0",
-   "parents": [
-    "G09X0",
-    "G08X0"
-   ],
-   "origin": "crossover",
-   "born_gen": 11,
-   "seen_gens": [
-    10,
-    11,
-    12
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后化为最简分数；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6；同批题参数控制在同一量级，重点考察运算精度。",
     "self_check": true
    }
   },
-  "G10X1": {
-   "id": "G10X1",
+  "G10_C1": {
+   "id": "G10_C1",
    "parents": [
-    "G07M1",
-    "G08X0"
+    "G08_C2",
+    "G09_M1"
    ],
    "origin": "crossover",
-   "born_gen": 11,
+   "born_gen": 10,
    "seen_gens": [
     10,
     11
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后化为最简分数；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估量级，再精确计算；偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6；同批题参数跨不同量级，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G10M1": {
-   "id": "G10M1",
+  "G10_C2": {
+   "id": "G10_C2",
    "parents": [
-    "G09X0"
+    "G08_C2",
+    "G07_M1"
    ],
-   "origin": "mutation",
-   "born_gen": 11,
+   "origin": "crossover",
+   "born_gen": 10,
    "seen_gens": [
     10,
     11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+    12
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6；同批题参数跨越不同量级，兼顾小 rate 运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G11X0": {
-   "id": "G11X0",
+  "G10_M1": {
+   "id": "G10_M1",
    "parents": [
-    "G10X0",
-    "G10M1"
+    "G08_C2"
+   ],
+   "origin": "mutate",
+   "born_gen": 10,
+   "seen_gens": [
+    10,
+    11
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计两个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G11_C1": {
+   "id": "G11_C1",
+   "parents": [
+    "G08_C2",
+    "G10_C2"
    ],
    "origin": "crossover",
-   "born_gen": 12,
+   "born_gen": 11,
    "seen_gens": [
     11,
     12
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程只用整数与分数运算，不写小数；矩阵用整数消元并记录换行符号变化；先算分子再算分母，最后约分。先按幂次与 rate 估答案量级，再精确计算；偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6，其中半数题目取 3 至 5；同批题参数跨越不同量级，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G11X1": {
-   "id": "G11X1",
+  "G11_C2": {
+   "id": "G11_C2",
    "parents": [
-    "G07M1",
-    "G10X0"
+    "G08_C2",
+    "G10_C2"
    ],
    "origin": "crossover",
-   "born_gen": 12,
-   "seen_gens": [
-    11,
-    12
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G11M1": {
-   "id": "G11M1",
-   "parents": [
-    "G07M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 12,
+   "born_gen": 11,
    "seen_gens": [
     11,
     12,
     13
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 5；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G12X0": {
-   "id": "G12X0",
+  "G11_M1": {
+   "id": "G11_M1",
    "parents": [
-    "G10M1",
-    "G07M1"
+    "G08_C2"
    ],
-   "origin": "crossover",
-   "born_gen": 13,
+   "origin": "mutate",
+   "born_gen": 11,
    "seen_gens": [
+    11,
     12,
     13,
     14
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": false
+   }
+  },
+  "G12_C1": {
+   "id": "G12_C1",
+   "parents": [
+    "G11_C2",
+    "G08_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 12,
+   "seen_gens": [
+    12,
+    13,
+    14,
+    15,
+    16
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 5；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G12X1": {
-   "id": "G12X1",
+  "G12_C2": {
+   "id": "G12_C2",
    "parents": [
-    "G10M1",
-    "G07M1"
+    "G11_M1",
+    "G11_C2"
    ],
    "origin": "crossover",
-   "born_gen": 13,
+   "born_gen": 12,
    "seen_gens": [
     12,
     13
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G12M1": {
-   "id": "G12M1",
+  "G12_M1": {
+   "id": "G12_M1",
    "parents": [
-    "G07M1"
+    "G11_M1"
    ],
-   "origin": "mutation",
-   "born_gen": 13,
+   "origin": "mutate",
+   "born_gen": 12,
    "seen_gens": [
     12,
     13
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 粗估答案量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": false
+   }
+  },
+  "G13_C1": {
+   "id": "G13_C1",
+   "parents": [
+    "G11_M1",
+    "G08_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 13,
+   "seen_gens": [
+    13,
+    14,
+    15,
+    16
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估答案量级，再精确计算，若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G13X0": {
-   "id": "G13X0",
+  "G13_C2": {
+   "id": "G13_C2",
    "parents": [
-    "G10M1",
-    "G12X0"
+    "G08_C2",
+    "G12_C1"
    ],
    "origin": "crossover",
-   "born_gen": 14,
+   "born_gen": 13,
    "seen_gens": [
     13,
     14,
     15
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G13X1": {
-   "id": "G13X1",
-   "parents": [
-    "G12X0",
-    "G10M1"
-   ],
-   "origin": "crossover",
-   "born_gen": 14,
-   "seen_gens": [
-    13,
-    14
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G13M1": {
-   "id": "G13M1",
-   "parents": [
-    "G10M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 14,
-   "seen_gens": [
-    13,
-    14
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G14X0": {
-   "id": "G14X0",
-   "parents": [
-    "G10M1",
-    "G13X0"
-   ],
-   "origin": "crossover",
-   "born_gen": 15,
-   "seen_gens": [
-    14,
-    15,
-    16,
-    17
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算量级，再精确计算；若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 4 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G14X1": {
-   "id": "G14X1",
+  "G13_M1": {
+   "id": "G13_M1",
    "parents": [
-    "G13X0",
-    "G07M1"
+    "G12_C1"
+   ],
+   "origin": "mutate",
+   "born_gen": 13,
+   "seen_gens": [
+    13,
+    14
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵整数消元并记录符号翻转。先按幂次与 rate 估算量级再精确计算；偏离估计一个数量级以上必须重算并复核。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 5；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G14_C1": {
+   "id": "G14_C1",
+   "parents": [
+    "G13_C1",
+    "G13_C2"
    ],
    "origin": "crossover",
-   "born_gen": 15,
+   "born_gen": 14,
    "seen_gens": [
     14,
     15
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先按幂次与 rate 估算量级，再算分子、分母并约分；矩阵用整数消元并记录换行符号变化；若结果偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 4 至 6；同一批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G14M1": {
-   "id": "G14M1",
+  "G14_C2": {
+   "id": "G14_C2",
    "parents": [
-    "G07M1"
+    "G13_C1",
+    "G12_C1"
    ],
-   "origin": "mutation",
-   "born_gen": 15,
+   "origin": "crossover",
+   "born_gen": 14,
+   "seen_gens": [
+    14,
+    15
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算量级，再精确计算，偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G14_M1": {
+   "id": "G14_M1",
+   "parents": [
+    "G13_C1"
+   ],
+   "origin": "mutate",
+   "born_gen": 14,
    "seen_gens": [
     14,
     15,
     16
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
-   }
-  },
-  "G15X0": {
-   "id": "G15X0",
-   "parents": [
-    "G14X0",
-    "G10M1"
-   ],
-   "origin": "crossover",
-   "born_gen": 16,
-   "seen_gens": [
-    15,
-    16
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估答案量级，再精确计算，若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
     "self_check": false
    }
   },
-  "G15X1": {
-   "id": "G15X1",
+  "G15_C1": {
+   "id": "G15_C1",
    "parents": [
-    "G10M1",
-    "G14X0"
+    "G12_C1",
+    "G14_M1"
    ],
    "origin": "crossover",
-   "born_gen": 16,
-   "seen_gens": [
-    15,
-    16
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G15M1": {
-   "id": "G15M1",
-   "parents": [
-    "G10M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 16,
+   "born_gen": 15,
    "seen_gens": [
     15,
     16,
     17
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算答案量级，再精确计算，若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G16X0": {
-   "id": "G16X0",
+  "G15_C2": {
+   "id": "G15_C2",
    "parents": [
-    "G15M1",
-    "G10M1"
+    "G14_M1",
+    "G12_C1"
    ],
    "origin": "crossover",
-   "born_gen": 17,
+   "born_gen": 15,
+   "seen_gens": [
+    15,
+    16,
+    17,
+    18,
+    19
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算答案量级，再精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G15_M1": {
+   "id": "G15_M1",
+   "parents": [
+    "G14_M1"
+   ],
+   "origin": "mutate",
+   "born_gen": 15,
+   "seen_gens": [
+    15,
+    16,
+    17
+   ],
+   "genes": {
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估答案量级，再精确计算，若偏离估计一个数量级以上必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同一批题目的参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G16_C1": {
+   "id": "G16_C1",
+   "parents": [
+    "G15_C2",
+    "G15_M1"
+   ],
+   "origin": "crossover",
+   "born_gen": 16,
    "seen_gens": [
     16,
     17,
     18
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行时的符号变化；先按幂次与rate估出量级，再精确计算，若偏离一个数量级以上必须重算。",
+    "set_prompt": "以gamma为主、gaussian_odd为辅，rate取3至6；同批题参数跨不同量级，小rate与大rate兼顾，练运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G16X1": {
-   "id": "G16X1",
+  "G16_C2": {
+   "id": "G16_C2",
    "parents": [
-    "G10M1",
-    "G14X0"
+    "G15_M1",
+    "G15_C2"
    ],
    "origin": "crossover",
-   "born_gen": 17,
+   "born_gen": 16,
    "seen_gens": [
     16,
     17,
-    18
+    18,
+    19,
+    20
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算答案量级，再做精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G16M1": {
-   "id": "G16M1",
+  "G16_M1": {
+   "id": "G16_M1",
    "parents": [
-    "G10M1"
+    "G15_C2"
    ],
-   "origin": "mutation",
-   "born_gen": 17,
+   "origin": "mutate",
+   "born_gen": 16,
    "seen_gens": [
     16,
     17
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": true
+    "solve_prompt": "全程用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化。先按幂次与 rate 估算答案量级，再精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，既有小 rate 也有大 rate，兼顾运算精度与数量级判断。",
+    "self_check": false
    }
   },
-  "G17X0": {
-   "id": "G17X0",
+  "G17_C1": {
+   "id": "G17_C1",
    "parents": [
-    "G16X0",
-    "G10M1"
+    "G16_C1",
+    "G16_C2"
    ],
    "origin": "crossover",
-   "born_gen": 18,
+   "born_gen": 17,
    "seen_gens": [
     17,
     18
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行时的符号变化；先按幂次与rate估算量级，再做精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以gamma为主、gaussian_odd为辅，rate在3至6之间；同批题目参数跨越不同量级，小rate与大rate兼有，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G17X1": {
-   "id": "G17X1",
+  "G17_C2": {
+   "id": "G17_C2",
    "parents": [
-    "G16X0",
-    "G16X1"
+    "G15_C2",
+    "G16_C2"
    ],
    "origin": "crossover",
-   "born_gen": 18,
+   "born_gen": 17,
    "seen_gens": [
     17,
     18,
@@ -3307,144 +3087,143 @@
     20
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程只用整数与分数，不写小数；先算分子后算分母并约分；矩阵用整数消元，记录换行符号变化；先按幂次与 rate 估算量级，再精确计算，偏差超一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批参数覆盖不同量级，兼顾小 rate 与大 rate，注意运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G17M1": {
-   "id": "G17M1",
+  "G17_M1": {
+   "id": "G17_M1",
    "parents": [
-    "G16X0"
+    "G16_C2"
    ],
-   "origin": "mutation",
-   "born_gen": 18,
+   "origin": "mutate",
+   "born_gen": 17,
    "seen_gens": [
     17,
+    18
+   ],
+   "genes": {
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算答案量级，再做精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
+    "self_check": false
+   }
+  },
+  "G18_C1": {
+   "id": "G18_C1",
+   "parents": [
+    "G15_C2",
+    "G16_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 18,
+   "seen_gens": [
+    18,
+    19,
+    20
+   ],
+   "genes": {
+    "solve_prompt": "全程只用整数与分数运算，不写小数；矩阵采用整数消元并记录换行符号变化；先算分子再算分母，最后约分；先按幂次与 rate 估算答案量级，再精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批题目参数跨越不同量级，兼具小 rate 与大 rate，兼顾运算精度与数量级判断。",
+    "self_check": true
+   }
+  },
+  "G18_C2": {
+   "id": "G18_C2",
+   "parents": [
+    "G16_C2",
+    "G15_C2"
+   ],
+   "origin": "crossover",
+   "born_gen": 18,
+   "seen_gens": [
     18,
     19
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程整数与分数，不写小数；先分子后分母再约分；矩阵整数消元，记录换行及符号变化；先按幂次和 rate 估量级，再精确算，偏差超一个数量级必重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批参数跨不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   },
-  "G18X0": {
-   "id": "G18X0",
+  "G18_M1": {
+   "id": "G18_M1",
    "parents": [
-    "G17X1",
-    "G10M1"
+    "G16_C2"
    ],
-   "origin": "crossover",
-   "born_gen": 19,
+   "origin": "mutate",
+   "born_gen": 18,
    "seen_gens": [
     18,
     19
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算答案量级，再做精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 8；同批题目参数跨越不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G18X1": {
-   "id": "G18X1",
+  "G19_C1": {
+   "id": "G19_C1",
    "parents": [
-    "G17X1",
-    "G10M1"
+    "G18_C1",
+    "G16_C2"
    ],
    "origin": "crossover",
    "born_gen": 19,
    "seen_gens": [
-    18,
-    19
+    19,
+    20
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程只用整数与分数，不写小数；矩阵整数消元并记录换行符号变化；先按幂次与 rate 估算量级，再精确计算；先算分子再算分母并约分；偏差超一个数量级必重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批参数跨不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G18M1": {
-   "id": "G18M1",
+  "G19_C2": {
+   "id": "G19_C2",
    "parents": [
-    "G17X1"
+    "G18_C1",
+    "G16_C2"
    ],
-   "origin": "mutation",
+   "origin": "crossover",
    "born_gen": 19,
    "seen_gens": [
-    18,
     19,
     20
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵采用整数消元并记录换行符号变化；先按幂次与 rate 估算量级，再精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 3 至 6；同批参数跨越不同量级，小 rate 与大 rate 兼备，兼顾运算精度与数量级判断。",
     "self_check": true
    }
   },
-  "G19X0": {
-   "id": "G19X0",
+  "G19_M1": {
+   "id": "G19_M1",
    "parents": [
-    "G17X1",
-    "G18M1"
+    "G16_C2"
    ],
-   "origin": "crossover",
-   "born_gen": 20,
+   "origin": "mutate",
+   "born_gen": 19,
    "seen_gens": [
     19,
     20
    ],
    "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G19X1": {
-   "id": "G19X1",
-   "parents": [
-    "G10M1",
-    "G17X1"
-   ],
-   "origin": "crossover",
-   "born_gen": 20,
-   "seen_gens": [
-    19,
-    20
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
-   }
-  },
-  "G19M1": {
-   "id": "G19M1",
-   "parents": [
-    "G10M1"
-   ],
-   "origin": "mutation",
-   "born_gen": 20,
-   "seen_gens": [
-    19,
-    20
-   ],
-   "genes": {
-    "solve_prompt": "先按结构选方法，再检查分数计算。",
-    "set_prompt": "优先 gamma，调整 n 和 rate。",
-    "self_check": false
+    "solve_prompt": "全程只用整数与分数运算，不写小数；先算分子再算分母，最后约分；矩阵用整数消元并记录换行符号变化；先按幂次与 rate 估算答案量级，再做精确计算，偏差超过一个数量级必须重算。",
+    "set_prompt": "以 gamma 为主、gaussian_odd 为辅，rate 取 2 至 8；同批题目参数跨越不同量级，小 rate 与大 rate 兼有，兼顾运算精度与数量级判断。",
+    "self_check": true
    }
   }
  },
  "challenges": [
   {
-   "task_id": "C01",
+   "task_id": "X04",
    "born_gen": 8,
    "window": 6,
    "state": "retired",
-   "first_success_attempt": 3,
+   "first_success_attempt": null,
    "threshold_attempt": null,
    "retired_reason": "window_closed",
    "observations": [
@@ -3452,102 +3231,101 @@
      "gen": 8,
      "attempt": 1,
      "correct": 0,
-     "p_t": 0.166667
+     "p_t": 0.0
     },
     {
      "gen": 9,
      "attempt": 2,
      "correct": 0,
-     "p_t": 0.166667
+     "p_t": 0.0
     },
     {
      "gen": 10,
      "attempt": 3,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 11,
      "attempt": 4,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 12,
      "attempt": 5,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 13,
      "attempt": 6,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     }
    ]
   },
   {
-   "task_id": "C02",
+   "task_id": "X05",
    "born_gen": 15,
    "window": 6,
-   "state": "active",
-   "first_success_attempt": 3,
+   "state": "retired",
+   "first_success_attempt": null,
    "threshold_attempt": null,
-   "retired_reason": null,
+   "retired_reason": "window_closed",
    "observations": [
     {
      "gen": 15,
      "attempt": 1,
      "correct": 0,
-     "p_t": 0.166667
+     "p_t": 0.0
     },
     {
      "gen": 16,
      "attempt": 2,
      "correct": 0,
-     "p_t": 0.166667
+     "p_t": 0.0
     },
     {
      "gen": 17,
      "attempt": 3,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 18,
      "attempt": 4,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 19,
      "attempt": 5,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     },
     {
      "gen": 20,
      "attempt": 6,
-     "correct": 1,
-     "p_t": 0.166667
+     "correct": 0,
+     "p_t": 0.0
     }
    ]
   }
  ],
  "summary": {
-  "n_gen_completed": 21,
+  "n_gen_completed": 20,
   "last_gen": 20,
   "winner": {
-   "id": "G19X0",
-   "est": 5.697,
-   "total": 5.78
+   "id": "G16_C2",
+   "est": 3.0,
+   "total": 3.0
   },
   "final_ancestor": {
-   "integral_failure": 0.386354,
-   "det_failure": 0.387824,
-   "balanced_failure": 0.383101,
-   "mixed_failure": 0.376668
+   "integral_failure": 0.0,
+   "det_failure": null,
+   "balanced_failure": null,
+   "mixed_failure": 0.0
   }
- },
- "problems": []
+ }
 }
