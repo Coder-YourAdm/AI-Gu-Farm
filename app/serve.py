@@ -58,6 +58,22 @@ def _tutor_pool() -> list[dict]:
     return _TUTOR_POOL
 
 
+def _format_reference(ref) -> str | None:
+    """把 reference 变成学生能读的答案字符串（只给演示用的 /api/reveal）。"""
+    if not isinstance(ref, dict):
+        return None
+    kind = ref.get("kind")
+    if kind == "integer":
+        return str(ref.get("value"))
+    if kind == "rational":
+        try:
+            num, den = int(ref["numerator"]), int(ref["denominator"])
+        except (KeyError, TypeError, ValueError):
+            return None
+        return str(num) if den == 1 else f"{num}/{den}"
+    return None
+
+
 def _get_tutor(sid: str):
     # 服务用 `python app/serve.py` 启动时，sys.path[0] 是 app/ 目录，
     # 直接 import app.xxx 会失败；先把仓库根放进 sys.path（幂等）。
@@ -82,6 +98,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         path = self.path.rstrip("/")
         if path == "/api/ask":
             self._handle_ask()
+            return
+        if path == "/api/reveal":
+            self._handle_reveal()
             return
         if path != "/api/rollback":
             # 不要用 send_error(code, "中文")：那句话会进 HTTP 状态行，而状态行只允许
@@ -133,6 +152,45 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self._json(200, res)
         except Exception as e:  # noqa: BLE001 - 任何异常都不许让进程死
             self._json(500, {"ok": False, "error": f"Tutor: {e}"})
+
+    def _handle_reveal(self) -> None:
+        """演示用只读接口：给出当前题答案。不改 /api/ask 的 12 字段契约。"""
+        try:
+            length = int(self.headers.get("Content-Length") or 0)
+            raw = self.rfile.read(length) if length else b""
+            try:
+                req = json.loads(raw or b"{}")
+            except ValueError:
+                self._json(400, {"ok": False, "error": "请求体不是合法 JSON"})
+                return
+            if not isinstance(req, dict):
+                self._json(400, {"ok": False, "error": "请求体必须是 JSON 对象"})
+                return
+            if not ALLOW_TUTOR:
+                self._json(501, {"ok": False,
+                                 "error": "服务未开启实时（启动时加 --allow-tutor）"})
+                return
+            sid = str(req.get("sid") or "demo")
+            tutor = _get_tutor(sid)
+            if getattr(tutor, "task", None) is None:
+                tutor.handle("start")
+            task = tutor.task
+            answer = _format_reference(task.get("reference") or {})
+            if answer is None:
+                self._json(400, {"ok": False, "error": "这道题没有可展示的答案"})
+                return
+            tutor.hint_level = 4      # 看过答案 = 提示用满，后续答对只算半次
+            sys.path.insert(0, str(ROOT))
+            from app.student.kc import kc_of
+            self._json(200, {
+                "ok": True,
+                "kc": kc_of(task),
+                "statement": task.get("statement"),
+                "answer": answer,
+                "counted_as_hint": True,
+            })
+        except Exception as e:  # noqa: BLE001
+            self._json(500, {"ok": False, "error": f"Reveal: {e}"})
 
     def _json(self, code: int, payload: dict) -> None:
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")

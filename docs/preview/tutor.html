@@ -660,6 +660,7 @@
           <button data-a="skip">我不会</button>
           <button data-a="hint">再提示一点</button>
           <button data-a="why">为什么给我这道题</button>
+          <button data-a="reveal">给我答案</button>
           <button data-a="reset">重置</button>
         </div>
         <div class="live-hint" id="live-hint"></div>
@@ -790,6 +791,9 @@
         if (t.statement){
           body = '<p class="stmt">' + esc(t.statement) + '</p>' +
             (t.answer_format ? '<div class="fmt">作答格式：' + esc(t.answer_format) + '</div>' : '');
+        } else if (t.reveal){
+          body = '<div class="hintline reveal"><span class="lv" style="background:var(--good);border-color:var(--good)">答案</span>' +
+            '<span>' + esc(t.text || "") + '</span></div>';
         } else {
           body = '<div class="hintline"><span class="lv">L' + (t.hint_level || 0) + '</span>' +
             '<span>' + esc(t.text || "") + '</span></div>';
@@ -1184,6 +1188,43 @@
     if (action === "submit" || action === "skip") el("answer").value = "";
   }
 
+  /* 演示功能：向只读接口要当前题答案。看过答案后服务端把提示记满，
+     下一次答对只算半次独立答对——避免"看答案刷掌握度"。 */
+  function revealAnswer(){
+    if (LIVE.busy) return;
+    var epoch = LIVE.epoch;
+    setBusy(true);
+    function show(answer){
+      LIVE.log.push({n: LIVE.log.length + 1, role: "tutor", reveal: true,
+        text: "本题答案：" + answer + "。看过答案后，再答对只算半次独立答对。"});
+      render();
+    }
+    if (LIVE.endpoint){
+      fetch(LIVE.endpoint.replace(/\/api\/ask\/?$/, "/api/reveal"), {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sid: LIVE.sid})
+      }).then(function(r){ return r.json(); }).then(function(j){
+        if (epoch !== LIVE.epoch) return;
+        if (!j || j.ok === false) throw new Error((j && j.error) || "接口没返回 ok");
+        show(j.answer);
+      }).catch(function(err){
+        if (epoch !== LIVE.epoch) return;
+        showNotice("答案接口不可用（" + esc((err && err.message) || String(err)) + "）");
+      }).then(function(){ setBusy(false); });
+      return;
+    }
+    var st = null;
+    for (var i = LIVE.log.length - 1; i >= 0; i--){
+      if (LIVE.log[i].role === "tutor" && LIVE.log[i].statement){ st = LIVE.log[i].statement; break; }
+    }
+    var pool = LIVE_POOL || [];
+    for (var k = 0; k < pool.length; k++){
+      if (pool[k].statement === st){ show(pool[k].answer); setBusy(false); return; }
+    }
+    setBusy(false);
+    showNotice("离线模式：题库里找不到这道题的答案。");
+  }
+
   /* 所有失败（fetch 断、非 2xx、ok:false、JSON 坏）都汇到这一条：
      黄色提示 + 自动切回放。页面永远不白屏，回放数据永远不动。 */
   function liveRequest(action, answer){
@@ -1283,7 +1324,11 @@
     }
   });
   Array.prototype.forEach.call(document.querySelectorAll(".quick button"), function(b){
-    b.addEventListener("click", function(){ liveRequest(b.getAttribute("data-a"), null); });
+    b.addEventListener("click", function(){
+      var a = b.getAttribute("data-a");
+      if (a === "reveal"){ revealAnswer(); return; }
+      liveRequest(a, null);
+    });
   });
 
   function render(){
