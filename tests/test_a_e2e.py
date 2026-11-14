@@ -143,3 +143,6 @@ def test_pilot_grades_correct_answers_as_right(tmp_path, monkeypatch):
     assert anc["det_failure"] == 0.0
     assert anc["balanced_failure"] == 0.0
     assert anc["mixed_failure"] == 0.0
+    # 字段名以 A 的 ancestor.generation_failures 为准（task_mix，不是 task_counts）
+    assert anc["task_mix"] == {"integral": 3, "det": 3}
+    assert "unanswered_count" in anc
