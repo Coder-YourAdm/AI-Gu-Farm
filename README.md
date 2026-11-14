@@ -41,9 +41,16 @@ python -m app.demo pair --pair demo_pair_dev --backend mock
 # 3. 回退到初始快照
 python -m app.demo rollback --pair demo_pair_dev --to v0_seed
 
-# 4. 真模型（需先填 config.json 的 model / base_url，并 export LLM_API_KEY）
+# 4. 真模型（需先填 config.local.json 的 model / base_url，并 export LLM_API_KEY）
+python tools/preflight.py --config config.local.json      # 先体检，不发请求
+python tools/preflight.py --config config.local.json --probe   # 再验地址/密钥/model ID
 python -m app.demo pair --pair demo_pair_real --backend real
 ```
+
+`tools/preflight.py` 会逐项检查：配置结构与语义、`require_runtime_ready`
+（占位符 / 硬限额）、密钥环境变量、数据 125 题自校验、判分链路往返、运行目录可写、
+调用量是否装得下 `max_calls`。**任何一项 FAIL 都不要开跑**——`--probe` 只花几个 token。
+
 
 ## 目录
 
@@ -67,7 +74,7 @@ prompts/             setter / solver / 六份种子基因 / crossover / mutate
 web/                 三个单文件页面 + 两份 mock 数据
 tests/               A/B/C 单元测试、集成测试与 B 缺陷回归
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3
-tools/               开发期交叉验证（sympy 对照 / 题面自检），不进判分链路
+tools/               开发期工具：sympy 交叉验证 / 题面自检 / pilot 前置体检，均不进判分链路
 ```
 
 ## 判分为什么值得看
@@ -97,10 +104,16 @@ python -m pytest
 
 - `tests/test_hand_calc.py` —— 附录 A 的 16 条用例用三条独立路径（手算 / 闭式 / 数值积分）交叉验证
 - `tests/test_backfill.py` —— 回填后的题集必须能被 `judge()` 吃下，且重跑逐字节相同
+- `tests/test_a_e2e.py` —— 真数据集 + mock 模型跑一代，72 个槽位必须全部判 `right`
+- `tests/test_mock_pilot.py` —— 连续 3 代（含算子、含挑战代）+ 导出白名单自检 + 从断点续跑出 demo 分支
+- `tests/test_preflight.py` —— 体检脚本必须能拦住「占位符未填 / 没设硬限额 / 数据缺份」，不许永远报 OK
 - `tests/test_result.py` —— 结果页不许写死分数、不许外链、不许把 `reference` 带进导出
 - `tests/test_prompts.py` —— 提示词必须用 `str.replace()` 渲染，`setter.md` 里的 `{coeffs}` 会击穿 `str.format()`
 
 ## 已知边界
 
 - 留出评测（`web/result.json`）尚未由真模型跑出，结果页目前是 mock 数据
-- 附录 A 的 D2 用例矩阵元素 `10` 超出 §2.1 的 `[-9,9]`，属规格前后不一致，见 `给A_边界冲突说明.md`
+- 真模型实验未开跑：`config.json` 的 `model` / `base_url` 仍是占位符，且需设 `max_calls` 或
+  `wall_limit_s`（否则 `require_runtime_ready` 会拒绝），密钥走环境变量 `LLM_API_KEY`
+- 附录 A 的 D2 用例矩阵元素 `10` 超出 §2.1 的 `[-9,9]`：测试已换成等值矩阵并补了
+  `validate_task` 断言，规格原文未改，见 `给A_边界冲突说明.md`
