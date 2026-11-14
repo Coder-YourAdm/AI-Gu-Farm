@@ -126,3 +126,23 @@ def test_main_exit_code(tmp_path, monkeypatch):
                            "--runs-root", str(tmp_path / "runs")]) == 0
     assert preflight.main(["--config", str(_write_config(tmp_path)),
                            "--runs-root", str(tmp_path / "runs")]) == 1
+
+
+def test_dotenv_is_loaded_and_never_overrides(tmp_path, monkeypatch):
+    """.env 写了 key 却被告知没设，是最容易浪费十分钟的一类误会。"""
+    import os
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
+    path = tmp_path / ".env"
+    path.write_text("# 注释\nOTHER=1\nLLM_API_KEY=sk-from-dotenv\n", encoding="utf-8")
+
+    assert preflight._load_dotenv(path) == 2
+    assert os.environ["LLM_API_KEY"] == "sk-from-dotenv"
+    assert os.environ["OTHER"] == "1"
+
+    monkeypatch.setenv("LLM_API_KEY", "sk-from-shell")
+    assert preflight._load_dotenv(path) == 0            # 已存在的不覆盖
+    assert os.environ["LLM_API_KEY"] == "sk-from-shell"
+
+
+def test_dotenv_missing_file_is_noop(tmp_path):
+    assert preflight._load_dotenv(tmp_path / "nope.env") == 0
