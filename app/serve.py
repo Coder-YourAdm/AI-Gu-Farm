@@ -96,6 +96,16 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     ALLOW_ROLLBACK = args.allow_rollback
 
+    # 同一进程里还会调用 app.demo.rollback()（它会 print "✓ 已回退…"）。
+    # Windows 默认控制台是 GBK，遇到 ✓ 这类字符会 UnicodeEncodeError，被
+    # do_POST 的 except 捕获后变成 500 —— 回退其实成功了，页面却报错。
+    # 这里把两个流都降级为「不可编码字符替换」，任何 in-process print 都不再中断演示。
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(errors="replace")
+        except Exception:  # noqa: BLE001 - 老版本或非文本流
+            pass
+
     if not (WEB / "index.html").exists():
         print(f"[X] 找不到 {WEB / 'index.html'}", file=sys.stderr)
         return 1
