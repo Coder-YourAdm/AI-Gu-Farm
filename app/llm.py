@@ -23,9 +23,8 @@ from .llm_async import (
 )
 
 ROOT = Path(__file__).resolve().parent.parent
-CONFIG_PATH = ROOT / "config.json"
 
-# 占位符前缀。config.json 里凡是 REPLACE_WITH_ 开头的都还没填。
+# 占位符前缀。配置文件里凡是 REPLACE_WITH_ 开头的都还没填。
 PLACEHOLDER = "REPLACE_WITH_"
 
 DEFAULT_TIMEOUT_S = 60
@@ -42,9 +41,15 @@ class LLMError(RuntimeError):
 
 
 def _load_config() -> dict[str, Any]:
-    if not CONFIG_PATH.exists():
-        raise LLMError(f"找不到 {CONFIG_PATH}，无法确定 model / base_url")
-    return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
+    """读取配置。走统一的解析顺序（显式路径 / LLM_CONFIG / config.local.json / config.json），
+    不再写死 config.json——那会让配好的 local 配置被占位模板顶掉。"""
+    from .config import ConfigError, resolve_config_path
+
+    try:
+        path = resolve_config_path()
+    except ConfigError as exc:
+        raise LLMError(str(exc)) from exc
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def preflight() -> dict[str, Any]:
@@ -61,16 +66,16 @@ def preflight() -> dict[str, Any]:
 
     problems: list[str] = []
     if not model or model.startswith(PLACEHOLDER):
-        problems.append("config.json 的 model 还是占位符 —— 填成实际要跑的模型 id")
+        problems.append("配置里的 model 还是占位符 —— 填成实际要跑的模型 id")
     if not base_url or base_url.startswith(PLACEHOLDER):
-        problems.append("config.json 的 base_url 还是占位符 —— 填成 .../v1 这样的根地址")
+        problems.append("配置里的 base_url 还是占位符 —— 填成 .../v1 这样的根地址")
     if not key:
         problems.append(f"环境变量 {key_env} 为空 —— 先 export {key_env}=<你的 key>")
 
     if problems:
         raise LLMError(
             "模型客户端未配置：\n  - " + "\n  - ".join(problems)
-            + "\n（密钥只从环境变量读，不要写进 config.json——它会被提交）")
+            + "\n（密钥只从环境变量读，不要写进配置文件——config.json 会被提交）")
 
     return {
         "model": model,

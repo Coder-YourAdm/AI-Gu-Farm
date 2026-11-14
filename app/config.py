@@ -13,6 +13,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 from dataclasses import asdict, dataclass, field
 from decimal import Decimal, InvalidOperation
 from fractions import Fraction
@@ -96,6 +97,37 @@ _VALID_CONDITIONS = ("E", "F", "A")
 
 # 占位符（大写 REPLACE_WITH 前缀）一旦留在配置里，禁止发起真实调用。
 _PLACEHOLDER_MARKERS = ("REPLACE_WITH",)
+
+
+#: 配置文件的解析顺序。`config.local.json` 在 .gitignore 里，专门放 model/key 环境变量名；
+#: `config.json` 是仓库里的占位模板。所有入口都必须走 `resolve_config_path()`，
+#: 否则会出现「配了 local、程序读 template」这种事（评审在 0b73d1b 上抓到过）。
+CONFIG_CANDIDATES: tuple[str, ...] = ("config.local.json", "config.json")
+
+
+def resolve_config_path(explicit: str | Path | None = None) -> Path:
+    """入口统一的配置解析：显式参数 > 环境变量 LLM_CONFIG > config.local.json > config.json。
+
+    显式给了路径却不存在时直接报错，不做静默回退——否则「传错了」会伪装成「用了默认值」。
+    """
+    if explicit is not None:
+        p = Path(explicit)
+        if not p.exists():
+            raise ConfigError(f"指定的配置文件不存在: {p}")
+        return p.resolve()
+    env = os.environ.get("LLM_CONFIG")
+    if env:
+        p = Path(env)
+        if not p.exists():
+            raise ConfigError(f"环境变量 LLM_CONFIG 指向的文件不存在: {p}")
+        return p.resolve()
+    for name in CONFIG_CANDIDATES:
+        p = Path(name)
+        if p.exists():
+            return p.resolve()
+    raise ConfigError(
+        "找不到配置文件：依次尝试 " + "、".join(CONFIG_CANDIDATES) + "；"
+        "请复制 config.dev.json 为 config.local.json，再填 model / base_url / api_key_env")
 
 
 def _is_num(v: Any) -> bool:

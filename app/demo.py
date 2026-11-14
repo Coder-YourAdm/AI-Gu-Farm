@@ -53,6 +53,7 @@ sys.path.insert(0, str(ROOT))
 from app.evolve_schema import (  # noqa: E402
     SCHEMA, SCHEMA_VERSION, validate, verdict_of,
 )
+from app.config import ConfigError, resolve_config_path  # noqa: E402
 
 RUNS = ROOT / "runs"
 DATA = ROOT / "data"
@@ -60,7 +61,9 @@ PROMPTS = ROOT / "prompts"
 WEB = ROOT / "web"
 
 BANK_FILE = DATA / "verify_bank.json"
-CONFIG_FILE = ROOT / "config.json"
+# 启动时由 _use_config() 覆盖：显式 --config > LLM_CONFIG > config.local.json > config.json。
+# 不再写死 config.json——那是仓库里的占位模板，配好的 local 配置会被它顶掉。
+CONFIG_FILE: Path | None = ROOT / "config.json"
 
 # 单次运行并发度。6 是实测稳的值：再高容易触发限流，再低单次超过 40 秒
 CONCURRENCY = 6
@@ -98,7 +101,7 @@ def sha_of_paths(paths: list[Path]) -> str:
 
 
 def frozen_fingerprint() -> dict:
-    cfg = [CONFIG_FILE] if CONFIG_FILE.exists() else []
+    cfg = [CONFIG_FILE] if CONFIG_FILE and CONFIG_FILE.exists() else []
     prm = sorted(PROMPTS.glob("*.md")) + sorted(PROMPTS.glob("*.json")) if PROMPTS.exists() else []
     return {
         "config_sha256": sha_of_paths(cfg) if cfg else "no-config",
@@ -429,6 +432,8 @@ def make_solver(backend: str) -> tuple[Callable, str]:
 
 
 def _guess_model_id() -> str:
+    if CONFIG_FILE is None:
+        return "unknown"
     try:
         cfg = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
         return str(cfg.get("model") or "unknown")
@@ -531,7 +536,8 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
     params_changed.append({"key": "verify_depth", "scope": "state",
                            "before": seed["verify_depth"], "after": learned["verify_depth"]})
     try:
-        cfg_win = json.loads(CONFIG_FILE.read_text(encoding="utf-8")).get("fitness_window")
+        cfg_win = json.loads(CONFIG_FILE.read_text(encoding="utf-8")).get("fitness_window") \
+            if CONFIG_FILE is not None else None
     except Exception:  # noqa: BLE001
         cfg_win = None
     if cfg_win is not None:
@@ -643,6 +649,20 @@ def status(pair: str) -> None:
 
 
 # ────────────────────────────── CLI ──────────────────────────────
+def _use_config(explicit: str | None) -> Path | None:
+    """把入口参数落成唯一的配置路径；并让 app.llm 也读同一份（通过 LLM_CONFIG）。"""
+    global CONFIG_FILE
+    try:
+        CONFIG_FILE = resolve_config_path(explicit)
+    except ConfigError as exc:
+        CONFIG_FILE = None
+        if explicit:
+            raise SystemExit(str(exc))
+        return None
+    os.environ["LLM_CONFIG"] = str(CONFIG_FILE)
+    return CONFIG_FILE
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="双跑演示编排（日新赛道）")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -651,6 +671,8 @@ def main(argv: list[str] | None = None) -> int:
     p_pair.add_argument("--pair", default=time.strftime("demo_pair_%m%d_%H%M"))
     p_pair.add_argument("--backend", choices=("mock", "real"), default="mock")
     p_pair.add_argument("--out", default=None)
+    p_pair.add_argument("--config", default=None,
+                       help="配置文件；默认依次找 config.local.json / config.json")
 
     p_rb = sub.add_parser("rollback", help="退回到指定快照")
     p_rb.add_argument("--pair", required=True)
@@ -661,6 +683,15 @@ def main(argv: list[str] | None = None) -> int:
 
     a = ap.parse_args(argv)
     if a.cmd == "pair":
+        path = _use_config(a.config)
+        if a.backend == "real" and path is None:
+            raise SystemExit(
+                "找不到配置文件：真实运行需要 config.local.json 或 --config 指定的文件。\n"
+                "  先复制 config.dev.json 为 config.local.json，填 model / base_url / api_key_env；\n"
+                "  密钥只从环境变量读，不要写进被 git 跟踪的 config.json。")
+        if path is not None:
+            print(f"  配置：{path.relative_to(ROOT) if path.is_absolute() and path.is_relative_to(ROOT) else path}",
+                  flush=True)
         print(f"══ 双跑开始：{a.pair}（backend={a.backend}）", flush=True)
         run_pair(a.pair, a.backend, Path(a.out) if a.out else None)
         print("══ 完成。刷新 web/evolve.html 查看", flush=True)
