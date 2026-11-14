@@ -18,5 +18,9 @@ Write-Host "== check_compare.js ==" -ForegroundColor Cyan
 node docs/demo/check_compare.js
 if ($LASTEXITCODE -ne 0) { Write-Host "COMPARE: FAIL" -ForegroundColor Red; exit 1 }
 
+Write-Host "== check_live_http.js ==" -ForegroundColor Cyan
+node docs/demo/check_live_http.js
+if ($LASTEXITCODE -ne 0) { Write-Host "LIVE_HTTP: FAIL" -ForegroundColor Red; exit 1 }
+
 Write-Host "ALL CHECKS PASS" -ForegroundColor Green
 exit 0
