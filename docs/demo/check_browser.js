@@ -9,11 +9,13 @@
  * 用法：
  *   node docs/demo/check_browser.js            # 只验，不写文件（已接入 check_all.ps1）
  *   node docs/demo/check_browser.js --shots    # 额外把 7 张截图写到 docs/demo/shots/
+ *   node docs/demo/check_browser.js --strict   # CDP 起不来时按失败退 1（CI / 发布前用）
  *   CHROME_PATH=... node docs/demo/check_browser.js   # 指定浏览器路径
  *
  * 脚本自带临时静态服务（随机端口），不依赖外部 8123；退出时关闭浏览器与服务。
  * 边界：CDP 派发的是真实鼠标事件、真实渲染，但仍不是「人眼看投影可读性」，
- * 也不能替代 C12 彩排计时。未找到浏览器时打印 SKIP 并退出 0（不阻塞其它自检）。
+ * 也不能替代 C12 彩排计时。未找到浏览器、或 CDP 起不来时打印 SKIP 并退出 0
+ * （环境问题不阻塞其它自检）；页面断言失败始终退出 1。
  */
 "use strict";
 const fs = require("fs");
@@ -30,6 +32,20 @@ const WANT_SHOTS = process.argv.includes("--shots");
 const PAGES = ["cover.html", "tutor.html", "compare.html"];
 const SIZES = [[1280, 720], [1920, 1080]];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+const STRICT = process.argv.includes("--strict");
+
+/* CDP 起不来是环境问题（无头浏览器被拦、调试端口不通、沙箱限制），
+   不该把整套自检变红：打印 SKIP 并退 0；加 --strict 时仍按失败退 1。 */
+function skip(reason) {
+  console.log("SKIP: " + reason);
+  console.log("      浏览器层（C2 三处点击 / C6 互跳 / C9 整条路径 / C13 六格）本轮未验证，");
+  console.log("      属环境限制，不是页面缺陷；请在能起浏览器的机器上补跑，或加 --strict 强制失败。");
+  if (STRICT) {
+    console.log("      --strict 已开启：按失败处理。");
+    process.exit(1);
+  }
+  process.exit(0);
+}
 
 const MIME = { ".html": "text/html; charset=utf-8", ".json": "application/json; charset=utf-8",
   ".ico": "image/x-icon", ".js": "application/javascript; charset=utf-8",
@@ -163,6 +179,8 @@ const LAYOUT_JS = `(() => {
     "--disable-dev-shm-usage", `--remote-debugging-port=${cdpPort}`,
     "--user-data-dir=" + profile, "--window-size=1280,720", "about:blank"
   ], { stdio: "ignore" });
+  let spawnError = null;
+  chrome.on("error", e => { spawnError = e; });
 
   let target = null;
   for (let i = 0; i < 40; i++) {
@@ -174,11 +192,18 @@ const LAYOUT_JS = `(() => {
     } catch (_) {}
   }
   if (!target) {
-    console.log("FAIL: CDP 未就绪（浏览器无法启动或端口被拦）");
-    chrome.kill(); srv.close(); cleanupProfile(profile); process.exit(1);
+    chrome.kill(); srv.close(); cleanupProfile(profile);
+    skip(spawnError ? "浏览器启动失败（" + spawnError.message + "）"
+                    : "CDP 未就绪（浏览器无法启动，或调试端口被拦）");
   }
 
-  const c = await CDP.connect(target.webSocketDebuggerUrl);
+  let c;
+  try {
+    c = await CDP.connect(target.webSocketDebuggerUrl);
+  } catch (e) {
+    chrome.kill(); srv.close(); cleanupProfile(profile);
+    skip("CDP 连接失败（" + (e && e.message ? e.message : e) + "）");
+  }
   await c.send("Page.enable"); await c.send("Runtime.enable");
   await c.send("Network.enable"); await c.send("Log.enable");
   let failed = 0;
