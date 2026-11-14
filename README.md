@@ -71,6 +71,22 @@ python -m app.demo pair --pair demo_pair_real --backend real
 （占位符 / 硬限额）、密钥环境变量、数据 125 题自校验、判分链路往返、运行目录可写、
 调用量是否装得下 `max_calls`。**任何一项 FAIL 都不要开跑**——`--probe` 只花几个 token。
 
+### 配真模型：一条命令
+
+```bash
+python tools/set_model.py --list                                    # 看预设服务商
+python tools/set_model.py --provider deepseek --model deepseek-chat --key sk-xxxx
+python tools/preflight.py --config config.local.json --require-key --probe
+```
+
+`set_model.py` 从 `config.dev.json` 复制一份 `config.local.json`，按服务商填 `base_url`、
+补 `max_calls`（默认 3000，E 一趟 2289），并**把 key 只写进 `.env`**。
+`config.local.json` 与 `.env` 都在 `.gitignore` 里（第 19、20 行），**永远不会进仓库**。
+
+> `preflight` 会自动读 `.env`，不需要每次 `export`。
+> `--probe` 会显示**服务端回显的 model**：如果它和你填的不一样，说明走的是别名或中转，
+> 实验报告里要如实写「我们传 X，服务端回显 Y」。
+
 > 助教侧命令随今日施工落地：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
 > `python app/serve.py --port 8123 --allow-tutor`。契约见 [AI 可读实施方案](docs/AI可读_实施方案.md)。
 
@@ -147,10 +163,14 @@ python -m pytest
 | 给编码 AI 的执行说明（冻结契约 + 角色 prompt） | [docs/AI可读_实施方案.md](docs/AI可读_实施方案.md) |
 | 养蛊机与助教怎么打包成两个 skill | [docs/skill包装_养蛊机与助教.md](docs/skill包装_养蛊机与助教.md) |
 | B 的引擎修复清单与预算限制 | [docs/B修复说明.md](docs/B修复说明.md) |
+| 真模型校准：12.8% 的根因与怎么落到 52.8% | [docs/校准结论_12h.md](docs/校准结论_12h.md) |
 | 12 小时冲刺期与 v7.3 原分工的关系 | [分工方案_v7.3.md](分工方案_v7.3.md) 附录 C |
 
 ## 已知边界
 
+- **真模型校准通过率随难度分档**：原卷（det 3–5 阶、积分 n 到 9）12.8%；把行列式降到 2–3 阶后
+  **52.8%**（落在规格 20–80% 区间）；全简单档 92.8%。360 条回答零格式错误，所以是题难度而非解析问题。
+  生成器 `tools/make_tier_dataset.py`，结论见 [校准结论](docs/校准结论_12h.md)
 - 助教侧尚未落地：`app/student/`、`app/tutor/`、`web/tutor.html` 今日施工，契约已冻结
 - 教法 profile 当前为手写基线（`manual-v1`），尚未由演化产出；冠军 profile 需真模型跑完一轮才有
 - 题域 3 个知识点（定积分 / 反常积分 / 行列式），扩充路线见完整方案 §8

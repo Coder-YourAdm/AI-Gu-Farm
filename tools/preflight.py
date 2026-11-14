@@ -131,15 +131,24 @@ def check_runs(runs_root: Path) -> Check:
         runs_root.mkdir(parents=True, exist_ok=True)
         probe = runs_root / ".preflight_probe"
         probe.write_text("ok", encoding="utf-8")
-        probe.unlink()
     except OSError as exc:
         return Check("runs", FAIL, "运行目录可写", f"{runs_root} 写不进去：{exc}")
+
+    # 写成功就够了。删不掉不算失败——沙箱、杀软、某些企业策略都会拦 unlink，
+    # 那跟「能不能落快照」是两件事，不能因为删不掉就把可写判成不可写。
+    cleanup = ""
+    try:
+        probe.unlink()
+    except OSError:
+        cleanup = "（探测文件删不掉，但写入正常——通常是沙箱限制，不影响落盘）"
+
     free_gb = shutil.disk_usage(runs_root).free / 1024 ** 3
     if free_gb < 2:
         return Check("runs", FAIL, "运行目录可写", f"{runs_root} 可写，但只剩 {free_gb:.1f} GB")
     if free_gb < 10:
-        return Check("runs", WARN, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB，六趟跑完请留够")
-    return Check("runs", OK, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB")
+        return Check("runs", WARN, "运行目录可写",
+                     f"{runs_root} 可写，剩余 {free_gb:.1f} GB，六趟跑完请留够{cleanup}")
+    return Check("runs", OK, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB{cleanup}")
 
 
 def check_deps() -> Check:
@@ -219,8 +228,28 @@ def check_probe(cfg) -> Check:
 # 汇总
 # ---------------------------------------------------------------------------
 
-def run_checks(config_path: Path, *, data_dir: Path, runs_root: Path,
-               require_key: bool = False, probe: bool = False) -> list[Check]:
+def _load_dotenv(path: Path) -> int:
+    """把 `.env` 里的 KEY=VALUE 放进 os.environ（不覆盖已有变量）。返回载入条数。
+
+    只认最朴素的格式：`NAME=value`、`# 注释`、空行。不做引号解析、不做变量展开——
+    这个文件是我们自己写的，不是通用 dotenv 实现。
+    """
+    if not path.exists():
+        return 0
+    loaded = 0
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, _, value = line.partition("=")
+        name, value = name.strip(), value.strip()
+        if name and name not in os.environ:
+            os.environ[name] = value
+            loaded += 1
+    return loaded
+
+
+def run_checks(config_path: Path, *, data_dir: Path, runs_root: Path,               require_key: bool = False, probe: bool = False) -> list[Check]:
     checks: list[Check] = []
 
     cfg_check, cfg = check_config(config_path)
@@ -249,6 +278,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--require-key", action="store_true", help="密钥缺失视为 FAIL")
     ap.add_argument("--probe", action="store_true", help="额外发一次最小真实请求")
     args = ap.parse_args(argv)
+
+    # `.env` 不会自动进环境变量。不处理它，就会反复出现
+    # 「我明明把 key 写进 .env 了，preflight 还说没设」——这一步替人做掉。
+    _load_dotenv(ROOT / ".env")
 
     if args.config:
         config_path = Path(args.config)

@@ -78,7 +78,13 @@ def atomic_write_json(path: str | Path, payload: Any, *, overwrite: bool = True)
         try:
             os.link(tmp, p)  # Atomic create-if-absent; never replace evidence.
         finally:
-            tmp.unlink(missing_ok=True)
+            try:
+                tmp.unlink(missing_ok=True)
+            except OSError:
+                # 沙箱、杀软、部分企业策略会拦住 unlink。此时目标文件已经通过
+                # 硬链接落定，残留的 .tmp 只是垃圾文件——不能因为删不掉就判定
+                # 整趟运行失败（这是「写成功」和「清理成功」两件事）。
+                pass
     return p
 
 
