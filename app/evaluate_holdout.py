@@ -351,26 +351,30 @@ def run(history: Path, out: Path, replicates: int, workers: int,
             print("  ✗ 契约不通过：" + e)
         raise SystemExit(2)
 
-    # `--out` 指哪写哪。只有明确落在 web/ 时才顺手重建 data.js。
-    # 原来写死 `write_json(out.name, body)`：name 恒为 "result.json"，于是六趟跑批
-    # 每一趟都把它覆盖成自己那趟，页面数据被最后一趟静默顶掉（2026-11-14 实际发生，
-    # E_real 的交付数据就是这样丢的）。--out 只用来"留档"，不该有副作用。
+    # 写盘只做一件事：把这次结果存档。**不碰 web/**。
+    # 事故链（2026-11-14 实际发生）：原来写死 `write_json(out.name, body)`，name 恒为
+    # "result.json" → 每一趟跑批都把 `web/result.json` 覆盖成自己那趟 → E_real 的交付
+    # 数据被 OFF_E1 静默顶掉。当时的修补只是「让 --out 生效」，但 --out 的**默认值**
+    # 仍然是 web/result.json，不传就等于照旧覆盖。所以默认值也必须离开 web/。
+    # 要发布到页面只有一条路：显式 --publish。
     out.parent.mkdir(parents=True, exist_ok=True)
-    if out.parent.resolve() == WEB_OUT.parent.resolve():
-        write_json(out.name, body)
-    else:
-        out.write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n",
-                       encoding="utf-8")
+    out.write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n",
+                   encoding="utf-8")
     print(f"\n✓ 写出 {_rel(out)} · {len(runs)} 趟 · "
           f"{all_calls} 次调用 · 结论 {conclusion['level']}")
     return body
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="留出评测 → web/result.json")
+    ap = argparse.ArgumentParser(description="留出评测 → 存档（要发布到页面加 --publish）")
     ap.add_argument("--history", default="runs/E_real_20261114/history.jsonl",
                     help="取血脉的演化记录")
-    ap.add_argument("--out", default=str(WEB_OUT))
+    ap.add_argument("--out", default=None,
+                    help="存档路径。默认写到 history 同目录的 result.json。"
+                         "**不允许指向 web/**——那是交付数据，要覆盖请显式 --publish")
+    ap.add_argument("--publish", action="store_true",
+                    help="把本次结果发布到 web/result.json 并重建 web/data.js。"
+                         "会顶掉当前交付的页面数据，非交付用途不要加")
     ap.add_argument("--replicates", type=int, default=3, help="重测趟数")
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--max-tokens", type=int, default=0,
@@ -383,10 +387,26 @@ def main(argv: list[str] | None = None) -> int:
     if not history.exists():
         raise SystemExit(f"✗ 找不到 {history}")
 
+    # 不传 --out 就存到趟目录，绝不默认落 web/。六趟跑批互相覆盖页面数据的事故，
+    # 根源就是这个默认值。
+    out = Path(a.out) if a.out else (history.parent / "result.json")
+
+    # 路径闸必须放在开跑之前：跑到第 3 趟才报「路径不许」等于白烧 180 次调用。
+    if out.resolve().parent == WEB_OUT.parent.resolve():
+        raise SystemExit(
+            f"✗ --out 不能指向 {_rel(WEB_OUT)}；要发布到页面请用 --publish。\n"
+            f"  （跑批请写 --out runs/<run_id>/result.json，别覆盖交付数据）"
+        )
+
     max_tokens = a.max_tokens or L.budget("solver", 6000)
     print(f"留出评测：{_rel(history)} · {a.replicates} 趟 · "
           f"max_tokens={max_tokens} · 模型 {json.loads((ROOT / 'config.json').read_text(encoding='utf-8'))['model']}")
-    run(history, Path(a.out), a.replicates, a.workers, max_tokens)
+    body = run(history, out, a.replicates, a.workers, max_tokens)
+
+    if a.publish:
+        # 发布是独立动作：写 web/result.json 并重建 data.js（file:// 兜底包）。
+        write_json("result.json", body)
+        print(f"✓ 已发布 {_rel(WEB_OUT)}（web/data.js 已重建）")
     return 0
 
 
