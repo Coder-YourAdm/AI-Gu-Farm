@@ -90,6 +90,10 @@ python tools/preflight.py --config config.local.json --require-key --probe
 > 助教侧命令随今日施工落地：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
 > `python app/serve.py --port 8123 --allow-tutor`。契约见 [AI 可读实施方案](docs/AI可读_实施方案.md)。
 >
+> 生成对照数据：`python tools/compare.py --seed 42 --out web/compare.json`
+> （离线、幂等；三套教法 × 三档模拟学生，结论见 [评测报告](docs/评测报告_12h.md)）。
+> 生成对照数据：`python tools/compare.py --seed 42 --out web/compare.json`
+> （离线、幂等；三套教法 × 三档模拟学生，结论见 [评测报告](docs/评测报告_12h.md)）。
 > **放进 `web/` 之前先跑数据契约自检**：`python tools/check_web_contract.py`
 > （`tutor.json` 的四条验收 + `compare.json` 的 9 行 rows / 顶层 5 字段 / 逐行
 > `cost=0.3·items/20+0.7·hints/20`、`fitness=gain−0.25·cost`，容差 0.002）。
@@ -166,6 +170,8 @@ python -m pytest
 |---|---|
 | 助教完整设计（8 个知识点 / 五级提示 / 四组对照 / 答辩 12 问） | [docs/完整方案_日新考研助手.md](docs/完整方案_日新考研助手.md) |
 | 今天 12 小时谁做什么、每步怎么验收 | [docs/分工_12小时_详细版.md](docs/分工_12小时_详细版.md) |
+| 3×3 教法对照的九行数字与三个诚实声明 | [docs/评测报告_12h.md](docs/评测报告_12h.md) |
+| 3×3 教法对照的九行数字与三个诚实声明 | [docs/评测报告_12h.md](docs/评测报告_12h.md) |
 | 给编码 AI 的执行说明（冻结契约 + 角色 prompt） | [docs/AI可读_实施方案.md](docs/AI可读_实施方案.md) |
 | 养蛊机与助教怎么打包成两个 skill | [docs/skill包装_养蛊机与助教.md](docs/skill包装_养蛊机与助教.md) |
 | B 的引擎修复清单与预算限制 | [docs/B修复说明.md](docs/B修复说明.md) |
