@@ -58,6 +58,7 @@ _FIELD_SPECS: list[tuple[str, str, bool]] = [
     ("bounty", "num", True),
     ("fitness_window", "int", True),
     ("challenge_gens", "int_list", True),
+    ("challenge_task_ids", "opt_str_list", False),
     ("challenge_window", "int", True),
     ("threshold_correct", "int", True),
     ("solver_temperature", "num", True),
@@ -148,6 +149,18 @@ def _check_type(name: str, kind: str, value: Any) -> Any:
             out.append(item)
         return out
 
+    if kind == "opt_str_list":
+        if value is None:
+            return None
+        if type(value) is not list:
+            raise ConfigError(f"{name} 必须是 list[str] 或 null（当前 {type(value).__name__}）")
+        out = []
+        for i, item in enumerate(value):
+            if type(item) is not str or not item.strip():
+                raise ConfigError(f"{name}[{i}] 必须是非空字符串（当前 {item!r}）")
+            out.append(item)
+        return out
+
     raise AssertionError(f"未声明的类型标签: {kind}")
 
 
@@ -198,6 +211,9 @@ class Config:
     budget_amount: float | None
     wall_limit_s: float | None
     max_calls: float | None = None
+    # 挑战题 ID：null 时沿用「池内 id 排序后依次配 challenge_gens」的旧行为。
+    # 指定时必须与 challenge_gens 一一对应，且 ID 必须在池中（runtime 校验）。
+    challenge_task_ids: list[str] | None = None
     # 非 JSON 字段：只用于提示，不参与指纹
     source_path: str | None = field(default=None, compare=False)
 
@@ -349,6 +365,19 @@ class Config:
                     f"相邻挑战出生间隔必须 >= window({self.challenge_window})，"
                     f"当前 {a} 与 {b} 间隔 {b - a}（两窗口不能重叠）"
                 )
+        self._validate_challenge_task_ids()
+
+    def _validate_challenge_task_ids(self) -> None:
+        ids = self.challenge_task_ids
+        if ids is None:
+            return
+        if len(ids) != len(self.challenge_gens):
+            raise ConfigError(
+                f"challenge_task_ids 必须与 challenge_gens 一一对应："
+                f"{len(ids)} 个 ID vs {len(self.challenge_gens)} 个注入代"
+            )
+        if len(set(ids)) != len(ids):
+            raise ConfigError(f"challenge_task_ids 不能重复，当前 {ids}")
 
     # ---------------- 派生量 ----------------
 

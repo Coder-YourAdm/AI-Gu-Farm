@@ -1,0 +1,564 @@
+{
+  "schema": "result_brief/1",
+  "generated_from": "runs/protocol_v5.json + evaluations",
+  "protocol_id": "7f878e7097d4036e5ebce40588f0b0002d66219b567fcee6649cc3e286f25dbe",
+  "protocol": {
+    "n_gen": 20,
+    "fitness_window": 1,
+    "solver_max_tokens": 1500,
+    "setter_max_tokens": 6000,
+    "concurrency": 15,
+    "challenge_gens": [
+      8,
+      15
+    ],
+    "challenge_task_ids": [
+      "X04",
+      "X05"
+    ],
+    "model": "deepseek-flash",
+    "base_url": "https://api.deepseek.com/v1"
+  },
+  "calibration": {
+    "mean_pass_rate": 0.7722222222222223,
+    "warning_band_ok": true,
+    "by_type": {
+      "integral": 0.9944,
+      "det": 0.55
+    }
+  },
+  "ancestors": [
+    {
+      "id": "G00_S6",
+      "calibration_mean": 0.8
+    },
+    {
+      "id": "G00_S1",
+      "calibration_mean": 0.7833
+    },
+    {
+      "id": "G00_S4",
+      "calibration_mean": 0.7667
+    }
+  ],
+  "runs": {
+    "E_s42_7f878e7097": {
+      "condition": "E",
+      "seed": 42,
+      "status": "completed",
+      "gens_run": 20,
+      "calls": 1742,
+      "aborted": [],
+      "stats": {
+        "calls": 1742,
+        "templates": {
+          "poly": 2,
+          "gamma": 101,
+          "gaussian_odd": 16,
+          "det": 1
+        },
+        "set_mean": 0.0083,
+        "set_zero_rate": 0.9833,
+        "challenges": {
+          "X04": {
+            "state": "retired",
+            "observations": [
+              [
+                8,
+                0
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ]
+            ]
+          },
+          "X05": {
+            "state": "retired",
+            "observations": [
+              [
+                15,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                17,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                19,
+                0
+              ],
+              [
+                20,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "F_s42_7f878e7097": {
+      "condition": "F",
+      "seed": 42,
+      "status": "completed",
+      "gens_run": 20,
+      "calls": 1673,
+      "aborted": [],
+      "stats": {
+        "calls": 1673,
+        "templates": {
+          "poly": 25,
+          "gaussian_odd": 15,
+          "gamma": 59,
+          "det": 21
+        },
+        "set_mean": 0.0375,
+        "set_zero_rate": 0.9417,
+        "challenges": {
+          "X04": {
+            "state": "retired",
+            "observations": [
+              [
+                8,
+                0
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ]
+            ]
+          },
+          "X05": {
+            "state": "retired",
+            "observations": [
+              [
+                15,
+                0
+              ],
+              [
+                16,
+                1
+              ],
+              [
+                17,
+                0
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                19,
+                2
+              ],
+              [
+                20,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "E_s43_7f878e7097": {
+      "condition": "E",
+      "seed": 43,
+      "status": "completed",
+      "gens_run": 20,
+      "calls": 1770,
+      "aborted": [],
+      "stats": {
+        "calls": 1770,
+        "templates": {
+          "poly": 9,
+          "gamma": 15,
+          "det": 90,
+          "gaussian_odd": 6
+        },
+        "set_mean": 0.1,
+        "set_zero_rate": 0.85,
+        "challenges": {
+          "X04": {
+            "state": "retired",
+            "observations": [
+              [
+                8,
+                0
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ]
+            ]
+          },
+          "X05": {
+            "state": "retired",
+            "observations": [
+              [
+                15,
+                0
+              ],
+              [
+                16,
+                1
+              ],
+              [
+                17,
+                1
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                19,
+                2
+              ],
+              [
+                20,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "F_s43_7f878e7097": {
+      "condition": "F",
+      "seed": 43,
+      "status": "completed",
+      "gens_run": 20,
+      "calls": 1650,
+      "aborted": [],
+      "stats": {
+        "calls": 1650,
+        "templates": {
+          "poly": 21,
+          "gamma": 63,
+          "det": 20,
+          "gaussian_odd": 16
+        },
+        "set_mean": 0.0292,
+        "set_zero_rate": 0.95,
+        "challenges": {
+          "X04": {
+            "state": "retired",
+            "observations": [
+              [
+                8,
+                0
+              ],
+              [
+                9,
+                0
+              ],
+              [
+                10,
+                0
+              ],
+              [
+                11,
+                0
+              ],
+              [
+                12,
+                0
+              ],
+              [
+                13,
+                0
+              ]
+            ]
+          },
+          "X05": {
+            "state": "retired",
+            "observations": [
+              [
+                15,
+                0
+              ],
+              [
+                16,
+                0
+              ],
+              [
+                17,
+                1
+              ],
+              [
+                18,
+                0
+              ],
+              [
+                19,
+                0
+              ],
+              [
+                20,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    "E_s44_7f878e7097": {
+      "condition": "E",
+      "seed": 44,
+      "status": "aborted",
+      "gens_run": 7,
+      "calls": 501,
+      "aborted": [
+        {
+          "gen": 7,
+          "reason": "operator_cancelled",
+          "status": "aborted"
+        }
+      ],
+      "stats": {
+        "calls": 501,
+        "templates": {
+          "poly": 2,
+          "gamma": 14,
+          "det": 11,
+          "gaussian_odd": 9
+        },
+        "set_mean": 0.0556,
+        "set_zero_rate": 0.9444,
+        "challenges": {
+          "X04": {
+            "state": "censored",
+            "observations": []
+          },
+          "X05": {
+            "state": "censored",
+            "observations": []
+          }
+        }
+      }
+    },
+    "F_s44_7f878e7097": {
+      "condition": "F",
+      "seed": 44,
+      "status": "aborted",
+      "gens_run": 0,
+      "calls": 0,
+      "aborted": [
+        {
+          "gen": 0,
+          "reason": "operator_cancelled_before_start",
+          "status": "not_started"
+        }
+      ],
+      "stats": {
+        "calls": 0,
+        "templates": {},
+        "set_mean": null,
+        "set_zero_rate": null,
+        "challenges": {}
+      }
+    }
+  },
+  "pairs": [
+    {
+      "tag": "s42",
+      "E_run": "E_s42_7f878e7097",
+      "F_run": "F_s42_7f878e7097",
+      "checkpoints": [
+        {
+          "checkpoint": 0,
+          "E": 15.6667,
+          "F": 15.8333,
+          "E_minus_F": -0.1667,
+          "E_integral": 9.6667,
+          "E_det": 6.0,
+          "F_integral": 9.8333,
+          "F_det": 6.0
+        },
+        {
+          "checkpoint": 5,
+          "E": 15.8333,
+          "F": 16.0,
+          "E_minus_F": -0.1667,
+          "E_integral": 9.8333,
+          "E_det": 6.0,
+          "F_integral": 10.0,
+          "F_det": 6.0
+        },
+        {
+          "checkpoint": 10,
+          "E": 15.8333,
+          "F": 16.0,
+          "E_minus_F": -0.1667,
+          "E_integral": 9.8333,
+          "E_det": 6.0,
+          "F_integral": 10.0,
+          "F_det": 6.0
+        },
+        {
+          "checkpoint": 15,
+          "E": 16.0,
+          "F": 15.6667,
+          "E_minus_F": 0.3333,
+          "E_integral": 10.0,
+          "E_det": 6.0,
+          "F_integral": 10.0,
+          "F_det": 5.6667
+        },
+        {
+          "checkpoint": 20,
+          "E": 16.0,
+          "F": 15.5,
+          "E_minus_F": 0.5,
+          "E_integral": 10.0,
+          "E_det": 6.0,
+          "F_integral": 9.5,
+          "F_det": 6.0
+        }
+      ],
+      "final": {
+        "E": 16.0,
+        "F": 15.5,
+        "E_minus_F": 0.5,
+        "E_vs_g0": 0.3333,
+        "F_vs_g0": -0.3333
+      }
+    },
+    {
+      "tag": "s43",
+      "E_run": "E_s43_7f878e7097",
+      "F_run": "F_s43_7f878e7097",
+      "checkpoints": [
+        {
+          "checkpoint": 0,
+          "E": 15.6667,
+          "F": 16.1667,
+          "E_minus_F": -0.5,
+          "E_integral": 10.0,
+          "E_det": 5.6667,
+          "F_integral": 10.0,
+          "F_det": 6.1667
+        },
+        {
+          "checkpoint": 5,
+          "E": 15.8333,
+          "F": 16.0,
+          "E_minus_F": -0.1667,
+          "E_integral": 10.0,
+          "E_det": 5.8333,
+          "F_integral": 10.0,
+          "F_det": 6.0
+        },
+        {
+          "checkpoint": 10,
+          "E": 16.0,
+          "F": 15.8333,
+          "E_minus_F": 0.1667,
+          "E_integral": 9.8333,
+          "E_det": 6.1667,
+          "F_integral": 10.0,
+          "F_det": 5.8333
+        },
+        {
+          "checkpoint": 15,
+          "E": 16.0,
+          "F": 15.8333,
+          "E_minus_F": 0.1667,
+          "E_integral": 10.0,
+          "E_det": 6.0,
+          "F_integral": 9.8333,
+          "F_det": 6.0
+        },
+        {
+          "checkpoint": 20,
+          "E": 16.1667,
+          "F": 16.0,
+          "E_minus_F": 0.1667,
+          "E_integral": 10.0,
+          "E_det": 6.1667,
+          "F_integral": 10.0,
+          "F_det": 6.0
+        }
+      ],
+      "final": {
+        "E": 16.1667,
+        "F": 16.0,
+        "E_minus_F": 0.1667,
+        "E_vs_g0": 0.5,
+        "F_vs_g0": -0.1667
+      }
+    }
+  ],
+  "main_result": {
+    "metric": "末代检查点（g20）六人 × 20 题留出均分，0–20",
+    "E_minus_F_by_pair": [
+      0.5,
+      0.1667
+    ],
+    "E_minus_F_mean": 0.3333,
+    "verdict": "未观察到可靠改善：两对方向一致为正，但幅度远小于抽样波动"
+  },
+  "limits": [
+    "只跑了 2 对（s42/s43）；第三对 E_s44 第 6 代人工取消、F_s44 未启动",
+    "solver 推理预算 1500 token；约 24% 行列式作答因预算截断记 unanswered",
+    "积分题型对当前模型已饱和（校准 100%），信号只来自行列式",
+    "fitness_window=1（pilot 实测 1 与 2 的 top3 翻转率同为 33%，无改善）",
+    "挑战题固定为 X04(5阶)、X05(4阶)，非按运行结果挑选"
+  ]
+}
