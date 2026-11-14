@@ -179,6 +179,71 @@
     .formula{font-size:12px}
     .read2{font-size:12.5px}
   }
+  /* ── 浅色主题：覆盖上面的深色配色，结构不动 ── */
+  :root{
+    --bg:#f5f7fa; --surface:#ffffff; --surface-2:#f4f6f9; --surface-3:#e9eef5;
+    --line:rgba(15,23,42,.08); --line-strong:rgba(15,23,42,.16);
+    --text:#0f172a; --muted:#475569; --faint:#7c8798;
+    --accent:#2563eb; --accent-dim:rgba(37,99,235,.10);
+    --good:#15803d; --bad:#dc2626; --warn:#b45309; --violet:#7c3aed;
+    --warn-dim:rgba(245,158,11,.12);
+  }
+  body{background:#f5f7fa;color:var(--text);
+    background-image:radial-gradient(1000px 360px at 15% -10%,rgba(37,99,235,.06),transparent 70%)}
+  header{background:rgba(255,255,255,.86)}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 1px 2px rgba(16,24,40,.05)}
+  thead th{background:var(--surface)}
+  tbody tr.win-row td{background:rgba(22,163,74,.06)}
+  #notice{background:rgba(245,158,11,.10);border-bottom-color:rgba(245,158,11,.3);color:var(--warn)}
+  /* ── 投影字号：整体上调一档 ── */
+  :root{color-scheme:light}
+  body{font-size:15px}
+  nav.pages a{font-size:13px}
+  .brand h1{font-size:20px}
+  .panel > h2{font-size:13px}
+  .panel > h2 .r{font-size:11.5px}
+  .seg button{font-size:12.5px}
+  .ver{font-size:11.5px}
+  .legend{font-size:12.5px}
+  .sgrp-h .nm{font-size:13px}
+  .sgrp-h .pre{font-size:11px}
+  .row .lb{font-size:12px}
+  .row .vl{font-size:12.5px}
+  table{font-size:12.5px}
+  thead th{font-size:11.5px}
+  tbody td{font-size:12px}
+  tbody td:first-child,tbody td:nth-child(2){font-size:12.5px}
+  tbody td .cn{font-size:10.5px}
+  .win-name{font-size:23px}
+  .win-why{font-size:13px}
+  .ins li{font-size:12.5px}
+  .ins .mono{font-size:12px}
+  .formula{font-size:12px}
+  .read2{font-size:12.5px}
+  .src{font-size:11.5px}
+  /* ── 暖纸风格（参考 arena_live）：覆盖上面的浅蓝主题 ── */
+  :root{
+    --bg:#f6f4f0; --surface:#ffffff; --surface-2:#faf8f4; --surface-3:#f2efe9;
+    --line:#e6e1d8; --line-strong:#d8d1c4;
+    --text:#1d1b18; --muted:#5c574f; --faint:#918b80;
+    --accent:#b0432a; --accent-dim:#f7e9e4;
+    --good:#2f7a4e; --bad:#b0432a; --warn:#c08a2e; --violet:#8a6a4a;
+    --warn-dim:#fbf1dd;
+  }
+  body{background:#f6f4f0;color:var(--text);background-image:none}
+  header{background:rgba(246,244,240,.92);border-bottom-color:var(--line)}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:none}
+  nav.pages a.on,.seg button.on{background:var(--accent-dim);color:var(--accent)}
+  .seg{border-color:var(--line)}
+  .ver{background:#fff;border-color:var(--line);border-radius:6px}
+  thead th{background:#fff}
+  .track{background:#f2efe9}
+  tbody tr.win-row td{background:#f3f8f4}
+  tbody tr.win-row td:nth-child(2){color:var(--good)}
+  #notice{background:#fbf1dd;border-bottom-color:#ead6ac;color:#8a6a24}
+  /* ── 卡片阴影（不想要就删掉这一行） ── */
+  .panel{box-shadow:0 2px 4px rgba(29,27,24,.05), 0 14px 30px -14px rgba(29,27,24,.38)}
 </style>
 <script>
 /* 自包含打包：数据已内联，file:// 双击也能看到真数据（不依赖任何服务） */
@@ -194,6 +259,7 @@
   "notes": [
    "本文件为离线回放 fixture：判分/掌握度/难度/复习排期均由本地引擎计算",
    "conf = 该错题之后该知识点的 BKT 掌握度，越高表示错因越已被克服",
+   "带提示答对记为 assisted，只按半次独立答对计入掌握度",
    "时间与事件固定，重复运行逐字节相同"
   ],
   "kcs": [
@@ -207,16 +273,16 @@
    {
     "id": "integral_improper",
     "name": "反常积分",
-    "mastery": 0.6064,
-    "items": 6,
-    "hint_avg": 0.17
+    "mastery": 0.4814,
+    "items": 4,
+    "hint_avg": 0.0
    },
    {
     "id": "det",
     "name": "行列式",
-    "mastery": 0.5391,
-    "items": 4,
-    "hint_avg": 0.25
+    "mastery": 0.3883,
+    "items": 6,
+    "hint_avg": 0.33
    }
   ],
   "turns": [
@@ -274,50 +340,50 @@
    {
     "n": 5,
     "role": "tutor",
-    "kc": "integral_improper",
-    "statement": "计算定积分 ∫₀^∞ x² e^{-2x} dx。",
-    "answer_format": "integer, fraction or finite decimal",
+    "kc": "det",
+    "statement": "计算下列 2 阶矩阵的行列式：[[2, 1], [1, 3]]。",
+    "answer_format": "integer only",
     "why": {
-     "mastery": 0.4814,
-     "difficulty": 0.5879,
-     "gap": 0.1065,
-     "last_error": "方法对了但算错了数",
+     "mastery": 0.3646,
+     "difficulty": 0.2631,
+     "gap": -0.1015,
+     "last_error": "答案符号反了",
      "memory": [
-      "evt_0053",
-      "evt_0054"
+      "evt_0902",
+      "evt_0904"
      ]
     }
    },
    {
     "n": 6,
     "role": "student",
-    "kc": "integral_improper",
-    "answer": "1/2",
+    "kc": "det",
+    "answer": "10",
     "verdict": "wrong",
     "err": "calc"
    },
    {
     "n": 7,
     "role": "tutor",
-    "kc": "integral_improper",
+    "kc": "det",
     "hint_level": 1,
     "text": "回想对应的定理：定积分逐项积分、Γ(n+1)=n!、行列式按行展开。",
     "why": {
-     "mastery": 0.4814,
-     "difficulty": 0.5879,
-     "gap": 0.1065,
-     "last_error": "方法对了但算错了数",
+     "mastery": 0.3646,
+     "difficulty": 0.2631,
+     "gap": -0.1015,
+     "last_error": "答案符号反了",
      "memory": [
-      "evt_0053",
-      "evt_0054"
+      "evt_0902",
+      "evt_0904"
      ]
     }
    },
    {
     "n": 8,
     "role": "student",
-    "kc": "integral_improper",
-    "answer": "1/4",
+    "kc": "det",
+    "answer": "5",
     "verdict": "right",
     "err": "none",
     "hint_used": 1
@@ -325,19 +391,19 @@
   ],
   "review_plan": [
    {
+    "kc": "integral_improper",
+    "due": "2026-11-14",
+    "reason": "上次答错，重置为 1 天后复查"
+   },
+   {
     "kc": "integral_definite",
     "due": "2026-11-15",
     "reason": "连续答对 1 次，间隔 3.6 天"
    },
    {
-    "kc": "integral_improper",
-    "due": "2026-11-18",
-    "reason": "连续答对 1 次，间隔 3.4 天"
-   },
-   {
     "kc": "det",
     "due": "2026-11-18",
-    "reason": "连续答对 1 次，间隔 3.7 天"
+    "reason": "连续答对 1 次，间隔 3.4 天"
    }
   ],
   "memory_timeline": [
@@ -352,7 +418,7 @@
    {
     "t": "2026-11-14",
     "text": "方法对了但算错了数",
-    "conf": 0.61,
+    "conf": 0.63,
     "src": [
      "evt_0906"
     ]

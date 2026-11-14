@@ -104,10 +104,14 @@ def main() -> int:
     ap.add_argument("--zip", action="store_true", help="额外生成 zip")
     args = ap.parse_args()
 
-    out_dir = Path(args.out)
+    out_dir = Path(args.out).resolve()
     files = build(out_dir)
     for f in files:
-        print(f"  {f.relative_to(ROOT)}  {f.stat().st_size / 1024:.1f} KB")
+        try:
+            shown = f.relative_to(ROOT)
+        except ValueError:
+            shown = f
+        print(f"  {shown}  {f.stat().st_size / 1024:.1f} KB")
 
     if args.zip:
         zip_path = ROOT / "dist" / "日新考研助手_前端预览.zip"
