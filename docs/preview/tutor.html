@@ -936,32 +936,36 @@
   /* 回放读 D.turns，实时读 LIVE.log —— 两条数据源，一套渲染。 */
   function curTurns(){ return LIVE.on ? LIVE.log : (D.turns || []); }
 
+  /* 大整数必须精确：parseInt 超过 2^53 会丢精度，两个不同的数会被判成相等。
+     这里全程用 BigInt 做有理数运算（n/d），只做交叉相乘，不比较浮点。 */
+  function absBig(x){ return x < 0n ? -x : x; }
+
   function gcd(a, b){
-    a = Math.abs(a); b = Math.abs(b);
+    a = absBig(a); b = absBig(b);
     while (b){ var t = b; b = a % b; a = t; }
-    return a || 1;
+    return a || 1n;
   }
 
-  /* 解析成 {n,d} 整数对；解析不了返回 null（→ 按空答处理）。
-     判分只做交叉相乘，不比较浮点 —— 0.5 与 1/2 必须判成同一个数。 */
+  /* 解析成 {n,d}（BigInt）整数对；解析不了返回 null（→ 按空答处理）。
+     0.5 与 1/2 判成同一个数；9007199254740993 与 …992 不会被混为一谈。 */
   function parseFrac(s){
     if (s === null || s === undefined) return null;
     var t = String(s).trim().replace(/\s+/g, "");
     if (!t) return null;
     var m;
     if ((m = /^(-?\d+)\/(\d+)$/.exec(t))){
-      var n = parseInt(m[1], 10), d = parseInt(m[2], 10);
-      if (!d) return null;
-      if (d < 0){ n = -n; d = -d; }
+      var n = BigInt(m[1]), d = BigInt(m[2]);
+      if (d === 0n) return null;
+      if (d < 0n){ n = -n; d = -d; }
       var g = gcd(n, d);
       return {n: n / g, d: d / g};
     }
-    if ((m = /^(-?\d+)$/.exec(t))) return {n: parseInt(m[1], 10), d: 1};
+    if ((m = /^(-?\d+)$/.exec(t))) return {n: BigInt(m[1]), d: 1n};
     if ((m = /^(-?)(\d*)\.(\d+)$/.exec(t))){
-      var sign = m[1] === "-" ? -1 : 1;
-      var ip = m[2] ? parseInt(m[2], 10) : 0;
-      var d10 = Math.pow(10, m[3].length);
-      var n2 = sign * (ip * d10 + parseInt(m[3], 10));
+      var sign = m[1] === "-" ? -1n : 1n;
+      var ip = m[2] ? BigInt(m[2]) : 0n;
+      var d10 = 10n ** BigInt(m[3].length);
+      var n2 = sign * (ip * d10 + BigInt(m[3]));
       var g2 = gcd(n2, d10);
       return {n: n2 / g2, d: d10 / g2};
     }
@@ -984,11 +988,11 @@
     if (!f) return "giveup";
     var ref = parseFrac(item.answer);
     if (f.n * ref.d === -ref.n * f.d) return "sign";
-    if (f.d === ref.d && Math.abs(f.n - ref.n) === 1) return "calc";
+    if (f.d === ref.d && absBig(f.n - ref.n) === 1n) return "calc";
     var dN = f.n * ref.d - ref.n * f.d;   // 差的分子
     var dD = f.d * ref.d;                 // 差的分母
-    if (dN % dD === 0) return "calc";
-    if (item.kc === "det" && Math.abs(dN) % 2 === 0) return "misread";
+    if (dN % dD === 0n) return "calc";
+    if (item.kc === "det" && absBig(dN) % 2n === 0n) return "misread";
     return "concept";
   }
 
@@ -1238,7 +1242,7 @@
   /* 自检钩子：沙箱里跑不了浏览器时，docs/demo/check_live.js 用它驱动
      同一套状态机（判分/提示/重置/掌握度）。不参与页面渲染。 */
   window.__tutorDebug = {handle: liveHandle, ask: liveAsk, request: liveRequest,
-                         state: LIVE, pool: LIVE_POOL, setMode: setMode};
+                         state: LIVE, pool: LIVE_POOL, setMode: setMode, frac: parseFrac};
 
   load();
 })();

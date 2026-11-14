@@ -104,6 +104,17 @@ function near(a, b, eps) {
   ok(typeof start.hint.level === "number" && typeof start.hint.text === "string",
      "hint 含 level 与 text");
 
+  console.log("== A2. 大整数精度（BigInt，B 体检台账 ⑥） ==");
+  const f1 = dbg.frac("9007199254740993");   // 2^53 + 1
+  const f2 = dbg.frac("9007199254740992");   // 2^53
+  ok(!!f1 && !!f2 && f1.n !== f2.n, "2^53+1 与 2^53 不再相等",
+     { a: f1 && String(f1.n), b: f2 && String(f2.n) });
+  const bigFrac = dbg.frac("123456789012345678901/7");
+  ok(!!bigFrac && String(bigFrac.n) === "123456789012345678901",
+     "超大分数分子不被截断", bigFrac && String(bigFrac.n));
+  const h1 = dbg.frac("0.5"), h2 = dbg.frac("1/2");
+  ok(!!h1 && !!h2 && h1.n === h2.n && h1.d === h2.d, "0.5 与 1/2 仍解析为同一个数");
+
   console.log("== B. 重置 → 回到首题、掌握度归 0.20 ==");
   const r0 = H("reset", null);
   ok(r0.statement === pool[0].statement, "reset 后是第 1 题");
