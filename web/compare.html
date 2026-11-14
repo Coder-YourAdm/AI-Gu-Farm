@@ -227,7 +227,8 @@
         <div class="formula">
           <b>gain</b> = (post − pre) / (1 − pre)<br>
           <b>cost</b> = 0.3·(题数/20) + 0.7·(提示/20)<br>
-          <b>fitness</b> = gain − 0.25 · cost
+          <b>fitness</b> = gain − 0.25 · cost<br>
+          <b>注</b>：提示是加权次数，可超过 20；cost &gt; 1 与 fitness 为负都是合法值，是有意的惩罚项，不是算错。
         </div>
         <div class="bad-note" id="calib"></div>
       </div>
@@ -237,7 +238,7 @@
       <h2>怎么读这张图 <em>读之前先看这四条</em></h2>
       <div class="prose">
         <ol>
-          <li>条形长度按<b>同一指标内的最大值</b>归一。<b>不要跨指标比长度</b> —— 增益最长的那条和成本最长的那条没有可比性。</li>
+          <li>条形长度按<b>同一指标内的最大值</b>归一；该指标出现负值时改按<b>最小值→最大值</b>区间线性映射，最短条＝最差值。<b>不要跨指标比长度</b> —— 增益最长的那条和成本最长的那条没有可比性。</li>
           <li>成本这一栏里<b>最长＝最贵</b>。看成本时把条读成"花了多少"，不是"多好"。</li>
           <li>适应度 = 增益 − 0.25 × 成本。一套教法想赢，要么让掌握度涨得多，要么少打断学生。</li>
           <li>每档后面带 <span style="color:var(--good)">✓</span> 的是<b>这一档里</b>适应度最高的那套。三档的最优不必相同 —— 这正是要做对照的理由。</li>
@@ -260,10 +261,10 @@
     fitness:"条形越长＝性价比越高（适应度 fitness）"
   };
 
-  /* 契约 4.4 的形状。A 组产出 web/compare.json 后自动切换，页面不用改一行。
-     这九个数我先按 6.6 的公式自己算过：fitness = gain − 0.25·cost，
-     cost = 0.3·(题数/20) + 0.7·(提示/20)，九行全部严丝合缝 ——
-     演示页上挂一组算不通的数，比不给数更糟。 */
+  /* 契约 4.4 的形状，只是「web/compare.json 不存在时」的内联样例，不是交付数据。
+     A 的真数据里 hints 是加权次数（可 >20）、cost 可 >1、fitness 可为负，口径仍按 §6.6；
+     页面 audit() 会逐行复算 cost/fitness，差 >0.002 标红。
+     内联样例同样自己按公式算过：演示页上挂一组算不通的数，比不给数更糟。 */
   var FIXTURE = {
     seed: 42,
     students: ["weak","mid","strong"],
@@ -311,9 +312,19 @@
   function renderChart(){
     var host = $("chart");
     host.innerHTML = "";
-    var max = 0;
-    D.rows.forEach(function(r){ max = Math.max(max, r[METRIC] || 0); });
-    if (max <= 0) max = 1;
+    var max = 0, min = 0;
+    D.rows.forEach(function(r){
+      var v = r[METRIC] || 0;
+      max = Math.max(max, v);
+      min = Math.min(min, v);
+    });
+    /* 出现负值时按 [min, max] 区间线性映射：否则所有负值都会被 Math.max(2, ...)
+       压成同样一根 2% 的短条，看不出 -0.100 与 -0.424 的差别。
+       A 的 compare.json 里 4/9 行 fitness 为负、cost 最高 1.725，都是合法值。
+       gain / cost 全非负，映射结果与原来一致。 */
+    var hasNeg = min < 0;
+    var span = hasNeg ? (max - min) : max;
+    if (span <= 0) span = 1;
 
     D.students.forEach(function(st){
       var rows = D.rows.filter(function(r){ return r.student === st; });
@@ -331,7 +342,9 @@
       rows.forEach(function(r){
         var row = document.createElement("div");
         row.className = "row" + (r.policy === best.policy ? " win" : "");
-        var w = Math.max(2, ((r[METRIC] || 0) / max) * 100);
+        var v = r[METRIC] || 0;
+        var w = hasNeg ? (2 + ((v - min) / span) * 98)
+                       : Math.max(2, (v / max) * 100);
         row.innerHTML =
           '<span class="lb">' + r.policy + '</span>' +
           '<span class="track"><i style="width:' + w.toFixed(2) +
