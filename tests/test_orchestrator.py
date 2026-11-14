@@ -527,7 +527,7 @@ def test_ancestor_metrics_split_by_type():
     assert m["det_failure"] == pytest.approx((2 / 3 + 1 / 3) / 2)
     assert m["balanced_failure"] == pytest.approx(0.5 * 0.5 + 0.5 * 0.5)
     assert m["mixed_failure"] == pytest.approx((1 + 0 + 2 / 3 + 1 / 3) / 4)
-    assert m["task_counts"] == {"integral": 2, "det": 2}
+    assert m["task_mix"] == {"integral": 2, "det": 2}
 
 
 def test_ancestor_metrics_null_when_a_type_missing():
