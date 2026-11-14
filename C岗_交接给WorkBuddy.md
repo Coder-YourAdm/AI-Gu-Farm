@@ -1,15 +1,15 @@
 # C 岗交接给 WorkBuddy（读这一份就够）
 
 > 写于 2026-11-14T13:20+08:00　作者：DSH 会话（接替原 WorkBuddy 的 C 岗）
-> 状态更新 2026-11-14 14:10（WorkBuddy）：C 侧成果已全部推送；本文第 0、2 节的
-> HEAD 与推送状态已按最新情况修正。**字段口径与打包基线以 `docs/demo/对接清单.md` 为准。**
+> 状态更新 2026-11-14 14:30（WorkBuddy）：C 侧成果已全部推送并合入 `main`；
+> A 的 `tutor.json` / `compare.json` 均已到位。**字段口径与打包基线以 `docs/demo/对接清单.md` 为准。**
 > **你的仓库已经是最新的，不要再重做 C6–C13。**
 
 ## 0. 先确认你拿到的是哪一版
 
 ```bash
 git -C D:\WorkBuddy-temp\repo-real\AI-Gu-Farm log --oneline -1
-# 应为 bd848c5 或更晚（含「同步交付说明到已推送状态」）；95ca417 是当时的 HEAD
+# 应为 4f99000（merge: 合入 A 的 A8–A11）；95ca417 / bd848c5 均为历史 HEAD
 ```
 
 `web/` 下应该有：`tutor.html` 38 KB、`compare.html` 22 KB、`cover.html` 7.9 KB，
@@ -40,12 +40,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
 ## 2. 你现在该做的（按顺序）
 
 1. **不要改 `web/*.html` 的结构**，C 侧逻辑已经自洽；要改先跑 `check_all.ps1`。
-2. **C4 仍未完成**：`web/tutor.json` **与** `web/compare.json` 都不存在（是两份，不是一份），
-   诊断页与对照页各挂一条"内联示例数据"黄条。A 的数据一到，放 `web/` 下即可（前端不用改），然后：
-   `python docs/demo/check_pages.py` 看第 7 项 `kcs=3 why_ok=True reference=0 rows=9`。
+2. **C4 已完成**：`web/tutor.json` 与 `web/compare.json` 都已由 A 产出并合入 `main`，
+   页面不再挂黄条。`python docs/demo/check_pages.py` 第 7 项实测 `kcs=3 why_ok=True reference=0 rows=9`，
+   `python tools/check_web_contract.py --require-compare` 实测 PASS。
    字段形状、公式口径与两处契约数学错误见 `docs/demo/对接清单.md` 第一节。
-3. **推送与合并**：`feat/tutor-c` 已全部推送到远端；并已把 `origin/main` 合进本分支后快进推到 `main`，
-   使 B10 打包基线包含三页与真数据。桌面 bundle 仅作网络中断时的兜底，不再是主要通道。
+3. **推送与合并已完成**：`main` 与 `feat/tutor-c` 同在 `4f99000`，三页 + 两份数据都在主干上。
+   桌面 bundle / `D://WorkBuddy-temp//outputs//c-to-main-f02caeb.bundle` 仅作网络中断时的兜底。
    打包必须包含的文件清单见 `docs/demo/对接清单.md` 第二节。
 4. **真人验收**（沙箱/无头浏览器做不了，需要人）：三页互跳、实时连答 5 题、断接口自动回放、
    C13 六格（1280/1920 × 三页）。

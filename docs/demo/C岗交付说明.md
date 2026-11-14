@@ -89,10 +89,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
 
 ## 六、当前已知缺口
 
-1. `web/tutor.json` / `web/compare.json` 还没有 → 页面用内联示例 + 黄条（**截图前必须补**）。
-   缺的是**两份**，不是一份：`tutor.html` fetch `tutor.json`，`compare.html` fetch `compare.json`。
+1. ✅ `web/tutor.json` / `web/compare.json` 已由 A 产出并合入 `main`（14:30 核对），页面不再挂黄条。
+   `tools/check_web_contract.py --require-compare` 与 `check_pages.py` 第 7 项均 PASS。
 2. `app/serve.py` 没有 `/api/ask` 分支（实测 501）→ 实时模式走本地假 Tutor；B 交付后改一处 `endpoint`。
-3. 推送已完成，`origin/feat/tutor-c` = `95ca417`；A/B 直接 `git fetch` 后 checkout 该分支即可拿到全部 C 交付。
+3. 推送与合并均已完成：`main` = `origin/feat/tutor-c` = `4f99000`，三页已在主干上，B10 可直接从 main 打包。
 4. 真人验收尚未做（三页互跳、实时连答 5 题、断接口自动回放、C13 六格 1280/1920）——
    脚本自检全绿 ≠ 演示验收通过，这部分需要人在浏览器里过一遍。
 5. **打开方式**：`file://` 双击读不到本地 JSON，永远显示示例数据。正式演示/截图必须
