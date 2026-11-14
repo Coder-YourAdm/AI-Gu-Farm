@@ -4,7 +4,7 @@
 正是让 A 逐条核对——表本身错了，核对就变成两个人一起错。
 
 用法： python tests/make_a_checklist.py
-产出： 十道验证题_给A核对.md
+产出： history/十道验证题_给A核对.md
 """
 
 import json
@@ -12,7 +12,7 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 BANK = ROOT / "data" / "verify_bank.json"
-OUT = ROOT / "十道验证题_给A核对.md"
+OUT = ROOT / "history" / "十道验证题_给A核对.md"
 
 
 def ref_str(r: dict) -> str:

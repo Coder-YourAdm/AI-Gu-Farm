@@ -608,7 +608,7 @@ app/serve.py（只加 /api/ask 分支与 --allow-tutor）、skills/、
 tools/tutor_demo.py、tests/test_{events,profile,memory,hint,dialog}.py。
 
 按顺序做：
-1. skills/prompt-evolver/ 与 skills/kaoyan-tutor/ 两套目录 + SKILL.md（照 docs/skill包装_养蛊机与助教.md 抄）
+1. skills/prompt-evolver/ 与 skills/kaoyan-tutor/ 两套目录 + SKILL.md（照 history/skill包装_养蛊机与助教.md 抄）
 2. app/student/events.py —— 11 字段 append-only，缺字段抛 ValueError
 3. app/student/profile.py —— upsert 追加 supersedes，不覆盖
 4. app/tutor/memory.py —— 0.5/0.3/0.2 打分，top-4，≤200 字

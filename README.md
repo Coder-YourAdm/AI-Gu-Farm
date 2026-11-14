@@ -87,7 +87,7 @@ app/run.py + executor.py           冻结、带 evidence        app/student + ap
 | 主责 | 判分内核 / 学生模型 / 对照实验 / 方案与验收 | 演化引擎 / 正式实验 / 助教后端 / 记忆与提示 | 三页前端 / 演示素材 / 自检脚本 |
 | 独占目录 | `app/executor.py`、`scoring.py`、`ancestor.py`、`app/student/`、`app/evalsim/`、`tools/` | `app/run.py`、`runner.py`、`runtime.py`、`store.py`、`llm_async.py`、`app/tutor/{dialog,hint}.py`、`app/serve.py` | `web/`、`docs/demo/`、`docs/demo/shots/` |
 | 硬指标 | 判分 0 浮点、612 条测试、9 行对照逐行自洽 | 4 趟 × 20 代真数据、协议冻结、接口探针 PASS | 三页零外链、断网可演、7 张截图 |
-| 产出契约 | `A_to_B_接口契约.md`、`A_executor_实现说明.md` | `docs/demo/给B_B7最小集.md` | `docs/demo/自检_逐项对照_C0-C13.md` |
+| 产出契约 | `history/A_to_B_接口契约.md`、`history/A_executor_实现说明.md` | `docs/demo/给B_B7最小集.md` | `docs/demo/自检_逐项对照_C0-C13.md` |
 
 ### A · 洪修睿 —— 把判分变成物理定律
 
@@ -214,10 +214,10 @@ python -m app.run --config config.local.json --dry-run --all-seeds
 | | 给编码 AI 的冻结契约与角色 prompt | [docs/AI可读_实施方案.md](docs/AI可读_实施方案.md) |
 | | 每人每步的验收命令 | [docs/分工_12小时_详细版.md](docs/分工_12小时_详细版.md) |
 | | 原始规格与附录 A 用例 | [方案/技术规格_v5.md](方案/技术规格_v5.md) |
-| ② 契约 | 六函数 JSON 形状 / 内部逻辑 / B7 最小集 | [A_to_B_接口契约.md](A_to_B_接口契约.md) · [A_executor_实现说明.md](A_executor_实现说明.md) · [docs/demo/给B_B7最小集.md](docs/demo/给B_B7最小集.md) |
+| ② 契约 | 六函数 JSON 形状 / 内部逻辑 / B7 最小集 | [history/A_to_B_接口契约.md](history/A_to_B_接口契约.md) · [history/A_executor_实现说明.md](history/A_executor_实现说明.md) · [docs/demo/给B_B7最小集.md](docs/demo/给B_B7最小集.md) |
 | ③ 证据 | 正式实验 / 对照 / 校准 / 评测 | [B_交付简报](docs/B_交付简报.md) · [评测报告](docs/评测报告_12h.md) · [校准结论](docs/校准结论_12h.md) |
-| ④ 过程台账 | 时点体检、待办、通知、交接存档 | [docs/仓库体检_20h.md](docs/仓库体检_20h.md) · [docs/待办_BC_15h.md](docs/待办_BC_15h.md) · [docs/队友通知_待发消息.md](docs/队友通知_待发消息.md) |
-| ⑤ 历史草稿 | 初稿、原分工、v1–v4 大纲（已被总纲合并，保留追溯） | `docs/后续方案_智慧考研助手.md` · `docs/分工_12小时.md` · `分工方案_v7.3.md` · `方案/历史版本/**` |
+| ④ 过程台账 | 时点体检、待办、通知、交接存档 | [history/仓库体检_20h.md](history/仓库体检_20h.md) · [history/待办_BC_15h.md](history/待办_BC_15h.md) · [history/队友通知_待发消息.md](history/队友通知_待发消息.md) |
+| ⑤ 历史草稿 | 初稿、原分工、v1–v4 大纲（已被总纲合并，保留追溯） | `history/后续方案_智慧考研助手.md` · `history/分工_12小时.md` · `history/分工方案_v7.3.md` · `方案/历史版本/**` |
 
 **判读原则**：只有 ① 层能作为开工依据；②③ 用于查证；④⑤ 是决策留痕。
 
@@ -235,6 +235,6 @@ python -m app.run --config config.local.json --dry-run --all-seeds
 - 服务端回显模型与传入 ID 不一致（中转）；严格可复现需换官方直连。
 - 提示级别**实现层已统一**（20:26）：0=无提示、1..4 四档封顶、第 4 级给完整解法但不报最终数值；
   前端判分改用 BigInt，超过 2^53 的答案不再失精。仅冻结契约 §6.5 的旧 LADDER 文案待同步
-  （改契约需三人同意），答辩按新口径讲，见 [20:10 体检](docs/仓库体检_20h.md) §4。
+  （改契约需三人同意），答辩按新口径讲，见 [20:10 体检](history/仓库体检_20h.md) §4。
 - 附录 A 的 D2 矩阵元素 `10` 超出 §2.1 的 `[-9,9]`：测试已换成等值矩阵并补
-  `validate_task` 断言，规格原文未改，见 `给A_边界冲突说明.md`。
+  `validate_task` 断言，规格原文未改，见 `history/给A_边界冲突说明.md`。

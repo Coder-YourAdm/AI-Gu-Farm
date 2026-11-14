@@ -48,7 +48,7 @@ PACKS: dict[str, dict[str, str]] = {
         "prompts/crossover.md": "prompts/crossover.md",
         "prompts/mutate.md": "prompts/mutate.md",
         "一页纸_对接.md": "一页纸_对接.md",
-        "对接说明_分工边界.md": "对接说明_分工边界.md",
+        "对接说明_分工边界.md": "history/对接说明_分工边界.md",
         "tests/test_prompts.py": "tests/test_prompts.py",
         "pytest.ini": "pytest.ini",
     },
