@@ -20,54 +20,54 @@
 
 ### 文件与导入
 
-- [ ] 建 `app/executor.py`
-- [ ] `from fractions import Fraction`、`from decimal import Decimal`、`from math import factorial`
-- [ ] 不引入 SymPy / mpmath / numpy（规格 §1 明确首版不需要）
+- [x] 建 `app/executor.py`
+- [x] `from fractions import Fraction`、`from decimal import Decimal`、`from math import factorial`
+- [x] 不引入 SymPy / mpmath / numpy（规格 §1 明确首版不需要）
 
 ### 六个函数签名（照抄规格 §2.3，参数名、类型注解、返回值都不改）
 
-- [ ] `validate_task(raw: dict) -> tuple[bool, str]`
-- [ ] `normalize_task(raw: dict, *, task_id, source, by, gen) -> dict`
-- [ ] `solve_exact(task: dict) -> dict`
-- [ ] `solver_view(task: dict) -> dict`
-- [ ] `signature(task: dict) -> str`
-- [ ] `judge(task: dict, raw_answer: str | None) -> str`
+- [x] `validate_task(raw: dict) -> tuple[bool, str]`
+- [x] `normalize_task(raw: dict, *, task_id, source, by, gen) -> dict`
+- [x] `solve_exact(task: dict) -> dict`
+- [x] `solver_view(task: dict) -> dict`
+- [x] `signature(task: dict) -> str`
+- [x] `judge(task: dict, raw_answer: str | None) -> str`
 
 > ⚠️ 规格里**没有** `validate()` / `solve()`。写错名字，B 的 import 和验收命令会全部失败。
 
 ### 三个解析器（入口先拒绝）
 
-- [ ] `parse_integer(s)`：`^[+-]?\d+$`；**第一行就判 `isinstance(x, bool)` 并拒**；数字位数 >64 拒
-- [ ] `parse_fraction(s)`：`[+-]?\d+/\d+`；分母 ≤0 拒；用 `Fraction` 自动约分、分母恒正
-- [ ] `parse_decimal(s)`：必须**实际含 `.` 或 `e/E`**；指数绝对值 ≤30；尾数位数 ≤64；`Decimal` → `Fraction`，**不参与比较时用 float**
-- [ ] 统一出口：格式错 → `unanswered`；数值合法但不等 → `wrong`；两者都计 0 且占分母
+- [x] `parse_integer(s)`：`^[+-]?\d+$`；**第一行就判 `isinstance(x, bool)` 并拒**；数字位数 >64 拒
+- [x] `parse_fraction(s)`：`[+-]?\d+/\d+`；分母 ≤0 拒；用 `Fraction` 自动约分、分母恒正
+- [x] `parse_decimal(s)`：必须**实际含 `.` 或 `e/E`**；指数绝对值 ≤30；尾数位数 ≤64；`Decimal` → `Fraction`，**不参与比较时用 float**
+- [x] 统一出口：格式错 → `unanswered`；数值合法但不等 → `wrong`；两者都计 0 且占分母
 
 ### 四个模板（全程 Fraction）
 
-- [ ] `poly`：`Σ aᵢ·(u^(i+1) − l^(i+1))/(i+1)`；校验 `coeffs[-1] != 0`、至少一个 `i≥1` 的系数非零、`upper > lower`
-- [ ] `gamma`：`Fraction(c * factorial(n), rate**(n+1))`
-- [ ] `gaussian_odd`：`Fraction(c * factorial(k), 2 * rate**(k+1))`
-- [ ] `det`：Bareiss 精确消元，零主元换行并记符号，找不到非零主元 → 0
-- [ ] 参数边界照规格 §2.1 表逐条实现：`rate=0` 拒（发散）、`c=0` 拒（无区分度）、`n=0` 拒、矩阵元素严格 `type(v) is int`
+- [x] `poly`：`Σ aᵢ·(u^(i+1) − l^(i+1))/(i+1)`；校验 `coeffs[-1] != 0`、至少一个 `i≥1` 的系数非零、`upper > lower`
+- [x] `gamma`：`Fraction(c * factorial(n), rate**(n+1))`
+- [x] `gaussian_odd`：`Fraction(c * factorial(k), 2 * rate**(k+1))`
+- [x] `det`：Bareiss 精确消元，零主元换行并记符号，找不到非零主元 → 0
+- [x] 参数边界照规格 §2.1 表逐条实现：`rate=0` 拒（发散）、`c=0` 拒（无区分度）、`n=0` 拒、矩阵元素严格 `type(v) is int`
 
 > ⚠️ 这里**没有** `ln` / `sin` / `cos` / `e^(ax)`，也没有 `n=-1` 分支。三族全是定积分与反常积分，答案是数值。
 
 ### `statement()` 题面生成（规格 §2.5）
 
-- [ ] Unicode 上标（`x⁴` 不是 `x^4`）；指数为 1 省略上标；指数为 0 并入常数项
-- [ ] 系数 1 省略、-1 写 `-x⁴`、其他负数把负号放项首
-- [ ] 降幂排列，项间 `+` / `-`，系数取绝对值
-- [ ] `gamma` 上限写 `∞` 不写 `+∞`
-- [ ] `gaussian_odd` 展开成具体奇数次（`k=2` → `x⁵`），不写 `2k+1`
-- [ ] `det` 用 `[[2, 1], [1, 3]]` 行优先、逗号后一个空格
-- [ ] 纯函数：同输入永远同输出
+- [x] Unicode 上标（`x⁴` 不是 `x^4`）；指数为 1 省略上标；指数为 0 并入常数项
+- [x] 系数 1 省略、-1 写 `-x⁴`、其他负数把负号放项首
+- [x] 降幂排列，项间 `+` / `-`，系数取绝对值
+- [x] `gamma` 上限写 `∞` 不写 `+∞`
+- [x] `gaussian_odd` 展开成具体奇数次（`k=2` → `x⁵`），不写 `2k+1`
+- [x] `det` 用 `[[2, 1], [1, 3]]` 行优先、逗号后一个空格
+- [x] 纯函数：同输入永远同输出
 
 ### A1 验收（自己跑，跑不出绿不许开 A2）
 
-- [ ] `python -c "from app.executor import validate_task, normalize_task, solve_exact, solver_view, signature, judge"` 不报错
-- [ ] I1–I8 返回值与附录 A 逐条相等，且 `type(v) is Fraction`（`isinstance(v, float)` 必须为 False）
-- [ ] 附录 A 里 4 条题面字符串**逐字相等**
-- [ ] 非法输入在**求值之前**被拒（用 mock 计数证明没进 `solve_exact`）
+- [x] `python -c "from app.executor import validate_task, normalize_task, solve_exact, solver_view, signature, judge"` 不报错
+- [x] I1–I8 返回值与附录 A 逐条相等，且 `type(v) is Fraction`（`isinstance(v, float)` 必须为 False）
+- [x] 附录 A 里 4 条题面字符串**逐字相等**
+- [x] 非法输入在**求值之前**被拒（用 mock 计数证明没进 `solve_exact`）
 
 ---
 
@@ -75,55 +75,55 @@
 
 ### I 组 · 积分 8 条
 
-- [ ] `I1` `poly` coeffs=[1,1], l=0, u=1 → `3/2`
-- [ ] `I2` `poly` coeffs=[3,-2,1], l=-1, u=2 → `9`（分母为 1，编码为 integer）
-- [ ] `I3` `poly` coeffs=[0,0,5], l=1, u=2 → `35/3`
-- [ ] `I4` `gamma` n=1, rate=2, c=1 → `1/4`
-- [ ] `I5` `gamma` n=9, rate=8, c=5 → `14175/8388608`（分母上限用例）
-- [ ] `I6` `gaussian_odd` k=0, rate=2, c=3 → `3/4`
-- [ ] `I7` `gaussian_odd` k=5, rate=1, c=-2 → `-120`（负号不能丢）
-- [ ] `I8` 拒绝组 6 个输入：`rate=0`、`n=0`、`c=0`、`template="eigen"`、`coeffs=[1,0]`、`upper=l` → 全部 `(False, 原因)`
+- [x] `I1` `poly` coeffs=[1,1], l=0, u=1 → `3/2`
+- [x] `I2` `poly` coeffs=[3,-2,1], l=-1, u=2 → `9`（分母为 1，编码为 integer）
+- [x] `I3` `poly` coeffs=[0,0,5], l=1, u=2 → `35/3`
+- [x] `I4` `gamma` n=1, rate=2, c=1 → `1/4`
+- [x] `I5` `gamma` n=9, rate=8, c=5 → `14175/8388608`（分母上限用例）
+- [x] `I6` `gaussian_odd` k=0, rate=2, c=3 → `3/4`
+- [x] `I7` `gaussian_odd` k=5, rate=1, c=-2 → `-120`（负号不能丢）
+- [x] `I8` 拒绝组 6 个输入：`rate=0`、`n=0`、`c=0`、`template="eigen"`、`coeffs=[1,0]`、`upper=l` → 全部 `(False, 原因)`
 
 ### D 组 · 行列式 8 条
 
-- [ ] `D1` `[[2,1],[1,3]]` → `5`
-- [ ] `D2` `[[1,2,3],[4,5,6],[7,8,10]]` → `-3`
-- [ ] `D3` `[[1,2],[2,4]]` → `0`（奇异，主元全零分支）
-- [ ] `D4` `[[2,1,0],[1,3,1],[0,1,2]]` → `8`
-- [ ] `D5` `[[3,1,2],[0,-2,5],[0,0,7]]` → `-42`（上三角 = 对角积）
-- [ ] `D6` `[[0,1],[1,0]]` → `-1`（首元素为 0 必须换行）
-- [ ] `D7` `[[0,2,1],[3,0,1],[4,5,0]]` → `23`（多轮换行）
-- [ ] `D8` 拒绝组 4 个输入：非方阵、元素 `2.0`（float）、元素 `true`（bool）、1 阶 `[[5]]` → 全部拒绝
+- [x] `D1` `[[2,1],[1,3]]` → `5`
+- [x] `D2` `[[1,2,3],[4,5,6],[7,8,10]]` → `-3`
+- [x] `D3` `[[1,2],[2,4]]` → `0`（奇异，主元全零分支）
+- [x] `D4` `[[2,1,0],[1,3,1],[0,1,2]]` → `8`
+- [x] `D5` `[[3,1,2],[0,-2,5],[0,0,7]]` → `-42`（上三角 = 对角积）
+- [x] `D6` `[[0,1],[1,0]]` → `-1`（首元素为 0 必须换行）
+- [x] `D7` `[[0,2,1],[3,0,1],[4,5,0]]` → `23`（多轮换行）
+- [x] `D8` 拒绝组 4 个输入：非方阵、元素 `2.0`（float）、元素 `true`（bool）、1 阶 `[[5]]` → 全部拒绝
 
 ### S 组 · 系统契约 8 条（v7.2 漏掉的就是这组）
 
-- [ ] `S1` 原始响应 9000 字符（> `max_response_chars=8000`）→ 解析前即拒，**未调用 `json.loads`**
-- [ ] `S2` `{"value":"sqrt(4)"}`、`{"value":"1; import os"}`、`{"value":"1/0"}` → 全部 `unanswered`，不抛异常
-- [ ] `S3` `NaN` / `Infinity` / `1e31` / 65 位整数 → 全部 `unanswered`
-- [ ] `S4` 同签名同代提交两次 → 第二次 `duplicate`，`dedup_set` 大小不增
-- [ ] `S5` `poly`[1,1] 取 `l=0,u=1` 与 `l=1,u=2` → 两个不同签名，均入池
-- [ ] `S6` `solver_view(task)` 键集合恰为 `{type, statement, answer_format}`，序列化后不含参考值数字串
-- [ ] `S7` `refetch_rounds=2` 用尽 → aborted、`slots_created == 0`、**`solver_calls == 0`**
-- [ ] `S8` `Fraction(35,3)` 与 RNG state 各存一次再读回 → 逐位相等，连抽 100 个数一致
+- [x] `S1` 原始响应 9000 字符（> `max_response_chars=8000`）→ 解析前即拒，**未调用 `json.loads`**
+- [x] `S2` `{"value":"sqrt(4)"}`、`{"value":"1; import os"}`、`{"value":"1/0"}` → 全部 `unanswered`，不抛异常
+- [x] `S3` `NaN` / `Infinity` / `1e31` / 65 位整数 → 全部 `unanswered`
+- [x] `S4` 同签名同代提交两次 → 第二次 `duplicate`，`dedup_set` 大小不增
+- [x] `S5` `poly`[1,1] 取 `l=0,u=1` 与 `l=1,u=2` → 两个不同签名，均入池
+- [x] `S6` `solver_view(task)` 键集合恰为 `{type, statement, answer_format}`，序列化后不含参考值数字串
+- [x] `S7` `refetch_rounds=2` 用尽 → aborted、`slots_created == 0`、**`solver_calls == 0`**
+- [x] `S8` `Fraction(35,3)` 与 RNG state 各存一次再读回 → 逐位相等，连抽 100 个数一致
 
 ### A2 验收
 
-- [ ] `python -m pytest -q tests/test_executor.py` 24 条全绿
-- [ ] 每条期望值都是字面量，全文搜不到 `== solve_exact(task)` 这种自证写法
-- [ ] `I8` / `D8` 断言的是**抛错或 `(False, 原因)`**，不是「返回了一个错值」
+- [x] `python -m pytest -q tests/test_executor.py` 24 条全绿
+- [x] 每条期望值都是字面量，全文搜不到 `== solve_exact(task)` 这种自证写法
+- [x] `I8` / `D8` 断言的是**抛错或 `(False, 原因)`**，不是「返回了一个错值」
 
 ---
 
 ## A3 · scoring 公平性（06–12H，约 3 小时）
 
-- [ ] `judge()` 保持纯函数：不读文件、不读场景、不读条件标签，只比对 `task["reference"]` 与答案
-- [ ] **不给 `Task` 加难度系数**（会破坏 `S6` 的白名单断言）
-- [ ] 算分照规格 §6.1：`solve` 0–4、`c` 0–5、`set_score = min(c,5-c)/2`、`total = solve + set_weight*set_score + bounty`
-- [ ] 同分打散用 `random.Random(seed)`，种子来自 `config.json`，**禁用全局 `random`**
-- [ ] 排序先按 ID 排好再 shuffle（避免并发回包顺序影响抽签）
-- [ ] 回归 1：`common` 槽位复制给六人 → 六个 `solve` 完全相同，`ranking_key` 差异只能来自 `set_score`
-- [ ] 回归 2：父代 `gene_history` 有高分，子代 `est_score` 只用自己样本
-- [ ] 回归 3：`fitness_window=1` 时 `est_score == current_total`
+- [x] `judge()` 保持纯函数：不读文件、不读场景、不读条件标签，只比对 `task["reference"]` 与答案
+- [x] **不给 `Task` 加难度系数**（会破坏 `S6` 的白名单断言）
+- [x] 算分照规格 §6.1：`solve` 0–4、`c` 0–5、`set_score = min(c,5-c)/2`、`total = solve + set_weight*set_score + bounty`
+- [x] 同分打散用 `random.Random(seed)`，种子来自 `config.json`，**禁用全局 `random`**
+- [x] 排序先按 ID 排好再 shuffle（避免并发回包顺序影响抽签）
+- [x] 回归 1：`common` 槽位复制给六人 → 六个 `solve` 完全相同，`ranking_key` 差异只能来自 `set_score`
+- [x] 回归 2：父代 `gene_history` 有高分，子代 `est_score` 只用自己样本
+- [x] 回归 3：`fitness_window=1` 时 `est_score == current_total`
 
 **验收**：三条回归全绿；同一 `Task` 两次 `judge` 结果一致。
 
@@ -133,14 +133,14 @@
 
 > 「祖先」= **3 个冻结的参照个体**，不是血统来源。按 lineage 分层算失败率不在 v5 定义里。
 
-- [ ] 从每代 18 个祖先槽位算 `per_task_failure = 1 - ancestor_correct/3`（`unanswered` 算错但单独计数）
-- [ ] `integral_failure`：积分题均值，本代无积分题 → `null`
-- [ ] `det_failure`：行列式题均值，本代无行列式题 → `null`
-- [ ] `balanced_failure = 0.5*integral + 0.5*det`，**两型都有才算**
-- [ ] `mixed_failure`：六题均值，另附题型数量
-- [ ] `null` 不当 0、不跨缺口拼线；三代均线需连续三代有值，均线不参与排名
-- [ ] 挑战题不进祖先尺；挑战个体单独打标
-- [ ] 字段名与规格一致（不要同时出现 `failrate` 和 `failure_rate`）
+- [x] 从每代 18 个祖先槽位算 `per_task_failure = 1 - ancestor_correct/3`（`unanswered` 算错但单独计数）
+- [x] `integral_failure`：积分题均值，本代无积分题 → `null`
+- [x] `det_failure`：行列式题均值，本代无行列式题 → `null`
+- [x] `balanced_failure = 0.5*integral + 0.5*det`，**两型都有才算**
+- [x] `mixed_failure`：六题均值，另附题型数量
+- [x] `null` 不当 0、不跨缺口拼线；三代均线需连续三代有值，均线不参与排名
+- [x] 挑战题不进祖先尺；挑战个体单独打标
+- [x] 字段名与规格一致（不要同时出现 `failrate` 和 `failure_rate`）
 
 **验收**：喂 20 代假 `history[]` 能输出四个字段；删掉某代某题型后该字段为 `null` 而不是 0。
 
@@ -193,3 +193,25 @@ A1 完成后自查出 4 处问题，已全部修复，pytest 从 36 涨到 **39 
 **交给 B 的注意事项**：`judge()` 会在 `reference` 损坏时抛 `ValueError`，orchestrator 必须捕获并中止该代，**不能记成 `wrong`**。详见 `A_to_B_接口契约.md` §6。
 
 **仍未覆盖的契约**：S4（需 `dedup_set`）、S7（需出题重做机制）、S8 的 RNG 部分（需快照）——等 B 的 orchestrator 起来后补进 `tests/test_contracts.py`，测试文件头部已注明。
+
+
+---
+
+## 完成记录（2026-11-14 14:30，A 组自查）
+
+上面 **72 个勾选项全部完成**（A1 executor 骨架 / A2 24 条核心用例 /
+A3 scoring 公平性 / A4 ancestor 指标）。当前全量回归 **577 tests，0 failures**，
+另有 1200 个 SymPy 随机样本零分歧、8 条题面逐字对齐。
+
+打勾时有四处**实现与清单字面描述不同**，如实记在这里，免得以后对不上：
+
+| 清单原文 | 实际做法 | 为什么 |
+| --- | --- | --- |
+| `D2 [[1,2,3],[4,5,6],[7,8,10]] → -3` | 换成 `[[1,2,3],[4,5,6],[8,8,9]]`，答案仍是 `-3` | 原矩阵元素 `10` 超出 §2.1 的 `[-9,9]`，不是合法出题样本（C 在 `给A_边界冲突说明.md` 指出）。另加 `test_D2_arithmetic_beyond_bounds` 把「算术正确」与「输入合法」两件事分开锁住 |
+| `parse_integer` 第一行判 `isinstance(x, bool)` | 解析器只接字符串，bool 防御落在 `validate_task` 的 `type(v) is int` | 字符串解析永远得不出 `True`；真正会漏进来的是 JSON 里的 `true` 被 `json.loads` 变成 Python `True` 后冒充参数，那一步在 validate 里拦 |
+| `S4 / S7` 在 `tests/test_executor.py` | 补在 `tests/test_contracts.py` | 这两条要 `dedup_set`、出题重做机制、快照，得等 B 的 orchestrator 到位才能测，已在本文件末尾「复审记录」注明 |
+| `A2 验收：test_executor.py 24 条全绿` | 该文件现已 48 条以上 | 复审时补了 `reference` 异常、S1 mock 计数、D 组合法性闸门等回归 |
+
+**红线仍然有效**：不用 float 算积分/行列式；不拿 `solve_exact()` 输出当测试期望；
+`solver_view()` 不泄漏；格式错是 `unanswered` 不是 `wrong`；`judge()` 不读外部状态。
+今天助教侧的所有代码（`app/student/*`、`app/tutor/*`、`app/evalsim/*`）也一律遵守。
