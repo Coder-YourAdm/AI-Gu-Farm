@@ -136,6 +136,11 @@ def parse_operator_output(obj: Any, *, max_chars: int) -> Genes:
     """算子返回必须恰好三个 gene 字段，多一个少一个都拒绝。"""
     if type(obj) is not dict:
         raise GenotypeError(f"算子输出必须是 JSON 对象，当前 {type(obj).__name__}")
+    # C 交付的 prompts/crossover.md 与 mutate.md 要求 {"genes":{...}}，
+    # 内置临时 prompt 要求三字段平铺。两种都接受，但内层仍必须恰好三个字段：
+    # 外层只允许恰好一个键 genes，多一个键就拒绝，不做任何宽容解析。
+    if set(obj) == {"genes"} and type(obj["genes"]) is dict:
+        obj = obj["genes"]
     keys = set(obj)
     if keys != _GENE_KEYS:
         extra = sorted(keys - _GENE_KEYS)

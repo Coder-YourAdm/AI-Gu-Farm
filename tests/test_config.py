@@ -203,3 +203,23 @@ def test_fingerprint_stable_and_sensitive():
 def test_load_reports_missing_file():
     with pytest.raises(ConfigError):
         Config.load("no_such_config.json")
+
+
+def test_challenge_task_ids_pair_with_gens():
+    cfg = Config.from_dict(_raw(challenge_task_ids=["X04", "X05"]))
+    assert cfg.challenge_task_ids == ["X04", "X05"]
+    assert cfg.to_dict()["challenge_task_ids"] == ["X04", "X05"]
+
+
+def test_challenge_task_ids_must_match_gens_count():
+    with pytest.raises(ConfigError):
+        Config.from_dict(_raw(challenge_task_ids=["X04"]))
+
+
+def test_challenge_task_ids_reject_duplicates():
+    with pytest.raises(ConfigError):
+        Config.from_dict(_raw(challenge_task_ids=["X04", "X04"]))
+
+
+def test_challenge_task_ids_default_is_none():
+    assert _cfg().challenge_task_ids is None

@@ -121,17 +121,32 @@ MAX_OCCUPIED_SHOWN = 5
 
 
 def build_setter_messages(genes: Genes, *, error: str | None = None,
-                          occupied: Sequence[dict] | None = None
+                          occupied: Sequence[dict] | None = None,
+                          detail: str | None = None,
+                          recent: Sequence[dict] | None = None,
+                          rejected: dict | None = None,
+                          seen: Sequence[dict] | None = None
                           ) -> list[dict[str, str]]:
     """第二次内容尝试的消息。
 
     首次尝试 `error is None`，只有固定 user 句。重出时在 user 尾部追加一个
     固定 JSON 块：错误码 + 本代已接受题的模板与参数摘要（≤5 条）。
-    绝不追加答案、判分结果、他人策略、历史代题目或自然语言建议。
+
+    v5.1 运行中发现两处不够用，按「只影响去重效率、不含答案」的原则补两项：
+      * `detail`：validate_task 给出的具体拒绝原因（如元素越界），只描述约束；
+      * `recent`：该个体自己最近出过的题（≤3 条），防止它反复交同一道旧题。
+    仍然绝不追加参考答案、判分结果、他人策略文本或自然语言建议。
     """
     # 模板里有 JSON 花括号，不能用 str.format；用定点替换
     system = SETTER_SYSTEM_TEMPLATE.replace("{set_prompt}", genes.set_prompt)
     user = SETTER_USER
+    # 首次出题就带上「最近已用过」的参数：不带的话模型会反复交同一道题，
+    # 重试链把单代拖到 20 分钟以上（实测 g17）。参数是公开信息，不含答案。
+    if seen:
+        user = user + "\n" + json.dumps(
+            {"seen": [{"template": t["template"], "params": t["params"]}
+                      for t in list(seen)[:8]]},
+            ensure_ascii=False, separators=(",", ":"))
     if error is not None:
         if error not in SETTER_ERROR_CODES:
             raise ValueError(f"未定义的重出错误码: {error!r}")
@@ -140,6 +155,15 @@ def build_setter_messages(genes: Genes, *, error: str | None = None,
             "occupied": [{"template": t["template"], "params": t["params"]}
                          for t in list(occupied or [])[:MAX_OCCUPIED_SHOWN]],
         }
+        if detail:
+            block["detail"] = str(detail)[:80]
+        if rejected:
+            # 回显上一次被拒的那道题：没有它，重试提示与上一次逐字相同，
+            # 模型会反复采样到同一个众数（实测连交 8 次同一道题）。
+            block["rejected"] = rejected
+        if recent:
+            block["recent"] = [{"template": t["template"], "params": t["params"]}
+                               for t in list(recent)[:3]]
         user = user + "\n" + json.dumps(block, ensure_ascii=False,
                                         separators=(",", ":"))
     return [{"role": "system", "content": system},
@@ -222,6 +246,7 @@ def task_from_raw(raw: Any, *, individual_id: str, gen: int, engine: Engine
 
 async def collect_tasks(*, gen: int, evaluated: Sequence[Individual], cfg: Config,
                         engine: Engine, chat: ChatClient, occupied_sigs: set[str],
+                        recent_tasks: Sequence[dict] = (),
                         ) -> tuple[list[dict] | None, int, list[TaskAttempt], str | None]:
     """出题阶段。返回 (valid_tasks | None, refetch_round, attempts, abort_reason)。
 
@@ -233,6 +258,8 @@ async def collect_tasks(*, gen: int, evaluated: Sequence[Individual], cfg: Confi
     attempts: list[TaskAttempt] = []
     attempt_no: dict[str, int] = {ind.id: 0 for ind in evaluated}
     error_hint: dict[str, str] = {}
+    error_detail: dict[str, str] = {}
+    rejected_task: dict[str, dict] = {}
 
     by_id = sorted(evaluated, key=lambda i: i.id)
 
@@ -247,10 +274,16 @@ async def collect_tasks(*, gen: int, evaluated: Sequence[Individual], cfg: Confi
                 n = attempt_no[ind.id]
                 show = (error_hint.get(ind.id)
                         if (cfg.attach_occupied_params and n > 1) else None)
+                own = [t for t in recent_tasks if t.get("by") == ind.id][-3:] if show else []
+                seen = (list(recent_tasks) + list(accepted))[-8:]
                 msgs = build_setter_messages(
                     ind.genes,
                     error=show,
                     occupied=_occupied_summary(accepted),
+                    detail=error_detail.get(ind.id) if show else None,
+                    recent=own,
+                    rejected=rejected_task.get(ind.id) if show else None,
+                    seen=seen,
                 )
                 res = await chat.chat("setter", msgs,
                                       slot_id=f"g{gen:02d}_set_{ind.id}",
@@ -279,6 +312,18 @@ async def collect_tasks(*, gen: int, evaluated: Sequence[Individual], cfg: Confi
                 if task is not None and task["signature"] in occupied_sigs:
                     task, reason = None, "duplicate"
                 if task is None:
+                    # 把具体拒绝原因留给第二次尝试：只描述约束，不含答案
+                    error_detail.pop(ind.id, None)
+                    if reason in ("schema", "range") and isinstance(res.parsed, dict):
+                        try:
+                            ok2, why = engine.validate_task(dict(res.parsed))
+                        except Exception:
+                            ok2, why = True, ""
+                        if not ok2 and why:
+                            error_detail[ind.id] = str(why)
+                    if isinstance(res.parsed, dict) and {"template", "params"} <= set(res.parsed):
+                        rejected_task[ind.id] = {"template": res.parsed["template"],
+                                                 "params": res.parsed["params"]}
                     attempts.append(TaskAttempt(ind.id, n, rnd, False, reason,
                                                 res.call_id))
                     error_hint[ind.id] = reason or "schema"
@@ -618,6 +663,8 @@ class RunState:
     phase: str = "init"
     frozen_manifest: dict = field(default_factory=dict)
     restored: bool = False
+    # 最近接受过的题（by/template/params，最多 30 条），只用于重出提示
+    recent_tasks: list[dict] = field(default_factory=list)
 
     def genes_by_id(self) -> dict[str, Genes]:
         out = {ind.id: ind.genes for ind in self.next_population}
@@ -727,12 +774,18 @@ async def _run_generation(*, gen: int, state: RunState, engine: Engine,
 
     valid, refetch, attempts, abort_reason = await collect_tasks(
         gen=gen, evaluated=evaluated, cfg=cfg, engine=engine, chat=chat,
-        occupied_sigs=state.dedup_set,
+        occupied_sigs=state.dedup_set, recent_tasks=state.recent_tasks,
     )
     if valid is None:
         state.phase = "aborted"
         return build_aborted_record(state=state, gen=gen, reason=abort_reason,
                                     attempts=attempts, refetch_round=refetch)
+
+    # 记住本代每题是谁出的：下一次重出时把这个人自己的最近三题回放给它，
+    # 防止「同一份 set_prompt 反复交同一道题」把整代拖进 invalid_generation。
+    state.recent_tasks.extend(
+        {"by": t["by"], "template": t["template"], "params": t["params"]} for t in valid)
+    del state.recent_tasks[:-30]
 
     tasks_by_id = {t["id"]: t for t in valid}
     common = dataset.common_dev(gen)
