@@ -330,7 +330,7 @@
      不做这一步，点 KC 只会留下孤零零的题面，看不到学生怎么答的。 */
   function turnsWithKC(){
     var out = [], cur = null;
-    (D.turns || []).forEach(function(t){
+    curTurns().forEach(function(t){
       if (t.role === "tutor" && t.kc) cur = t.kc;
       out.push({turn: t, kc: cur});
     });
@@ -344,7 +344,7 @@
     box.innerHTML = "";
     el("turn-count").textContent = selKC
       ? "已按「" + kcName(selKC) + "」过滤 · 共 " + list.length + " 条"
-      : "共 " + (D.turns || []).length + " 条";
+      : "共 " + curTurns().length + " 条";
 
     if (!list.length){
       box.innerHTML = '<div class="why-empty">这个知识点还没有对话记录。</div>';
@@ -392,18 +392,9 @@
   }
 
   /* ── 理由面板 ── */
-  function renderWhy(){
-    var box = el("why-body");
-    var t = null;
-    (D.turns || []).forEach(function(x){ if (x.n === selTurn) t = x; });
-    if (!t || !t.why){
-      box.innerHTML = '<div class="why-empty">点左侧任意一条题目，这里显示它被选中的三个数字与依据。</div>';
-      return;
-    }
-    var w = t.why;
+  function whyHtml(w){
     var mem = (w.memory || []).map(function(m){ return '<span>' + esc(m) + '</span>'; }).join("");
-    box.innerHTML =
-      '<dl class="why-grid">' +
+    return '<dl class="why-grid">' +
       '<dt>掌握度</dt><dd><span class="num">' + num(w.mastery) + '</span>　这个知识点当前水平</dd>' +
       '<dt>题目难度</dt><dd><span class="num">' + num(w.difficulty) + '</span>　略高于掌握度，够得着</dd>' +
       '<dt>上次错因</dt><dd>' + esc(w.last_error || "无记录") + '</dd>' +
@@ -411,6 +402,14 @@
       (mem ? '<div style="margin-top:11px"><div style="font-size:10.5px;color:var(--faint);' +
         'font-family:var(--font-mono);letter-spacing:.05em;margin-bottom:5px">相关记忆</div>' +
         '<div class="memchips">' + mem + '</div></div>' : "");
+  }
+
+  function renderWhy(){
+    var box = el("why-body");
+    var t = null;
+    curTurns().forEach(function(x){ if (x.n === selTurn) t = x; });
+    box.innerHTML = (t && t.why) ? whyHtml(t.why)
+      : '<div class="why-empty">点左侧任意一条题目，这里显示它被选中的三个数字与依据。</div>';
   }
 
   /* ── 记忆时间轴 ── */
@@ -450,6 +449,322 @@
     }).join("");
   }
 
+  /* ══════════════════════════════════════════════════════════
+     实时层（C7）：契约 4.5 的本地实现
+     ──────────────────────────────────────────────────────────
+     B 组的 POST /api/ask 到位后，只把 LIVE.endpoint 从 null 改成
+     "/api/ask"，请求、渲染、状态更新都不用动。
+     在此之前由本地假 Tutor 把交互跑通：判分走有理数（不比较浮点）、
+     提示按五级梯度、掌握度按 BKT 更新。这些数字是页面自己算的，
+     不冒充后端结果 —— 真接口一开，同一套渲染路径直接吃真响应。
+     ══════════════════════════════════════════════════════════ */
+  var LIVE = {
+    endpoint: null,          // ← 唯一开关：B 的 /api/ask 通了改成 "/api/ask"
+    sid: "live01",
+    on: false,
+    busy: false,
+    i: 0,
+    hint: 0,
+    turn: 0,
+    lastErr: null,
+    mastery: { integral_definite: 0.20, integral_improper: 0.20, det: 0.20 },
+    log: []
+  };
+  var REPLAY_D = null;
+  var FMT = "integer, fraction or finite decimal";
+
+  /* 六道题，答案全是整数/有理数。第 1 题与回放里的题面一致，
+     不另起一套口径；题面、答案、提示都在这一个数组里，改题只改这里。 */
+  var LIVE_POOL = [
+    {kc:"integral_definite", difficulty:0.35,
+     statement:"计算定积分 ∫_{0}^{1} (3x² - 2x + 1) dx。", answer:"1",
+     step:"3x²、-2x、1 的原函数分别是 x³、-x²、x；先把这三个写对，再代上下限。",
+     example:"∫_{0}^{1} x dx：原函数 x²/2，代 1 得 1/2，代 0 得 0，差是 1/2。"},
+    {kc:"integral_definite", difficulty:0.45,
+     statement:"计算定积分 ∫_{0}^{2} (x + 1) dx。", answer:"4",
+     step:"拆成两项分别积：x 的原函数 x²/2，1 的原函数 x。",
+     example:"∫_{0}^{1} 1 dx = 1：常数 1 的原函数就是 x。"},
+    {kc:"integral_improper", difficulty:0.58,
+     statement:"计算反常积分 ∫_{1}^{+∞} 1/x² dx。", answer:"1",
+     step:"先算上限为 t 的定积分，再让 t 趋于 +∞：结果里带 1/t 的项会归零。",
+     example:"∫_{1}^{+∞} 1/x³ dx = 1/2 —— 幂次比 1 大就收敛。"},
+    {kc:"integral_improper", difficulty:0.62,
+     statement:"计算反常积分 ∫_{0}^{+∞} e^{-x} dx。", answer:"1",
+     step:"e^{-x} 的原函数是 -e^{-x}；代入 0 和 t，再看 t 趋于 +∞。",
+     example:"∫_{0}^{+∞} e^{-2x} dx = 1/2 —— 指数上的系数会翻到分母。"},
+    {kc:"det", difficulty:0.40,
+     statement:"计算二阶行列式 det [[1, 2], [3, 4]]。", answer:"-2",
+     step:"二阶行列式 = 主对角乘积 − 副对角乘积 = 1·4 − 2·3。",
+     example:"det [[2, 0], [0, 5]] = 2·5 − 0·0 = 10。"},
+    {kc:"det", difficulty:0.30,
+     statement:"计算二阶行列式 det [[2, 0], [0, 3]]。", answer:"6",
+     step:"非对角元是 0，行列式就是两个对角元的乘积。",
+     example:"det [[4, 0], [0, 1]] = 4。"}
+  ];
+
+  /* 回放读 D.turns，实时读 LIVE.log —— 两条数据源，一套渲染。 */
+  function curTurns(){ return LIVE.on ? LIVE.log : (D.turns || []); }
+
+  function gcd(a, b){
+    a = Math.abs(a); b = Math.abs(b);
+    while (b){ var t = b; b = a % b; a = t; }
+    return a || 1;
+  }
+
+  /* 解析成 {n,d} 整数对；解析不了返回 null（→ 按空答处理）。
+     判分只做交叉相乘，不比较浮点 —— 0.5 与 1/2 必须判成同一个数。 */
+  function parseFrac(s){
+    if (s === null || s === undefined) return null;
+    var t = String(s).trim().replace(/\s+/g, "");
+    if (!t) return null;
+    var m;
+    if ((m = /^(-?\d+)\/(\d+)$/.exec(t))){
+      var n = parseInt(m[1], 10), d = parseInt(m[2], 10);
+      if (!d) return null;
+      if (d < 0){ n = -n; d = -d; }
+      var g = gcd(n, d);
+      return {n: n / g, d: d / g};
+    }
+    if ((m = /^(-?\d+)$/.exec(t))) return {n: parseInt(m[1], 10), d: 1};
+    if ((m = /^(-?)(\d*)\.(\d+)$/.exec(t))){
+      var sign = m[1] === "-" ? -1 : 1;
+      var ip = m[2] ? parseInt(m[2], 10) : 0;
+      var d10 = Math.pow(10, m[3].length);
+      var n2 = sign * (ip * d10 + parseInt(m[3], 10));
+      var g2 = gcd(n2, d10);
+      return {n: n2 / g2, d: d10 / g2};
+    }
+    return null;
+  }
+
+  /* 实施方案 §6.1 的原式，参数用默认值，和测试里的 0.20→0.5526 同一条公式 */
+  function bkt(p, correct){
+    var slip = 0.10, guess = 0.25, transit = 0.15;
+    var p1 = correct
+      ? (p * (1 - slip)) / (p * (1 - slip) + (1 - p) * guess)
+      : (p * slip) / (p * slip + (1 - p) * (1 - guess));
+    return p1 + (1 - p1) * transit;
+  }
+
+  /* 实施方案 §6.4 的六条判据，按序命中即返回。
+     注意：第 4 条（整数倍→calc）会先命中，第 5 条（det 偶数差→misread）
+     在字面顺序下基本轮不到——这里照契约写，不自己改顺序。 */
+  function classify(item, f){
+    if (!f) return "giveup";
+    var ref = parseFrac(item.answer);
+    if (f.n * ref.d === -ref.n * f.d) return "sign";
+    if (f.d === ref.d && Math.abs(f.n - ref.n) === 1) return "calc";
+    var dN = f.n * ref.d - ref.n * f.d;   // 差的分子
+    var dD = f.d * ref.d;                 // 差的分母
+    if (dN % dD === 0) return "calc";
+    if (item.kc === "det" && Math.abs(dN) % 2 === 0) return "misread";
+    return "concept";
+  }
+
+  /* 五级梯度（§6.5）：restate / theorem / step / example / answer，纯模板 */
+  function hintText(level, item){
+    var name = kcName(item.kc);
+    if (level <= 0) return "先把题再读一遍：「" + item.statement + "」题目要你算的是哪一个量？";
+    if (level === 1) return name + "的第一步是写出定义式 —— 这题该套哪一条公式？";
+    if (level === 2) return item.step;
+    if (level === 3) return "看一个同类的小例子：" + item.example;
+    return "这题的答案是 " + item.answer + "。对着算一遍，看看你在哪一步偏了。";
+  }
+
+  function liveItem(){ return LIVE_POOL[LIVE.i % LIVE_POOL.length]; }
+
+  function masterySnap(){
+    var m = {};
+    for (var k in LIVE.mastery) m[k] = Math.round(LIVE.mastery[k] * 10000) / 10000;
+    return m;
+  }
+
+  function liveResp(over){
+    var item = liveItem();
+    var base = {
+      ok: true,
+      turn: LIVE.turn,
+      kc: item.kc,
+      verdict: null,
+      err: null,
+      statement: item.statement,
+      answer_format: FMT,
+      hint: {level: LIVE.hint, text: hintText(LIVE.hint, item)},
+      mastery: masterySnap(),
+      why: {
+        mastery: Math.round(LIVE.mastery[item.kc] * 1000) / 1000,
+        difficulty: item.difficulty,
+        last_error: LIVE.lastErr || "无记录",
+        memory: []
+      },
+      review: [{kc: item.kc, due: "2026-11-17", reason: "刚练过，按 SM-2 隔三天复看"}],
+      elapsed_ms: 9
+    };
+    if (over) for (var k in over) base[k] = over[k];
+    return base;
+  }
+
+  /* 六动作统一入口，返回形状与契约 4.5 一致 */
+  function liveHandle(action, answer){
+    var item = liveItem();
+
+    if (action === "reset"){
+      LIVE.i = 0; LIVE.hint = 0; LIVE.lastErr = null; LIVE.turn += 1;
+      LIVE.mastery = {integral_definite: 0.20, integral_improper: 0.20, det: 0.20};
+      LIVE.log = [];
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "start"){
+      LIVE.turn += 1; LIVE.hint = 0;
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "why"){
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "hint"){
+      LIVE.turn += 1;
+      LIVE.hint = Math.min(4, LIVE.hint + 1);
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "skip"){
+      LIVE.turn += 1;
+      LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], false);
+      LIVE.lastErr = "giveup";
+      LIVE.hint = 4;
+      return liveResp({turn: LIVE.turn, verdict: "wrong", err: "giveup"});
+    }
+    if (action === "submit"){
+      LIVE.turn += 1;
+      var f = parseFrac(answer), ref = parseFrac(item.answer);
+      var correct = !!(f && ref && f.n * ref.d === ref.n * f.d);
+      if (correct){
+        LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], true);
+        LIVE.lastErr = null;
+        LIVE.hint = 0;
+        LIVE.i += 1;                      // 答对才换题，答错留在原题上继续给提示
+        var nxt = liveItem();
+        return liveResp({turn: LIVE.turn, verdict: "right", err: "none",
+                         kc: nxt.kc, statement: nxt.statement});
+      }
+      LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], false);
+      LIVE.lastErr = classify(item, f);
+      LIVE.hint = Math.min(4, LIVE.hint + 1);
+      return liveResp({turn: LIVE.turn, verdict: "wrong", err: LIVE.lastErr});
+    }
+    return {ok: false, error: "未知动作：" + action};
+  }
+
+  /* 唯一请求出口：endpoint 为空走本地，非空走真接口。 */
+  function liveAsk(action, answer){
+    if (LIVE.endpoint){
+      return fetch(LIVE.endpoint, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sid: LIVE.sid, action: action, answer: answer})
+      }).then(function(r){
+        return r.json().then(function(j){
+          if (!r.ok) throw new Error((j && j.error) || ("HTTP " + r.status));
+          return j;
+        });
+      });
+    }
+    return new Promise(function(resolve){ resolve(liveHandle(action, answer)); });
+  }
+
+  function setBusy(b){ LIVE.busy = b; el("send").disabled = b; }
+
+  function renderReviewLive(rs){
+    var box = el("review-list");
+    if (!rs || !rs.length){
+      box.innerHTML = '<div class="why-empty">暂无到期复习。</div>';
+      return;
+    }
+    box.innerHTML = rs.map(function(r){
+      return '<div class="due"><span class="k">' + esc(kcName(r.kc)) + '</span>' +
+        '<span class="d">' + esc(r.due || "—") + '</span>' +
+        '<span class="r">' + esc(r.reason || "") + '</span></div>';
+    }).join("");
+  }
+
+  function applyLiveResp(res, action, answer){
+    if (!res || res.ok === false){
+      showNotice("实时接口返回错误：" + esc((res && res.error) || "未知错误") +
+                 "（回放数据未动）");
+      return;
+    }
+    var n = LIVE.log.length + 1;
+    if (action === "submit" || action === "skip"){
+      LIVE.log.push({n: n++, role: "student",
+        answer: action === "skip" ? "（我不会）"
+              : (answer === null || answer === undefined || String(answer).trim() === "" ? "（空答）" : String(answer)),
+        verdict: res.verdict, err: res.err,
+        hint_used: res.hint ? res.hint.level : 0});
+    }
+    if (res.verdict === "right" || action === "start" || action === "reset"){
+      LIVE.log.push({n: n++, role: "tutor", kc: res.kc, statement: res.statement,
+        answer_format: res.answer_format, why: res.why});
+    } else if (res.hint && action !== "why"){
+      LIVE.log.push({n: n++, role: "tutor", hint_level: res.hint.level, text: res.hint.text});
+    }
+
+    if (res.mastery){
+      (D.kcs || []).forEach(function(k){
+        if (typeof res.mastery[k.id] === "number") k.mastery = res.mastery[k.id];
+      });
+    }
+    render();
+    if (res.why) el("why-body").innerHTML = whyHtml(res.why);
+    if (res.review) renderReviewLive(res.review);
+    if (action === "submit" || action === "skip") el("answer").value = "";
+  }
+
+  function liveRequest(action, answer){
+    if (LIVE.busy) return;
+    setBusy(true);
+    liveAsk(action, answer).then(function(res){
+      applyLiveResp(res, action, answer);
+    }).catch(function(err){
+      // 失败不白屏：提示 + 自动切回放（C8 的验收动作）
+      showNotice("实时模式不可用（" + esc((err && err.message) || err) +
+                 "）。已自动切回回放，内容不受影响。");
+      setMode("replay");
+    }).then(function(){ setBusy(false); });
+  }
+
+  function setMode(m){
+    var liveMode = m === "live";
+    LIVE.on = liveMode;
+    document.body.classList.toggle("live", liveMode);
+    Array.prototype.forEach.call(el("mode").querySelectorAll("button"), function(x){
+      x.classList.toggle("on", x.getAttribute("data-m") === m);
+    });
+    if (liveMode){
+      selKC = null; selTurn = null;          // 回放里的过滤/选中的题不该带到实时会话
+      el("live-hint").textContent = "实时会话 " + LIVE.sid +
+        "：判分与提示在本地算，B 的 /api/ask 通了自动走后端。";
+      if (!LIVE.log.length) liveRequest("start");
+      else render();
+    } else {
+      if (REPLAY_D) D = JSON.parse(JSON.stringify(REPLAY_D));
+      selKC = null; selTurn = null;
+      render();
+      el("live-hint").textContent = "";
+    }
+  }
+
+  el("send").addEventListener("click", function(){
+    liveRequest("submit", el("answer").value);
+  });
+  el("answer").addEventListener("keydown", function(e){
+    if (e.key === "Enter" && !e.isComposing){
+      e.preventDefault();
+      liveRequest("submit", el("answer").value);
+    }
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".quick button"), function(b){
+    b.addEventListener("click", function(){ liveRequest(b.getAttribute("data-a"), null); });
+  });
+
   function render(){
     el("version").textContent = D.profile_version || "—";
     renderKCs(); renderTurns(); renderWhy(); renderMemory(); renderReview();
@@ -459,11 +774,12 @@
   function load(){
     fetch("tutor.json", { cache: "no-store" })
       .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-      .then(function(j){ D = j; render(); })
+      .then(function(j){ D = j; REPLAY_D = JSON.parse(JSON.stringify(j)); render(); })
       .catch(function(){
         // A 组还没产出 tutor.json 时，页面也要能开（C1 的验收就是"能看到六块"）。
         // 用内联 fixture 而不是白屏，并且不假装它是真数据。
         D = FIXTURE;
+        REPLAY_D = JSON.parse(JSON.stringify(FIXTURE));
         render();
         showNotice("正在用<b>内联示例数据</b>渲染（web/tutor.json 还没生成）。" +
                    "数据形状与契约一致，A 组产出后自动切换，无需改代码。");
@@ -476,19 +792,17 @@
     n.classList.add("on");
   }
 
-  /* ── 模式开关（C8 的骨架，live 的请求在 C7 接） ── */
+  /* ── 模式开关：回放默认；实时走 /api/ask，B 未交付前由本地假 Tutor 顶 ── */
   el("mode").addEventListener("click", function(e){
     var b = e.target.closest("button");
     if (!b) return;
-    var m = b.getAttribute("data-m");
-    Array.prototype.forEach.call(this.querySelectorAll("button"), function(x){
-      x.classList.toggle("on", x === b);
-    });
-    document.body.classList.toggle("live", m === "live");
-    if (m === "live"){
-      el("live-hint").textContent = "实时模式：提交后会连 /api/ask（需服务端 --allow-tutor）。";
-    }
+    setMode(b.getAttribute("data-m"));
   });
+
+  /* 自检钩子：沙箱里跑不了浏览器时，docs/demo/check_live.js 用它驱动
+     同一套状态机（判分/提示/重置/掌握度）。不参与页面渲染。 */
+  window.__tutorDebug = {handle: liveHandle, ask: liveAsk, state: LIVE,
+                         pool: LIVE_POOL, setMode: setMode};
 
   load();
 })();
