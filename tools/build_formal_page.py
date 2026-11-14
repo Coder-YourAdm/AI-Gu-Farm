@@ -360,8 +360,9 @@ HTML = r"""<!DOCTYPE html>
       }
     });
     var state=(runs[done[0]].stats.challenges||{})[cid];
-    /* 机读数据里的 state 是 retired / censored（不是 B 文档写的 window_closed）。
-       页面按数据说话，翻成中文并保留原始值，避免评委误读成「达标」。 */
+    /* brief 的 state=retired/censored 是状态机字段；B 的 docs/charts/challenge.csv
+       另有 retired_reason=window_closed（结果原因）。两者互补，不是矛盾。
+       这里按 brief 的 state 翻成中文并保留原始英文值，避免评委误读成「达标」。 */
     var stateMap={retired:"观察窗口已关闭",censored:"该趟取消，无观察",open:"窗口仍开放"};
     var stTxt=state?(stateMap[state.state]||state.state)+"（"+state.state+"）":"—";
     return '<div class="chal-row"><div class="lab">'+esc(cid)+
@@ -394,7 +395,7 @@ HTML = r"""<!DOCTYPE html>
   /* ── 证据等级（如实说明，不假装可复算）────────────── */
   el("evidence").innerHTML=
     "<strong>证据等级说明</strong>　本页数字全部来自 <code>docs/result_brief.json</code>（B 的机读汇总，schema <code>"+esc(BRIEF.schema)+
-    "</code>），点任意数字可看字段路径。<strong>代码版本 <code>d771ecb</code> 已以 tag <code>b-formal-20261114</code> 推到远端</strong>（未合进分支，所以分支列表看不到）；<strong>但 <code>runs/</code> 原始逐题记录、代级快照与调用日志仍未入库</strong>（运行清单 §3 写明 runs/ 与 logs/ 不进 git）。因此本页数字可指回字段、<strong>暂不能独立逐条复算</strong>。"+
+    "</code>），点任意数字可看字段路径。<strong>代码版本 <code>d771ecb</code> 已以 tag <code>b-formal-20261114</code> 推到远端</strong>，机读简报与三张图 CSV 已正式入库 <code>docs/</code>；<strong>但 <code>runs/</code> 原始逐题记录、代级快照与调用日志仍未入库</strong>（运行清单 §3 写明 runs/ 与 logs/ 不进 git）。B 的 <code>docs/charts/challenge.csv</code> 给出四趟 × 两题 × 六次逐次观察，<strong>挑战图可逐次核对</strong>；主结果与过程曲线仍只有汇总，<strong>暂不能从原始日志完整复算</strong>。"+
     "　另外三页（演化大屏 / 双跑对照 / 结果页）展示的是另一批 <code>E_real_20261114</code> 三趟，有 <code>runs/*.jsonl</code> 原始调用记录与 <code>证据包/01_数字对照表.md</code> 可逐条复算，证据等级更高。"+
     "　两批数据不要混讲：本页是正式实验（协议 v5、20 代、两对有效 + 一对取消），那三页是交付基线的重测三趟。";
 
