@@ -13,7 +13,8 @@
 - **助教（施工中 · 前端已可演示）**：`养蛊机 → best_profile.json → 学生端`。教法**周更**（离线重训一次），
   对学生的认识**秒更**（每答一题更新掌握度）；学生能点开「为什么给我这道题」，
   评委能自己上手打一个答案，系统当场判、当场讲。前端 `web/tutor.html` 已合入 main
-  （内置本地假 Tutor，回放模式断网可演），后端 `/api/ask` 与记忆 / 五级提示模块对接中。
+  （内置本地假 Tutor，回放模式断网可演），后端 `POST /api/ask` 已实现并通过契约探针
+  （`docs/demo/probe_ask.py` PASS），记忆模块仍在施工。
 
 > 边界写在这里，不藏在附录：**只做答案能精确复核的题型**（高数 + 线代，当前 3 个知识点）。
 > 证明题、英语作文、政治大题明确拒答——这不是能力不足的遮掩，是判分可信的前提。
@@ -32,8 +33,8 @@
 | 端到端回归 | ✅ 439 条用例（含 3 代 mock pilot、导出白名单自检、断点续跑） |
 | 真模型调用 `app/llm.py` | ✅ `deepseek-flash` @ `api.deepseek.com/v1`，三角色温度、限流、重试、审计已跑通 |
 | 留出评测 `web/result.json` | ✅ 数据已产出（`runs/result_brief.json` + `docs/B_交付简报.md`），页面待接 |
-| 学生模型 + 记忆（`app/student/`、`app/tutor/`） | ⚠️ 部分落地：BKT / KC 树 / 难度 / 复习排期 / 诊断已合入；events / 画像与 tutor 记忆 / 五级提示施工中（进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)） |
-| 学生端（回放 + 实时） | ✅ `web/tutor.html` 已合入（内置本地假 Tutor，回放模式不依赖网络）；`POST /api/ask` 后端对接中 |
+| 学生模型 + 记忆（`app/student/`、`app/tutor/`） | ⚠️ 部分落地：BKT / KC 树 / 难度 / 复习排期 / 诊断 / 五级提示 / 对话状态机已合入；events / 画像与 tutor 记忆仍在施工（进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)） |
+| 学生端（回放 + 实时） | ✅ `web/tutor.html` 已合入（内置本地假 Tutor）；`POST /api/ask` 已实现并通过契约探针，页面切 `LIVE.endpoint` 即可实时 |
 | 三套教法对照 | ✅ `web/compare.json` 已产出、`web/compare.html` 已合入：`loose / verbose / answer_only`，fitness = 学生增益 − 0.25 × 交互成本 |
 | 项目游园会 X 展架 | ✅ 80×180cm PDF 已交付（2026-11-14，二次元 AI 拟人蛊坛主视觉） |
 
@@ -124,7 +125,7 @@ app/
   export.py          白名单导出，reference / holdout / raw_response 不进静态目录
   serve.py           标准库静态服务；--allow-rollback 回退、--allow-tutor 实时判分
   student/           学生模型：KC 树 / BKT / 难度 / 复习排期 / 诊断（已合入）；🚧 events / 画像
-  tutor/             🚧 记忆检索 / 五级提示 / 对话状态机（B）
+  tutor/             五级提示 hint.py + 对话状态机 dialog.py（已合入）；🚧 记忆检索（B）
   evalsim/           模拟学生与 fitness（A）
 data/                125 道题：calibration 20 / common_dev 80 / challenge_pool 5 / holdout 20
 prompts/             setter / solver / 六份种子基因 / crossover / mutate
@@ -194,8 +195,9 @@ python -m pytest
   **52.8%**（落在规格 20–80% 区间）；全简单档 92.8%。360 条回答零格式错误，所以是题难度而非解析问题。
   生成器 `tools/make_tier_dataset.py`，结论见 [校准结论](docs/校准结论_12h.md)
 - 助教侧部分落地：`web/tutor.html`、`web/compare.html` 与演示数据已合入 main；
-  `app/student` 完成大半（BKT / KC / 难度 / 排期 / 诊断），`app/tutor` 完整记忆与
-  五级提示、`skills/` 打包施工中（B 岗），实时进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)
+  `app/student` 完成大半（BKT / KC / 难度 / 排期 / 诊断），`app/tutor` 的五级提示与
+  对话状态机已合入（`POST /api/ask` 探针 PASS），完整记忆与 `skills/` 打包施工中
+  （B 岗），实时进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)
 - 教法 profile 仍为手写基线（`manual-v1`）：真模型 4 趟 20 代跑完未观察到可靠改善，
   演化尚未产出超越基线的冠军 profile
 - 题域 3 个知识点（定积分 / 反常积分 / 行列式），扩充路线见完整方案 §8
