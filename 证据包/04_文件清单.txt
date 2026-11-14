@@ -14,3 +14,16 @@ eec3f43de33a302ba33baaf5421b1e9a      11716  web/evolve.json
 71e365df369957a25d8a1c8dddc3dd6c      51734  web/history.json
 f4456e0d408a7ebb083029bd09767a50       6355  web/result.json
 93e8cab9c932e3077c4d1e7f244c3a33      49165  web/data.js
+982e69c69169975c8ffc524a3b4101c8     12344  docs/result_brief.json
+db822e581cf0391caef080af7b54f330      5375  docs/B_交付简报.md
+934e2a8abb6ee1d04591041e8482590d      3404  docs/B_运行清单.md
+41f4c64af4ddbebdfe67b5b87c379aa4      3838  docs/给C_交付说明_20261114.md
+4bf0da39888cf9470a4bd483a18d9e01     39561  docs/给C_交付说明_20261114.docx
+cfc8a6e6da4288d04a7ce0f4f49bd58a      7878  docs/正式实验_数据接入说明.md
+4cdb18123b49c81a27e191745806a0a0     29454  web/formal.html
+69bbbd0300806f7766c0cb6d14ff822b     25682  tools/build_formal_page.py
+84211206dcbeea35cd2e00437a3eb236      6354  tools/check_formal_page.py
+82d4ef43ee2664c41654a812975b0284      5187  tools/check_formal_render.js
+
+注：本页新增的「正式实验」相关文件在 c-final 分支内，sha256 可在本工作树直接校验。
+其上 `runs/*.jsonl` 等原始日志不入库，在主工作副本中校验，见 02_自检报告.txt 末尾说明。

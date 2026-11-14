@@ -1,4 +1,5 @@
-交付自检原始输出（重新生成于 2026-11-14 13:41 · wt-cfinal 工作树）
+交付自检原始输出（重新生成于 2026-11-14 15:45 · c-final-20261114 工作树）
+
 ==============================================================
 
 $ python tools/check_web_data.py
@@ -13,18 +14,118 @@ $ python tools/check_web_data.py
 三份数据与交付基线一致，双击页面看到的即交付数据。
 [退出码 0]
 
-$ 外链检查：三页 HTML 中 src/href 指向 http(s) 的次数
+$ python tools/check_formal_page.py
+正式实验页自检 · web/formal.html
+==============================================================
+  ✓ 存在 docs/result_brief.json
+  ✓ 存在 web/formal.html
+  ✓ 存在 tools/build_formal_page.py
+  ✓ 存在 tools/check_formal_render.js
+  ✓ 页面内联 brief 可解析
+  ✓ 内联数据与 docs/result_brief.json 深度相等
+  ✓ 内联数据非占位
+  ✓ 页面无 reference 字样
+  ✓ 零外链（断网 file:// 可开）  — 外链 0 条
+  ✓ 单文件内联脚本
+  ✓ 无入场动画（opacity 关键帧）
+  ✓ ① 真模型绿标 / 无 mock 徽章
+  ✓ ② 挑战图读 runs[].stats.challenges
+  ✓ ② 挑战题标未达标、不画成达标
+  ✓ ② X04 四趟六次全 0（与数据一致）
+  ✓ ② X05 最高 2/6，未达 3/6 门槛  — 实际 2
+  ✓ ③ 取消/未启动 2 趟且不参与配对
+  ✓ ③ 页面有「不计 0 分」文案
+  ✓ ④ limits 五条
+  ✓ ④ 页面渲染 limits[]
+  ✓ pairs[0] E−F 自洽
+  ✓ pairs[0] 末点=final
+  ✓ pairs[0] 检查点 5 个
+  ✓ pairs[1] E−F 自洽
+  ✓ pairs[1] 末点=final
+  ✓ pairs[1] 检查点 5 个
+  ✓ 主结果均值自洽
+  ✓ index.html 互跳目标存在  — evolve.html,result.html,formal.html
+  ✓ evolve.html 互跳目标存在  — index.html,result.html,formal.html
+  ✓ result.html 互跳目标存在  — index.html,evolve.html,formal.html
+  ✓ formal.html 互跳目标存在  — index.html,evolve.html,result.html
+  ✓ index.html 有正式实验入口
+  ✓ evolve.html 有正式实验入口
+  ✓ result.html 有正式实验入口
+  ✓ 渲染自检脚本通过  — RESULT: PASS（渲染路径 + 四要点 + 三硬标准全通过）
+  --- 渲染自检摘要 ---
+  PASS  ① 真模型绿标、无 mock 徽章
+  PASS  ② 挑战图标「未达标」并翻译 state
+  PASS  ② 挑战图 X04/X05 都在
+  PASS  ② 挑战图显示最高观察值
+  PASS  ③ 取消/未启动明确展示且不计 0 分
+  PASS  ④ limits 五条上页面
+  PASS  ④ limits 文案与数据一致
+  PASS  pairs[0] E=16.00
+  PASS  pairs[0] F=15.50
+  PASS  pairs[1] E=16.17
+  PASS  pairs[1] F=16.00
+  PASS  结论条 +0.33 来自 main_result
+  PASS  页面口径自检全通过
+  PASS  数字可点、带字段路径
+  PASS  证据等级如实标注
+  PASS  页面无 reference 字样
+  PASS  零外链
+  PASS  数据内联，断网可开
+  PASS  单文件内联脚本
+  RESULT: PASS（渲染路径 + 四要点 + 三硬标准全通过）
+  ✓ result.json 仍是 E_real 交付数据（未被覆盖）
+
+RESULT: PASS（数据一致 / 三硬标准 / 四要点 / 渲染 / 互跳 / 旧数据未动）
+[退出码 0]
+
+$ node tools/check_formal_render.js
+== 四要点 ==
+  PASS  ① 真模型绿标、无 mock 徽章
+  PASS  ② 挑战图标「未达标」并翻译 state
+  PASS  ② 挑战图 X04/X05 都在
+  PASS  ② 挑战图显示最高观察值
+  PASS  ③ 取消/未启动明确展示且不计 0 分
+  PASS  ④ limits 五条上页面
+  PASS  ④ limits 文案与数据一致
+== 数字与数据 ==
+  PASS  pairs[0] E=16.00
+  PASS  pairs[0] F=15.50
+  PASS  pairs[1] E=16.17
+  PASS  pairs[1] F=16.00
+  PASS  结论条 +0.33 来自 main_result
+  PASS  页面口径自检全通过
+  PASS  数字可点、带字段路径
+  PASS  证据等级如实标注
+== 三硬标准（页面脚本已跑通）==
+  PASS  页面无 reference 字样
+  PASS  零外链
+  PASS  数据内联，断网可开
+  PASS  单文件内联脚本
+RESULT: PASS（渲染路径 + 四要点 + 三硬标准全通过）
+[退出码 0]
+
+$ 三硬标准：四页 HTML 的外链 / reference 字样
 外链数 = 0（应为 0）
+  evolve.html: reference=0
+  formal.html: reference=0
+  index.html: reference=0
+  result.html: reference=0
+合计 reference = 0（应为 0）
 [通过]
 
-$ reference 字样检查（web/*.json）
-  evolve.json: 0
-  history.json: 0
-  result.json: 0
-合计 = 0（应为 0）
+$ 四页互跳目标检查
+  evolve.html → index.html, result.html, formal.html
+  formal.html → index.html, evolve.html, result.html
+  index.html → evolve.html, result.html, formal.html
+  result.html → index.html, evolve.html, formal.html
+404 数 = 0
 [通过]
 
-$ python -m pytest -q --no-header -p no:cacheprovider --basetemp=D:/WorkBuddy-temp/pytest-tmp/cfinal-publish-134103
+$ 证据包 04_文件清单.txt sha256 复核
+本工作树内一致 16 条 / 不符 0 条 / 原始日志不入库跳过 7 条
+[通过]
+
+$ python -m pytest -q --no-header -p no:cacheprovider --basetemp=D:/WorkBuddy-temp/pytest-tmp/cfinal-formal-154557
 ........................................................................ [ 12%]
 ........................................................................ [ 25%]
 ..............s...ssssss.s...............s...........ss................. [ 37%]
@@ -35,8 +136,8 @@ $ python -m pytest -q --no-header -p no:cacheprovider --basetemp=D:/WorkBuddy-te
 .................................................................        [100%]
 [退出码 0]
 
-结论：全部通过（数据哨兵 / 零外链 / 零 reference / 全量测试绿）
+结论：全部通过（数据哨兵 / 正式实验页自检 / 渲染自检 / 零外链 / 零 reference / 互跳无 404 / 清单哈希 / 全量测试绿）
 
-补充：04_文件清单.txt 里引用的 runs/*.jsonl 属运行原始日志，不入库；
-在主工作副本（含 runs/ 目录）逐项校验 sha256 与字节数，12/12 全部一致。
-本 worktree 只携带证据包文档本身，不含运行日志，属预期。
+补充：04_文件清单.txt 里引用的 runs/*.jsonl 属运行原始日志，不入库；在主工作副本（含 runs/ 目录）逐项校验 sha256 与字节数，全部一致。本 worktree 只携带证据包文档本身，不含运行日志，属预期。
+
+补充：web/result.json 与 data/holdout.jsonl 曾出现 CRLF/LF 行尾抖动导致清单哈希不符，本次按 git HEAD 的 LF 权威版本重写（归一化行尾后内容逐字节相同，数据未变），清单 16/16 一致。
