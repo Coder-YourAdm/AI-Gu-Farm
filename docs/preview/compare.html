@@ -898,65 +898,111 @@
 })();
 </script>
 <style>
-  /* ── 场景转场：分节幕布 + 进度条 ── */
+  /* ── 转场 + 入场：幕布 0.5s 盖、0.9s 揭；内容逐层上浮 ── */
+  html.intro-ready[data-page="cover"] main > *,
+  html.intro-ready[data-page="tutor"] main .panel,
+  html.intro-ready[data-page="compare"] main .panel,
+  html.intro-ready header,html.intro-ready footer{opacity:0;transform:translateY(26px)}
+  html.intro-ready main > *,
+  html.intro-ready main .panel,
+  html.intro-ready header{will-change:opacity,transform}
+  main > *, main .panel, header, footer{
+    transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+  .risen{opacity:1 !important;transform:none !important}
+
   #scene-curtain{position:fixed;inset:0;z-index:9999;pointer-events:none;
     display:flex;align-items:center;justify-content:center;
     background:
       radial-gradient(1100px 520px at 72% 18%,rgba(176,67,42,.10),transparent 62%),
       linear-gradient(180deg,#f6f4f0 0%,#efe9df 100%);
     transform:translateY(101%);
-    transition:transform .52s cubic-bezier(.76,0,.24,1)}
+    transition:transform .9s cubic-bezier(.16,1,.3,1)}
   #scene-curtain.enter,#scene-curtain.on{transform:translateY(0)}
   #scene-curtain.enter{transition:none}
-  #scene-curtain.on{transition:transform .34s cubic-bezier(.76,0,.24,1)}
-  #scene-curtain .sc-inner{text-align:center;opacity:0;transform:translateY(12px);
-    transition:opacity .28s ease,transform .42s cubic-bezier(.16,1,.3,1)}
+  #scene-curtain.on{transition:transform .5s cubic-bezier(.76,0,.24,1)}
+  #scene-curtain .sc-inner{text-align:center;opacity:0;transform:translateY(14px);
+    transition:opacity .4s ease,transform .6s cubic-bezier(.16,1,.3,1)}
   #scene-curtain.enter .sc-inner,#scene-curtain.on .sc-inner{opacity:1;transform:none}
-  #scene-curtain.revealing .sc-inner{opacity:0;transform:translateY(-10px);
-    transition:opacity .22s ease,transform .22s ease}
-  .sc-kick{font-family:var(--font-mono);font-size:11px;letter-spacing:.34em;color:#918b80;
-    text-transform:uppercase;margin-bottom:10px}
+  #scene-curtain.revealing .sc-inner{opacity:0;transform:translateY(-12px);
+    transition:opacity .35s ease,transform .35s ease}
+  .sc-kick{font-family:var(--font-mono);font-size:11px;letter-spacing:.36em;color:#918b80;
+    text-transform:uppercase;margin-bottom:12px}
   .sc-ttl{font-family:"Songti SC","SimSun","Source Han Serif SC",serif;
-    font-size:clamp(36px,4.8vw,60px);font-weight:600;color:#1d1b18;
-    letter-spacing:.22em;line-height:1.25}
-  .sc-ttl::after{content:"";display:block;width:54px;height:1px;background:#b0432a;
-    margin:16px auto 0;opacity:.75;transform:scaleX(0);
-    transition:transform .5s cubic-bezier(.16,1,.3,1) .12s}
-  #scene-curtain.enter .sc-ttl::after,#scene-curtain.on .sc-ttl::after{transform:scaleX(1)}
+    font-size:clamp(38px,5vw,64px);font-weight:600;color:#1d1b18;
+    letter-spacing:.24em;line-height:1.22;text-indent:.24em}
+  .sc-en{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.42em;color:#918b80;
+    margin-top:14px;text-transform:uppercase}
+  .sc-line{display:block;width:54px;height:1px;background:#b0432a;margin:18px auto 0;
+    opacity:.8;transform:scaleX(0);transition:transform .7s cubic-bezier(.16,1,.3,1) .15s}
+  #scene-curtain.enter .sc-line,#scene-curtain.on .sc-line{transform:scaleX(1)}
+
   #scene-progress{position:fixed;left:0;top:0;height:2px;z-index:60;
     background:linear-gradient(90deg,#b0432a,#d98b74);
-    transition:width .45s cubic-bezier(.16,1,.3,1)}
-  body.scene-leaving main{transition:transform .34s ease,opacity .34s ease,filter .34s ease;
-    transform:scale(.988) translateY(-6px);opacity:.5;filter:blur(1.2px)}
+    transition:width .6s cubic-bezier(.16,1,.3,1)}
+  body.scene-leaving main,body.scene-leaving header,body.scene-leaving footer{
+    transition:transform .5s ease,opacity .5s ease,filter .5s ease;
+    transform:scale(.985) translateY(-8px);opacity:.45;filter:blur(1.4px)}
   nav.pages a{position:relative}
   nav.pages a::after{content:"";position:absolute;left:11px;right:11px;bottom:2px;height:1px;
     background:currentColor;transform:scaleX(0);transform-origin:left;
-    transition:transform .22s cubic-bezier(.16,1,.3,1)}
+    transition:transform .24s cubic-bezier(.16,1,.3,1)}
   nav.pages a:hover::after{transform:scaleX(1)}
+  .wheel-hint{position:fixed;left:50%;bottom:52px;transform:translateX(-50%);z-index:30;
+    display:flex;align-items:center;gap:8px;
+    font-family:var(--font-mono);font-size:11px;color:var(--faint);letter-spacing:.1em;
+    pointer-events:none;opacity:.85}
+  .wheel-hint i{display:block;width:1px;height:13px;background:var(--line-strong)}
+  @media (max-width:1100px){.wheel-hint{display:none}}
   @media (prefers-reduced-motion: reduce){
-    #scene-curtain{transition-duration:.12s}
-    #scene-curtain .sc-inner{transition-duration:.1s}
+    html.intro-ready[data-page="cover"] main > *,
+    html.intro-ready[data-page="tutor"] main .panel,
+    html.intro-ready[data-page="compare"] main .panel,
+    html.intro-ready header{transform:none}
+    #scene-curtain{transition-duration:.2s}
+    body.scene-leaving main,body.scene-leaving header,body.scene-leaving footer{filter:none}
   }
 </style>
 <script>
 (function(){
-  var PAGES=[["cover.html","\u5c01\u9762","01",33],["tutor.html","\u8bca\u65ad","02",66],["compare.html","\u5bf9\u7167","03",100]];
+  var PAGES=[
+    ["cover.html","\u5c01\u9762","COVER","01",33],
+    ["tutor.html","\u8bca\u65ad","DIAGNOSIS","02",66],
+    ["compare.html","\u5bf9\u7167","POLICIES","03",100]
+  ];
   var here=(location.pathname.split("/").pop()||"cover.html");
   var idx=0; for(var i=0;i<PAGES.length;i++) if(PAGES[i][0]===here) idx=i;
   var reduced=window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var bar=document.createElement("div"); bar.id="scene-progress";
-  bar.style.width=PAGES[idx][3]+"%"; document.body.appendChild(bar);
+  bar.style.width=PAGES[idx][4]+"%"; document.body.appendChild(bar);
 
   var curtain=document.createElement("div"); curtain.id="scene-curtain";
   var inner=document.createElement("div"); inner.className="sc-inner";
   var kick=document.createElement("div"); kick.className="sc-kick";
   var ttl=document.createElement("div"); ttl.className="sc-ttl";
-  inner.appendChild(kick); inner.appendChild(ttl); curtain.appendChild(inner);
-  document.body.appendChild(curtain);
+  var en=document.createElement("div"); en.className="sc-en";
+  var line=document.createElement("span"); line.className="sc-line";
+  inner.appendChild(kick); inner.appendChild(ttl); inner.appendChild(en); inner.appendChild(line);
+  curtain.appendChild(inner); document.body.appendChild(curtain);
+
   function label(i){
-    kick.textContent="SECTION "+PAGES[i][2]+" / 03";
+    kick.textContent="SECTION "+PAGES[i][3]+" / 03";
     ttl.textContent=PAGES[i][1];
+    en.textContent=PAGES[i][2];
+  }
+
+  /* 进入动画：header 先落，其余元素依次上浮 */
+  function playIntro(){
+    var sel=(here==="cover.html")?"main > *":"main .panel";
+    var items=[document.querySelector("header"),document.querySelector("footer")].concat([].slice.call(document.querySelectorAll(sel)));
+    items=items.filter(Boolean);
+    var step=reduced?0:70, dur=reduced?0:0;
+    items.forEach(function(el,i){
+      el.style.transitionDelay=(i*step)+"ms";
+      el.classList.add("risen");
+    });
+    var total=items.length*step+900;
+    setTimeout(function(){ document.documentElement.classList.add("intro-done"); },total);
   }
 
   var entering=false;
@@ -966,10 +1012,13 @@
     label(idx);
     curtain.classList.add("enter");
     requestAnimationFrame(function(){ requestAnimationFrame(function(){
-      curtain.classList.remove("enter");
-      setTimeout(function(){ curtain.classList.add("revealing"); },140);
-      setTimeout(function(){ curtain.classList.remove("revealing"); },800);
+      curtain.classList.remove("enter");                 // 幕布开始揭开（.9s）
+      setTimeout(playIntro,180);                          // 揭开同时内容上浮
+      setTimeout(function(){ curtain.classList.add("revealing"); },300);
+      setTimeout(function(){ curtain.classList.remove("revealing"); },1500);
     });});
+  } else {
+    requestAnimationFrame(playIntro);
   }
 
   var lock=false;
@@ -980,7 +1029,7 @@
     curtain.classList.add("on");
     document.body.classList.add("scene-leaving");
     try { sessionStorage.setItem("scene:in","1"); } catch(_){}
-    setTimeout(function(){ location.href=PAGES[i][0]; },340);
+    setTimeout(function(){ location.href=PAGES[i][0]; },520);
   }
 
   document.addEventListener("click",function(e){
@@ -996,7 +1045,8 @@
     else if(e.key==="ArrowLeft"||e.key==="PageUp"){ e.preventDefault(); go(idx-1); }
   });
 
-  var armedAt=Date.now()+650,acc=0,last=0;
+  /* 触控板惯性：进页面 700ms 内不响应滚轮；面板滚到底才切屏 */
+  var armedAt=Date.now()+700,acc=0,last=0;
   window.addEventListener("wheel",function(e){
     if(Date.now()<armedAt||lock) return;
     var sc=e.target.closest?e.target.closest(".body,.tbl-wrap"):null;
@@ -1005,9 +1055,21 @@
       if(down && sc.scrollTop+sc.clientHeight<sc.scrollHeight-2) return;
       if(!down && sc.scrollTop>2) return;
     }
-    var now=Date.now(); if(now-last>240) acc=0; last=now; acc+=e.deltaY;
+    var now=Date.now(); if(now-last>260) acc=0; last=now; acc+=e.deltaY;
+    if(window.__sceneParallax) window.__sceneParallax(acc);
     if(Math.abs(acc)>120){ go(idx+(acc>0?1:-1)); acc=0; }
   },{passive:true});
+
+  if(here==="cover.html"){
+    var hint=document.createElement("div"); hint.className="wheel-hint";
+    hint.innerHTML="<i></i>\u6eda\u8f6e / \u2192 \u8fdb\u5165\u8bca\u65ad";
+    document.body.appendChild(hint);
+    window.__sceneParallax=function(a){
+      var m=document.querySelector("main");
+      if(m && !m.classList.contains("risen")) return;
+      if(m) m.style.transform="translateY("+Math.max(-26,Math.min(0,-a*0.12))+"px)";
+    };
+  }
 })();
 </script>
 </body>

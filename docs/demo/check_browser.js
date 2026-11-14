@@ -223,7 +223,7 @@ const LAYOUT_JS = `(() => {
         if (st.r === "complete" && st.t > 100) break;
       } catch (_) {}
     }
-    await sleep(300);
+    await sleep(2000);
   }
   async function shot(name) {
     if (!WANT_SHOTS) return;
@@ -280,7 +280,7 @@ const LAYOUT_JS = `(() => {
   await load(`${BASE}/cover.html`, 1280, 720);
   c.clear();
   const jumped = await clickSel('a[href="tutor.html"]');
-  await sleep(350);
+  await sleep(900);
   const loc = await c.eval("location.pathname");
   ok(jumped && loc.indexOf("tutor.html") >= 0, "封面点「诊断页」跳到 tutor.html", loc);
 
