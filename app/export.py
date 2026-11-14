@@ -255,10 +255,18 @@ def find_leaks(obj: Any, path: str = "$") -> list[str]:
 # 主流程
 # --------------------------------------------------------------------------
 def load_history(path: Path) -> list[dict]:
-    """读 history.jsonl：只收 status=completed，同代后者覆盖（§8 L512 不把半行当一代）。"""
+    """读 history.jsonl：只收 status=completed，同代后者覆盖（§8 L512 不把半行当一代）。
+
+    两条额外纪律：
+    - `gen < 1` 跳过：第 0 代是初始群体，没有解题成绩，画到大屏上会被读成
+      「第一代全线崩盘」。它只存在于快照 `g00.json`，不进公开历史。
+    - 一份 history 里出现两个 run_id 直接报错：说明有人把多趟写进了同一个文件，
+      继续导出就会把别人的代混进这一趟。
+    """
     if not path.exists():
         raise ExportError(f"找不到 {path}")
     by_gen: dict = {}
+    run_ids: set = set()
     with path.open(encoding="utf-8") as f:
         for lineno, line in enumerate(f, 1):
             line = line.strip()
@@ -275,12 +283,38 @@ def load_history(path: Path) -> list[dict]:
             gen = rec.get("gen")
             if gen is None:
                 continue
+            if rec.get("run_id"):
+                run_ids.add(rec["run_id"])
+            if gen < 1:
+                continue
             by_gen[gen] = rec
+    if len(run_ids) > 1:
+        raise ExportError(
+            f"{path} 混入了多趟运行 {sorted(run_ids)}；"
+            "一份 history.jsonl 只能对应一趟，请按 run_id 分开"
+        )
     return [by_gen[g] for g in sorted(by_gen)]
+
+
+def _resolve_run_dir(run_dir: Path) -> Path:
+    """`runs/<id>` 与 `runs/snapshots/<id>` 两种写法都接受。
+
+    规格与文档写的是 `runs/<id>/history.jsonl`，而引擎把快照放在
+    `runs/snapshots/<id>/`；同一个人按文档敲命令、按引擎找文件，中间这一跳
+    不该让人自己去猜。
+    """
+    if (run_dir / "history.jsonl").exists():
+        return run_dir
+    for candidate in (run_dir.parent / "snapshots" / run_dir.name,
+                      run_dir / "snapshots" / run_dir.name):
+        if (candidate / "history.jsonl").exists():
+            return candidate
+    return run_dir
 
 
 def export_run(run_dir: Path, out_path: Path, lenient: bool = False,
                include_genes: bool = False) -> dict:
+    run_dir = _resolve_run_dir(Path(run_dir))
     recs = load_history(run_dir / "history.jsonl")
     if not recs:
         raise ExportError(f"{run_dir}/history.jsonl 里没有 status=completed 的代")
