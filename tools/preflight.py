@@ -131,15 +131,24 @@ def check_runs(runs_root: Path) -> Check:
         runs_root.mkdir(parents=True, exist_ok=True)
         probe = runs_root / ".preflight_probe"
         probe.write_text("ok", encoding="utf-8")
-        probe.unlink()
     except OSError as exc:
         return Check("runs", FAIL, "运行目录可写", f"{runs_root} 写不进去：{exc}")
+
+    # 写成功就够了。删不掉不算失败——沙箱、杀软、某些企业策略都会拦 unlink，
+    # 那跟「能不能落快照」是两件事，不能因为删不掉就把可写判成不可写。
+    cleanup = ""
+    try:
+        probe.unlink()
+    except OSError:
+        cleanup = "（探测文件删不掉，但写入正常——通常是沙箱限制，不影响落盘）"
+
     free_gb = shutil.disk_usage(runs_root).free / 1024 ** 3
     if free_gb < 2:
         return Check("runs", FAIL, "运行目录可写", f"{runs_root} 可写，但只剩 {free_gb:.1f} GB")
     if free_gb < 10:
-        return Check("runs", WARN, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB，六趟跑完请留够")
-    return Check("runs", OK, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB")
+        return Check("runs", WARN, "运行目录可写",
+                     f"{runs_root} 可写，剩余 {free_gb:.1f} GB，六趟跑完请留够{cleanup}")
+    return Check("runs", OK, "运行目录可写", f"{runs_root} 可写，剩余 {free_gb:.1f} GB{cleanup}")
 
 
 def check_deps() -> Check:
