@@ -98,7 +98,15 @@ def test_I8_rejects(raw):
 # --------------------------------------------------------------------------
 
 def _det(m):
-    return solve_exact({"template": "det", "params": {"matrix": m}})
+    """行列式参考值。**先过 validate_task**，确保用例本身是合法出题。
+
+    直接调 solve_exact 会绕过边界校验：Bareiss 能算任意整数矩阵，越界输入
+    也能算出「正确的 -3」，但那种用例证明不了流水线肯收下这道题。
+    """
+    raw = {"template": "det", "params": {"matrix": m}}
+    ok, reason = validate_task(raw)
+    assert ok, "用例矩阵越界，不能作为合法出题样本：%s" % reason
+    return solve_exact(raw)
 
 
 def test_D1():
@@ -106,7 +114,21 @@ def test_D1():
 
 
 def test_D2():
-    assert _det([[1, 2, 3], [4, 5, 6], [7, 8, 10]]) == {"kind": "integer", "value": "-3"}
+    # 附录 A 原文是 [[1,2,3],[4,5,6],[7,8,10]]，元素 10 超出 §2.1 的 [-9,9]。
+    # 这里换成等值矩阵：a31 由 7 改成 8，行列式同为 -3，元素全在界内。
+    # 原矩阵留在 D2_arithmetic 里单独测算术能力（不经过 validate）。
+    assert _det([[1, 2, 3], [4, 5, 6], [8, 8, 9]]) == {"kind": "integer", "value": "-3"}
+
+
+def test_D2_arithmetic_beyond_bounds():
+    """Bareiss 本身能算越界矩阵——这不代表这道题合法。
+
+    保留这条是为了让「算术能力」和「输入合法性」两件事分开可测：
+    附录 A 的原始 D2 只能证明前者，不能证明后者。
+    """
+    raw = {"template": "det", "params": {"matrix": [[1, 2, 3], [4, 5, 6], [7, 8, 10]]}}
+    assert validate_task(raw)[0] is False        # 10 超界，出题阶段就该拒
+    assert solve_exact(raw) == {"kind": "integer", "value": "-3"}   # 但算术是对的
 
 
 def test_D3_singular():
