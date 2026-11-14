@@ -2,15 +2,18 @@
 
 > BoHack 2026 天津青年黑客松参赛作品 · 赛道主题「日新 / 生生不息」
 
+**队伍**：霹雳无敌南开吊炸天队 ｜ **洪修睿**（A · 判分内核与方案）· **毛尚胜**（B · 演化引擎与助教后端）· **徐潇**（C · 前端页面与演示）
+
 **一句话**：前半程让 prompt 互相残杀，练出一套最会教的；后半程把这套教法冻结下来，
 配上精确判分、掌握度估计和带证据的记忆，变成一个会记住你的考研数学助教。
 
 - **养蛊机（已完成）**：6 个 prompt 个体互相出题、互相解题；按题目区分度淘汰并重组，
   20 代后测量模型在当前题域上的能力上限。**不做模型训练，不用 LLM 当裁判**——
   判分走本地精确算术（`Fraction`，无浮点），同一道题任何人任何时候算出的答案都一样。
-- **助教（今日施工中）**：`养蛊机 → best_profile.json → 学生端`。教法**周更**（离线重训一次），
+- **助教（施工中 · 前端已可演示）**：`养蛊机 → best_profile.json → 学生端`。教法**周更**（离线重训一次），
   对学生的认识**秒更**（每答一题更新掌握度）；学生能点开「为什么给我这道题」，
-  评委能自己上手打一个答案，系统当场判、当场讲。
+  评委能自己上手打一个答案，系统当场判、当场讲。前端 `web/tutor.html` 已合入 main
+  （内置本地假 Tutor，回放模式断网可演），后端 `/api/ask` 与记忆 / 五级提示模块对接中。
 
 > 边界写在这里，不藏在附录：**只做答案能精确复核的题型**（高数 + 线代，当前 3 个知识点）。
 > 证明题、英语作文、政治大题明确拒答——这不是能力不足的遮掩，是判分可信的前提。
@@ -23,22 +26,23 @@
 | 题集 125 道（`data/`） | ✅ 已回填 `signature`/`statement`/`reference`，`validate_task` 125/125 |
 | 双跑编排 `app/demo.py` | ✅ `pair` / `rollback` / `status`，`--backend mock\|real` |
 | 快照回退 | ✅ `v0_seed` 一键回退，实测逐字节可逆 |
-| 演化大屏 / 双跑对照 / 结果页 | ✅ 三个单文件页面，零依赖、断网可演示 |
+| 演化大屏 / 双跑对照 / 结果页 / 对比页 / 助教页 | ✅ 六个单文件页面 + 演示数据，零依赖、断网可演示 |
 | B 演化引擎 `app/run.py` | ✅ 已用真模型跑完 4 趟 20 代（2 对 E/F），协议冻结为 `runs/protocol_v5.json` |
 | B 留出评测 | ✅ 已跑：2,640 次调用，两对末代 E−F = +0.50 / +0.17（均值 +0.33 题/20） |
 | 端到端回归 | ✅ 439 条用例（含 3 代 mock pilot、导出白名单自检、断点续跑） |
 | 真模型调用 `app/llm.py` | ✅ `deepseek-flash` @ `api.deepseek.com/v1`，三角色温度、限流、重试、审计已跑通 |
 | 留出评测 `web/result.json` | ✅ 数据已产出（`runs/result_brief.json` + `docs/B_交付简报.md`），页面待接 |
-| 学生模型 + 记忆（`app/student/`、`app/tutor/`） | 🚧 施工中：契约已冻结，BKT / 难度 / 记忆 / 提示梯度今日落地 |
-| 学生端（回放 + 实时） | 🚧 施工中：`web/tutor.html` + `POST /api/ask`；**回放模式不依赖网络** |
-| 三套教法对照 | 🚧 施工中：`loose / verbose / answer_only`，fitness = 学生增益 − 0.25 × 交互成本 |
+| 学生模型 + 记忆（`app/student/`、`app/tutor/`） | ⚠️ 部分落地：BKT / KC 树 / 难度 / 复习排期 / 诊断已合入；events / 画像与 tutor 记忆 / 五级提示施工中（进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)） |
+| 学生端（回放 + 实时） | ✅ `web/tutor.html` 已合入（内置本地假 Tutor，回放模式不依赖网络）；`POST /api/ask` 后端对接中 |
+| 三套教法对照 | ✅ `web/compare.json` 已产出、`web/compare.html` 已合入：`loose / verbose / answer_only`，fitness = 学生增益 − 0.25 × 交互成本 |
+| 项目游园会 X 展架 | ✅ 80×180cm PDF 已交付（2026-11-14，二次元 AI 拟人蛊坛主视觉） |
 
 **实验结论（2026-11-14）**：未观察到可靠的策略改善；两对方向一致为正但幅度在噪声内。
 稳定可复现的发现是挑战题越界——5 阶行列式连续六代 0/6，4 阶最高 2/6。
 完整结果与限制见 [B 交付简报](docs/B_交付简报.md)，协议偏离见
 [B 协议偏离说明](docs/B_协议偏离说明.md)。
 
-**诚实标注**：仓库里 `web/evolve.json`、`web/result.json` 当前是 `is_mock: true` 的
+**诚实标注**：仓库里 `web/result.json` 当前是 `is_mock: true` 的
 演示数据，用于跑通链路与排练。页面上有 `mock` 徽章，不会把假数字当真结果展示。
 
 B 的运行命令、预算限制和修复清单见 [B 修复说明](docs/B修复说明.md)。
@@ -94,11 +98,9 @@ python tools/preflight.py --config config.local.json --require-key --probe
 > `--probe` 会显示**服务端回显的 model**：如果它和你填的不一样，说明走的是别名或中转，
 > 实验报告里要如实写「我们传 X，服务端回显 Y」。
 
-> 助教侧命令随今日施工落地：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
+> 助教侧命令：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
 > `python app/serve.py --port 8123 --allow-tutor`。契约见 [AI 可读实施方案](docs/AI可读_实施方案.md)。
 >
-> 生成对照数据：`python tools/compare.py --seed 42 --out web/compare.json`
-> （离线、幂等；三套教法 × 三档模拟学生，结论见 [评测报告](docs/评测报告_12h.md)）。
 > 生成对照数据：`python tools/compare.py --seed 42 --out web/compare.json`
 > （离线、幂等；三套教法 × 三档模拟学生，结论见 [评测报告](docs/评测报告_12h.md)）。
 > **放进 `web/` 之前先跑数据契约自检**：`python tools/check_web_contract.py`
@@ -121,13 +123,13 @@ app/
   demo.py            双跑编排：pair / rollback / status
   export.py          白名单导出，reference / holdout / raw_response 不进静态目录
   serve.py           标准库静态服务；--allow-rollback 回退、--allow-tutor 实时判分
-  student/           🚧 学生模型：KC 树 / BKT / 难度 / 复习排期 / 事件 / 画像（A、B）
+  student/           学生模型：KC 树 / BKT / 难度 / 复习排期 / 诊断（已合入）；🚧 events / 画像
   tutor/             🚧 记忆检索 / 五级提示 / 对话状态机（B）
-  evalsim/           🚧 模拟学生与 fitness（A）
+  evalsim/           模拟学生与 fitness（A）
 data/                125 道题：calibration 20 / common_dev 80 / challenge_pool 5 / holdout 20
 prompts/             setter / solver / 六份种子基因 / crossover / mutate
 skills/              🚧 prompt-evolver（训练期）与 kaoyan-tutor（运行期）两套 skill
-web/                 现有三个单文件页面 + 两份 mock 数据；🚧 tutor / compare / cover
+web/                 六个单文件页面（index / evolve / result / compare / tutor / cover）+ 演示数据
 tests/               A/B/C 单元测试、集成测试与 B 缺陷回归
 docs/                完整方案 / 12 小时分工 / AI 实施方案 / skill 包装 / B 修复说明
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3（含 12 小时冲刺附记）
@@ -191,11 +193,15 @@ python -m pytest
 - **真模型校准通过率随难度分档**：原卷（det 3–5 阶、积分 n 到 9）12.8%；把行列式降到 2–3 阶后
   **52.8%**（落在规格 20–80% 区间）；全简单档 92.8%。360 条回答零格式错误，所以是题难度而非解析问题。
   生成器 `tools/make_tier_dataset.py`，结论见 [校准结论](docs/校准结论_12h.md)
-- 助教侧尚未落地：`app/student/`、`app/tutor/`、`web/tutor.html` 今日施工，契约已冻结
-- 教法 profile 当前为手写基线（`manual-v1`），尚未由演化产出；冠军 profile 需真模型跑完一轮才有
+- 助教侧部分落地：`web/tutor.html`、`web/compare.html` 与演示数据已合入 main；
+  `app/student` 完成大半（BKT / KC / 难度 / 排期 / 诊断），`app/tutor` 完整记忆与
+  五级提示、`skills/` 打包施工中（B 岗），实时进度见 [docs/待办_BC_15h.md](docs/待办_BC_15h.md)
+- 教法 profile 仍为手写基线（`manual-v1`）：真模型 4 趟 20 代跑完未观察到可靠改善，
+  演化尚未产出超越基线的冠军 profile
 - 题域 3 个知识点（定积分 / 反常积分 / 行列式），扩充路线见完整方案 §8
-- 留出评测（`web/result.json`）尚未由真模型跑出，结果页目前是 mock 数据
-- 真模型实验未开跑：`config.json` 的 `model` / `base_url` 仍是占位符，且需设 `max_calls` 或
-  `wall_limit_s`（否则 `require_runtime_ready` 会拒绝），密钥走环境变量 `LLM_API_KEY`
+- 留出评测已由真模型跑出（`runs/result_brief.json`，2,640 次调用）；
+  `web/result.json` 页面尚未接入真实数据，目前仍是 mock（挂红标）
+- 真模型链路已跑通（`deepseek-flash` @ `api.deepseek.com/v1`）；仓库内 `config.json`
+  仍是占位符，实际配置走 `config.local.json` + `.env`（均不进仓库），密钥走环境变量 `LLM_API_KEY`
 - 附录 A 的 D2 用例矩阵元素 `10` 超出 §2.1 的 `[-9,9]`：测试已换成等值矩阵并补了
   `validate_task` 断言，规格原文未改，见 `给A_边界冲突说明.md`
