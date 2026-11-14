@@ -205,6 +205,92 @@
     .clickhint{font-size:12px}
     #answer{font-size:15px}
   }
+  /* ── 浅色主题：覆盖上面的深色配色，结构不动 ── */
+  :root{
+    --bg:#f5f7fa; --surface:#ffffff; --surface-2:#f4f6f9; --surface-3:#e9eef5;
+    --line:rgba(15,23,42,.08); --line-strong:rgba(15,23,42,.16);
+    --text:#0f172a; --muted:#475569; --faint:#7c8798;
+    --accent:#2563eb; --accent-dim:rgba(37,99,235,.10);
+    --good:#15803d; --bad:#dc2626; --warn:#b45309; --violet:#7c3aed;
+  }
+  body{background:#f5f7fa;color:var(--text);
+    background-image:radial-gradient(1000px 360px at 15% -10%,rgba(37,99,235,.06),transparent 70%)}
+  header{background:rgba(255,255,255,.86)}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 1px 2px rgba(16,24,40,.05)}
+  .kc .bar i{background:linear-gradient(90deg,var(--accent),#60a5fa)}
+  .kc.sel{border-color:rgba(37,99,235,.3)}
+  .tutor .bubble:hover{border-left-color:#60a5fa}
+  .tutor .bubble.on{box-shadow:0 0 0 1px rgba(37,99,235,.18) inset}
+  .hintline{color:#334155}
+  .hintline .lv{border-color:rgba(37,99,235,.28)}
+  .student.right .bubble{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.28)}
+  .student.wrong .bubble{background:rgba(220,38,38,.06);border-color:rgba(220,38,38,.24)}
+  .verdict .tag.r{background:rgba(22,163,74,.12)}
+  .verdict .tag.w{background:rgba(220,38,38,.10)}
+  #answer:focus{border-color:rgba(37,99,235,.5);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+  #send{color:#fff}
+  #notice{background:rgba(245,158,11,.10);border-bottom-color:rgba(245,158,11,.3);color:var(--warn)}
+  .composer{background:var(--surface)}
+  /* ── 投影字号：整体上调一档 ── */
+  :root{color-scheme:light}
+  body{font-size:15px}
+  nav.pages a{font-size:13px}
+  .brand h1{font-size:20px}
+  .panel > h2{font-size:13px}
+  .panel > h2 em{font-size:11px}
+  .seg button{font-size:12.5px}
+  .ver{font-size:11.5px}
+  .kc .name,.kc .val{font-size:14px}
+  .kc .meta{font-size:11.5px}
+  .stmt{font-size:16.5px}
+  .fmt{font-size:12px}
+  .hintline{font-size:14px}
+  .verdict{font-size:12px}
+  .why-grid dt{font-size:11.5px}
+  .why-grid dd{font-size:14px}
+  .mem .t,.mem .conf{font-size:11px}
+  .mem .txt{font-size:14px}
+  .due .k{font-size:14px}
+  .due .d{font-size:12px}
+  .due .r{font-size:11.5px}
+  .clickhint{font-size:12px}
+  #answer{font-size:14.5px}
+  .quick button{font-size:12.5px}
+  .live-hint{font-size:12px}
+  .why-empty{font-size:13.5px}
+  /* ── 暖纸风格（参考 arena_live）：覆盖上面的浅蓝主题 ── */
+  :root{
+    --bg:#f6f4f0; --surface:#ffffff; --surface-2:#faf8f4; --surface-3:#f2efe9;
+    --line:#e6e1d8; --line-strong:#d8d1c4;
+    --text:#1d1b18; --muted:#5c574f; --faint:#918b80;
+    --accent:#b0432a; --accent-dim:#f7e9e4;
+    --good:#2f7a4e; --bad:#b0432a; --warn:#c08a2e; --violet:#8a6a4a;
+  }
+  body{background:#f6f4f0;color:var(--text);background-image:none}
+  header{background:rgba(246,244,240,.92);border-bottom-color:var(--line)}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:none}
+  nav.pages a.on,.seg button.on{background:var(--accent-dim);color:var(--accent)}
+  .seg{border-color:var(--line)}
+  .ver{background:#fff;border-color:var(--line);border-radius:6px}
+  .kc .bar i{background:var(--accent)}
+  .kc.sel{background:var(--accent-dim);border-color:#e6c8bf}
+  .tutor .bubble:hover{border-left-color:#c96a4f;background:var(--surface-2)}
+  .tutor .bubble.on{box-shadow:0 0 0 1px rgba(176,67,42,.18) inset}
+  .hintline{color:#5c574f}
+  .hintline .lv{border-color:#e6c8bf;color:var(--accent)}
+  .student.right .bubble{background:#e8f3ec;border-color:#bcd8c6;color:var(--good)}
+  .student.wrong .bubble{background:#f7e9e4;border-color:#e6c8bf;color:var(--accent)}
+  .verdict .tag.r{background:#e8f3ec;color:var(--good)}
+  .verdict .tag.w{background:#f7e9e4;color:var(--accent)}
+  #answer{background:var(--surface-2);border-color:var(--line-strong)}
+  #answer:focus{border-color:#d0a396;box-shadow:0 0 0 3px rgba(176,67,42,.10)}
+  #send{background:var(--text);color:#fff}
+  #send:hover{filter:none;background:#000}
+  #notice{background:#fbf1dd;border-bottom-color:#ead6ac;color:#8a6a24}
+  .composer{background:#fff}
+  /* ── 卡片阴影（不想要就删掉这一行） ── */
+  .panel{box-shadow:0 2px 4px rgba(29,27,24,.05), 0 14px 30px -14px rgba(29,27,24,.38)}
 </style>
 </head>
 <body>

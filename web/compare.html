@@ -179,6 +179,71 @@
     .formula{font-size:12px}
     .read2{font-size:12.5px}
   }
+  /* ── 浅色主题：覆盖上面的深色配色，结构不动 ── */
+  :root{
+    --bg:#f5f7fa; --surface:#ffffff; --surface-2:#f4f6f9; --surface-3:#e9eef5;
+    --line:rgba(15,23,42,.08); --line-strong:rgba(15,23,42,.16);
+    --text:#0f172a; --muted:#475569; --faint:#7c8798;
+    --accent:#2563eb; --accent-dim:rgba(37,99,235,.10);
+    --good:#15803d; --bad:#dc2626; --warn:#b45309; --violet:#7c3aed;
+    --warn-dim:rgba(245,158,11,.12);
+  }
+  body{background:#f5f7fa;color:var(--text);
+    background-image:radial-gradient(1000px 360px at 15% -10%,rgba(37,99,235,.06),transparent 70%)}
+  header{background:rgba(255,255,255,.86)}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    box-shadow:0 1px 2px rgba(16,24,40,.05)}
+  thead th{background:var(--surface)}
+  tbody tr.win-row td{background:rgba(22,163,74,.06)}
+  #notice{background:rgba(245,158,11,.10);border-bottom-color:rgba(245,158,11,.3);color:var(--warn)}
+  /* ── 投影字号：整体上调一档 ── */
+  :root{color-scheme:light}
+  body{font-size:15px}
+  nav.pages a{font-size:13px}
+  .brand h1{font-size:20px}
+  .panel > h2{font-size:13px}
+  .panel > h2 .r{font-size:11.5px}
+  .seg button{font-size:12.5px}
+  .ver{font-size:11.5px}
+  .legend{font-size:12.5px}
+  .sgrp-h .nm{font-size:13px}
+  .sgrp-h .pre{font-size:11px}
+  .row .lb{font-size:12px}
+  .row .vl{font-size:12.5px}
+  table{font-size:12.5px}
+  thead th{font-size:11.5px}
+  tbody td{font-size:12px}
+  tbody td:first-child,tbody td:nth-child(2){font-size:12.5px}
+  tbody td .cn{font-size:10.5px}
+  .win-name{font-size:23px}
+  .win-why{font-size:13px}
+  .ins li{font-size:12.5px}
+  .ins .mono{font-size:12px}
+  .formula{font-size:12px}
+  .read2{font-size:12.5px}
+  .src{font-size:11.5px}
+  /* ── 暖纸风格（参考 arena_live）：覆盖上面的浅蓝主题 ── */
+  :root{
+    --bg:#f6f4f0; --surface:#ffffff; --surface-2:#faf8f4; --surface-3:#f2efe9;
+    --line:#e6e1d8; --line-strong:#d8d1c4;
+    --text:#1d1b18; --muted:#5c574f; --faint:#918b80;
+    --accent:#b0432a; --accent-dim:#f7e9e4;
+    --good:#2f7a4e; --bad:#b0432a; --warn:#c08a2e; --violet:#8a6a4a;
+    --warn-dim:#fbf1dd;
+  }
+  body{background:#f6f4f0;color:var(--text);background-image:none}
+  header{background:rgba(246,244,240,.92);border-bottom-color:var(--line)}
+  .panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:none}
+  nav.pages a.on,.seg button.on{background:var(--accent-dim);color:var(--accent)}
+  .seg{border-color:var(--line)}
+  .ver{background:#fff;border-color:var(--line);border-radius:6px}
+  thead th{background:#fff}
+  .track{background:#f2efe9}
+  tbody tr.win-row td{background:#f3f8f4}
+  tbody tr.win-row td:nth-child(2){color:var(--good)}
+  #notice{background:#fbf1dd;border-bottom-color:#ead6ac;color:#8a6a24}
+  /* ── 卡片阴影（不想要就删掉这一行） ── */
+  .panel{box-shadow:0 2px 4px rgba(29,27,24,.05), 0 14px 30px -14px rgba(29,27,24,.38)}
 </style>
 </head>
 <body>
