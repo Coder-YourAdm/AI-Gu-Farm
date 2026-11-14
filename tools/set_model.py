@@ -149,7 +149,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"✓ 写入 {cfg_path}")
     print(f"  model      = {cfg['model']}")
     print(f"  base_url   = {cfg['base_url']}")
-    print(f"  max_calls  = {cfg['max_calls']}（E 一趟 2289，余量 {cfg['max_calls'] / 2289:.0%}）")
+    print(f"  max_calls  = {cfg['max_calls']}（E 一趟 2289，占 {cfg['max_calls'] / 2289:.0%}）")
     print(f"✓ {'新建' if created else '更新'} {env_path}：LLM_API_KEY={masked}")
     print(f"  配置指纹   = {parsed.semantic_fingerprint()[:12]}…")
     print("\n下一步（两条命令，第二条会花几个 token）：")
