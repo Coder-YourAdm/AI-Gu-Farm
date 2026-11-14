@@ -33,5 +33,10 @@ if ($Strict) { $browserArgs += "--strict" }
 node @browserArgs
 if ($LASTEXITCODE -ne 0) { Write-Host "BROWSER: FAIL" -ForegroundColor Red; exit 1 }
 
+# Sixth suite: real browser + real HTTP, live mode against a mock /api/ask.
+Write-Host "== check_browser_live.js ==" -ForegroundColor Cyan
+node docs/demo/check_browser_live.js
+if ($LASTEXITCODE -ne 0) { Write-Host "BROWSER_LIVE: FAIL" -ForegroundColor Red; exit 1 }
+
 Write-Host "ALL CHECKS PASS" -ForegroundColor Green
 exit 0
