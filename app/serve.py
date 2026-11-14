@@ -47,7 +47,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
     def do_POST(self) -> None:  # noqa: N802
         if self.path.rstrip("/") != "/api/rollback":
-            self.send_error(404, "没有这个接口")
+            # 不要用 send_error(code, "中文")：那句话会进 HTTP 状态行，而状态行只允许
+            # ASCII，http.server 用 latin-1 编码，中文会抛 UnicodeEncodeError，
+            # 客户端看到的是连接被重置而不是 404。中文一律放进响应体。
+            self._json(404, {"error": "没有这个接口", "path": self.path})
             return
         if not ALLOW_ROLLBACK:
             self._json(501, {"error": "服务未开启回退（启动时加 --allow-rollback）"})
@@ -79,7 +82,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(body)
 
     def list_directory(self, path):  # noqa: D401
-        self.send_error(403, "不提供目录列表")
+        # 同上：send_error 的 message 会进状态行，中文必须走响应体
+        self._json(403, {"error": "不提供目录列表"})
         return None
 
     def log_message(self, fmt: str, *a) -> None:
