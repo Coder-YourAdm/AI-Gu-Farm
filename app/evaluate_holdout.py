@@ -44,6 +44,20 @@ CST = timezone(timedelta(hours=8))
 HOLDOUT = ROOT / "data" / "holdout.jsonl"
 WEB_OUT = ROOT / "web" / "result.json"
 
+
+def _rel(p: Path) -> str:
+    """仓库内显示相对路径，仓库外显示绝对路径。
+
+    `--history` / `--out` 都可能指到仓库外：B 的 runs-root 是任意目录。
+    以前这里直接 `relative_to(ROOT)`，路径一出去就抛 ValueError，
+    崩在收尾那句 print 上 —— 数据其实已经写好了，人却以为整趟失败。
+    """
+    rp = p.resolve()
+    try:
+        return str(rp.relative_to(ROOT)).replace("\\", "/")
+    except ValueError:
+        return str(rp).replace("\\", "/")
+
 # 三条血脉的展示口径。key 一旦定下，跨趟必须逐字一致（result_schema 会校验
 # 祖先的 label/color 指纹），否则页面上的对照就串了。
 LINEAGE_META = {
@@ -98,18 +112,33 @@ def pick_lineages(history: Path) -> dict[str, dict]:
                 return p["genes"]
         raise SystemExit(f"✗ 第 {rec['gen']} 代里找不到个体 {gid}")
 
-    champ_id = last["ranking"][0]
-    anc = first["ranking"][:2]
+    def ids_in(rec: dict) -> list[str]:
+        """这一代的个体 id 顺序。
+
+        两套引擎的第 0 代语义不同：
+          · C 的实现：g0 是**跑完的一代**，有 ranking，取前两名当祖先；
+          · B 的实现：g0 是**未评测的种子快照**（completed 但无 ranking/M），
+            祖先按初代顺序取前 n_ancestor 个（runtime.new_run 的约定）。
+        两者都是「起点」，所以都能当固定对照；差别只在要不要按分排名。
+        没有 ranking 时按种子顺序取，并在 provenance 里如实记一句。
+        """
+        if rec.get("ranking"):
+            return [str(x) for x in rec["ranking"]]
+        return [str(p["meta"]["id"]) for p in (rec.get("evaluated_population") or [])
+                if isinstance(p, dict) and isinstance(p.get("meta"), dict)]
+
+    champ_id = ids_in(last)[0]
+    anc = ids_in(first)[:2]
     if len(anc) < 2:
         raise SystemExit("✗ 第 0 代不足 2 个个体，凑不出两个固定祖先")
 
     return {
         "champion": {"id": champ_id, "genes": genes_of(last, champ_id),
-                     "gen": last["gen"], "rank": 1, "n_pop": len(last["ranking"])},
+                     "gen": last["gen"], "rank": 1, "n_pop": len(ids_in(last))},
         "ancestor_seed_1": {"id": anc[0], "genes": genes_of(first, anc[0]),
-                            "gen": first["gen"], "rank": 1, "n_pop": len(first["ranking"])},
+                            "gen": first["gen"], "rank": 1, "n_pop": len(ids_in(first))},
         "ancestor_seed_2": {"id": anc[1], "genes": genes_of(first, anc[1]),
-                            "gen": first["gen"], "rank": 2, "n_pop": len(first["ranking"])},
+                            "gen": first["gen"], "rank": 2, "n_pop": len(ids_in(first))},
     }
 
 
@@ -296,7 +325,7 @@ def run(history: Path, out: Path, replicates: int, workers: int,
     body["provenance"] = {
         "source": "holdout evaluation",
         "script": "app/evaluate.py",
-        "history": str(history.relative_to(ROOT)).replace("\\", "/"),
+        "history": _rel(history),
         "runs_count": len(runs),
         "replicates": replicates,
         "lineage_ids": {k: f"{v['gen']}代 {v['id']}" for k, v in lineages.items()},
@@ -332,14 +361,7 @@ def run(history: Path, out: Path, replicates: int, workers: int,
     else:
         out.write_text(json.dumps(body, ensure_ascii=False, indent=2) + "\n",
                        encoding="utf-8")
-    # `--out` 可能是相对路径（run_official.sh 传 runs/OFF_E1/result.json），
-    # 直接 relative_to(ROOT) 会抛 ValueError 把整趟收尾炸掉——2026-11-14 OFF_E1 就这么崩的。
-    shown = out.resolve()
-    try:
-        shown = shown.relative_to(ROOT)
-    except ValueError:
-        pass                      # 落在仓库外的输出，原样显示绝对路径
-    print(f"\n✓ 写出 {shown} · {len(runs)} 趟 · "
+    print(f"\n✓ 写出 {_rel(out)} · {len(runs)} 趟 · "
           f"{all_calls} 次调用 · 结论 {conclusion['level']}")
     return body
 
@@ -362,7 +384,7 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f"✗ 找不到 {history}")
 
     max_tokens = a.max_tokens or L.budget("solver", 6000)
-    print(f"留出评测：{history.relative_to(ROOT)} · {a.replicates} 趟 · "
+    print(f"留出评测：{_rel(history)} · {a.replicates} 趟 · "
           f"max_tokens={max_tokens} · 模型 {json.loads((ROOT / 'config.json').read_text(encoding='utf-8'))['model']}")
     run(history, Path(a.out), a.replicates, a.workers, max_tokens)
     return 0
