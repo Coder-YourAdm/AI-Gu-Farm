@@ -23,8 +23,10 @@ FORMAL = ["E_s42_7f878e7097", "F_s42_7f878e7097",
 
 SINGLE = [
     "runs/protocol_v5.json", "runs/calibration_v5.json", "runs/ancestors.json",
-    "runs/result_brief.json", "docs/result_brief.json",
+    "runs/result_brief.json", "runs/ancestor_holdout.json",
+    "docs/result_brief.json", "web/result.json",
     "docs/B_交付简报.md", "docs/B_运行清单.md", "docs/B_协议偏离说明.md",
+    "docs/B_上台清单.md",
     "logs/calls.jsonl",
 ]
 GLOB = ["runs/summaries/*.json", "runs/plans/*.json", "runs/evaluations/*.json",
