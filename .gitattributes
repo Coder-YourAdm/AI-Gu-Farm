@@ -1,2 +1,14 @@
-# Dataset manifests hash exact bytes; Windows checkouts must retain LF.
-data/*.json text eol=lf
+# Windows checkout 必须保留 LF：证据包里记的是文件 sha256 与字节数，
+# CRLF 抖动会让 04_文件清单.txt 在别的机器上全部对不上（2026-11-14 踩过）。
+data/*.json   text eol=lf
+data/*.jsonl  text eol=lf
+web/*.json    text eol=lf
+web/*.html    text eol=lf
+web/*.js      text eol=lf
+docs/*.md     text eol=lf
+docs/*.json   text eol=lf
+tools/*.py    text eol=lf
+tools/*.js    text eol=lf
+证据包/*.md   text eol=lf
+证据包/*.txt  text eol=lf
+*.py          text eol=lf
