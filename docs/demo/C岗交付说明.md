@@ -1,7 +1,10 @@
 # C 岗交付说明（给 A / B 对接用）
 
-> 分支：`feat/tutor-c`　基线：`88fd4de`（原 C 交付）+ 7 个新提交（`0a52aac` … `8dc1246`）
-> 工作副本：`C:\Users\ASUS\Desktop\黑客松\.c-work`（桌面那个是 B 的克隆，C 的提交不在这里）
+> 分支：`feat/tutor-c`　HEAD：`95ca417`（`88fd4de` 原 C 交付 + 8 个新提交 `0a52aac` … `95ca417`）
+> **已推送远端**：`origin/feat/tutor-c = 95ca417`（2026-11-14 13:32 确认）。
+> **唯一权威工作区**：`D:\WorkBuddy-temp\repo-real\AI-Gu-Farm`（`feat/tutor-c`）。
+> 桌面 `C:\Users\ASUS\Desktop\黑客松` 是 B 的克隆，其中 `web/` 三页仅为同步副本，**不要在那里改 C 的代码**；
+> `桌面\黑客松\.c-work` 是早期临时副本，已废弃，不再使用。
 > 只改 `web/` 与 `docs/demo/`，**没碰 `app/`、`data/`、`tests/`**。
 
 ## 一、交付物清单
@@ -87,6 +90,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
 ## 六、当前已知缺口
 
 1. `web/tutor.json` / `web/compare.json` 还没有 → 页面用内联示例 + 黄条（**截图前必须补**）。
+   缺的是**两份**，不是一份：`tutor.html` fetch `tutor.json`，`compare.html` fetch `compare.json`。
 2. `app/serve.py` 没有 `/api/ask` 分支（实测 501）→ 实时模式走本地假 Tutor；B 交付后改一处 `endpoint`。
-3. 推送未完成：我这边的网络连不上 GitHub，7 个提交在 `.c-work` 本地，网络恢复后
-   `git -C C:\Users\ASUS\Desktop\黑客松\.c-work push origin feat/tutor-c` 即可（基于 `88fd4de`，快进）。
+3. 推送已完成，`origin/feat/tutor-c` = `95ca417`；A/B 直接 `git fetch` 后 checkout 该分支即可拿到全部 C 交付。
+4. 真人验收尚未做（三页互跳、实时连答 5 题、断接口自动回放、C13 六格 1280/1920）——
+   脚本自检全绿 ≠ 演示验收通过，这部分需要人在浏览器里过一遍。
+5. **打开方式**：`file://` 双击读不到本地 JSON，永远显示示例数据。正式演示/截图必须
+   `python app/serve.py --port 8123`（或 `python -m http.server 8123 --directory web`）后走 HTTP。
