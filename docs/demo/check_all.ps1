@@ -1,5 +1,8 @@
 # C-group demo self-check runner.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
+#        powershell ... -File docs/demo/check_all.ps1 -Strict   # 浏览器不可用时也判失败（发布/合并后回归用）
+param([switch]$Strict)
+
 $ErrorActionPreference = "Stop"
 $env:PYTHONIOENCODING = "utf-8"
 try { chcp 65001 > $null } catch { }
@@ -25,7 +28,9 @@ if ($LASTEXITCODE -ne 0) { Write-Host "LIVE_HTTP: FAIL" -ForegroundColor Red; ex
 # Fifth suite: real Chrome/Edge via CDP (layout / clicks / path / navigation).
 # Self-hosted static server, no external deps; SKIPs gracefully if no browser found.
 Write-Host "== check_browser.js ==" -ForegroundColor Cyan
-node docs/demo/check_browser.js
+$browserArgs = @("docs/demo/check_browser.js")
+if ($Strict) { $browserArgs += "--strict" }
+node @browserArgs
 if ($LASTEXITCODE -ne 0) { Write-Host "BROWSER: FAIL" -ForegroundColor Red; exit 1 }
 
 Write-Host "ALL CHECKS PASS" -ForegroundColor Green
