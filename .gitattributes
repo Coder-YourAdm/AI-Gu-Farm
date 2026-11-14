@@ -1,2 +1,6 @@
 # Dataset manifests hash exact bytes; Windows checkouts must retain LF.
 data/*.json text eol=lf
+
+# Binary assets must never be line-ending converted (favicon / screenshots).
+*.ico binary
+*.png binary

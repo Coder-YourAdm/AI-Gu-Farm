@@ -64,12 +64,19 @@ def main() -> int:
         failed += 0 if ref == 0 and ext == 0 else 1
 
     print("== 4. nav hrefs ==")
+    # 只校验页面互跳的相对 .html 链接（C6 验收口径）。
+    # data: URI（<link rel="icon" href="data:,">）、锚点、外链不是本地文件：
+    # 前者无需 resolve，后两者由第 3 项三硬标准负责，别在这里误报 BROKEN。
+    nav_bad = 0
     for p in PAGES:
         for h in re.findall(r'href="([^"#]+)"', texts[p]):
+            if ":" in h or not h.endswith(".html"):
+                continue
             if not (WEB / h).exists():
                 print(f"  BROKEN {p} -> {h}")
-                failed += 1
-    print("  all hrefs resolve:", "yes" if failed == 0 else "see above")
+                nav_bad += 1
+    failed += nav_bad
+    print("  all html hrefs resolve:", "yes" if nav_bad == 0 else "see above")
 
     print("== 5. encoding damage (U+FFFD) ==")
     for p in PAGES:
