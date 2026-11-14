@@ -172,6 +172,7 @@ python -m pytest
 | 今天 12 小时谁做什么、每步怎么验收 | [docs/分工_12小时_详细版.md](docs/分工_12小时_详细版.md) |
 | 3×3 教法对照的九行数字与三个诚实声明 | [docs/评测报告_12h.md](docs/评测报告_12h.md) |
 | 给两个队友发的通知（可直接复制 + 台账） | [docs/队友通知_待发消息.md](docs/队友通知_待发消息.md) |
+| B/C 还欠什么（15:05 三分支实测台账） | [docs/待办_BC_15h.md](docs/待办_BC_15h.md) |
 | 给编码 AI 的执行说明（冻结契约 + 角色 prompt） | [docs/AI可读_实施方案.md](docs/AI可读_实施方案.md) |
 | 养蛊机与助教怎么打包成两个 skill | [docs/skill包装_养蛊机与助教.md](docs/skill包装_养蛊机与助教.md) |
 | B 的引擎修复清单与预算限制 | [docs/B修复说明.md](docs/B修复说明.md) |
