@@ -365,11 +365,27 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 ### 6.2 Elo-lite
 
 ```
-E = 1 / (1 + 10 ** ((d - theta) / 400))
-新值 = 旧值 + 16 · ((1 if correct else 0) - E)
+E = 1 / (1 + 10 ** ((d - theta) / 400))     # 通用 Elo：d、theta 是 1500 量级
 ```
 
-`pick()`：取 `|d - (theta + 0.1)|` 最小；同分用 `rng` 打散。
+**本项目的刻度修正（必须照这个实现）**：`prior()` 把难度与能力都归一到 `[0,1]`，
+不能把 0.5 直接代进上式——`(d-theta)/400 ≈ 0.001`，`E` 会恒等于 0.5，
+难度校准彻底失效。做法是把 `[0,1]` 线性映回 Elo 刻度再套公式：
+
+```
+d_elo     = 1000 + 400·d
+theta_elo = 1000 + 400·theta
+→ (d_elo - theta_elo) / 400 = d - theta
+→ E = 1 / (1 + 10 ** (d - theta))
+```
+
+`d=0.8, theta=0.5` 时 `E≈0.334`，符合「题比人难，答对概率低」。
+`update_rating` 在 Elo 刻度上做 `+k·(实际-E)` 再映回 `[0,1]`，
+所以一次答题最大变动 `k/400 = 16/400 = 0.04`，不会一步跳爆。
+`DifficultyBook.update` 更新的是**题目难度**，方向相反：学生答对 → 难度下调。
+
+`pick()`：取 `|d - (theta + 0.1)|` 最小的题；同分可传 `rng` 打散，
+不传则按 signature 字典序，保证同 seed 可复现。
 
 ### 6.3 SM-2 简化
 
