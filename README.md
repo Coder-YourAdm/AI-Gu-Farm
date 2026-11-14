@@ -134,7 +134,7 @@ Elo-lite 难度（修掉 400 刻度与 `[0,1]` 归一化的矛盾）、SM-2 复�
 | 判分内核 `app/executor.py` | ✅ 六函数齐全，48+ 条单测，三态判定 |
 | 题集 125 道 + 数据与页面自检 | ✅ `validate_task` 125/125；`check_web_contract.py --require-compare` PASS |
 | 演化引擎 `app/run.py` | ✅ 真模型 4 趟 × 20 代，协议冻结 |
-| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` 已用真实评测生成（`is_mock: false`，四趟 run_id 可追溯） |
+| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` **仍是 mock（挂红标）**，真数据已产出待接页 |
 | 学生模型 / 五级提示 / 对话状态机 | ✅ BKT / KC / 难度 / 排期 / 诊断 / hint / dialog 全合入 |
 | **`POST /api/ask` 实时接口** | ✅ 已实现并接入 `LIVE.endpoint="/api/ask"`；`probe_ask.py` 11 次 PASS |
 | 三页前端 + 7 张截图 | ✅ 零外链、断网可演、双模式回退 |
@@ -161,6 +161,8 @@ python app/serve.py --port 8123 --allow-tutor
 #   → http://127.0.0.1:8123/tutor.html   诊断 / 实时 / 理由面板
 #   → http://127.0.0.1:8123/compare.html 3×3 教法对照
 #   注意：用 http://，别用 file:// 双击（浏览器会拦本地 fetch）
+#   正式演示按 docs/demo/演示操作单_C11_C12.md 用 --port 8124 --allow-tutor
+#   （8123 常被旧预览进程占用）；两个端口都能跑，别同时起两个服务
 
 # 3. 数据与契约自检（离线、幂等）
 python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json
@@ -228,10 +230,11 @@ python -m app.run --config config.local.json --dry-run --all-seeds
 - 真模型校准随难度分档：原卷 12.8% ／ 行列式降到 2–3 阶后 **52.8%** ／ 全简单 92.8%；
   零格式错误 ⇒ 是题难度而非解析问题，见 [校准结论](docs/校准结论_12h.md)。
 - 正式演化 **未观察到可靠策略改善**；教法 profile 仍是手写基线 `manual-v1`。
-- `web/result.json` 已是真实数据（`is_mock: false`），由 `tools/build_result_board.py`
-  从 `runs/evaluations/` 与祖先留出评测生成；页面据此撤掉红标，每个数字都能指到 run_id
+- `web/result.json` 仍是 `is_mock: true`，页面挂红标，不会把假数字当真结果展示。
 - 3×3 对照是**模拟学生**、n=3 档 × 10 题，**不报 p 值**、不外推真人。
 - 服务端回显模型与传入 ID 不一致（中转）；严格可复现需换官方直连。
-- 提示级别存在三处口径差异（旧契约 / B7 最小集 / 前端文案），待统一，见 [20:10 体检](docs/仓库体检_20h.md) §4。
+- 提示级别**实现层已统一**（20:26）：0=无提示、1..4 四档封顶、第 4 级给完整解法但不报最终数值；
+  前端判分改用 BigInt，超过 2^53 的答案不再失精。仅冻结契约 §6.5 的旧 LADDER 文案待同步
+  （改契约需三人同意），答辩按新口径讲，见 [20:10 体检](docs/仓库体检_20h.md) §4。
 - 附录 A 的 D2 矩阵元素 `10` 超出 §2.1 的 `[-9,9]`：测试已换成等值矩阵并补
   `validate_task` 断言，规格原文未改，见 `给A_边界冲突说明.md`。
