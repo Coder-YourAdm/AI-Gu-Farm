@@ -142,6 +142,35 @@ python -c "from app.executor import judge, statement; print('ok')"
 
 ---
 
+### 4.5 实时接口（可选层，`POST /api/ask`）
+
+前端默认是**回放模式**（只读 `web/tutor.json`）。如果要做"人能打字"的交互，加这一个接口即可；**不需要模型**，判分与提示都是本地引擎。
+
+```
+POST /api/ask      Content-Type: application/json
+{"sid":"demo","action":"start","answer":null}
+```
+
+`action ∈ {start, submit, skip, hint, why, reset}`；`submit` 必带 `answer`（可为 `null` 表示空答）。
+
+```json
+{"ok": true, "turn": 3, "kc": "integral_definite",
+ "verdict": "wrong", "err": "calc",
+ "statement": "计算定积分 ∫_{0}^{1} (3x^2 - 2x + 1) dx。",
+ "answer_format": "integer, fraction or finite decimal",
+ "hint": {"level": 1, "text": "…"},
+ "mastery": {"integral_definite": 0.28, "integral_improper": 0.64, "det": 0.78},
+ "why": {"mastery": 0.31, "difficulty": 0.35, "last_error": "换元后忘记换上下限",
+         "memory": ["evt_0031"]},
+ "review": [{"kc": "integral_definite", "due": "2026-11-17"}]}
+```
+
+状态落盘：`runs/tutor/<sid>/events.jsonl` + `state.json`，重启可续。
+**必须绑 `127.0.0.1`**，不加 CORS，密钥只在服务端。
+**坑**：`app/serve.py` 会 `os.chdir(WEB)`，Tutor 内部所有路径必须用 `ROOT`（`Path(__file__).resolve().parents[1]`）拼绝对路径。
+
+---
+
 ## 5. 模块与签名（实现即照抄，不要改名字）
 
 ### 5.1 A 组：学生模型
@@ -255,7 +284,7 @@ class Tutor:
 
 ### 5.3 C 组：前端（纯 HTML/CSS/JS，单文件）
 
-只消费 §4.3 与 §4.4 的 JSON。必须存在的元素 id：
+默认消费 §4.3 与 §4.4 的 JSON（回放模式）；若启用 §4.5，则追加一个"实时"开关，两模式共存。必须存在的元素 id：
 
 | id | 用途 |
 |---|---|
@@ -464,4 +493,25 @@ skills/、tools/tutor_demo.py、tests/test_{events,profile,memory,hint}.py。
 硬约束：单文件、内联 CSS/JS、零外链（断网可用）；不出现 reference 字样；
 投影 1280×720 下不溢出；对=绿、错=红（这是学习场景，与股市配色无关）。
 每完成一页，输出「页面路径 + 手点了哪三处」。
+```
+
+### 9.4 D（实时交互层，可选，2 小时）
+
+```text
+你负责给 tutor.html 加"人能打字"的实时模式。分两半：
+
+后端（只改 app/serve.py，加分支，不动已有 /api/rollback）：
+1. do_POST 里加 /api/ask，按契约 4.5 收发 JSON。
+2. 用 class Tutor 处理 action：start / submit / skip / hint / why / reset。
+3. 状态落 runs/tutor/<sid>/，重启可续；启动开关 --allow-tutor，默认关闭。
+4. 所有路径用 ROOT 绝对拼接（serve.py 会 chdir 到 web/）。
+5. 任何异常都返回 {"ok":false,"error":"..."} + 500，不要让进程死。
+
+前端（只改 web/tutor.html）：
+6. 顶部加模式开关：回放（默认，读 web/tutor.json）/ 实时（调 /api/ask）。
+7. 输入框 + Enter 提交；四个按钮：我不会 / 再提示一点 / 为什么给我这道题 / 重置。
+8. 请求失败时不白屏：提示"实时模式不可用"，自动切回回放并 load tutor.json。
+
+禁止：把 API key 写进前端；开 CORS；让实时模式成为演示的唯一路径。
+验收：断网 + 只看回放，三个页面照常；联网 + 切实时，能连续答 5 题且判分正确。
 ```
