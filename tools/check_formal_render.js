@@ -95,7 +95,7 @@ BRIEF.pairs.forEach((p, i) => {
 ok(verdict.indexOf(BRIEF.main_result.E_minus_F_mean.toFixed(2)) >= 0, "结论条 +0.33 来自 main_result");
 ok(/口径自检 \d+\/\d+ · 全部通过/.test(sc), "页面口径自检全通过", sc);
 ok(/data-src=/.test(finalTbl + chal), "数字可点、带字段路径");
-ok(ev.indexOf("暂不能逐条复算") >= 0 && ev.indexOf("证据等级") >= 0, "证据等级如实标注", ev.slice(0, 120));
+ok(/逐条复算/.test(ev) && /证据等级/.test(ev) && /tag/.test(ev), "证据等级如实标注（含 tag 已推 / runs 未入库）", ev.slice(0, 120));
 
 console.log("== 三硬标准（页面脚本已跑通）==");
 ok(!/reference/i.test(html), "页面无 reference 字样");

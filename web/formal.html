@@ -10,8 +10,8 @@
   页面内不写任何数字常量 —— 全部取自内联的 BRIEF。
 
   硬约束：单文件内联 / 零外链 / 断网 file:// 双击可开 / 无入场动画。
-  证据等级：本页数字可指回 result_brief.json 的字段，但 B 的原始逐题记录
-  (runs/evaluations/*) 与代码版本 d771ecb 尚未入库，因此**不可逐条复算**。
+  证据等级：本页数字可指回 result_brief.json 的字段，但 B 的 runs/ 原始逐题
+  记录未入库（代码版本已以 tag b-formal-20261114 推到远端），因此**不可逐条复算**。
   另外三页的 E_real_20261114 三趟有 runs/*.jsonl，证据等级更高，见页脚说明。
 -->
 <style>
@@ -365,7 +365,7 @@
   /* ── 证据等级（如实说明，不假装可复算）────────────── */
   el("evidence").innerHTML=
     "<strong>证据等级说明</strong>　本页数字全部来自 <code>docs/result_brief.json</code>（B 的机读汇总，schema <code>"+esc(BRIEF.schema)+
-    "</code>），点任意数字可看字段路径。<strong>但 B 的原始逐题记录 <code>runs/evaluations/*.json</code>、代级快照与代码版本 <code>d771ecb</code> 尚未入库</strong>（在 B 本机，docx §5/§7 与运行清单 §3 已写明），因此本页数字可指回字段、<strong>暂不能逐条复算</strong>。"+
+    "</code>），点任意数字可看字段路径。<strong>代码版本 <code>d771ecb</code> 已以 tag <code>b-formal-20261114</code> 推到远端</strong>（未合进分支，所以分支列表看不到）；<strong>但 <code>runs/</code> 原始逐题记录、代级快照与调用日志仍未入库</strong>（运行清单 §3 写明 runs/ 与 logs/ 不进 git）。因此本页数字可指回字段、<strong>暂不能独立逐条复算</strong>。"+
     "　另外三页（演化大屏 / 双跑对照 / 结果页）展示的是另一批 <code>E_real_20261114</code> 三趟，有 <code>runs/*.jsonl</code> 原始调用记录与 <code>证据包/01_数字对照表.md</code> 可逐条复算，证据等级更高。"+
     "　两批数据不要混讲：本页是正式实验（协议 v5、20 代、两对有效 + 一对取消），那三页是交付基线的重测三趟。";
 
