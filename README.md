@@ -73,7 +73,7 @@ data/                125 道题：calibration 20 / common_dev 80 / challenge_poo
 prompts/             setter / solver / 六份种子基因 / crossover / mutate
 web/                 三个单文件页面 + 两份 mock 数据
 tests/               A/B/C 单元测试、集成测试与 B 缺陷回归
-docs/                B 修复说明、后续方案（智慧考研助手）
+docs/                完整方案（日新考研助手）、skill 包装、B 修复说明
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3
 tools/               开发期工具：sympy 交叉验证 / 题面自检 / pilot 前置体检，均不进判分链路
 ```
