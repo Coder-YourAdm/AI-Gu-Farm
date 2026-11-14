@@ -173,6 +173,8 @@
   #send:hover{filter:brightness(1.1)}
   #send:disabled{opacity:.45;cursor:not-allowed}
   .quick{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .quick button.demo-btn{background:var(--accent);border-color:var(--accent);
+    color:#fff;font-weight:600}
   .quick button{background:transparent;border:1px solid var(--line-strong);border-radius:5px;
     color:var(--muted);font-size:11.5px;padding:5px 10px;cursor:pointer;
     font-family:var(--font-body);transition:.18s}
@@ -341,6 +343,7 @@
           <button id="send">提交</button>
         </div>
         <div class="quick">
+          <button data-a="demo" class="demo-btn">一键演示</button>
           <button data-a="skip">我不会</button>
           <button data-a="hint">再提示一点</button>
           <button data-a="why">为什么给我这道题</button>
@@ -854,7 +857,8 @@
         verdict: res.verdict, err: res.err,
         hint_used: res.hint ? res.hint.level : 0});
     }
-    if (res.verdict === "right" || action === "start" || action === "reset"){
+    if ((res.verdict === "right" || action === "start" || action === "reset")
+        && action !== "why" && action !== "hint"){
       LIVE.log.push({n: n++, role: "tutor", kc: res.kc, statement: res.statement,
         answer_format: res.answer_format, why: res.why});
     } else if (res.hint && action !== "why"){
@@ -867,46 +871,126 @@
       });
     }
     render();
+    if (!demoRunning){
+      el("live-hint").textContent = "实时 · 第 " + LIVE.turn + " 轮 · 提示 L" + LIVE.hint +
+        " · 想省事点「一键演示」，它会自动走一遍";
+    }
     if (res.why) el("why-body").innerHTML = whyHtml(res.why);
     if (res.review) renderReviewLive(res.review);
     if (action === "submit" || action === "skip") el("answer").value = "";
   }
 
-  /* 演示功能：向只读接口要当前题答案。看过答案后服务端把提示记满，
-     下一次答对只算半次独立答对——避免"看答案刷掌握度"。 */
+  /* ── 一键演示：队友点一下就行，自动走完答错→提示→重置→答对→理由 ── */
+  var demoRunning = false;
+  function demoWait(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+  function revealFetch(){
+    var url = LIVE.endpoint.replace(/\/api\/ask\/?$/, "/api/reveal");
+    return fetch(url, {method: "POST", headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({sid: LIVE.sid})}).then(function(r){ return r.json(); });
+  }
+  function demoSubmit(answer){
+    if (LIVE.endpoint) return liveRequest("submit", answer);
+    return new Promise(function(resolve){
+      var item = null;
+      for (var i = LIVE_POOL.length - 1; i >= 0; i--){
+        var t = LIVE.log.filter(function(x){ return x.role === "tutor" && x.statement; }).pop();
+        if (t && LIVE_POOL[i].statement === t.statement){ item = LIVE_POOL[i]; break; }
+      }
+      liveRequest("submit", item ? item.answer : answer).then(resolve);
+    });
+  }
+  function demoCorrectAnswer(){
+    if (LIVE.endpoint){
+      return revealFetch().then(function(j){
+        return (j && j.ok && j.answer) ? j.answer : null;
+      }).catch(function(){ return null; });
+    }
+    var t = LIVE.log.filter(function(x){ return x.role === "tutor" && x.statement; }).pop();
+    for (var i = 0; i < LIVE_POOL.length; i++){
+      if (t && LIVE_POOL[i].statement === t.statement) return Promise.resolve(LIVE_POOL[i].answer);
+    }
+    return Promise.resolve(null);
+  }
+  function setDemoLabel(text){
+    var b = document.querySelector('.quick button[data-a="demo"]');
+    if (b) b.textContent = text;
+  }
+  function runDemo(){
+    if (demoRunning || LIVE.busy) return;
+    if (!LIVE.on){ showNotice("先点「实时」，再点「一键演示」。"); return; }
+    demoRunning = true;
+    var epoch = LIVE.epoch;
+    var btn = document.querySelector('.quick button[data-a="demo"]');
+    if (btn) btn.disabled = true;
+    var steps = [
+      ["1/6 重置到第一题", function(){ return liveRequest("reset"); }, 900],
+      ["2/6 故意答错：看判定、错因、提示", function(){ return liveRequest("submit", "12345"); }, 1500],
+      ["3/6 再点一次提示：阶梯升级", function(){ return liveRequest("hint"); }, 1200],
+      ["4/6 重置回第一题", function(){ return liveRequest("reset"); }, 900],
+      ["5/6 给我答案，再照着答（只算半次）", function(){
+        return revealAnswer().then(function(a){ return liveRequest("submit", a || "0"); });
+      }, 1800],
+      ["6/6 点「为什么」看依据", function(){ return liveRequest("why"); }, 900]
+    ];
+    var chain = Promise.resolve();
+    steps.forEach(function(s){
+      chain = chain.then(function(){
+        if (epoch !== LIVE.epoch || !LIVE.on) { throw new Error("demo-abort"); }
+        setDemoLabel(s[0]);
+        el("live-hint").textContent = "自动演示 · " + s[0];
+        return s[1]().then(function(){ return demoWait(s[2]); });
+      });
+    });
+    chain.then(function(){
+      setDemoLabel("演示完成 ✓");
+      el("live-hint").textContent = "自动演示完成 ✓ 可以接着自己点，或点「重置」重来";
+      setTimeout(function(){ setDemoLabel("一键演示"); }, 2200);
+    }).catch(function(err){
+      if (String(err && err.message) !== "demo-abort") showNotice("演示中断：" + esc((err && err.message) || String(err)));
+      setDemoLabel("一键演示");
+    }).then(function(){
+      demoRunning = false;
+      if (btn) btn.disabled = false;
+    });
+  }
+
+  /* 演示功能：向只读接口要当前题答案，并显示在对话里；返回答案或 null。
+     看过答案后服务端把提示记满，下一次答对只算半次独立答对。 */
   function revealAnswer(){
-    if (LIVE.busy) return;
+    if (LIVE.busy) return Promise.resolve(null);
     var epoch = LIVE.epoch;
     setBusy(true);
     function show(answer){
       LIVE.log.push({n: LIVE.log.length + 1, role: "tutor", reveal: true,
         text: "本题答案：" + answer + "。看过答案后，再答对只算半次独立答对。"});
       render();
+      return answer;
     }
+    function done(v){ setBusy(false); return v; }
     if (LIVE.endpoint){
-      fetch(LIVE.endpoint.replace(/\/api\/ask\/?$/, "/api/reveal"), {
+      return fetch(LIVE.endpoint.replace(/\/api\/ask\/?$/, "/api/reveal"), {
         method: "POST", headers: {"Content-Type": "application/json"},
         body: JSON.stringify({sid: LIVE.sid})
       }).then(function(r){ return r.json(); }).then(function(j){
-        if (epoch !== LIVE.epoch) return;
+        if (epoch !== LIVE.epoch) return null;
         if (!j || j.ok === false) throw new Error((j && j.error) || "接口没返回 ok");
-        show(j.answer);
+        return show(j.answer);
       }).catch(function(err){
-        if (epoch !== LIVE.epoch) return;
+        if (epoch !== LIVE.epoch) return null;
         showNotice("答案接口不可用（" + esc((err && err.message) || String(err)) + "）");
-      }).then(function(){ setBusy(false); });
-      return;
+        return null;
+      }).then(done);
     }
     var st = null;
-    for (var i = LIVE.log.length - 1; i >= 0; i--){
-      if (LIVE.log[i].role === "tutor" && LIVE.log[i].statement){ st = LIVE.log[i].statement; break; }
+    for (var k = LIVE.log.length - 1; k >= 0; k--){
+      if (LIVE.log[k].role === "tutor" && LIVE.log[k].statement){ st = LIVE.log[k].statement; break; }
     }
     var pool = LIVE_POOL || [];
-    for (var k = 0; k < pool.length; k++){
-      if (pool[k].statement === st){ show(pool[k].answer); setBusy(false); return; }
+    for (var m = 0; m < pool.length; m++){
+      if (pool[m].statement === st) return Promise.resolve(done(show(pool[m].answer)));
     }
-    setBusy(false);
     showNotice("离线模式：题库里找不到这道题的答案。");
+    return Promise.resolve(done(null));
   }
 
   /* 所有失败（fetch 断、非 2xx、ok:false、JSON 坏）都汇到这一条：
@@ -1010,6 +1094,7 @@
   Array.prototype.forEach.call(document.querySelectorAll(".quick button"), function(b){
     b.addEventListener("click", function(){
       var a = b.getAttribute("data-a");
+      if (a === "demo"){ runDemo(); return; }
       if (a === "reveal"){ revealAnswer(); return; }
       liveRequest(a, null);
     });
