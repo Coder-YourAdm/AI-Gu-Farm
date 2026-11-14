@@ -105,14 +105,16 @@ function near(a, b, eps) {
      "hint 含 level 与 text");
 
   console.log("== A2. 大整数精度（BigInt，B 体检台账 ⑥） ==");
-  const f1 = dbg.frac("9007199254740993");   // 2^53 + 1
-  const f2 = dbg.frac("9007199254740992");   // 2^53
+  const fracFn = dbg.parseFrac || dbg.frac;   // B 版钩子叫 parseFrac，C 版叫 frac
+  ok(typeof fracFn === "function", "调试钩子暴露了解析函数");
+  const f1 = fracFn("9007199254740993");   // 2^53 + 1
+  const f2 = fracFn("9007199254740992");   // 2^53
   ok(!!f1 && !!f2 && f1.n !== f2.n, "2^53+1 与 2^53 不再相等",
      { a: f1 && String(f1.n), b: f2 && String(f2.n) });
-  const bigFrac = dbg.frac("123456789012345678901/7");
+  const bigFrac = fracFn("123456789012345678901/7");
   ok(!!bigFrac && String(bigFrac.n) === "123456789012345678901",
      "超大分数分子不被截断", bigFrac && String(bigFrac.n));
-  const h1 = dbg.frac("0.5"), h2 = dbg.frac("1/2");
+  const h1 = fracFn("0.5"), h2 = fracFn("1/2");
   ok(!!h1 && !!h2 && h1.n === h2.n && h1.d === h2.d, "0.5 与 1/2 仍解析为同一个数");
 
   console.log("== B. 重置 → 回到首题、掌握度归 0.20 ==");
@@ -144,7 +146,8 @@ function near(a, b, eps) {
   ok(last.verdict === "wrong", "判分是 wrong");
   ok(last.mastery.integral_definite < 0.1774, "连错后掌握度继续下降",
      String(last.mastery.integral_definite));
-  ok(last.hint.text.indexOf(pool[0].answer) >= 0, "L4 提示里给出答案");
+  ok(last.hint.text.indexOf("完整解法") >= 0 && last.hint.text.indexOf("答案是") < 0,
+     "L4 给完整解法、不报数值（§6.5 统一口径）");
 
   console.log("== D. 答对：掌握度按 BKT 上升、换题、提示归零 ==");
   H("reset", null);
@@ -167,8 +170,9 @@ function near(a, b, eps) {
   H("reset", null);
   const skip = H("skip", null);
   ok(skip.verdict === "wrong" && skip.err === "giveup", "skip 判 giveup");
-  ok(skip.hint.level === 4 && skip.hint.text.indexOf(pool[0].answer) >= 0,
-     "skip 直接给到 L4 答案");
+  ok(skip.hint.level === 4 && skip.hint.text.indexOf("完整解法") >= 0
+     && skip.hint.text.indexOf("答案是") < 0,
+     "skip 到 L4 完整解法，不报数值（§6.5 统一口径）");
   const turnBefore = dbg.state.turn;
   H("why", null);
   ok(dbg.state.turn === turnBefore, "why 不推进轮次");
@@ -220,6 +224,19 @@ function near(a, b, eps) {
   ok(els["notice"].innerHTML.indexOf("boom") >= 0,
      "提示里带出后端错误原文", els["notice"].innerHTML.slice(0, 60));
   dbg.state.endpoint = null;
+
+  console.log("== J. 大整数判分：超过 2^53 不能失精 ==");
+  const pf = dbg.parseFrac;
+  ok(typeof pf === "function", "调试钩子暴露 parseFrac");
+  if (typeof pf === "function") {
+    const big1 = pf("9007199254740993");   // 2^53 + 1
+    const big2 = pf("9007199254740992");   // 2^53
+    ok(!!big1 && !!big2 && big1.n !== big2.n, "2^53 与 2^53+1 不再相等");
+    const half = pf("1/2"), twoQ = pf("2/4");
+    ok(!!half && !!twoQ && half.n * twoQ.d === twoQ.n * half.d, "1/2 与 2/4 仍判相等");
+    const dec = pf("0.5");
+    ok(!!dec && dec.n * half.d === half.n * dec.d, "0.5 与 1/2 仍判相等");
+  }
 
   console.log("");
   if (failed === 0) {
