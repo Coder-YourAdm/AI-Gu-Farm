@@ -898,44 +898,65 @@
 })();
 </script>
 <style>
-  /* ── 入场：元素逐层上浮 ── */
+  /* ── 入场：元素逐层上浮（方向随上一屏而来）── */
+  html{--rise:26px}
+  html[data-arrive="prev"]{--rise:-26px}
   html.intro-ready[data-page="cover"] main > *:not(.hero),
   html.intro-ready[data-page="tutor"] main .panel,
   html.intro-ready[data-page="compare"] main .panel,
   html.intro-ready header,
-  html.intro-ready footer{opacity:0;transform:translateY(26px)}
+  html.intro-ready footer{opacity:0;transform:translateY(var(--rise))}
   main > *, main .panel, header, footer{
     transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
   .risen{opacity:1 !important;transform:none !important}
 
-  /* 标题遮罩 */
   .hero .line{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
   .hero .line-in{display:block;transform:translateY(112%);
     transition:transform .95s cubic-bezier(.16,1,.3,1)}
   .hero.risen .line-in{transform:none}
   .hero.risen .line:nth-child(2) .line-in{transition-delay:.09s}
 
-  /* ── 换页：旧页淡出上移，新页上浮，没有盖板 ── */
+  /* ── 换页：溶解 + 方向性位移，没有盖板 ── */
+  html{--leave:-26px}
+  html[data-dir="prev"]{--leave:26px}
   body.scene-leaving main,body.scene-leaving header,body.scene-leaving footer{
-    transition:opacity .42s ease,transform .42s cubic-bezier(.4,0,1,1),filter .42s ease;
-    opacity:0;transform:translateY(-26px);filter:blur(5px)}
+    transition:opacity .45s ease,transform .45s cubic-bezier(.4,0,.2,1),filter .45s ease;
+    opacity:0;transform:translateY(var(--leave));filter:blur(5px)}
 
   #scene-progress{position:fixed;left:0;top:0;height:2px;z-index:60;
     background:linear-gradient(90deg,#b0432a,#d98b74);
     transition:width .6s cubic-bezier(.16,1,.3,1)}
 
+  /* 顶栏当前页下划线常驻 */
   nav.pages a{position:relative}
   nav.pages a::after{content:"";position:absolute;left:11px;right:11px;bottom:2px;height:1px;
     background:currentColor;transform:scaleX(0);transform-origin:left;
     transition:transform .24s cubic-bezier(.16,1,.3,1)}
   nav.pages a:hover::after{transform:scaleX(1)}
+  nav.pages a.on::after{transform:scaleX(1);opacity:.55}
 
-  .wheel-hint{position:fixed;left:50%;bottom:52px;transform:translateX(-50%);z-index:30;
+  /* 左侧板块指示点：只接受点击，不响应滚动 */
+  #scene-rail{position:fixed;left:9px;top:50%;transform:translateY(-50%);z-index:40;
+    display:flex;flex-direction:column;gap:16px}
+  #scene-rail button{display:flex;align-items:center;gap:9px;padding:3px 4px;
+    background:none;border:0;cursor:pointer;color:var(--faint);
+    font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em}
+  #scene-rail button i{display:block;width:6px;height:6px;border-radius:50%;flex:none;
+    border:1px solid #c9c2b4;transition:background .2s,border-color .2s,box-shadow .2s}
+  #scene-rail button span{opacity:0;transform:translateX(-3px);transition:opacity .2s,transform .2s;
+    white-space:nowrap;background:rgba(246,244,240,.92);padding:2px 6px;border-radius:6px}
+  #scene-rail:hover button span,#scene-rail button:focus-visible span{opacity:1;transform:none}
+  #scene-rail button.on{color:var(--text)}
+  #scene-rail button.on i{background:var(--accent);border-color:var(--accent);
+    box-shadow:0 0 0 4px rgba(176,67,42,.13)}
+  @media (max-width:1180px){#scene-rail{display:none}}
+
+  .kbd-hint{position:fixed;left:50%;bottom:52px;transform:translateX(-50%);z-index:30;
     display:flex;align-items:center;gap:8px;
     font-family:var(--font-mono);font-size:11px;color:var(--faint);letter-spacing:.1em;
     pointer-events:none;opacity:.85}
-  .wheel-hint i{display:block;width:1px;height:13px;background:var(--line-strong)}
-  @media (max-width:1100px){.wheel-hint{display:none}}
+  .kbd-hint i{display:block;width:1px;height:13px;background:var(--line-strong)}
+  @media (max-width:1100px){.kbd-hint{display:none}}
 
   @media (prefers-reduced-motion: reduce){
     html.intro-ready[data-page="cover"] main > *:not(.hero),
@@ -949,13 +970,37 @@
 </style>
 <script>
 (function(){
-  var PAGES=[["cover.html","\u5c01\u9762","01",33],["tutor.html","\u8bca\u65ad","02",66],["compare.html","\u5bf9\u7167","03",100]];
+  var PAGES=[
+    ["cover.html","\u5c01\u9762","01",33],
+    ["tutor.html","\u8bca\u65ad","02",66],
+    ["compare.html","\u5bf9\u7167","03",100]
+  ];
+  var root=document.documentElement;
   var here=(location.pathname.split("/").pop()||"cover.html");
   var idx=0; for(var i=0;i<PAGES.length;i++) if(PAGES[i][0]===here) idx=i;
   var reduced=window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* 到站方向（上一屏是从上还是从下过来的） */
+  var arrive=null;
+  try{ arrive=sessionStorage.getItem("scene:dir"); if(arrive) sessionStorage.removeItem("scene:dir"); }catch(_){}
+  if(arrive) root.setAttribute("data-arrive",arrive);
+
   var bar=document.createElement("div"); bar.id="scene-progress";
   bar.style.width=PAGES[idx][3]+"%"; document.body.appendChild(bar);
+
+  /* 左侧指示点 */
+  var rail=document.createElement("nav"); rail.id="scene-rail";
+  rail.setAttribute("aria-label","\u677f\u5757\u5207\u6362");
+  PAGES.forEach(function(p,i){
+    var b=document.createElement("button");
+    b.type="button";
+    b.setAttribute("data-page",p[0]);
+    b.className=(i===idx?"on":"");
+    b.innerHTML='<i></i><span>'+p[2]+" \u00b7 "+p[1]+"</span>";
+    b.addEventListener("click",function(){ go(i); });
+    rail.appendChild(b);
+  });
+  document.body.appendChild(rail);
 
   function countUp(){
     var els=[].slice.call(document.querySelectorAll(".num .n"));
@@ -993,9 +1038,12 @@
   function go(i){
     if(i<0||i>=PAGES.length||i===idx||lock) return;
     lock=true;
+    var dir=i>idx?"next":"prev";
     if(reduced){ location.href=PAGES[i][0]; return; }
+    root.setAttribute("data-dir",dir);
     document.body.classList.add("scene-leaving");
-    setTimeout(function(){ location.href=PAGES[i][0]; },420);
+    try{ sessionStorage.setItem("scene:dir",dir); }catch(_){}
+    setTimeout(function(){ location.href=PAGES[i][0]; },460);
   }
 
   document.addEventListener("click",function(e){
@@ -1011,29 +1059,10 @@
     else if(e.key==="ArrowLeft"||e.key==="PageUp"){ e.preventDefault(); go(idx-1); }
   });
 
-  var armedAt=Date.now()+700,acc=0,last=0;
-  window.addEventListener("wheel",function(e){
-    if(Date.now()<armedAt||lock) return;
-    var sc=e.target.closest?e.target.closest(".body,.tbl-wrap"):null;
-    if(sc){
-      var down=e.deltaY>0;
-      if(down && sc.scrollTop+sc.clientHeight<sc.scrollHeight-2) return;
-      if(!down && sc.scrollTop>2) return;
-    }
-    var now=Date.now(); if(now-last>260) acc=0; last=now; acc+=e.deltaY;
-    if(window.__sceneParallax) window.__sceneParallax(acc);
-    if(Math.abs(acc)>120){ go(idx+(acc>0?1:-1)); acc=0; }
-  },{passive:true});
-
   if(here==="cover.html"){
-    var hint=document.createElement("div"); hint.className="wheel-hint";
-    hint.innerHTML="<i></i>\u6eda\u8f6e / \u2192 \u8fdb\u5165\u8bca\u65ad";
+    var hint=document.createElement("div"); hint.className="kbd-hint";
+    hint.innerHTML="<i></i>\u70b9\u5bfc\u822a\u5207\u6362 \u00b7 \u2190 \u2192";
     document.body.appendChild(hint);
-    window.__sceneParallax=function(a){
-      var m=document.querySelector("main");
-      if(m && m.classList.contains("risen"))
-        m.style.transform="translateY("+Math.max(-26,Math.min(0,-a*0.12))+"px)";
-    };
   }
 })();
 </script>
