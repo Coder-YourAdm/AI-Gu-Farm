@@ -1,6 +1,7 @@
 # AI 养蛊机 · B 交付简报（结果与限制）
 
 > 生成时间：2026-11-14 15:10（Asia/Shanghai）
+> 代码版本：commit `d771ecbd74e6bf20401569909dc38fe306bb300b`，tag `b-formal-20261114`
 > 数据源：`runs/protocol_v5.json`、`runs/calibration_v5.json`、`runs/ancestors.json`、
 > `runs/summaries/*.json`、`runs/evaluations/*.json`、`runs/snapshots/*/gNN.json`
 > 机读版：`runs/result_brief.json`（同一份数字，字段化，给 C 接页面）
