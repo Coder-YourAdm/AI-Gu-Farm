@@ -716,6 +716,11 @@
   }
 
   function applyLiveResp(res, action, answer){
+    // 真后端模式下重置由服务端做，页面这边必须自己清空对话，否则旧轮次会留在屏幕上。
+    if (action === "reset"){
+      LIVE.log = [];
+      selTurn = null;
+    }
     var n = LIVE.log.length + 1;
     if (action === "submit" || action === "skip"){
       LIVE.log.push({n: n++, role: "student",
