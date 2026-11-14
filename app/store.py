@@ -84,7 +84,7 @@ def atomic_write_json(path: str | Path, payload: Any, *, overwrite: bool = True)
 
 @dataclass
 class SnapshotStore:
-    """`root/snapshots/{run_id}/g{gen:02d}.json` + `root/history.jsonl`。"""
+    """`root/snapshots/{run_id}/g{gen:02d}.json` + 同目录 `history.jsonl`。"""
 
     root: str | Path = "runs"
     run_id: str = "run"
@@ -121,7 +121,11 @@ class SnapshotStore:
 
     @property
     def history_path(self) -> Path:
-        return Path(self.root) / "history.jsonl"
+        # 每趟一份，与快照同目录。规格 §8 的位置是 `runs/<run_id>/history.jsonl`，
+        # 而 `app.export --run runs/<run_id>` 正是按这个位置读的。
+        # 早先放在 root 下，会让六趟（E/F/A × 3 seed）的审计记录混进同一个文件：
+        # 导出时不分 run_id，大屏上就会看到别人的代。
+        return self.run_dir / "history.jsonl"
 
     def snapshot_path(self, gen: int) -> Path:
         return self.run_dir / f"g{gen:02d}.json"
