@@ -1,0 +1,175 @@
+{
+ "profile_version": "manual-v1",
+ "generated_at": "2026-11-14T15:40:00+08:00",
+ "student": {
+  "sid": "demo",
+  "label": "示例学生"
+ },
+ "notes": [
+  "本文件为离线回放 fixture：判分/掌握度/难度/复习排期均由本地引擎计算",
+  "conf = 该错题之后该知识点的 BKT 掌握度，越高表示错因越已被克服",
+  "时间与事件固定，重复运行逐字节相同"
+ ],
+ "kcs": [
+  {
+   "id": "integral_definite",
+   "name": "定积分",
+   "mastery": 0.5162,
+   "items": 3,
+   "hint_avg": 0.0
+  },
+  {
+   "id": "integral_improper",
+   "name": "反常积分",
+   "mastery": 0.6064,
+   "items": 6,
+   "hint_avg": 0.17
+  },
+  {
+   "id": "det",
+   "name": "行列式",
+   "mastery": 0.5391,
+   "items": 4,
+   "hint_avg": 0.25
+  }
+ ],
+ "turns": [
+  {
+   "n": 1,
+   "role": "tutor",
+   "kc": "det",
+   "statement": "计算下列 3 阶矩阵的行列式：[[2, -1, 0], [3, 5, 1], [-2, 4, 6]]。",
+   "answer_format": "integer only",
+   "why": {
+    "mastery": 0.2702,
+    "difficulty": 0.4636,
+    "gap": 0.1934,
+    "last_error": "题目条件看错了",
+    "memory": [
+     "evt_0061",
+     "evt_0062"
+    ]
+   }
+  },
+  {
+   "n": 2,
+   "role": "student",
+   "kc": "det",
+   "answer": "-72",
+   "verdict": "wrong",
+   "err": "sign"
+  },
+  {
+   "n": 3,
+   "role": "tutor",
+   "kc": "det",
+   "hint_level": 0,
+   "text": "先别算，把题目问的是什么、积分区间（或矩阵阶数）再念一遍。",
+   "why": {
+    "mastery": 0.2702,
+    "difficulty": 0.4636,
+    "gap": 0.1934,
+    "last_error": "题目条件看错了",
+    "memory": [
+     "evt_0061",
+     "evt_0062"
+    ]
+   }
+  },
+  {
+   "n": 4,
+   "role": "student",
+   "kc": "det",
+   "answer": "72",
+   "verdict": "right",
+   "err": "none",
+   "hint_used": 1
+  },
+  {
+   "n": 5,
+   "role": "tutor",
+   "kc": "integral_improper",
+   "statement": "计算定积分 ∫₀^∞ x² e^{-2x} dx。",
+   "answer_format": "integer, fraction or finite decimal",
+   "why": {
+    "mastery": 0.4814,
+    "difficulty": 0.5879,
+    "gap": 0.1065,
+    "last_error": "方法对了但算错了数",
+    "memory": [
+     "evt_0053",
+     "evt_0054"
+    ]
+   }
+  },
+  {
+   "n": 6,
+   "role": "student",
+   "kc": "integral_improper",
+   "answer": "1/2",
+   "verdict": "wrong",
+   "err": "calc"
+  },
+  {
+   "n": 7,
+   "role": "tutor",
+   "kc": "integral_improper",
+   "hint_level": 1,
+   "text": "回想对应的定理：定积分逐项积分、Γ(n+1)=n!、行列式按行展开。",
+   "why": {
+    "mastery": 0.4814,
+    "difficulty": 0.5879,
+    "gap": 0.1065,
+    "last_error": "方法对了但算错了数",
+    "memory": [
+     "evt_0053",
+     "evt_0054"
+    ]
+   }
+  },
+  {
+   "n": 8,
+   "role": "student",
+   "kc": "integral_improper",
+   "answer": "1/4",
+   "verdict": "right",
+   "err": "none",
+   "hint_used": 1
+  }
+ ],
+ "review_plan": [
+  {
+   "kc": "integral_definite",
+   "due": "2026-11-15",
+   "reason": "连续答对 1 次，间隔 3.6 天"
+  },
+  {
+   "kc": "integral_improper",
+   "due": "2026-11-18",
+   "reason": "连续答对 1 次，间隔 3.4 天"
+  },
+  {
+   "kc": "det",
+   "due": "2026-11-18",
+   "reason": "连续答对 1 次，间隔 3.7 天"
+  }
+ ],
+ "memory_timeline": [
+  {
+   "t": "2026-11-14",
+   "text": "答案符号反了",
+   "conf": 0.54,
+   "src": [
+    "evt_0902"
+   ]
+  },
+  {
+   "t": "2026-11-14",
+   "text": "方法对了但算错了数",
+   "conf": 0.61,
+   "src": [
+    "evt_0906"
+   ]
+  }
+ ]
+}
