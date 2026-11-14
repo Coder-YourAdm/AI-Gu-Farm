@@ -97,15 +97,17 @@ def main(argv: list[str] | None = None) -> int:
     ALLOW_ROLLBACK = args.allow_rollback
 
     if not (WEB / "index.html").exists():
-        print(f"✗ 找不到 {WEB / 'index.html'}", file=sys.stderr)
+        print(f"[X] 找不到 {WEB / 'index.html'}", file=sys.stderr)
         return 1
 
     os.chdir(WEB)
     handler = functools.partial(Handler, directory=str(WEB))
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer((args.host, args.port), handler) as httpd:
-        print(f"✓ 演化大屏: http://{args.host}:{args.port}/")
-        print(f"✓ 双跑对照: http://{args.host}:{args.port}/evolve.html")
+        # 标记只用 ASCII：Windows 默认控制台编码是 GBK，打印 ✓/✗ 会 UnicodeEncodeError 直接退出。
+        print(f"[OK] 演化大屏: http://{args.host}:{args.port}/")
+        print(f"[OK] 双跑对照: http://{args.host}:{args.port}/evolve.html")
+        print(f"[OK] 助教三页: http://{args.host}:{args.port}/cover.html → tutor.html → compare.html")
         print(f"  服务目录: {WEB}")
         print(f"  回退接口: {'已开启 POST /api/rollback' if ALLOW_ROLLBACK else '关闭（演示时加 --allow-rollback）'}")
         print("  Ctrl-C 停止")
