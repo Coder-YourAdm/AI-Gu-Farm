@@ -57,8 +57,32 @@
 
 ```bash
 python tools/build_result_brief.py                  # 结果简报（不调用模型）
+python tools/build_charts.py                        # 三张图数据 + 祖先接口复核
 python -m app.run --pair E_s42_7f878e7097,F_s42_7f878e7097
 python -m app.run --pair E_s43_7f878e7097,F_s43_7f878e7097
 ```
 
 `runs/` 与 `logs/` 不进 git（含原始响应与密钥脱敏索引），交接时整目录拷贝。
+
+## 5 断点恢复验证（2026-11-14 15:32）
+
+规格 §15 / B6 验收要求「从 completed 快照续上，gen+1，挑战不重复注入」。用中止的
+`E_s44`（末代 6）做了实测，续跑到第 8 代：
+
+```bash
+python -m app.run --config config.local.json --resume E_s44_7f878e7097 \
+                  --branch demo_recovery --to-gen 8
+```
+
+| 检查项 | 结果 |
+|---|---|
+| 起点 | 已完成到第 6 代；源里另有一条非完成代 g07，只作证据，不作续跑点 |
+| 续跑写入 | `runs/snapshots/demo_recovery/`，第 7、8 代 completed |
+| 代纪录 | g07：72 槽位 / 83 调用；g08：78 槽位（含挑战 6）/ 88 调用 |
+| 历史继承 | 汇总调用 672 = 源 501 + 83 + 88，没有从零开始 |
+| 分支标记 | manifest `parent_run_id=E_s44_7f878e7097`、`from_gen=6` |
+| 源记录不变 | `E_s44` 仍是 aborted / 7 代，未被覆盖 |
+| 挑战不重复 | g08 的 X04 `active` 且 `observations` 恰好 1 条；X05 仍 `scheduled` |
+| 评测隔离 | `--evaluate demo_recovery` 被拒绝：`Demo branches are not independent evaluation runs` |
+
+分支状态是 `interrupted`（`--to-gen 8` < n_gen 20），符合预期：演示分支不是新的正式重复。
