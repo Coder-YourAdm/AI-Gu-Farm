@@ -1,0 +1,16 @@
+证据文件清单（sha256 前 32 位）
+==============================================================================
+
+590ba14ca49c56dc6596d69ffc37d3ec      84711  runs/E_real_20261114/history.jsonl
+6d90f112baf75158505e0fa984737a0e        543  runs/E_real_20261114/manifest.json
+5a6c3ac5b869e8bfc7d6eea5e3f9bc96       3493  runs/demo_pair_calib/calls_pass1.jsonl
+0e0a40d95bffb53f896576fb4d5fd608       3680  runs/demo_pair_calib/calls_pass2.jsonl
+658c5f42d4faa04938a9ca5905c170fa      11032  runs/eval_20261114_083923/calls_r1.jsonl
+533760ffb3ef0c5cb425ba2c5046e974      11024  runs/eval_20261114_083923/calls_r2.jsonl
+0f1914c3c1814d829414fd4119533f91      11031  runs/eval_20261114_083923/calls_r3.jsonl
+baf2c5b19c550ce6ce0bd44cc850142a       1970  data/holdout.jsonl
+5b875f0a35ebfacffe77ad99a1f680ab       2300  data/manifest.json
+eec3f43de33a302ba33baaf5421b1e9a      11716  web/evolve.json
+71e365df369957a25d8a1c8dddc3dd6c      51734  web/history.json
+f4456e0d408a7ebb083029bd09767a50       6355  web/result.json
+93e8cab9c932e3077c4d1e7f244c3a33      49165  web/data.js
