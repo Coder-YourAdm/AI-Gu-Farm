@@ -136,6 +136,19 @@
     background:var(--surface-3);border-radius:3px;padding:2px 6px}
 
   /* ── 记忆 / 复习 ── */
+  .mem-intro{font-size:11px;color:var(--faint);line-height:1.65;margin-bottom:11px;
+    padding-bottom:9px;border-bottom:1px dashed var(--line)}
+  .mem-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+  .mem-date{font-family:var(--font-mono);font-size:10px;color:var(--faint)}
+  .mem-conf{font-family:var(--font-mono);font-size:10px;color:var(--muted);
+    background:#efe9df;border-radius:999px;padding:1px 7px;white-space:nowrap}
+  .mem-src{font-size:10.5px;color:var(--faint);margin-top:6px;
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .srclink{font-family:var(--font-mono);font-size:10px;color:var(--accent);background:none;
+    border:1px solid var(--line-strong);border-radius:999px;padding:1px 7px;cursor:pointer}
+  .srclink:hover{background:rgba(176,67,42,.08)}
+  .mem-note{font-size:10px;color:var(--faint);line-height:1.65;margin-top:8px;
+    padding-top:9px;border-top:1px dashed var(--line)}
   .mem{border-left:2px solid var(--line-strong);padding:2px 0 2px 11px;margin-bottom:13px;
     cursor:pointer;position:relative}
   .mem:hover{border-left-color:var(--accent)}
@@ -642,7 +655,7 @@
       <div class="body" id="kcs"></div>
     </section>
     <section class="panel" style="flex:1 1 auto">
-      <h2><em>02</em>记忆时间轴<span class="tip">点开看来源</span></h2>
+      <h2><em>02</em>记忆时间轴<span class="tip">来源可点，联动对话</span></h2>
       <div class="body" id="memory-timeline"></div>
     </section>
   </div>
@@ -850,26 +863,57 @@
       : '<div class="why-empty">点左侧任意一条题目，这里显示它被选中的三个数字与依据。</div>';
   }
 
-  /* ── 记忆时间轴 ── */
+  /* ── 记忆时间轴：每条 = 一次判错压出来的记忆；来源是产生它的对话轮次 ── */
+  function memTurnRefs(id){
+    var out = [];
+    (D.turns || []).forEach(function(t){
+      var ms = (t.why && t.why.memory) || [];
+      if (ms.indexOf(id) >= 0 && out.indexOf(t) < 0) out.push(t);
+    });
+    return out;
+  }
   function renderMemory(){
     var box = el("memory-timeline");
     var ms = D.memory_timeline || [];
     if (!ms.length){
-      box.innerHTML = '<div class="why-empty">还没有积累到记忆。</div>';
+      box.innerHTML = '<div class="why-empty">还没有积累到记忆：答错一次后，这里会出现第一条。</div>';
       return;
     }
-    box.innerHTML = "";
+    box.innerHTML = '<div class="mem-intro">每次判错压成一条记忆；' +
+      '下次出题绕开它或专攻它。</div>';
     ms.forEach(function(m){
+      var refs = [];
+      (m.src || []).forEach(function(id){
+        memTurnRefs(id).forEach(function(t){ if (refs.indexOf(t) < 0) refs.push(t); });
+      });
+      var srcHtml = refs.length
+        ? '来源：' + refs.map(function(t){
+            return '<button class="srclink" data-n="' + t.n + '">第 ' + t.n + ' 轮' +
+              (t.kc ? ' · ' + esc(kcName(t.kc)) : '') + '</button>';
+          }).join("")
+        : '来源：演示数据（这份回放里没有对应轮次）';
       var d = document.createElement("div");
       d.className = "mem";
-      var src = (m.src || []).map(function(s){ return '<span>' + esc(s) + '</span>'; }).join("");
-      d.innerHTML = '<div class="t">' + esc(m.t) + '</div>' +
+      var raw = (m.src || []).map(function(s){ return "<span>" + esc(s) + "</span>"; }).join("");
+      d.innerHTML = '<div class="mem-top"><span class="mem-date">' + esc(m.t) + '</span>' +
+        '<span class="mem-conf">置信 ' + num(m.conf) + '</span></div>' +
         '<div class="txt">' + esc(m.text) + '</div>' +
-        '<div class="conf">置信 ' + num(m.conf) + (src ? ' · 点开看来源' : '') + '</div>' +
-        (src ? '<div class="src">' + src + '</div>' : "");
+        '<div class="mem-src">' + srcHtml + '</div>' +
+        (raw ? '<div class="src">' + raw + '</div>' : "");
       d.addEventListener("click", function(){ d.classList.toggle("open"); });
+      Array.prototype.forEach.call(d.querySelectorAll(".srclink"), function(b){
+        b.addEventListener("click", function(e){
+          e.stopPropagation();
+          selTurn = Number(b.getAttribute("data-n"));
+          renderTurns(); renderWhy();
+        });
+      });
       box.appendChild(d);
     });
+    var note = document.createElement("div");
+    note.className = "mem-note";
+    note.textContent = "置信 = 这条记忆的把握程度；来源 = 产生它的对话轮次，点一下会跳到那一轮。";
+    box.appendChild(note);
   }
 
   /* ── 复习计划 ── */
