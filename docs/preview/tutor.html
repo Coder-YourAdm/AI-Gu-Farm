@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:,">
+<title>日新考研助手 · 数学诊断</title>
+<style>
+  :root{
+    --bg:#0c0f13; --surface:#14181e; --surface-2:#1a1f26; --surface-3:#212832;
+    --line:rgba(255,255,255,.07); --line-strong:rgba(255,255,255,.14);
+    --text:#e6e9ed; --muted:#8f98a3; --faint:#5d6670;
+    --accent:#4cc9f0; --accent-dim:rgba(76,201,240,.14);
+    --good:#3ddc97; --bad:#ff6b6b; --warn:#ffd166;
+    --font-display:"Bahnschrift","DIN Alternate","Segoe UI Variable Display","Microsoft YaHei UI",sans-serif;
+    --font-mono:"Cascadia Mono","Consolas","IBM Plex Mono",monospace;
+    --font-body:"Microsoft YaHei UI","Microsoft YaHei","PingFang SC",sans-serif;
+    --ease:cubic-bezier(.16,1,.3,1);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  /* flex 竖排，不用 calc(100vh - 57px)：顶部提示条一出现，calc 那套就把页面
+     顶出滚动条，1280×720 投影时底部输入区和复习计划会被切掉。三页共用这套布局。 */
+  body{display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+    font-family:var(--font-body);font-size:14px;line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 300px at 15% -10%,rgba(76,201,240,.09),transparent 70%)}
+  a{color:inherit;text-decoration:none}
+
+  /* ── 顶栏：三页同一份（C6 统一样式，改一处三页一起改） ── */
+  header{display:flex;align-items:center;gap:18px;padding:12px 22px;flex:0 0 auto;
+    border-bottom:1px solid var(--line-strong);background:rgba(12,15,19,.86);
+    position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+  .brand{display:flex;align-items:baseline;gap:10px;min-width:0}
+  .brand h1{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0;letter-spacing:.02em}
+  .brand .sub{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
+    color:var(--faint);text-transform:uppercase;white-space:nowrap}
+  nav.pages{display:flex;gap:2px;margin-left:8px}
+  nav.pages a{font-size:12.5px;color:var(--muted);padding:5px 11px;border-radius:5px;
+    transition:.18s var(--ease)}
+  nav.pages a:hover{color:var(--text);background:var(--surface-2)}
+  nav.pages a.on{color:var(--accent);background:var(--accent-dim)}
+  nav.pages a:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .mode{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .seg{display:flex;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden}
+  .seg button{background:transparent;border:0;color:var(--muted);font-family:var(--font-body);
+    font-size:12px;padding:6px 14px;cursor:pointer;transition:.18s}
+  .seg button:hover{color:var(--text)}
+  .seg button.on{background:var(--accent-dim);color:var(--accent);font-weight:600}
+  .ver{font-family:var(--font-mono);font-size:11px;color:var(--faint);white-space:nowrap;
+    border:1px solid var(--line);border-radius:4px;padding:4px 8px}
+
+  /* ── 三栏 ── */
+  main{display:grid;grid-template-columns:262px minmax(0,1fr) 330px;
+    gap:14px;padding:14px 22px 22px;flex:1 1 auto;min-height:0}
+  @media (max-width:1180px){main{grid-template-columns:1fr;height:auto}}
+  .col{display:flex;flex-direction:column;gap:14px;min-height:0;min-width:0}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .panel > h2{font-family:var(--font-body);font-size:12px;font-weight:600;margin:0;
+    padding:10px 14px 8px;color:var(--muted);letter-spacing:.06em;
+    border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;
+    flex:0 0 auto}
+  .panel > h2 em{font-family:var(--font-mono);font-style:normal;font-size:10px;
+    color:var(--accent);opacity:.8}
+  .panel > h2 .tip{margin-left:auto;font-weight:400;font-size:10.5px;color:var(--faint);
+    letter-spacing:0;font-family:var(--font-mono)}
+  .body{overflow:auto;flex:1 1 auto;min-height:0;padding:10px 12px}
+
+  /* ── 掌握度 ── */
+  .kc{padding:9px 10px;border-radius:6px;cursor:pointer;transition:.18s var(--ease);
+    border:1px solid transparent;margin-bottom:6px}
+  .kc:hover{background:var(--surface-2)}
+  .kc.sel{background:var(--accent-dim);border-color:rgba(76,201,240,.32)}
+  .kc .row{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
+  .kc .name{font-size:13px;font-weight:600}
+  .kc .val{margin-left:auto;font-family:var(--font-mono);font-size:13px;
+    font-variant-numeric:tabular-nums}
+  .kc .bar{height:5px;border-radius:3px;background:var(--surface-3);overflow:hidden}
+  .kc .bar i{display:block;height:100%;border-radius:3px;
+    background:linear-gradient(90deg,var(--accent),#7ee0ff);transition:width .6s var(--ease)}
+  .kc .meta{display:flex;gap:10px;margin-top:5px;font-family:var(--font-mono);
+    font-size:10.5px;color:var(--faint)}
+  .kc.lv-low .val{color:var(--bad)}
+  .kc.lv-mid .val{color:var(--warn)}
+  .kc.lv-high .val{color:var(--good)}
+
+  /* ── 对话流 ── */
+  #turns{padding:14px 16px 18px}
+  /* 不做入场动画：opacity 关键帧在无头截图 / 低端投影上会卡在起始帧，
+     整段对话看着像没渲染出来。演示页要的是"任何时刻截都是最终态"。 */
+  .turn{margin-bottom:16px}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .turn .who{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:5px;display:flex;
+    align-items:center;gap:8px}
+  .turn .who .n{color:var(--faint)}
+  .tutor .bubble{background:var(--surface-2);border:1px solid var(--line);
+    border-left:2px solid var(--accent);border-radius:0 7px 7px 0;padding:11px 14px;
+    cursor:pointer;transition:.18s var(--ease)}
+  .tutor .bubble:hover{border-left-color:#7ee0ff;background:var(--surface-3)}
+  .tutor .bubble.on{border-left-color:var(--accent);box-shadow:0 0 0 1px rgba(76,201,240,.22) inset}
+  .stmt{font-size:15px;line-height:1.7;margin:0}
+  .fmt{font-family:var(--font-mono);font-size:11px;color:var(--faint);margin-top:7px}
+  .hintline{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
+    font-size:13px;color:#c9d4e0;display:flex;gap:8px}
+  .hintline .lv{font-family:var(--font-mono);font-size:10px;color:var(--accent);
+    border:1px solid rgba(76,201,240,.3);border-radius:3px;padding:1px 5px;
+    flex:0 0 auto;height:fit-content;margin-top:2px}
+  .student{text-align:right}
+  .student .bubble{display:inline-block;text-align:left;padding:9px 13px;border-radius:7px 0 0 7px;
+    font-family:var(--font-mono);font-size:13.5px;border:1px solid;max-width:78%}
+  .student.right .bubble{background:rgba(61,220,151,.1);border-color:rgba(61,220,151,.34);color:var(--good)}
+  .student.wrong .bubble{background:rgba(255,107,107,.09);border-color:rgba(255,107,107,.32);color:var(--bad)}
+  .verdict{margin-top:5px;font-size:11px;font-family:var(--font-mono);color:var(--faint)}
+  .verdict .tag{display:inline-block;padding:1px 6px;border-radius:3px;margin-right:6px}
+  .verdict .tag.r{background:rgba(61,220,151,.14);color:var(--good)}
+  .verdict .tag.w{background:rgba(255,107,107,.14);color:var(--bad)}
+
+  /* ── 理由面板 ── */
+  #why-panel{flex:0 0 auto}
+  #why-panel .body{padding:12px 14px}
+  .why-empty{color:var(--faint);font-size:12.5px;padding:6px 0}
+  #why-body .why-empty{display:flex;flex-direction:column;gap:9px;
+    border:1px dashed var(--line-strong);border-radius:7px;padding:18px 16px;
+    text-align:center;margin:6px 0}
+  #why-body .why-empty::before{content:"↖";font-size:22px;color:var(--accent);opacity:.42}
+  .why-grid{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;align-items:baseline}
+  .why-grid dt{font-family:var(--font-mono);font-size:10.5px;color:var(--faint);
+    letter-spacing:.05em;white-space:nowrap}
+  .why-grid dd{margin:0;font-size:13px}
+  .why-grid dd .num{font-family:var(--font-mono);font-weight:600;color:var(--accent)}
+  .memchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+  .memchips span{font-family:var(--font-mono);font-size:10px;color:var(--muted);
+    background:var(--surface-3);border-radius:3px;padding:2px 6px}
+
+  /* ── 记忆 / 复习 ── */
+  .mem{border-left:2px solid var(--line-strong);padding:2px 0 2px 11px;margin-bottom:13px;
+    cursor:pointer;position:relative}
+  .mem:hover{border-left-color:var(--accent)}
+  .mem .t{font-family:var(--font-mono);font-size:10px;color:var(--faint)}
+  .mem .txt{font-size:13px;margin:2px 0 3px}
+  .mem .conf{font-family:var(--font-mono);font-size:10px;color:var(--faint)}
+  .mem .src{display:none;margin-top:6px;flex-wrap:wrap;gap:5px}
+  .mem.open .src{display:flex}
+  .mem .src span{font-family:var(--font-mono);font-size:10px;color:var(--muted);
+    background:var(--surface-3);border-radius:3px;padding:2px 6px}
+  .due{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
+  .due:last-child{border-bottom:0}
+  .due .k{font-size:12.5px;font-weight:600;white-space:nowrap;flex:0 0 auto}
+  .due .d{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--warn);
+    white-space:nowrap}
+  .due .r{font-size:10.5px;color:var(--faint);flex-basis:100%}
+
+  /* ── 可点击提示条（回放时显示；实时模式让位给输入区） ── */
+  .clickhint{flex:0 0 auto;padding:7px 16px;border-top:1px solid var(--line);
+    font-family:var(--font-mono);font-size:11px;color:var(--faint);letter-spacing:.02em;
+    background:var(--surface)}
+  body.live .clickhint{display:none}
+
+  /* ── 实时输入 ── */
+  .composer{flex:0 0 auto;border-top:1px solid var(--line-strong);padding:10px 14px 12px;
+    background:var(--surface);display:none}
+  body.live .composer{display:block}
+  .composer .line{display:flex;gap:8px}
+  #answer{flex:1;background:var(--surface-2);border:1px solid var(--line-strong);
+    border-radius:6px;padding:9px 12px;color:var(--text);font-family:var(--font-mono);
+    font-size:13.5px;outline:none;transition:.18s}
+  #answer:focus{border-color:rgba(76,201,240,.55);box-shadow:0 0 0 3px rgba(76,201,240,.1)}
+  #send{background:var(--accent);color:#08131a;border:0;border-radius:6px;
+    padding:0 18px;font-weight:700;font-size:13px;cursor:pointer;transition:.18s}
+  #send:hover{filter:brightness(1.1)}
+  #send:disabled{opacity:.45;cursor:not-allowed}
+  .quick{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .quick button{background:transparent;border:1px solid var(--line-strong);border-radius:5px;
+    color:var(--muted);font-size:11.5px;padding:5px 10px;cursor:pointer;
+    font-family:var(--font-body);transition:.18s}
+  .quick button:hover{color:var(--text);border-color:var(--accent);background:var(--accent-dim)}
+  .live-hint{font-size:11px;color:var(--faint);margin-top:7px}
+
+  /* 顶部状态条 */
+  #notice{display:none;flex:0 0 auto;padding:7px 22px;font-size:12.5px;
+    background:rgba(255,209,102,.1);border-bottom:1px solid rgba(255,209,102,.28);
+    color:var(--warn)}
+  #notice.on{display:block}
+  #notice b{color:#fff}
+
+  /* 投影/大屏：整体放大一档，避免 1920 下内容缩在左上角 */
+  @media (min-width:1600px){
+    body{font-size:15px}
+    main{grid-template-columns:300px minmax(0,1fr) 380px;gap:18px;padding:18px 28px 24px}
+    .brand h1{font-size:21px}
+    .panel > h2{font-size:13px}
+    .stmt{font-size:16.5px}
+    .kc .name,.kc .val{font-size:14px}
+    .kc .meta{font-size:11.5px}
+    .mem .txt{font-size:14px}
+    .mem .t,.mem .conf,.mem .src span{font-size:11px}
+    .due .k{font-size:14px}
+    .due .d{font-size:12px}
+    .due .r{font-size:11.5px}
+    .why-grid dt{font-size:11.5px}
+    .why-grid dd{font-size:14px}
+    .clickhint{font-size:12px}
+    #answer{font-size:15px}
+  }
+</style>
+<script>
+/* 自包含打包：数据已内联，file:// 双击也能看到真数据（不依赖任何服务） */
+(function () {
+  var DATA = {
+ "tutor.json": {
+  "profile_version": "manual-v1",
+  "generated_at": "2026-11-14T15:40:00+08:00",
+  "student": {
+   "sid": "demo",
+   "label": "示例学生"
+  },
+  "notes": [
+   "本文件为离线回放 fixture：判分/掌握度/难度/复习排期均由本地引擎计算",
+   "conf = 该错题之后该知识点的 BKT 掌握度，越高表示错因越已被克服",
+   "时间与事件固定，重复运行逐字节相同"
+  ],
+  "kcs": [
+   {
+    "id": "integral_definite",
+    "name": "定积分",
+    "mastery": 0.5162,
+    "items": 3,
+    "hint_avg": 0.0
+   },
+   {
+    "id": "integral_improper",
+    "name": "反常积分",
+    "mastery": 0.6064,
+    "items": 6,
+    "hint_avg": 0.17
+   },
+   {
+    "id": "det",
+    "name": "行列式",
+    "mastery": 0.5391,
+    "items": 4,
+    "hint_avg": 0.25
+   }
+  ],
+  "turns": [
+   {
+    "n": 1,
+    "role": "tutor",
+    "kc": "det",
+    "statement": "计算下列 3 阶矩阵的行列式：[[2, -1, 0], [3, 5, 1], [-2, 4, 6]]。",
+    "answer_format": "integer only",
+    "why": {
+     "mastery": 0.2702,
+     "difficulty": 0.4636,
+     "gap": 0.1934,
+     "last_error": "题目条件看错了",
+     "memory": [
+      "evt_0061",
+      "evt_0062"
+     ]
+    }
+   },
+   {
+    "n": 2,
+    "role": "student",
+    "kc": "det",
+    "answer": "-72",
+    "verdict": "wrong",
+    "err": "sign"
+   },
+   {
+    "n": 3,
+    "role": "tutor",
+    "kc": "det",
+    "hint_level": 0,
+    "text": "先别算，把题目问的是什么、积分区间（或矩阵阶数）再念一遍。",
+    "why": {
+     "mastery": 0.2702,
+     "difficulty": 0.4636,
+     "gap": 0.1934,
+     "last_error": "题目条件看错了",
+     "memory": [
+      "evt_0061",
+      "evt_0062"
+     ]
+    }
+   },
+   {
+    "n": 4,
+    "role": "student",
+    "kc": "det",
+    "answer": "72",
+    "verdict": "right",
+    "err": "none",
+    "hint_used": 1
+   },
+   {
+    "n": 5,
+    "role": "tutor",
+    "kc": "integral_improper",
+    "statement": "计算定积分 ∫₀^∞ x² e^{-2x} dx。",
+    "answer_format": "integer, fraction or finite decimal",
+    "why": {
+     "mastery": 0.4814,
+     "difficulty": 0.5879,
+     "gap": 0.1065,
+     "last_error": "方法对了但算错了数",
+     "memory": [
+      "evt_0053",
+      "evt_0054"
+     ]
+    }
+   },
+   {
+    "n": 6,
+    "role": "student",
+    "kc": "integral_improper",
+    "answer": "1/2",
+    "verdict": "wrong",
+    "err": "calc"
+   },
+   {
+    "n": 7,
+    "role": "tutor",
+    "kc": "integral_improper",
+    "hint_level": 1,
+    "text": "回想对应的定理：定积分逐项积分、Γ(n+1)=n!、行列式按行展开。",
+    "why": {
+     "mastery": 0.4814,
+     "difficulty": 0.5879,
+     "gap": 0.1065,
+     "last_error": "方法对了但算错了数",
+     "memory": [
+      "evt_0053",
+      "evt_0054"
+     ]
+    }
+   },
+   {
+    "n": 8,
+    "role": "student",
+    "kc": "integral_improper",
+    "answer": "1/4",
+    "verdict": "right",
+    "err": "none",
+    "hint_used": 1
+   }
+  ],
+  "review_plan": [
+   {
+    "kc": "integral_definite",
+    "due": "2026-11-15",
+    "reason": "连续答对 1 次，间隔 3.6 天"
+   },
+   {
+    "kc": "integral_improper",
+    "due": "2026-11-18",
+    "reason": "连续答对 1 次，间隔 3.4 天"
+   },
+   {
+    "kc": "det",
+    "due": "2026-11-18",
+    "reason": "连续答对 1 次，间隔 3.7 天"
+   }
+  ],
+  "memory_timeline": [
+   {
+    "t": "2026-11-14",
+    "text": "答案符号反了",
+    "conf": 0.54,
+    "src": [
+     "evt_0902"
+    ]
+   },
+   {
+    "t": "2026-11-14",
+    "text": "方法对了但算错了数",
+    "conf": 0.61,
+    "src": [
+     "evt_0906"
+    ]
+   }
+  ]
+ },
+ "compare.json": {
+  "seed": 42,
+  "students": [
+   "weak",
+   "mid",
+   "strong"
+  ],
+  "policies": [
+   "loose",
+   "verbose",
+   "answer_only"
+  ],
+  "rows": [
+   {
+    "student": "weak",
+    "policy": "loose",
+    "gain": 0.007,
+    "cost": 0.885,
+    "fitness": -0.214,
+    "items": 10,
+    "hints": 21,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "weak",
+    "policy": "verbose",
+    "gain": 0.007,
+    "cost": 1.585,
+    "fitness": -0.389,
+    "items": 10,
+    "hints": 41,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "weak",
+    "policy": "answer_only",
+    "gain": 0.007,
+    "cost": 1.725,
+    "fitness": -0.424,
+    "items": 10,
+    "hints": 45,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "mid",
+    "policy": "loose",
+    "gain": 0.2,
+    "cost": 0.5,
+    "fitness": 0.075,
+    "items": 10,
+    "hints": 10,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "mid",
+    "policy": "verbose",
+    "gain": 0.2,
+    "cost": 0.745,
+    "fitness": 0.014,
+    "items": 10,
+    "hints": 17,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "mid",
+    "policy": "answer_only",
+    "gain": 0.2,
+    "cost": 1.2,
+    "fitness": -0.1,
+    "items": 10,
+    "hints": 30,
+    "items_to_mastery": 10
+   },
+   {
+    "student": "strong",
+    "policy": "loose",
+    "gain": 0.543,
+    "cost": 0.22,
+    "fitness": 0.488,
+    "items": 10,
+    "hints": 2,
+    "items_to_mastery": 4
+   },
+   {
+    "student": "strong",
+    "policy": "verbose",
+    "gain": 0.543,
+    "cost": 0.22,
+    "fitness": 0.488,
+    "items": 10,
+    "hints": 2,
+    "items_to_mastery": 4
+   },
+   {
+    "student": "strong",
+    "policy": "answer_only",
+    "gain": 0.543,
+    "cost": 0.5,
+    "fitness": 0.418,
+    "items": 10,
+    "hints": 10,
+    "items_to_mastery": 4
+   }
+  ],
+  "winner": {
+   "student": "strong",
+   "policy": "loose",
+   "reason": "跨 3 档学生平均 fitness 最高（0.116）；strong 是该教法下最好的一档"
+  },
+  "policy_means": {
+   "loose": 0.116,
+   "verbose": 0.038,
+   "answer_only": -0.035
+  },
+  "notes": [
+   "单变量实验：题目/判分/掌握度/种子派生九组相同，只改提示策略",
+   "升级必须挣来：只有无提示的第一次答题进 BKT，提示后重试只花成本不产生增益",
+   "hints 是加权提示次数（第 L 级折算 hint_weight(L) 次），不是原始次数",
+   "cost=0.3·items/20+0.7·hints/20；fitness=gain−0.25·cost，均按契约 §6.6",
+   "winner 按教法跨 3 档学生平均 fitness 选出，不是取 9 行最大值",
+   "模拟学生，不是真人；n=3 档 × 10 题，不做显著性主张"
+  ]
+ }
+};
+  var orig = window.fetch;
+  window.fetch = function (url) {
+    var key = String(url);
+    if (Object.prototype.hasOwnProperty.call(DATA, key)) {
+      return Promise.resolve(new Response(JSON.stringify(DATA[key]), {
+        status: 200, headers: { "Content-Type": "application/json" }
+      }));
+    }
+    return orig.apply(this, arguments);
+  };
+})();
+</script>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>日新考研助手</h1>
+    <span class="sub">kaoyan tutor</span>
+  </div>
+  <nav class="pages">
+    <a href="cover.html">封面</a>
+    <a href="tutor.html" class="on">诊断</a>
+    <a href="compare.html">对照</a>
+  </nav>
+  <div class="mode">
+    <div class="seg" id="mode">
+      <button data-m="replay" class="on">回放</button>
+      <button data-m="live">实时</button>
+    </div>
+    <span class="ver" id="version">—</span>
+  </div>
+</header>
+
+<div id="notice"></div>
+
+<main>
+  <!-- 左：掌握度 + 记忆 -->
+  <div class="col">
+    <section class="panel" style="flex:0 0 auto">
+      <h2><em>01</em>知识点掌握度<span class="tip">点一条可过滤</span></h2>
+      <div class="body" id="kcs"></div>
+    </section>
+    <section class="panel" style="flex:1 1 auto">
+      <h2><em>02</em>记忆时间轴<span class="tip">点开看来源</span></h2>
+      <div class="body" id="memory-timeline"></div>
+    </section>
+  </div>
+
+  <!-- 中：对话流 -->
+  <div class="col">
+    <section class="panel" style="flex:1 1 auto">
+      <h2><em>03</em>诊断对话<span class="tip" id="turn-count"></span></h2>
+      <div class="body" id="turns"></div>
+      <div class="clickhint">点题面 → 看理由　·　点知识点 → 过滤对话　·　点记忆 → 看来源</div>
+      <div class="composer">
+        <div class="line">
+          <input id="answer" placeholder="输入答案（整数 / 分数 / 小数）" autocomplete="off">
+          <button id="send">提交</button>
+        </div>
+        <div class="quick">
+          <button data-a="skip">我不会</button>
+          <button data-a="hint">再提示一点</button>
+          <button data-a="why">为什么给我这道题</button>
+          <button data-a="reset">重置</button>
+        </div>
+        <div class="live-hint" id="live-hint"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- 右：理由 + 复习 -->
+  <div class="col">
+    <section class="panel" id="why-panel" style="flex:1 1 auto">
+      <h2><em>04</em>为什么是这道题<span class="tip">点对话里的题面</span></h2>
+      <div class="body" id="why-body">
+        <div class="why-empty">点左侧任意一条题目，这里显示它被选中的三个数字与依据。</div>
+      </div>
+    </section>
+    <section class="panel" style="flex:0 0 auto">
+      <h2><em>05</em>复习计划</h2>
+      <div class="body" id="review-list"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ══════════════════════════════════════════════════════════
+     数据
+     ──────────────────────────────────────────────────────────
+     回放模式读 web/tutor.json（A 组产出，契约 4.3）。
+     C1 阶段 A 还没产出，这里内联一份契约示例作为兜底；
+     文件存在时优先用真数据 —— 保证"先能看，后接真"。
+     ══════════════════════════════════════════════════════════ */
+  var FIXTURE = {
+    "profile_version": "manual-v1",
+    "generated_at": "2026-11-14T15:40:00+08:00",
+    "student": {"sid": "demo", "label": "示例学生"},
+    "kcs": [
+      {"id": "integral_definite", "name": "定积分", "mastery": 0.31, "items": 12, "hint_avg": 1.8},
+      {"id": "integral_improper", "name": "反常积分", "mastery": 0.64, "items": 9, "hint_avg": 1.1},
+      {"id": "det", "name": "行列式", "mastery": 0.78, "items": 6, "hint_avg": 0.4}
+    ],
+    "turns": [
+      {"n":1,"role":"tutor","kc":"integral_definite",
+       "statement":"计算定积分 ∫_{0}^{1} (3x² - 2x + 1) dx。",
+       "answer_format":"integer, fraction or finite decimal",
+       "why":{"mastery":0.31,"difficulty":0.35,
+              "last_error":"换元后忘记换上下限","memory":["evt_0031","evt_0044"]}},
+      {"n":2,"role":"student","answer":"1/2","verdict":"wrong","err":"calc"},
+      {"n":3,"role":"tutor","hint_level":0,
+       "text":"题目给的是 0 到 1，你换元之后上下限变成了什么？"},
+      /* 契约 4.3 的示例写的是 7/6，但这道题 ∫₀¹(3x²-2x+1)dx = [x³-x²+x]₀¹ = 1，
+         7/6 是错的。示例只冻结字段形状，数值要真算对 —— 演示数据里挂一个
+         算错的"正确答案"，数学老师一眼就看穿。 */
+      {"n":4,"role":"student","answer":"1","verdict":"right","err":"none","hint_used":1}
+    ],
+    "review_plan": [{"kc":"integral_definite","due":"2026-11-17","reason":"11/12 独立做对 2 次"}],
+    "memory_timeline": [{"t":"2026-11-10","text":"换元忘换限","conf":0.8,"src":["evt_0031","evt_0044"]}]
+  };
+
+  var D = null;
+  var selKC = null;      // 当前过滤的 KC
+  var selTurn = null;    // 当前展开理由的轮次
+
+  function el(id){ return document.getElementById(id); }
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;");
+  }
+  function pct(v){ return (v * 100).toFixed(0) + "%"; }
+  function num(v, n){ return (typeof v === "number" ? v : 0).toFixed(n == null ? 2 : n); }
+
+  /* ── 掌握度 ── */
+  function renderKCs(){
+    var box = el("kcs");
+    box.innerHTML = "";
+    (D.kcs || []).forEach(function(k){
+      var lv = k.mastery >= 0.7 ? "lv-high" : (k.mastery >= 0.45 ? "lv-mid" : "lv-low");
+      var d = document.createElement("div");
+      d.className = "kc " + lv + (selKC === k.id ? " sel" : "");
+      d.setAttribute("data-kc", k.id);
+      d.innerHTML =
+        '<div class="row"><span class="name">' + esc(k.name) + '</span>' +
+        '<span class="val">' + pct(k.mastery) + '</span></div>' +
+        '<div class="bar"><i style="width:' + (k.mastery * 100).toFixed(1) + '%"></i></div>' +
+        '<div class="meta"><span>做了 ' + (k.items || 0) + ' 题</span>' +
+        '<span>均提示 ' + num(k.hint_avg, 1) + ' 级</span></div>';
+      d.addEventListener("click", function(){
+        selKC = (selKC === k.id) ? null : k.id;
+        renderKCs(); renderTurns();
+      });
+      box.appendChild(d);
+    });
+  }
+
+  /* ── 对话流 ──
+     过滤：student 轮没有自己的 kc，继承前一条 tutor 的。
+     不做这一步，点 KC 只会留下孤零零的题面，看不到学生怎么答的。 */
+  function turnsWithKC(){
+    var out = [], cur = null;
+    curTurns().forEach(function(t){
+      if (t.role === "tutor" && t.kc) cur = t.kc;
+      out.push({turn: t, kc: cur});
+    });
+    return out;
+  }
+
+  function renderTurns(){
+    var list = turnsWithKC();
+    if (selKC) list = list.filter(function(x){ return x.kc === selKC; });
+    var box = el("turns");
+    box.innerHTML = "";
+    el("turn-count").textContent = selKC
+      ? "已按「" + kcName(selKC) + "」过滤 · 共 " + list.length + " 条"
+      : "共 " + curTurns().length + " 条";
+
+    if (!list.length){
+      box.innerHTML = '<div class="why-empty">这个知识点还没有对话记录。</div>';
+      return;
+    }
+
+    list.forEach(function(x){
+      var t = x.turn, d = document.createElement("div");
+      d.className = "turn " + t.role;
+      if (t.role === "tutor"){
+        var body;
+        if (t.statement){
+          body = '<p class="stmt">' + esc(t.statement) + '</p>' +
+            (t.answer_format ? '<div class="fmt">作答格式：' + esc(t.answer_format) + '</div>' : '');
+        } else {
+          body = '<div class="hintline"><span class="lv">L' + (t.hint_level || 0) + '</span>' +
+            '<span>' + esc(t.text || "") + '</span></div>';
+        }
+        d.innerHTML = '<div class="who"><span class="n">#' + t.n + '</span>导师' +
+          (x.kc ? '<span style="color:var(--accent);opacity:.7">' + esc(kcName(x.kc)) + '</span>' : '') +
+          '</div><div class="bubble" data-n="' + t.n + '">' + body + '</div>';
+        var b = d.querySelector(".bubble");
+        b.addEventListener("click", function(){
+          if (!t.why){ return; }
+          selTurn = (selTurn === t.n) ? null : t.n;
+          renderTurns(); renderWhy();
+        });
+        if (selTurn === t.n) b.classList.add("on");
+      } else {
+        var ok = t.verdict === "right";
+        d.innerHTML = '<div class="who" style="justify-content:flex-end"><span class="n">#' + t.n + '</span>你</div>' +
+          '<div class="bubble">' + esc(t.answer) + '</div>' +
+          '<div class="verdict">' +
+          '<span class="tag ' + (ok ? "r" : "w") + '">' + (ok ? "对" : "错") + '</span>' +
+          (t.err && t.err !== "none" ? "错因 " + esc(t.err) : "") +
+          (t.hint_used ? " · 用了 " + t.hint_used + " 级提示" : "") + '</div>';
+      }
+      box.appendChild(d);
+    });
+  }
+
+  function kcName(id){
+    var k = (D.kcs || []).filter(function(x){ return x.id === id; })[0];
+    return k ? k.name : id;
+  }
+
+  /* ── 理由面板 ── */
+  function whyHtml(w){
+    var mem = (w.memory || []).map(function(m){ return '<span>' + esc(m) + '</span>'; }).join("");
+    return '<dl class="why-grid">' +
+      '<dt>掌握度</dt><dd><span class="num">' + num(w.mastery) + '</span>　这个知识点当前水平</dd>' +
+      '<dt>题目难度</dt><dd><span class="num">' + num(w.difficulty) + '</span>　略高于掌握度，够得着</dd>' +
+      '<dt>上次错因</dt><dd>' + esc(w.last_error || "无记录") + '</dd>' +
+      '</dl>' +
+      (mem ? '<div style="margin-top:11px"><div style="font-size:10.5px;color:var(--faint);' +
+        'font-family:var(--font-mono);letter-spacing:.05em;margin-bottom:5px">相关记忆</div>' +
+        '<div class="memchips">' + mem + '</div></div>' : "");
+  }
+
+  function renderWhy(){
+    var box = el("why-body");
+    var t = null;
+    curTurns().forEach(function(x){ if (x.n === selTurn) t = x; });
+    box.innerHTML = (t && t.why) ? whyHtml(t.why)
+      : '<div class="why-empty">点左侧任意一条题目，这里显示它被选中的三个数字与依据。</div>';
+  }
+
+  /* ── 记忆时间轴 ── */
+  function renderMemory(){
+    var box = el("memory-timeline");
+    var ms = D.memory_timeline || [];
+    if (!ms.length){
+      box.innerHTML = '<div class="why-empty">还没有积累到记忆。</div>';
+      return;
+    }
+    box.innerHTML = "";
+    ms.forEach(function(m){
+      var d = document.createElement("div");
+      d.className = "mem";
+      var src = (m.src || []).map(function(s){ return '<span>' + esc(s) + '</span>'; }).join("");
+      d.innerHTML = '<div class="t">' + esc(m.t) + '</div>' +
+        '<div class="txt">' + esc(m.text) + '</div>' +
+        '<div class="conf">置信 ' + num(m.conf) + (src ? ' · 点开看来源' : '') + '</div>' +
+        (src ? '<div class="src">' + src + '</div>' : "");
+      d.addEventListener("click", function(){ d.classList.toggle("open"); });
+      box.appendChild(d);
+    });
+  }
+
+  /* ── 复习计划 ── */
+  function renderReview(){
+    var box = el("review-list");
+    var rs = D.review_plan || [];
+    if (!rs.length){
+      box.innerHTML = '<div class="why-empty">暂无复习计划。</div>';
+      return;
+    }
+    box.innerHTML = rs.map(function(r){
+      return '<div class="due"><span class="k">' + esc(kcName(r.kc)) + '</span>' +
+        '<span class="d">' + esc(r.due) + '</span>' +
+        '<span class="r">' + esc(r.reason || "") + '</span></div>';
+    }).join("");
+  }
+
+  /* ══════════════════════════════════════════════════════════
+     实时层（C7）：契约 4.5 的本地实现
+     ──────────────────────────────────────────────────────────
+     B 组的 POST /api/ask 到位后，只把 LIVE.endpoint 从 null 改成
+     "/api/ask"，请求、渲染、状态更新都不用动。
+     在此之前由本地假 Tutor 把交互跑通：判分走有理数（不比较浮点）、
+     提示按五级梯度、掌握度按 BKT 更新。这些数字是页面自己算的，
+     不冒充后端结果 —— 真接口一开，同一套渲染路径直接吃真响应。
+     ══════════════════════════════════════════════════════════ */
+  var LIVE = {
+    endpoint: null,          // ← 唯一开关：B 的 /api/ask 通了改成 "/api/ask"
+    sid: "live01",
+    on: false,
+    busy: false,
+    i: 0,
+    hint: 0,
+    turn: 0,
+    lastErr: null,
+    mastery: { integral_definite: 0.20, integral_improper: 0.20, det: 0.20 },
+    log: []
+  };
+  var REPLAY_D = null;
+  var FMT = "integer, fraction or finite decimal";
+
+  /* 六道题，答案全是整数/有理数。第 1 题与回放里的题面一致，
+     不另起一套口径；题面、答案、提示都在这一个数组里，改题只改这里。 */
+  var LIVE_POOL = [
+    {kc:"integral_definite", difficulty:0.35,
+     statement:"计算定积分 ∫_{0}^{1} (3x² - 2x + 1) dx。", answer:"1",
+     step:"3x²、-2x、1 的原函数分别是 x³、-x²、x；先把这三个写对，再代上下限。",
+     example:"∫_{0}^{1} x dx：原函数 x²/2，代 1 得 1/2，代 0 得 0，差是 1/2。"},
+    {kc:"integral_definite", difficulty:0.45,
+     statement:"计算定积分 ∫_{0}^{2} (x + 1) dx。", answer:"4",
+     step:"拆成两项分别积：x 的原函数 x²/2，1 的原函数 x。",
+     example:"∫_{0}^{1} 1 dx = 1：常数 1 的原函数就是 x。"},
+    {kc:"integral_improper", difficulty:0.58,
+     statement:"计算反常积分 ∫_{1}^{+∞} 1/x² dx。", answer:"1",
+     step:"先算上限为 t 的定积分，再让 t 趋于 +∞：结果里带 1/t 的项会归零。",
+     example:"∫_{1}^{+∞} 1/x³ dx = 1/2 —— 幂次比 1 大就收敛。"},
+    {kc:"integral_improper", difficulty:0.62,
+     statement:"计算反常积分 ∫_{0}^{+∞} e^{-x} dx。", answer:"1",
+     step:"e^{-x} 的原函数是 -e^{-x}；代入 0 和 t，再看 t 趋于 +∞。",
+     example:"∫_{0}^{+∞} e^{-2x} dx = 1/2 —— 指数上的系数会翻到分母。"},
+    {kc:"det", difficulty:0.40,
+     statement:"计算二阶行列式 det [[1, 2], [3, 4]]。", answer:"-2",
+     step:"二阶行列式 = 主对角乘积 − 副对角乘积 = 1·4 − 2·3。",
+     example:"det [[2, 0], [0, 5]] = 2·5 − 0·0 = 10。"},
+    {kc:"det", difficulty:0.30,
+     statement:"计算二阶行列式 det [[2, 0], [0, 3]]。", answer:"6",
+     step:"非对角元是 0，行列式就是两个对角元的乘积。",
+     example:"det [[4, 0], [0, 1]] = 4。"}
+  ];
+
+  /* 回放读 D.turns，实时读 LIVE.log —— 两条数据源，一套渲染。 */
+  function curTurns(){ return LIVE.on ? LIVE.log : (D.turns || []); }
+
+  function gcd(a, b){
+    a = Math.abs(a); b = Math.abs(b);
+    while (b){ var t = b; b = a % b; a = t; }
+    return a || 1;
+  }
+
+  /* 解析成 {n,d} 整数对；解析不了返回 null（→ 按空答处理）。
+     判分只做交叉相乘，不比较浮点 —— 0.5 与 1/2 必须判成同一个数。 */
+  function parseFrac(s){
+    if (s === null || s === undefined) return null;
+    var t = String(s).trim().replace(/\s+/g, "");
+    if (!t) return null;
+    var m;
+    if ((m = /^(-?\d+)\/(\d+)$/.exec(t))){
+      var n = parseInt(m[1], 10), d = parseInt(m[2], 10);
+      if (!d) return null;
+      if (d < 0){ n = -n; d = -d; }
+      var g = gcd(n, d);
+      return {n: n / g, d: d / g};
+    }
+    if ((m = /^(-?\d+)$/.exec(t))) return {n: parseInt(m[1], 10), d: 1};
+    if ((m = /^(-?)(\d*)\.(\d+)$/.exec(t))){
+      var sign = m[1] === "-" ? -1 : 1;
+      var ip = m[2] ? parseInt(m[2], 10) : 0;
+      var d10 = Math.pow(10, m[3].length);
+      var n2 = sign * (ip * d10 + parseInt(m[3], 10));
+      var g2 = gcd(n2, d10);
+      return {n: n2 / g2, d: d10 / g2};
+    }
+    return null;
+  }
+
+  /* 实施方案 §6.1 的原式，参数用默认值，和测试里的 0.20→0.5526 同一条公式 */
+  function bkt(p, correct){
+    var slip = 0.10, guess = 0.25, transit = 0.15;
+    var p1 = correct
+      ? (p * (1 - slip)) / (p * (1 - slip) + (1 - p) * guess)
+      : (p * slip) / (p * slip + (1 - p) * (1 - guess));
+    return p1 + (1 - p1) * transit;
+  }
+
+  /* 实施方案 §6.4 的六条判据，按序命中即返回。
+     注意：第 4 条（整数倍→calc）会先命中，第 5 条（det 偶数差→misread）
+     在字面顺序下基本轮不到——这里照契约写，不自己改顺序。 */
+  function classify(item, f){
+    if (!f) return "giveup";
+    var ref = parseFrac(item.answer);
+    if (f.n * ref.d === -ref.n * f.d) return "sign";
+    if (f.d === ref.d && Math.abs(f.n - ref.n) === 1) return "calc";
+    var dN = f.n * ref.d - ref.n * f.d;   // 差的分子
+    var dD = f.d * ref.d;                 // 差的分母
+    if (dN % dD === 0) return "calc";
+    if (item.kc === "det" && Math.abs(dN) % 2 === 0) return "misread";
+    return "concept";
+  }
+
+  /* 五级梯度（§6.5）：restate / theorem / step / example / answer，纯模板 */
+  function hintText(level, item){
+    var name = kcName(item.kc);
+    if (level <= 0) return "先把题再读一遍：「" + item.statement + "」题目要你算的是哪一个量？";
+    if (level === 1) return name + "的第一步是写出定义式 —— 这题该套哪一条公式？";
+    if (level === 2) return item.step;
+    if (level === 3) return "看一个同类的小例子：" + item.example;
+    return "这题的答案是 " + item.answer + "。对着算一遍，看看你在哪一步偏了。";
+  }
+
+  function liveItem(){ return LIVE_POOL[LIVE.i % LIVE_POOL.length]; }
+
+  function masterySnap(){
+    var m = {};
+    for (var k in LIVE.mastery) m[k] = Math.round(LIVE.mastery[k] * 10000) / 10000;
+    return m;
+  }
+
+  function liveResp(over){
+    var item = liveItem();
+    var base = {
+      ok: true,
+      turn: LIVE.turn,
+      kc: item.kc,
+      verdict: null,
+      err: null,
+      statement: item.statement,
+      answer_format: FMT,
+      hint: {level: LIVE.hint, text: hintText(LIVE.hint, item)},
+      mastery: masterySnap(),
+      why: {
+        mastery: Math.round(LIVE.mastery[item.kc] * 1000) / 1000,
+        difficulty: item.difficulty,
+        last_error: LIVE.lastErr || "无记录",
+        memory: []
+      },
+      review: [{kc: item.kc, due: "2026-11-17", reason: "刚练过，按 SM-2 隔三天复看"}],
+      elapsed_ms: 9
+    };
+    if (over) for (var k in over) base[k] = over[k];
+    return base;
+  }
+
+  /* 六动作统一入口，返回形状与契约 4.5 一致 */
+  function liveHandle(action, answer){
+    var item = liveItem();
+
+    if (action === "reset"){
+      LIVE.i = 0; LIVE.hint = 0; LIVE.lastErr = null; LIVE.turn += 1;
+      LIVE.mastery = {integral_definite: 0.20, integral_improper: 0.20, det: 0.20};
+      LIVE.log = [];
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "start"){
+      LIVE.turn += 1; LIVE.hint = 0;
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "why"){
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "hint"){
+      LIVE.turn += 1;
+      LIVE.hint = Math.min(4, LIVE.hint + 1);
+      return liveResp({turn: LIVE.turn});
+    }
+    if (action === "skip"){
+      LIVE.turn += 1;
+      LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], false);
+      LIVE.lastErr = "giveup";
+      LIVE.hint = 4;
+      return liveResp({turn: LIVE.turn, verdict: "wrong", err: "giveup"});
+    }
+    if (action === "submit"){
+      LIVE.turn += 1;
+      var f = parseFrac(answer), ref = parseFrac(item.answer);
+      var correct = !!(f && ref && f.n * ref.d === ref.n * f.d);
+      if (correct){
+        LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], true);
+        LIVE.lastErr = null;
+        LIVE.hint = 0;
+        LIVE.i += 1;                      // 答对才换题，答错留在原题上继续给提示
+        var nxt = liveItem();
+        return liveResp({turn: LIVE.turn, verdict: "right", err: "none",
+                         kc: nxt.kc, statement: nxt.statement});
+      }
+      LIVE.mastery[item.kc] = bkt(LIVE.mastery[item.kc], false);
+      LIVE.lastErr = classify(item, f);
+      LIVE.hint = Math.min(4, LIVE.hint + 1);
+      return liveResp({turn: LIVE.turn, verdict: "wrong", err: LIVE.lastErr});
+    }
+    return {ok: false, error: "未知动作：" + action};
+  }
+
+  /* 唯一请求出口：endpoint 为空走本地，非空走真接口。 */
+  function liveAsk(action, answer){
+    if (LIVE.endpoint){
+      return fetch(LIVE.endpoint, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({sid: LIVE.sid, action: action, answer: answer})
+      }).then(function(r){
+        return r.json().then(function(j){
+          if (!r.ok) throw new Error((j && j.error) || ("HTTP " + r.status));
+          return j;
+        });
+      });
+    }
+    return new Promise(function(resolve){ resolve(liveHandle(action, answer)); });
+  }
+
+  function setBusy(b){ LIVE.busy = b; el("send").disabled = b; }
+
+  function renderReviewLive(rs){
+    var box = el("review-list");
+    if (!rs || !rs.length){
+      box.innerHTML = '<div class="why-empty">暂无复习计划。</div>';
+      return;
+    }
+    box.innerHTML = rs.map(function(r){
+      return '<div class="due"><span class="k">' + esc(kcName(r.kc)) + '</span>' +
+        '<span class="d">' + esc(r.due || "—") + '</span>' +
+        '<span class="r">' + esc(r.reason || "") + '</span></div>';
+    }).join("");
+  }
+
+  function applyLiveResp(res, action, answer){
+    // 真后端模式下重置由服务端做，页面这边必须自己清空对话，否则旧轮次会留在屏幕上。
+    if (action === "reset"){
+      LIVE.log = [];
+      selTurn = null;
+    }
+    var n = LIVE.log.length + 1;
+    if (action === "submit" || action === "skip"){
+      LIVE.log.push({n: n++, role: "student",
+        answer: action === "skip" ? "（我不会）"
+              : (answer === null || answer === undefined || String(answer).trim() === "" ? "（空答）" : String(answer)),
+        verdict: res.verdict, err: res.err,
+        hint_used: res.hint ? res.hint.level : 0});
+    }
+    if (res.verdict === "right" || action === "start" || action === "reset"){
+      LIVE.log.push({n: n++, role: "tutor", kc: res.kc, statement: res.statement,
+        answer_format: res.answer_format, why: res.why});
+    } else if (res.hint && action !== "why"){
+      LIVE.log.push({n: n++, role: "tutor", hint_level: res.hint.level, text: res.hint.text});
+    }
+
+    if (res.mastery){
+      (D.kcs || []).forEach(function(k){
+        if (typeof res.mastery[k.id] === "number") k.mastery = res.mastery[k.id];
+      });
+    }
+    render();
+    if (res.why) el("why-body").innerHTML = whyHtml(res.why);
+    if (res.review) renderReviewLive(res.review);
+    if (action === "submit" || action === "skip") el("answer").value = "";
+  }
+
+  /* 所有失败（fetch 断、非 2xx、ok:false、JSON 坏）都汇到这一条：
+     黄色提示 + 自动切回放。页面永远不白屏，回放数据永远不动。 */
+  function liveRequest(action, answer){
+    if (LIVE.busy) return Promise.resolve(null);
+    setBusy(true);
+    return liveAsk(action, answer).then(function(res){
+      if (!res || res.ok === false){
+        throw new Error((res && res.error) || "响应里没有 ok 字段");
+      }
+      applyLiveResp(res, action, answer);
+    }).catch(function(err){
+      var msg = (err && err.message) || String(err);
+      LIVE.lastError = msg;
+      showNotice("实时模式不可用（" + esc(msg) + "）。已自动切回回放，内容不受影响。");
+      setMode("replay");
+    }).then(function(){ setBusy(false); });
+  }
+
+  function setMode(m){
+    var liveMode = m === "live";
+    LIVE.on = liveMode;
+    document.body.classList.toggle("live", liveMode);
+    Array.prototype.forEach.call(el("mode").querySelectorAll("button"), function(x){
+      x.classList.toggle("on", x.getAttribute("data-m") === m);
+    });
+    if (liveMode){
+      selKC = null; selTurn = null;          // 回放里的过滤/选中的题不该带到实时会话
+      el("live-hint").textContent = "实时会话 " + LIVE.sid +
+        "：判分与提示在本地算，B 的 /api/ask 通了自动走后端。";
+      if (!LIVE.log.length) liveRequest("start");
+      else render();
+    } else {
+      if (REPLAY_D) D = JSON.parse(JSON.stringify(REPLAY_D));
+      selKC = null; selTurn = null;
+      render();
+      el("live-hint").textContent = "";
+    }
+  }
+
+  el("send").addEventListener("click", function(){
+    liveRequest("submit", el("answer").value);
+  });
+  el("answer").addEventListener("keydown", function(e){
+    if (e.key === "Enter" && !e.isComposing){
+      e.preventDefault();
+      liveRequest("submit", el("answer").value);
+    }
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".quick button"), function(b){
+    b.addEventListener("click", function(){ liveRequest(b.getAttribute("data-a"), null); });
+  });
+
+  function render(){
+    el("version").textContent = D.profile_version || "—";
+    renderKCs(); renderTurns(); renderWhy(); renderMemory(); renderReview();
+  }
+
+  /* ── 加载：优先 tutor.json，失败用内联 fixture ── */
+  function load(){
+    fetch("tutor.json", { cache: "no-store" })
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(function(j){ D = j; REPLAY_D = JSON.parse(JSON.stringify(j)); render(); })
+      .catch(function(){
+        // A 组还没产出 tutor.json 时，页面也要能开（C1 的验收就是"能看到六块"）。
+        // 用内联 fixture 而不是白屏，并且不假装它是真数据。
+        D = FIXTURE;
+        REPLAY_D = JSON.parse(JSON.stringify(FIXTURE));
+        render();
+        showNotice("正在用<b>内联示例数据</b>渲染（web/tutor.json 还没生成）。" +
+                   "数据形状与契约一致，A 组产出后自动切换，无需改代码。");
+      });
+  }
+
+  function showNotice(html){
+    var n = el("notice");
+    n.innerHTML = html;
+    n.classList.add("on");
+  }
+
+  /* ── 模式开关：回放默认；实时走 /api/ask，B 未交付前由本地假 Tutor 顶 ── */
+  el("mode").addEventListener("click", function(e){
+    var b = e.target.closest("button");
+    if (!b) return;
+    setMode(b.getAttribute("data-m"));
+  });
+
+  /* 自检钩子：沙箱里跑不了浏览器时，docs/demo/check_live.js 用它驱动
+     同一套状态机（判分/提示/重置/掌握度）。不参与页面渲染。 */
+  window.__tutorDebug = {handle: liveHandle, ask: liveAsk, request: liveRequest,
+                         state: LIVE, pool: LIVE_POOL, setMode: setMode};
+
+  load();
+})();
+</script>
+</body>
+</html>
