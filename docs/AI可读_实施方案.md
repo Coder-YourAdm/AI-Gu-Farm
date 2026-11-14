@@ -114,10 +114,10 @@ python -c "from app.executor import judge, statement; print('ok')"
      "answer_format": "integer, fraction or finite decimal",
      "why": {"mastery": 0.31, "difficulty": 0.35,
              "last_error": "换元后忘记换上下限", "memory": ["evt_0031", "evt_0044"]}},
-    {"n": 2, "role": "student", "answer": "1/2", "verdict": "wrong", "err": "calc"},
+    {"n": 2, "role": "student", "answer": "2", "verdict": "wrong", "err": "calc"},
     {"n": 3, "role": "tutor", "hint_level": 0,
      "text": "题目给的是 0 到 1，你换元之后上下限变成了什么？"},
-    {"n": 4, "role": "student", "answer": "7/6", "verdict": "right", "err": "none", "hint_used": 1}
+    {"n": 4, "role": "student", "answer": "1", "verdict": "right", "err": "none", "hint_used": 1}
   ],
   "review_plan": [{"kc": "integral_definite", "due": "2026-11-17", "reason": "11/12 独立做对 2 次"}],
   "memory_timeline": [{"t": "2026-11-10", "text": "换元忘换限", "conf": 0.8, "src": ["evt_0031"]}]
@@ -139,6 +139,13 @@ python -c "from app.executor import judge, statement; print('ok')"
   错因越已被克服），不是随手写的 0.8。
 - 生成器 `tools/tutor_cli.py` 离线、幂等（固定时间戳），
   `--turns 4` / `--turns 8` 都通过；输出前自检会拦住敏感字样。
+- **示例数值已订正（徐潇 2026-11-14 指出）**：原题第 4 轮写成 `7/6` 是错的，
+  `∫₀¹(3x²−2x+1)dx = [x³−x²+x]₀¹ = 1`，已改为 `"answer": "1"`。
+  第 2 轮错答同步改成 `"2"`（差 2 倍 → `err: calc`，与判据 4 自洽）。
+  **更根本的坑**：`executor` 的 `coeffs` 是**升幂**（常数项在前），
+  题面 `3x²−2x+1` 对应 `coeffs=[1,-2,3]`；若按 `[3,-2,1]` 造题，
+  题面会变成 `x²−2x+3`、答案是 `7/3`。**真数据一律由
+  `executor.normalize_task()` 生成，不要从示例手抄题面或答案。**
 
 ### 4.4 `web/compare.json`
 
@@ -148,14 +155,31 @@ python -c "from app.executor import judge, statement; print('ok')"
   "students": ["weak", "mid", "strong"],
   "policies": ["loose", "verbose", "answer_only"],
   "rows": [
-    {"student": "weak", "policy": "loose", "gain": 0.412, "cost": 0.280,
-     "fitness": 0.342, "items": 20, "hints": 14, "items_to_mastery": 17}
+    {"student": "weak", "policy": "loose", "gain": 0.412, "cost": 0.790,
+     "fitness": 0.214, "items": 20, "hints": 14, "items_to_mastery": 17}
   ],
   "winner": {"student": "mid", "policy": "loose", "reason": "同增益下成本最低"}
 }
 ```
 
-`rows` 长度必须 = `len(students) × len(policies)`（3×3=9）。`gain/cost/fitness` 保留 3 位小数。
+**顶层 5 个字段一个都不能少**（徐潇 2026-11-14 强调，示例只画了 1 行 rows，
+生成时必须给全）：`seed` / `students` / `policies` / `rows` / `winner`。
+`rows` 长度必须 = `len(students) × len(policies)`（3×3=9），
+每行必含 `student` / `policy` / `gain` / `cost` / `fitness` /
+`items` / `hints` / `items_to_mastery`。`gain/cost/fitness` 保留 3 位小数。
+
+**逐行自检（数据侧 + 页面侧双重）**，公式见 §6.6：
+
+```python
+cost    = 0.3 * (items / 20) + 0.7 * (hints / 20)
+fitness = gain - 0.25 * cost
+```
+
+`|写下的值 − 公式值| > 0.002` 即视为不一致：A 侧 `tools/check_web_contract.py`
+直接报错、页面侧该行标红。**原示例 `cost=0.280 / fitness=0.342` 与公式矛盾，
+已订正**：`items=20, hints=14` → `cost = 0.3·1 + 0.7·0.7 = 0.790`，
+`fitness = 0.412 − 0.25·0.790 = 0.2145 → 0.214`（3 位；与精确值差 0.0005，
+在 0.002 容差内）。别把 0.280 抄进任何真数据。
 
 ### 4.5 `POST /api/ask`（实时接口，本版新增）
 
@@ -165,21 +189,23 @@ python -c "from app.executor import judge, statement; print('ok')"
 POST /api/ask
 Content-Type: application/json
 
-{"sid": "live01", "action": "submit", "answer": "7/6"}
+{"sid": "live01", "action": "submit", "answer": "2"}
 ```
 
 `action ∈ {start, submit, skip, hint, why, reset}`；`submit` 必带 `answer`（`null` 表示空答）；`start`/`reset`/`why` 忽略 `answer`。
+示例里的 `"2"` 是**故意答错**（正确答案是 `1`，差 2 倍 → `err: calc`）；
+原示例写的 `7/6` 是误值，与 §4.3 一并删掉了。
 
 **响应（200）**
 
 ```json
 {"ok": true, "turn": 3, "kc": "integral_definite",
  "verdict": "wrong", "err": "calc",
- "statement": "计算定积分 ∫_{0}^{1} (3x^2 - 2x + 1) dx。",
+ "statement": "计算定积分 ∫_{0}^{1} (3x² - 2x + 1) dx。",
  "answer_format": "integer, fraction or finite decimal",
  "hint": {"level": 0, "text": "题目给的是 0 到 1，你换元之后上下限变成了什么？"},
  "mastery": {"integral_definite": 0.28, "integral_improper": 0.64, "det": 0.78},
- "why": {"mastery": 0.31, "difficulty": 0.35,
+ "why": {"mastery": 0.31, "difficulty": 0.35, "gap": 0.04,
          "last_error": "换元后忘记换上下限", "memory": ["evt_0031"]},
  "review": [{"kc": "integral_definite", "due": "2026-11-17"}],
  "elapsed_ms": 42}
