@@ -50,6 +50,7 @@
 | 代级快照（题目、参考值、槽位、排名、RNG） | `runs/snapshots/<run_id>/gNN.json` |
 | 机读结果简报 | `runs/result_brief.json` |
 | 人读交付简报 | `docs/B_交付简报.md` |
+| 大屏三张图数据 | `docs/charts/ancestor_curve.csv`、`ef_pair.csv`、`challenge.csv` |
 | 调用审计 | `logs/calls.jsonl`、`logs/raw/<run_id>/` |
 
 ## 4 复算方式
