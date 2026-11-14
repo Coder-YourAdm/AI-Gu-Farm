@@ -92,6 +92,7 @@
     font-weight:600}
   .btn.pri:hover{background:rgba(76,201,240,.2)}
   .btn .ar{font-family:var(--font-mono);font-size:12px;opacity:.8}
+  .try{margin:14px 0 0;font-family:var(--font-mono);font-size:11.5px;color:var(--faint)}
 
   /* ── 底部信任条 ── */
   footer{flex:0 0 auto;padding:12px 22px 16px;border-top:1px solid var(--line);
@@ -105,6 +106,22 @@
     .nums{grid-template-columns:1fr;gap:10px;margin-top:22px}
     main{padding-top:16px}
     h2.hero{font-size:30px}
+  }
+
+  /* 投影/大屏：按视口放大字号与版心，不要让内容缩在左上角 */
+  @media (min-width:1600px){
+    main,footer{max-width:1480px}
+    h2.hero{font-size:clamp(46px,4.6vw,70px)}
+    .lead{font-size:19px;max-width:900px}
+    .kicker{font-size:12.5px}
+    .nums{margin-top:38px;gap:18px}
+    .num{padding:20px 22px 18px}
+    .num .v{font-size:clamp(42px,3.4vw,54px)}
+    .num .k{font-size:14px}
+    .num .s{font-size:11.5px}
+    .cta{margin-top:32px;gap:14px}
+    .btn{font-size:15px;padding:13px 24px}
+    .try{font-size:13px}
   }
 </style>
 </head>
@@ -160,6 +177,8 @@
     <a class="btn pri" href="tutor.html">看一次诊断 <span class="ar">→</span></a>
     <a class="btn" href="compare.html">看 9 组对照 <span class="ar">→</span></a>
   </div>
+
+  <p class="try">诊断页里，题面、知识点、记忆条目都能点；切到「实时」，可以直接打一个答案。</p>
 </main>
 
 <footer>

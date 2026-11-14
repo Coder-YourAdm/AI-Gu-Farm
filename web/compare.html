@@ -94,7 +94,7 @@
     margin-left:auto;letter-spacing:.02em}
 
   .row{display:grid;grid-template-columns:82px minmax(0,1fr) 52px;align-items:center;
-    gap:8px;height:31px}
+    gap:8px;height:33px}
   .row .lb{font-family:var(--font-mono);font-size:11px;color:var(--faint);
     text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .row.win .lb{color:var(--muted)}
@@ -118,10 +118,13 @@
   .ins li::before{content:"";position:absolute;left:0;top:7px;width:4px;height:4px;
     border-radius:50%;background:var(--accent);opacity:.55}
   .ins b{color:var(--text);font-weight:600}
-  .ins .mono{font-family:var(--font-mono);font-size:11px;color:var(--text)}
+  .ins .mono{font-family:var(--font-mono);font-size:11px;color:var(--text);white-space:nowrap}
 
   /* ── 口径 / 读图 ── */
   .prose{padding:8px 14px 10px;font-size:12px;color:var(--muted);line-height:1.6}
+  .read2{font-size:11.5px;line-height:1.7;color:var(--muted)}
+  .read2 + .read2{margin-top:5px}
+  .read2 b{color:var(--text);font-weight:600}
   .formula{font-family:var(--font-mono);font-size:11px;color:var(--muted);line-height:1.85}
   .formula b{color:var(--accent);font-weight:400}
   .prose ol{margin:0;padding-left:15px;font-size:11.5px;line-height:1.5}
@@ -144,7 +147,7 @@
     font-weight:500;color:var(--faint);font-size:10.5px;letter-spacing:.05em;
     padding:6px 10px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
   thead th:first-child,thead th:nth-child(2){text-align:left}
-  tbody td{padding:4.5px 10px;text-align:right;font-family:var(--font-mono);font-size:11px;
+  tbody td{padding:5.5px 10px;text-align:right;font-family:var(--font-mono);font-size:11px;
     color:var(--muted);border-bottom:1px solid var(--line);
     font-variant-numeric:tabular-nums;white-space:nowrap}
   tbody td:first-child,tbody td:nth-child(2){text-align:left;font-family:var(--font-body);
@@ -153,6 +156,29 @@
   tbody tr.win-row td:nth-child(2){color:var(--good);font-weight:600}
   tbody td.bad{color:var(--bad)}
   tbody td .cn{color:var(--faint);font-size:10px;margin-left:4px}
+
+  /* 投影/大屏：放大字号；明细表在面板里垂直居中，别让下方空出一大块 */
+  @media (min-width:1600px){
+    body{font-size:15px}
+    main{grid-template-columns:minmax(0,1fr) 460px;gap:18px;padding:16px 28px 22px}
+    .panel > h2{font-size:13px}
+    .legend{font-size:12.5px}
+    .sgrp-h .nm{font-size:13.5px}
+    .row{height:40px;grid-template-columns:100px minmax(0,1fr) 64px}
+    .row .lb{font-size:12.5px}
+    .row .vl{font-size:13px}
+    table{font-size:12.5px}
+    thead th{font-size:11.5px;padding:8px 12px}
+    tbody td{padding:8px 12px;font-size:12.5px}
+    tbody tr{height:58px}
+    tbody td:first-child,tbody td:nth-child(2){font-size:13px}
+    tbody td .cn{font-size:10.5px}
+    .win-name{font-size:25px}
+    .win-why,.ins li{font-size:13px}
+    .ins .mono{font-size:12px}
+    .formula{font-size:12px}
+    .read2{font-size:12.5px}
+  }
 </style>
 </head>
 <body>
@@ -235,15 +261,15 @@
       </div>
     </div>
 
-    <div class="panel" style="flex:1 1 auto">
-      <h2>怎么读这张图 <em>读之前先看这四条</em></h2>
+    <div class="panel" style="flex:0 0 auto">
+      <h2>怎么读 <em>两条就够</em></h2>
       <div class="prose">
-        <ol>
-          <li>条形长度按<b>同一指标内的最大值</b>归一；该指标出现负值时改按<b>最小值→最大值</b>区间线性映射，最短条＝最差值。<b>不要跨指标比长度</b> —— 增益最长的那条和成本最长的那条没有可比性。</li>
-          <li>成本这一栏里<b>最长＝最贵</b>。看成本时把条读成"花了多少"，不是"多好"。</li>
-          <li>适应度 = 增益 − 0.25 × 成本。一套教法想赢，要么让掌握度涨得多，要么少打断学生。</li>
-          <li>每档后面带 <span style="color:var(--good)">✓</span> 的是<b>这一档里</b>适应度最高的那套。三档的最优不必相同 —— 这正是要做对照的理由。</li>
-        </ol>
+        <div class="read2">
+          <b>条形</b>只在同一指标内比较：最长＝最好；成本列相反，最长＝最贵。出现负值时按区间映射，最短＝最差。
+        </div>
+        <div class="read2">
+          <b>✓</b> 是这一档里适应度最高的教法；三档的最优不必相同——这正是要做对照的理由。
+        </div>
       </div>
     </div>
   </section>

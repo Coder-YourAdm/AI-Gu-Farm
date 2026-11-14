@@ -101,7 +101,7 @@
     cursor:pointer;transition:.18s var(--ease)}
   .tutor .bubble:hover{border-left-color:#7ee0ff;background:var(--surface-3)}
   .tutor .bubble.on{border-left-color:var(--accent);box-shadow:0 0 0 1px rgba(76,201,240,.22) inset}
-  .stmt{font-size:14.5px;line-height:1.7;margin:0}
+  .stmt{font-size:15px;line-height:1.7;margin:0}
   .fmt{font-family:var(--font-mono);font-size:11px;color:var(--faint);margin-top:7px}
   .hintline{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
     font-size:13px;color:#c9d4e0;display:flex;gap:8px}
@@ -129,18 +129,18 @@
   .why-grid{display:grid;grid-template-columns:auto 1fr;gap:7px 12px;align-items:baseline}
   .why-grid dt{font-family:var(--font-mono);font-size:10.5px;color:var(--faint);
     letter-spacing:.05em;white-space:nowrap}
-  .why-grid dd{margin:0;font-size:12.5px}
+  .why-grid dd{margin:0;font-size:13px}
   .why-grid dd .num{font-family:var(--font-mono);font-weight:600;color:var(--accent)}
   .memchips{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
   .memchips span{font-family:var(--font-mono);font-size:10px;color:var(--muted);
     background:var(--surface-3);border-radius:3px;padding:2px 6px}
 
   /* ── 记忆 / 复习 ── */
-  .mem{border-left:2px solid var(--line-strong);padding:2px 0 2px 11px;margin-bottom:11px;
+  .mem{border-left:2px solid var(--line-strong);padding:2px 0 2px 11px;margin-bottom:13px;
     cursor:pointer;position:relative}
   .mem:hover{border-left-color:var(--accent)}
   .mem .t{font-family:var(--font-mono);font-size:10px;color:var(--faint)}
-  .mem .txt{font-size:12.5px;margin:2px 0 3px}
+  .mem .txt{font-size:13px;margin:2px 0 3px}
   .mem .conf{font-family:var(--font-mono);font-size:10px;color:var(--faint)}
   .mem .src{display:none;margin-top:6px;flex-wrap:wrap;gap:5px}
   .mem.open .src{display:flex}
@@ -149,8 +149,15 @@
   .due{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--line)}
   .due:last-child{border-bottom:0}
   .due .k{font-size:12.5px;font-weight:600;white-space:nowrap;flex:0 0 auto}
-  .due .d{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--warn)}
+  .due .d{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--warn);
+    white-space:nowrap}
   .due .r{font-size:10.5px;color:var(--faint);flex-basis:100%}
+
+  /* ── 可点击提示条（回放时显示；实时模式让位给输入区） ── */
+  .clickhint{flex:0 0 auto;padding:7px 16px;border-top:1px solid var(--line);
+    font-family:var(--font-mono);font-size:11px;color:var(--faint);letter-spacing:.02em;
+    background:var(--surface)}
+  body.live .clickhint{display:none}
 
   /* ── 实时输入 ── */
   .composer{flex:0 0 auto;border-top:1px solid var(--line-strong);padding:10px 14px 12px;
@@ -178,6 +185,26 @@
     color:var(--warn)}
   #notice.on{display:block}
   #notice b{color:#fff}
+
+  /* 投影/大屏：整体放大一档，避免 1920 下内容缩在左上角 */
+  @media (min-width:1600px){
+    body{font-size:15px}
+    main{grid-template-columns:300px minmax(0,1fr) 380px;gap:18px;padding:18px 28px 24px}
+    .brand h1{font-size:21px}
+    .panel > h2{font-size:13px}
+    .stmt{font-size:16.5px}
+    .kc .name,.kc .val{font-size:14px}
+    .kc .meta{font-size:11.5px}
+    .mem .txt{font-size:14px}
+    .mem .t,.mem .conf,.mem .src span{font-size:11px}
+    .due .k{font-size:14px}
+    .due .d{font-size:12px}
+    .due .r{font-size:11.5px}
+    .why-grid dt{font-size:11.5px}
+    .why-grid dd{font-size:14px}
+    .clickhint{font-size:12px}
+    #answer{font-size:15px}
+  }
 </style>
 </head>
 <body>
@@ -221,6 +248,7 @@
     <section class="panel" style="flex:1 1 auto">
       <h2><em>03</em>诊断对话<span class="tip" id="turn-count"></span></h2>
       <div class="body" id="turns"></div>
+      <div class="clickhint">点题面 → 看理由　·　点知识点 → 过滤对话　·　点记忆 → 看来源</div>
       <div class="composer">
         <div class="line">
           <input id="answer" placeholder="输入答案（整数 / 分数 / 小数）" autocomplete="off">
