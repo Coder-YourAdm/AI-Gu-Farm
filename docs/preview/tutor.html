@@ -992,14 +992,23 @@
     return "concept";
   }
 
-  /* 五级梯度（§6.5）：restate / theorem / step / example / answer，纯模板 */
+  /* 五级梯度（§6.5，统一口径）：0=无提示，1..4 逐级加码，第 4 级给完整解法但不报数值 */
   function hintText(level, item){
     var name = kcName(item.kc);
     if (level <= 0) return "先把题再读一遍：「" + item.statement + "」题目要你算的是哪一个量？";
     if (level === 1) return name + "的第一步是写出定义式 —— 这题该套哪一条公式？";
     if (level === 2) return item.step;
     if (level === 3) return "看一个同类的小例子：" + item.example;
-    return "这题的答案是 " + item.answer + "。对着算一遍，看看你在哪一步偏了。";
+    if (item.kc === "det") {
+      return "完整解法：挑零最多的一行或一列，逐列消元化成三角形，换行记一次负号，"
+           + "最后对角线相乘。数值留给你自己算，算完核对符号。";
+    }
+    if (item.kc === "integral_improper") {
+      return "完整解法：认出 ∫₀^∞ xⁿe^{-rx} 型，对出幂次 n、衰减率 r 和系数 c，"
+           + "套 c·n!/rⁿ⁺¹，再约分。数值留给你自己算。";
+    }
+    return "完整解法：把被积函数按幂次拆开逐项积分，代上限减下限，"
+         + "合并同类项后约成最简分数。数值留给你自己算。";
   }
 
   function liveItem(){ return LIVE_POOL[LIVE.i % LIVE_POOL.length]; }

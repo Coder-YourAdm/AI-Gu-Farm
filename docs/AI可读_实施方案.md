@@ -74,7 +74,7 @@ python -c "from app.executor import judge, statement; print('ok')"
     "explain_grain": "step",
     "probe_rounds": 2,
     "example_count": 1,
-    "hint_ladder": ["restate", "theorem", "step", "example", "answer"],
+    "hint_ladder": ["restate", "theorem", "step", "example", "full"],
     "difficulty_offset": 0.1
   },
   "evidence": {"source_run": "manual", "n_gen": 0, "gain": null, "cost": null, "fitness": null},
@@ -334,9 +334,9 @@ def context(prof: dict, kc: str, now, k: int = 4) -> str: ...   # ≤200 字，�
 
 ```python
 # app/tutor/hint.py
-LADDER = ("restate", "theorem", "step", "example", "answer")
-def next_level(current: int, correct: bool) -> int: ...    # 错 +1（封顶 4），对不变
-def render(level: int, task: dict, kc: str) -> str: ...    # 纯模板，不调模型
+LADDER = ("restate", "theorem", "step", "example", "full")
+def next_level(current: int, correct: bool) -> int: ...    # 错 +1（封顶 4），对回到 0
+def render(level: int, task: dict, kc: str) -> str: ...    # 纯模板；第 4 级给完整解法，不报最终数值
 ```
 
 ```python
@@ -482,15 +482,25 @@ det 的差值几乎总是整数，那样会把判据 5 的 `misread` 全部吃�
 
 ### 6.5 提示梯度
 
-| 级 | 名称 | 何时给 |
-|---|---|---|
-| 0 | `restate` | 第一次答错 |
-| 1 | `theorem` | 第二次答错 |
-| 2 | `step` | 第三次答错 |
-| 3 | `example` | 第四次答错 |
-| 4 | `answer` | 第五次或学生明确要求 |
+统一口径（2026-11-14 20:20 定稿，前端 / 后端 / 探针都以本表为准）：
 
-`next_level(current, correct=False) → min(4, current+1)`；答对返回 `current`。
+| 级 | 名称 | 何时给 | 给什么 |
+|---|---|---|---|
+| 0 | `restate` | 出题时，或刚答对重置 | 重述题意；**不算一次提示** |
+| 1 | `theorem` | 第一次答错 | 点出该用哪条公式/定理 |
+| 2 | `step` | 第二次答错 | 给出可以动手的第一步 |
+| 3 | `example` | 第三次答错 | 给关键中间步或同类小例子 |
+| 4 | `full` | 第四次答错（封顶） | 完整解法；**仍不报最终数值** |
+
+`next_level(current, correct=False) → min(4, current+1)`；答对回到 0。
+
+三条必须遵守：
+
+1. 连错序列是 `[1, 2, 3, 4, 4]`，`level` 封顶 4，不会出现第 5 级；
+2. **第 4 级不给数值**：一旦把答案报出来，学生照抄答对就无法与「独立掌握」区分，
+   掌握度规则（辅助答对只算半次）也会自相矛盾；
+3. `answer_only` 教法（一错就给答案）**只用于离线三套对照实验**（`app/evalsim/` +
+   `web/compare.json`），不进入 1:1 实时助教。
 
 ### 6.6 fitness
 

@@ -133,7 +133,8 @@ function near(a, b, eps) {
   ok(last.verdict === "wrong", "判分是 wrong");
   ok(last.mastery.integral_definite < 0.1774, "连错后掌握度继续下降",
      String(last.mastery.integral_definite));
-  ok(last.hint.text.indexOf(pool[0].answer) >= 0, "L4 提示里给出答案");
+  ok(last.hint.text.indexOf("完整解法") >= 0 && last.hint.text.indexOf("答案是") < 0,
+     "L4 给完整解法、不报数值（§6.5 统一口径）");
 
   console.log("== D. 答对：掌握度按 BKT 上升、换题、提示归零 ==");
   H("reset", null);
@@ -156,8 +157,9 @@ function near(a, b, eps) {
   H("reset", null);
   const skip = H("skip", null);
   ok(skip.verdict === "wrong" && skip.err === "giveup", "skip 判 giveup");
-  ok(skip.hint.level === 4 && skip.hint.text.indexOf(pool[0].answer) >= 0,
-     "skip 直接给到 L4 答案");
+  ok(skip.hint.level === 4 && skip.hint.text.indexOf("完整解法") >= 0
+     && skip.hint.text.indexOf("答案是") < 0,
+     "skip 到 L4 完整解法，不报数值（§6.5 统一口径）");
   const turnBefore = dbg.state.turn;
   H("why", null);
   ok(dbg.state.turn === turnBefore, "why 不推进轮次");
