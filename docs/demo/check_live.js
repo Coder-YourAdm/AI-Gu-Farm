@@ -184,6 +184,29 @@ function near(a, b, eps) {
   dbg.setMode("replay");
   ok(dbg.state.on === false, "切回放后 LIVE.on 回 false");
 
+  console.log("== I. 失败路径：断服务 / 后端 ok:false → 提示 + 自动回放 ==");
+  dbg.state.endpoint = "/api/ask";
+
+  dbg.setMode("live");
+  ok(dbg.state.on === true, "先进入实时模式");
+  global.fetch = function () { return Promise.reject(new Error("ECONNREFUSED")); };
+  await dbg.request("start", null);
+  ok(dbg.state.on === false, "fetch 断开：自动切回回放");
+  ok(els["notice"].innerHTML.indexOf("实时模式不可用") >= 0,
+     "提示里有「实时模式不可用」", els["notice"].innerHTML.slice(0, 60));
+
+  dbg.setMode("live");
+  global.fetch = function () {
+    return Promise.resolve({ ok: true, json: function () {
+      return Promise.resolve({ ok: false, error: "Tutor: boom" });
+    } });
+  };
+  await dbg.request("submit", "1");
+  ok(dbg.state.on === false, "后端 ok:false：同样自动回放");
+  ok(els["notice"].innerHTML.indexOf("boom") >= 0,
+     "提示里带出后端错误原文", els["notice"].innerHTML.slice(0, 60));
+  dbg.state.endpoint = null;
+
   console.log("");
   if (failed === 0) {
     console.log("RESULT: PASS（" + 0 + " 项失败）");

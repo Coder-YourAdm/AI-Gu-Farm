@@ -687,11 +687,6 @@
   }
 
   function applyLiveResp(res, action, answer){
-    if (!res || res.ok === false){
-      showNotice("实时接口返回错误：" + esc((res && res.error) || "未知错误") +
-                 "（回放数据未动）");
-      return;
-    }
     var n = LIVE.log.length + 1;
     if (action === "submit" || action === "skip"){
       LIVE.log.push({n: n++, role: "student",
@@ -718,15 +713,20 @@
     if (action === "submit" || action === "skip") el("answer").value = "";
   }
 
+  /* 所有失败（fetch 断、非 2xx、ok:false、JSON 坏）都汇到这一条：
+     黄色提示 + 自动切回放。页面永远不白屏，回放数据永远不动。 */
   function liveRequest(action, answer){
-    if (LIVE.busy) return;
+    if (LIVE.busy) return Promise.resolve(null);
     setBusy(true);
-    liveAsk(action, answer).then(function(res){
+    return liveAsk(action, answer).then(function(res){
+      if (!res || res.ok === false){
+        throw new Error((res && res.error) || "响应里没有 ok 字段");
+      }
       applyLiveResp(res, action, answer);
     }).catch(function(err){
-      // 失败不白屏：提示 + 自动切回放（C8 的验收动作）
-      showNotice("实时模式不可用（" + esc((err && err.message) || err) +
-                 "）。已自动切回回放，内容不受影响。");
+      var msg = (err && err.message) || String(err);
+      LIVE.lastError = msg;
+      showNotice("实时模式不可用（" + esc(msg) + "）。已自动切回回放，内容不受影响。");
       setMode("replay");
     }).then(function(){ setBusy(false); });
   }
@@ -801,8 +801,8 @@
 
   /* 自检钩子：沙箱里跑不了浏览器时，docs/demo/check_live.js 用它驱动
      同一套状态机（判分/提示/重置/掌握度）。不参与页面渲染。 */
-  window.__tutorDebug = {handle: liveHandle, ask: liveAsk, state: LIVE,
-                         pool: LIVE_POOL, setMode: setMode};
+  window.__tutorDebug = {handle: liveHandle, ask: liveAsk, request: liveRequest,
+                         state: LIVE, pool: LIVE_POOL, setMode: setMode};
 
   load();
 })();
