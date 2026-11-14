@@ -75,11 +75,28 @@ def test_schema_passes(payload):
     assert validate(payload) == []
 
 
-def test_on_disk_json_matches_builder(payload):
-    """页面读的是磁盘上那份，不是内存里那份。两份不一致就先修生成脚本。"""
+def test_on_disk_json_is_valid_and_matches_builder(payload):
+    """页面读的是磁盘上那份，不是内存里那份。
+
+    干净克隆里没有 `runs/`（被 .gitignore 排除），只能校验契约；
+    B 的开发机上有 `runs/`，再跟真实构建器逐行对账一次，防止手改 result.json。
+    """
     disk = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
     assert validate(disk) == []
-    assert [r["run_id"] for r in disk["runs"]] == [r["run_id"] for r in payload["runs"]]
+    assert check_conclusion_fit(disk) == []
+
+    if (ROOT / "runs" / "protocol_v5.json").exists() and \
+       (ROOT / "runs" / "ancestor_holdout.json").exists():
+        from tools.build_result_board import build as build_real, load as load_json
+        real = build_real(
+            load_json(ROOT / "runs" / "ancestor_holdout.json"),
+            load_json(ROOT / "runs" / "ancestors.json")["ancestors"],
+            load_json(ROOT / "runs" / "protocol_v5.json"),
+        )
+        assert [r["run_id"] for r in disk["runs"]] == [r["run_id"] for r in real["runs"]]
+        for a, b in zip(disk["runs"], real["runs"]):
+            assert [l["holdout"]["correct"] for l in a["lineages"]] == \
+                   [l["holdout"]["correct"] for l in b["lineages"]], a["run_id"]
 
 
 def test_every_run_has_one_champion(payload):
@@ -100,10 +117,14 @@ def test_run_ids_unique(payload):
     assert len(ids) == len(set(ids))
 
 
-def test_mock_is_declared(payload):
-    """假数据必须自己声明是假的。少了 is_mock，页面就没法挂红标。"""
-    assert payload["is_mock"] is True
-    assert "mock" in payload["model_id"]
+def test_mock_is_declared():
+    """真假数据都必须自我声明：假的带 mock 徽章，真的必须有模型与来源。"""
+    disk = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
+    if disk.get("is_mock"):
+        assert "mock" in str(disk.get("model_id", "")).lower()
+    else:
+        assert disk.get("model_id") and "mock" not in str(disk["model_id"]).lower()
+        assert (disk.get("provenance") or {}).get("source")
 
 
 def test_conclusion_text_not_empty(payload):

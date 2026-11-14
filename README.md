@@ -134,7 +134,7 @@ Elo-lite 难度（修掉 400 刻度与 `[0,1]` 归一化的矛盾）、SM-2 复�
 | 判分内核 `app/executor.py` | ✅ 六函数齐全，48+ 条单测，三态判定 |
 | 题集 125 道 + 数据与页面自检 | ✅ `validate_task` 125/125；`check_web_contract.py --require-compare` PASS |
 | 演化引擎 `app/run.py` | ✅ 真模型 4 趟 × 20 代，协议冻结 |
-| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` **仍是 mock（挂红标）**，真数据已产出待接页 |
+| 留出评测 | ✅ 2,640 次调用已跑；`web/result.json` 已用真实评测生成（`is_mock: false`，四趟 run_id 可追溯） |
 | 学生模型 / 五级提示 / 对话状态机 | ✅ BKT / KC / 难度 / 排期 / 诊断 / hint / dialog 全合入 |
 | **`POST /api/ask` 实时接口** | ✅ 已实现并接入 `LIVE.endpoint="/api/ask"`；`probe_ask.py` 11 次 PASS |
 | 三页前端 + 7 张截图 | ✅ 零外链、断网可演、双模式回退 |
@@ -228,7 +228,8 @@ python -m app.run --config config.local.json --dry-run --all-seeds
 - 真模型校准随难度分档：原卷 12.8% ／ 行列式降到 2–3 阶后 **52.8%** ／ 全简单 92.8%；
   零格式错误 ⇒ 是题难度而非解析问题，见 [校准结论](docs/校准结论_12h.md)。
 - 正式演化 **未观察到可靠策略改善**；教法 profile 仍是手写基线 `manual-v1`。
-- `web/result.json` 仍是 `is_mock: true`，页面挂红标，不会把假数字当真结果展示。
+- `web/result.json` 已是真实数据（`is_mock: false`），由 `tools/build_result_board.py`
+  从 `runs/evaluations/` 与祖先留出评测生成；页面据此撤掉红标，每个数字都能指到 run_id
 - 3×3 对照是**模拟学生**、n=3 档 × 10 题，**不报 p 值**、不外推真人。
 - 服务端回显模型与传入 ID 不一致（中转）；严格可复现需换官方直连。
 - 提示级别存在三处口径差异（旧契约 / B7 最小集 / 前端文案），待统一，见 [20:10 体检](docs/仓库体检_20h.md) §4。
