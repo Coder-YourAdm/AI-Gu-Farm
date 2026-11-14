@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
-# 正式 E/F 各 3 趟，一条命令跑完 —— **B 引擎（app/run.py）唯一驱动**
+# E/F 跑批脚本（B 引擎驱动）—— **冒烟验证用，正式六趟走 B 的 protocol 流程**
+#
+# 分工：E/F 各 3 趟由 B8 值守执行（分工方案 v7.3 §515），C 不插手跑批。
+# 本脚本的用途只有两个：
+#   ① 让 C 能在本地确认「B 的引擎 → 拆分 → 导出 → 页面 → 留出评测」这条链路是通的
+#      （验证不产出实验数据；跑出来的趟一律带 _smoke 语义，不进结论）
+#   ② 给 B8 一个可对照的参考实现
+# 正式跑请用 B 的 --calibrate → --lock-protocol → --protocol --all-seeds：
+# 本脚本用 --pilot 绕过了 protocol，protocol.json 里就没有这六趟的注册记录，
+# --evaluate-all 的交错评测也就用不上。详见 给B_B8_引擎实测问题.md
 #
 # 与上一版（跑 app/evolve_run.py）的差别，改之前先读：
 #   1. 主循环统一到 app/run.py。C 的 evolve_run.py 不再驱动正式实验，
