@@ -1,0 +1,123 @@
+{
+ "seed": 42,
+ "students": [
+  "weak",
+  "mid",
+  "strong"
+ ],
+ "policies": [
+  "loose",
+  "verbose",
+  "answer_only"
+ ],
+ "rows": [
+  {
+   "student": "weak",
+   "policy": "loose",
+   "gain": 0.007,
+   "cost": 0.885,
+   "fitness": -0.214,
+   "items": 10,
+   "hints": 21,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "weak",
+   "policy": "verbose",
+   "gain": 0.007,
+   "cost": 1.585,
+   "fitness": -0.389,
+   "items": 10,
+   "hints": 41,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "weak",
+   "policy": "answer_only",
+   "gain": 0.007,
+   "cost": 1.725,
+   "fitness": -0.424,
+   "items": 10,
+   "hints": 45,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "mid",
+   "policy": "loose",
+   "gain": 0.2,
+   "cost": 0.5,
+   "fitness": 0.075,
+   "items": 10,
+   "hints": 10,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "mid",
+   "policy": "verbose",
+   "gain": 0.2,
+   "cost": 0.745,
+   "fitness": 0.014,
+   "items": 10,
+   "hints": 17,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "mid",
+   "policy": "answer_only",
+   "gain": 0.2,
+   "cost": 1.2,
+   "fitness": -0.1,
+   "items": 10,
+   "hints": 30,
+   "items_to_mastery": 10
+  },
+  {
+   "student": "strong",
+   "policy": "loose",
+   "gain": 0.543,
+   "cost": 0.22,
+   "fitness": 0.488,
+   "items": 10,
+   "hints": 2,
+   "items_to_mastery": 4
+  },
+  {
+   "student": "strong",
+   "policy": "verbose",
+   "gain": 0.543,
+   "cost": 0.22,
+   "fitness": 0.488,
+   "items": 10,
+   "hints": 2,
+   "items_to_mastery": 4
+  },
+  {
+   "student": "strong",
+   "policy": "answer_only",
+   "gain": 0.543,
+   "cost": 0.5,
+   "fitness": 0.418,
+   "items": 10,
+   "hints": 10,
+   "items_to_mastery": 4
+  }
+ ],
+ "winner": {
+  "student": "strong",
+  "policy": "loose",
+  "reason": "跨 3 档学生平均 fitness 最高（0.116）；strong 是该教法下最好的一档"
+ },
+ "policy_means": {
+  "loose": 0.116,
+  "verbose": 0.038,
+  "answer_only": -0.035
+ },
+ "notes": [
+  "单变量实验：题目/判分/掌握度/种子派生九组相同，只改提示策略",
+  "升级必须挣来：只有无提示的第一次答题进 BKT，提示后重试只花成本不产生增益",
+  "hints 是加权提示次数（第 L 级折算 hint_weight(L) 次），不是原始次数",
+  "cost=0.3·items/20+0.7·hints/20；fitness=gain−0.25·cost，均按契约 §6.6",
+  "winner 按教法跨 3 档学生平均 fitness 选出，不是取 9 行最大值",
+  "模拟学生，不是真人；n=3 档 × 10 题，不做显著性主张"
+ ]
+}
