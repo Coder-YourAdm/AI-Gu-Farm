@@ -219,8 +219,28 @@ def check_probe(cfg) -> Check:
 # 汇总
 # ---------------------------------------------------------------------------
 
-def run_checks(config_path: Path, *, data_dir: Path, runs_root: Path,
-               require_key: bool = False, probe: bool = False) -> list[Check]:
+def _load_dotenv(path: Path) -> int:
+    """把 `.env` 里的 KEY=VALUE 放进 os.environ（不覆盖已有变量）。返回载入条数。
+
+    只认最朴素的格式：`NAME=value`、`# 注释`、空行。不做引号解析、不做变量展开——
+    这个文件是我们自己写的，不是通用 dotenv 实现。
+    """
+    if not path.exists():
+        return 0
+    loaded = 0
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        name, _, value = line.partition("=")
+        name, value = name.strip(), value.strip()
+        if name and name not in os.environ:
+            os.environ[name] = value
+            loaded += 1
+    return loaded
+
+
+def run_checks(config_path: Path, *, data_dir: Path, runs_root: Path,               require_key: bool = False, probe: bool = False) -> list[Check]:
     checks: list[Check] = []
 
     cfg_check, cfg = check_config(config_path)
@@ -249,6 +269,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--require-key", action="store_true", help="密钥缺失视为 FAIL")
     ap.add_argument("--probe", action="store_true", help="额外发一次最小真实请求")
     args = ap.parse_args(argv)
+
+    # `.env` 不会自动进环境变量。不处理它，就会反复出现
+    # 「我明明把 key 写进 .env 了，preflight 还说没设」——这一步替人做掉。
+    _load_dotenv(ROOT / ".env")
 
     if args.config:
         config_path = Path(args.config)
