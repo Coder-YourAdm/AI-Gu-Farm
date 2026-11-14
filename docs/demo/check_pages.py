@@ -11,9 +11,16 @@
   6. 三页导航文案是否一致、当前页高亮是否正确
 """
 import hashlib
+import json
 import re
 import sys
 from pathlib import Path
+
+# Windows 控制台默认 GBK，中文会乱码；统一按 UTF-8 输出（配合 chcp 65001）。
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:  # noqa: BLE001 - 老版本 Python 没有 reconfigure
+    pass
 
 WEB = Path(__file__).resolve().parents[2] / "web"
 PAGES = ["cover.html", "tutor.html", "compare.html"]
@@ -79,6 +86,33 @@ def main() -> int:
         self_ok = on == [p]
         print(f"  {p:14s} labels={ascii(labels)} active={self_ok}")
         failed += 0 if labels == NAV_EXPECT and self_ok else 1
+
+    print("== 7. replay data source（真数据是否到位） ==")
+    for name, kind in (("tutor.json", "tutor"), ("compare.json", "compare")):
+        p = WEB / name
+        if not p.exists():
+            print(f"  {name:14s} MISSING -> 页面用内联示例并挂黄条"
+                  f"（正式截图前必须补，否则等于 mock 徽章）")
+            continue
+        try:
+            j = json.loads(p.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001 - 报告里要看到具体原因
+            print(f"  {name:14s} BAD JSON: {e}")
+            failed += 1
+            continue
+        leak = json.dumps(j, ensure_ascii=False).count("reference")
+        if kind == "tutor":
+            kcs = j.get("kcs") or []
+            tutors = [t for t in j.get("turns", []) if t.get("role") == "tutor"]
+            why_ok = all("why" in t for t in tutors)
+            good = len(kcs) == 3 and why_ok and leak == 0
+            print(f"  {name:14s} kcs={len(kcs)} tutor_turns={len(tutors)} "
+                  f"why_ok={why_ok} reference={leak}")
+        else:
+            rows = j.get("rows") or []
+            good = len(rows) == 9 and leak == 0
+            print(f"  {name:14s} rows={len(rows)} reference={leak}")
+        failed += 0 if good else 1
 
     print()
     print("RESULT:", "PASS" if failed == 0 else f"FAIL ({failed})")

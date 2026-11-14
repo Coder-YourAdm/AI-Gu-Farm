@@ -1,6 +1,8 @@
 # C-group demo self-check runner.
 # Usage: powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
 $ErrorActionPreference = "Stop"
+$env:PYTHONIOENCODING = "utf-8"
+try { chcp 65001 > $null } catch { }
 $root = Resolve-Path (Join-Path $PSScriptRoot "..\..")
 Set-Location $root
 
