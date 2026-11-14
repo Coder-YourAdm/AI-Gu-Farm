@@ -24,3 +24,6 @@ logs/
 Thumbs.db
 .idea/
 .vscode/
+
+# 分档校准实验数据（由 tools/make_tier_dataset.py 生成，不入库）
+data_t*/
