@@ -89,6 +89,9 @@ function near(a, b, eps) {
 
   const H = dbg.handle;
   const pool = dbg.pool;
+  // 这个脚本只验「页面内置状态机」；真接口路径由 check_browser_live.js --base 验。
+  // 页面可能已被 switch_live.py 指向 /api/ask，这里强制关掉，保证测试自洽。
+  dbg.state.endpoint = null;
 
   console.log("== A. 返回形状（契约 4.5 的字段一个不少） ==");
   const start = H("start", null);

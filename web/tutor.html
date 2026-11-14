@@ -574,7 +574,7 @@
      不冒充后端结果 —— 真接口一开，同一套渲染路径直接吃真响应。
      ══════════════════════════════════════════════════════════ */
   var LIVE = {
-    endpoint: null,          // ← 唯一开关：B 的 /api/ask 通了改成 "/api/ask"
+    endpoint: "/api/ask",          // ← 唯一开关：B 的 /api/ask 通了改成 "/api/ask"
     sid: "live01",
     on: false,
     busy: false,

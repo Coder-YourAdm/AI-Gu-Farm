@@ -16,7 +16,7 @@
  * 依赖：Node >= 18（用全局 fetch），零 npm 包，零外网。
  *
  * 重要：不修改 web/tutor.html。endpoint 只在运行时通过 __tutorDebug.state
- *       注入，源码里 LIVE.endpoint 保持 null —— B 的接口通了才改那一处。
+ *       注入；源码里 LIVE.endpoint 允许 null（本地假 Tutor）或 "/api/ask"（真 B7）。
  */
 "use strict";
 
@@ -228,7 +228,9 @@ function notice() { return els["notice"] ? els["notice"].innerHTML : ""; }
 
   /* ⑥ 源码未被改动 */
   const src = fs.readFileSync(path.join(ROOT, "web", "tutor.html"), "utf8");
-  ok(/endpoint:\s*null/.test(src), "⑥ web/tutor.html 的 LIVE.endpoint 仍为 null（B 接口到位才改）");
+  const endpointMatch = src.match(/endpoint:\s*("[^"]*"|null)/);
+  ok(!!endpointMatch && (endpointMatch[1] === "null" || endpointMatch[1] === '"/api/ask"'),
+     `⑥ web/tutor.html 的 LIVE.endpoint = ${endpointMatch ? endpointMatch[1] : "?"}（允许 null 或 "/api/ask"）`);
 
   if (srv) await new Promise(r => srv.close(r));
   console.log(failed ? `RESULT: FAIL（${failed} 项）` : "RESULT: PASS（真实 HTTP 路径全通过）");

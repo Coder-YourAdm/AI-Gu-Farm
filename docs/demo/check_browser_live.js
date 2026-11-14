@@ -26,6 +26,11 @@ const ROOT = path.resolve(__dirname, "..", "..");
 const WEB = path.join(ROOT, "web");
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// --base http://127.0.0.1:8123 → 不启 mock，直接对真服务跑（B7 到位后用）
+const ARGS = process.argv.slice(2);
+const BI = ARGS.indexOf("--base");
+const EXTERNAL_BASE = BI >= 0 ? String(ARGS[BI + 1] || "").replace(/\/$/, "") : "";
+
 /* ── mock /api/ask（契约 4.5） ── */
 const KC = ["integral_definite", "integral_improper", "det"];
 const STATE = new Map();
@@ -189,8 +194,9 @@ class CDP {
   const exe = chromePath();
   if (!exe) { console.log("SKIP: 未找到 Chrome/Edge"); process.exit(0); }
 
-  const { srv, port } = await startServer();
-  const BASE = `http://127.0.0.1:${port}`;
+  const started = EXTERNAL_BASE ? null : await startServer();
+  const srv = started ? started.srv : null;
+  const BASE = EXTERNAL_BASE || `http://127.0.0.1:${started.port}`;
   const cdpPort = await freePort();
   const profile = path.join(os.tmpdir(), "wb-live-" + process.pid + "-" + Date.now());
   fs.mkdirSync(profile, { recursive: true });
@@ -203,7 +209,7 @@ class CDP {
 
   const done = (code) => {
     try { chrome.kill(); } catch (_) {}
-    try { srv.close(); } catch (_) {}
+    if (srv) { try { srv.close(); } catch (_) {} }
     try { fs.rmSync(profile, { recursive: true, force: true }); } catch (_) {}
     process.exit(code);
   };
@@ -293,13 +299,22 @@ class CDP {
   ok(JSON.stringify(levels) === JSON.stringify(["L1", "L2", "L3", "L4", "L4"]),
      "提示级别 L1→L2→L3→L4→L4", levels);
 
-  console.log("== C. 答对：判对 + 掌握度上升 ==");
-  const masteryBefore = await c.eval("document.querySelector('#kcs .kc .val').innerText");
-  await typeAndEnter("1");
-  const st = await c.eval(lastStudent);
-  const masteryAfter = await c.eval("document.querySelector('#kcs .kc .val').innerText");
-  ok(st && st.verdict.indexOf("对") >= 0, "最后一条学生气泡判为「对」", st);
-  ok(masteryBefore !== masteryAfter, "掌握度条发生变化", { masteryBefore, masteryAfter });
+  if (EXTERNAL_BASE) {
+    console.log("== C. 真后端模式：跳过「答对」断言（提示不报数值，无法反推答案）==");
+    const lv0 = await c.eval(lastHint);
+    await click('.quick button[data-a="hint"]');
+    await sleep(350);
+    const lv1 = await c.eval(lastHint);
+    ok(!!lv1 && (!lv0 || lv1 >= lv0), "点「再提示一点」级别不降", { lv0, lv1 });
+  } else {
+    console.log("== C. 答对：判对 + 掌握度上升 ==");
+    const masteryBefore = await c.eval("document.querySelector('#kcs .kc .val').innerText");
+    await typeAndEnter("1");
+    const st = await c.eval(lastStudent);
+    const masteryAfter = await c.eval("document.querySelector('#kcs .kc .val').innerText");
+    ok(st && st.verdict.indexOf("对") >= 0, "最后一条学生气泡判为「对」", st);
+    ok(masteryBefore !== masteryAfter, "掌握度条发生变化", { masteryBefore, masteryAfter });
+  }
 
   console.log("== D. 重置：回到第一题、对话清空 ==");
   await click('.quick button[data-a="reset"]');

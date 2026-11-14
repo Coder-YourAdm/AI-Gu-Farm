@@ -77,6 +77,8 @@ def build(out_dir: Path) -> list[Path]:
     written: list[Path] = []
     for page in PAGES:
         html = (WEB / page).read_text(encoding="utf-8")
+        # 离线分享包没有后端：强制把实时接口关掉，避免对方点实时吃到 404/黄条。
+        html = html.replace('endpoint: "/api/ask"', "endpoint: null")
         if "</head>" not in html:
             raise SystemExit(f"[X] {page} 里没有 </head>，无法注入")
         shim = SHIM % json.dumps(data, ensure_ascii=False, indent=1)
