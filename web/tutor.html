@@ -439,7 +439,7 @@
     var box = el("review-list");
     var rs = D.review_plan || [];
     if (!rs.length){
-      box.innerHTML = '<div class="why-empty">暂无到期复习。</div>';
+      box.innerHTML = '<div class="why-empty">暂无复习计划。</div>';
       return;
     }
     box.innerHTML = rs.map(function(r){
@@ -676,7 +676,7 @@
   function renderReviewLive(rs){
     var box = el("review-list");
     if (!rs || !rs.length){
-      box.innerHTML = '<div class="why-empty">暂无到期复习。</div>';
+      box.innerHTML = '<div class="why-empty">暂无复习计划。</div>';
       return;
     }
     box.innerHTML = rs.map(function(r){
