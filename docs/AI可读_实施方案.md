@@ -126,6 +126,20 @@ python -c "from app.executor import judge, statement; print('ok')"
 
 约束：`kcs` 恰 3 条；每条 `role="tutor"` 的轮次必须有 `why`，且三个数字来自真实计算。
 
+**已落地实现（A 组，2026-11-14）**，B/C 按这个读，不要按上面的示意 JSON 猜：
+
+- `why` 实为 **5 个键**：`mastery` / `difficulty` / `gap` / `last_error` / `memory`。
+  三个数字是 `mastery`（BKT 折叠值）、`difficulty`（DifficultyBook）、
+  `gap = difficulty - mastery`（>0 表示这题略高于当前水平）。
+  `last_error` 已是中文短句（由 err kind 翻译），前端直接显示即可。
+- `review_plan` 是**下次复习计划**（due 可以在生成时间之后），由
+  `schedule.plan_items()` 产出；`schedule.due_items()` 只回答「今天到期哪些」，
+  别拿它生成计划，否则数组恒为空。
+- `memory_timeline[].conf` = 该错题之后该 KC 的 BKT 掌握度（越高表示
+  错因越已被克服），不是随手写的 0.8。
+- 生成器 `tools/tutor_cli.py` 离线、幂等（固定时间戳），
+  `--turns 4` / `--turns 8` 都通过；输出前自检会拦住敏感字样。
+
 ### 4.4 `web/compare.json`
 
 ```json
@@ -232,6 +246,8 @@ def update_rating(rating: float, other: float, correct: bool, k: float = 16) -> 
 # app/student/schedule.py
 def item_after(correct: bool, interval: float, ease: float) -> tuple[float, float]: ...
 def due_items(events: list[dict], now, ease: float = 2.5) -> list[dict]: ...
+def plan_items(events: list[dict], ease: float = 2.5) -> list[dict]:
+    """所有 KC 的下次复习计划，不过滤是否到期；review_plan 用它。"""
 ```
 
 ```python
@@ -404,6 +420,17 @@ theta_elo = 1000 + 400·theta
 6. 其余 → `concept`
 
 实现必须用 `Fraction`，不许浮点比较。
+
+**判据 4 的准确解读**：`answer / reference` 化简后**分母为 1 且不等于 1 倍**
+（如答 `3/2`、参考 `3/4`，差 2 倍）。**不要**写成「差值是整数 → calc」：
+det 的差值几乎总是整数，那样会把判据 5 的 `misread` 全部吃掉。
+`reference = 0` 时跳过这一条（不能除零），也别把 `-0 == 0` 误判成 `sign`。
+
+**判分边界**：判对错只由 `executor.judge()` 决定。`classify()` 在 judge 判
+`unanswered` 时直接返回 `giveup`、判 `right` 时返回 `none`，只有 `wrong`
+才取出学生写的数做分类——它不是第二套判分实现。
+参考值结构损坏时由 `_ref_fraction` 抛 `ValueError`，上层应中止而不是
+记成一次答错。
 
 ### 6.5 提示梯度
 
