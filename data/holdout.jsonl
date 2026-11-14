@@ -1,0 +1,20 @@
+{"id": "Y01", "template": "gaussian_odd", "params": {"k": 2, "rate": 8, "c": -5}}
+{"id": "Y02", "template": "poly", "params": {"coeffs": [-5, -3, 2, -3, 1], "lower": 2, "upper": 7}}
+{"id": "Y03", "template": "gamma", "params": {"n": 6, "rate": 5, "c": 1}}
+{"id": "Y04", "template": "gaussian_odd", "params": {"k": 3, "rate": 1, "c": 1}}
+{"id": "Y05", "template": "poly", "params": {"coeffs": [3, -4, -5, -3, 1], "lower": -1, "upper": 5}}
+{"id": "Y06", "template": "gamma", "params": {"n": 6, "rate": 3, "c": 3}}
+{"id": "Y07", "template": "gaussian_odd", "params": {"k": 1, "rate": 5, "c": 3}}
+{"id": "Y08", "template": "poly", "params": {"coeffs": [4, -3, 0, -3], "lower": -2, "upper": 2}}
+{"id": "Y09", "template": "gamma", "params": {"n": 1, "rate": 1, "c": -4}}
+{"id": "Y10", "template": "gaussian_odd", "params": {"k": 2, "rate": 5, "c": 5}}
+{"id": "Y11", "template": "det", "params": {"matrix": [[4, -8, -3, -7, -8], [-6, -4, 3, 0, 4], [-7, -5, 0, -5, 3], [1, 7, -3, 4, 2], [0, 9, 2, -5, -5]]}}
+{"id": "Y12", "template": "det", "params": {"matrix": [[9, -4, 3], [-9, 0, 1], [0, 0, 5]]}}
+{"id": "Y13", "template": "det", "params": {"matrix": [[2, -9, -4, 4], [6, 3, 6, 2], [-7, 4, -8, -3], [-1, -9, 8, -5]]}}
+{"id": "Y14", "template": "det", "params": {"matrix": [[3, 0, 2], [-2, 8, 9], [-5, -3, 2]]}}
+{"id": "Y15", "template": "det", "params": {"matrix": [[-4, 1, 4, 0, -8], [6, 7, -6, -1, 4], [8, 9, 3, 5, -4], [5, -7, 4, -3, 3], [9, -8, -8, -6, -2]]}}
+{"id": "Y16", "template": "det", "params": {"matrix": [[0, 9, 1], [8, 2, 3], [-2, -7, -8]]}}
+{"id": "Y17", "template": "det", "params": {"matrix": [[-5, -3, 3], [-8, -5, 8], [3, -8, -5]]}}
+{"id": "Y18", "template": "det", "params": {"matrix": [[-9, 8], [3, 6]]}}
+{"id": "Y19", "template": "det", "params": {"matrix": [[5, 1, -7, 3, -4], [-9, -6, 7, -5, -4], [-1, 4, 9, 6, 9], [-4, 3, -2, 1, -5], [1, 2, 8, 9, 4]]}}
+{"id": "Y20", "template": "det", "params": {"matrix": [[-8, -4, 3], [-4, -2, 6], [-7, 7, -7]]}}

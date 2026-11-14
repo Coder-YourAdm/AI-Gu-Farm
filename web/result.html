@@ -255,6 +255,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="data.js"></script>
 <script>
 (function(){
 "use strict";
@@ -308,9 +309,19 @@ function deltaPP(run){
 /* ── 页眉徽章 ───────────────────────────────────────── */
 function renderBadges(){
   var m = D.metric, out = [];
-  out.push('<span class="badge' + (D.is_mock ? ' mock' : ' live') + '">' +
-    (D.is_mock ? '\u25CF mock · 未接真模型' : '\u25CF 真模型') +
-    ' <b>' + esc(D.model_id || D.backend || "") + '</b></span>');
+  /* 严格三分支：只有明确的 false 才给绿标。缺字段按「未标明」处理。
+     用真值判断（三元 + 裸字段）在字段缺失时会落到绿标一侧 —— 方向反了，
+     所以必须写成 === true / === false。tests/test_mock_flag.py 会拦这条。 */
+  if (D.is_mock === false) {
+    out.push('<span class="badge live">\u25CF 真模型 <b>' +
+      esc(D.model_id || D.backend || "") + '</b></span>');
+  } else if (D.is_mock === true) {
+    out.push('<span class="badge mock">\u25CF mock · 未接真模型 <b>' +
+      esc(D.model_id || D.backend || "") + '</b></span>');
+  } else {
+    out.push('<span class="badge mock">\u25CF 未标明真假 · 缺 is_mock <b>' +
+      esc(D.model_id || D.backend || "") + '</b></span>');
+  }
   out.push('<span class="badge">指标 <b>' + esc(m.name) + '</b></span>');
   out.push('<span class="badge">每趟 <b>' + m.n_tasks + '</b> 题</span>');
   out.push('<span class="badge">独立运行 <b>' + D.runs.length + '</b> 趟</span>');
@@ -498,22 +509,30 @@ function fail(msg){
   document.body.classList.remove("loading");
   el("main").innerHTML = '<div class="errbox">' +
     '<b>结果数据没读到。</b><br>' + esc(msg) + '<br><br>' +
-    '先跑 <code>python tests/make_fake_result.py</code> 生成 <code>web/result.json</code>，' +
-    '再用 <code>python app/serve.py</code> 打开本页（<code>file://</code> 直开会被浏览器的 ' +
-    'fetch 跨域策略拦掉）。' +
+    '先跑 <code>python tests/make_fake_result.py</code>（或 A 的真数据脚本）生成 ' +
+    '<code>web/result.json</code>，它会同时刷新 <code>web/data.js</code> —— 双击本页即可打开。' +
     '</div>';
 }
 
-fetch("result.json", { cache: "no-store" })
-  .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-  .then(function(j){
+/* 数据加载：优先 data.js（file:// 双击可用），fetch 只作本地服务下的兜底 */
+var BUNDLE = window.WB_DATA || null;
+function loadData(name, done, onerr){
+  var inlined = BUNDLE && BUNDLE[name];
+  if (inlined){ done(inlined); return; }
+  fetch(name, { cache: "no-store" })
+    .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(done)
+    .catch(onerr);
+}
+
+loadData("result.json", function(j){
     D = j;
     renderBadges(); renderVerdict(); renderTable(); renderEvidence(); renderFoot();
     document.body.classList.remove("loading");
     // 支持 #r1113E01 直接定位某一趟
     if (location.hash.length > 1) trace(decodeURIComponent(location.hash.slice(1)));
-  })
-  .catch(function(e){ fail("result.json 读取失败：" + e.message); });
+  },
+  function(e){ fail("result.json 与 data.js 都没读到：" + e.message); });
 })();
 </script>
 </body>

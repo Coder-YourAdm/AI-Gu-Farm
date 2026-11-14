@@ -23,6 +23,7 @@
     --line:rgba(255,255,255,.075); --line-strong:rgba(255,255,255,.16);
     --text:#e8eaed; --muted:#8b939e; --faint:#5d646e;
     --accent:#ffd166;
+    --bad:#ff6b6b;
     --s1:#5aa9ff; --s2:#ff7a33; --s3:#45d19a;
     --font-display:"Bahnschrift","DIN Alternate","Segoe UI Variable Display","Microsoft YaHei UI",sans-serif;
     --font-mono:"Cascadia Mono","Consolas","IBM Plex Mono",monospace;
@@ -59,6 +60,10 @@
   .chip b{color:var(--text);font-weight:600}
   .chip.hot{border-color:rgba(255,209,102,.45)}
   .chip.hot b{color:var(--accent)}
+  .chip.mock{border-color:rgba(255,107,107,.5);background:rgba(255,107,107,.09)}
+  .chip.mock b{color:var(--bad)}
+  .chip.live{border-color:rgba(69,209,154,.42);background:rgba(69,209,154,.07)}
+  .chip.live b{color:var(--s3)}
 
   /* 跨页导航：演示动线 大屏 → 双跑对照 → 结果页，不靠手输 URL */
   .nav{display:flex;gap:6px;align-self:center;margin-left:8px}
@@ -104,6 +109,15 @@
     gap:7px;max-height:302px;overflow:auto;padding-right:2px}
   .cards::-webkit-scrollbar{width:6px}
   .cards::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:3px}
+
+  /* 运行注记：异常不藏在日志里，逐条摆在页面上 */
+  .nt{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);
+    font-size:11.5px;line-height:1.65}
+  .nt:first-child{border-top:0;padding-top:0}
+  .ntg{flex:0 0 42px;font-family:var(--font-mono);font-size:10.5px;color:var(--accent);
+    letter-spacing:.04em;padding-top:1px}
+  .ntt{color:var(--muted)}
+  .ntt b{color:var(--text);font-weight:600}
   .card{background:var(--surface-2);border:1px solid var(--line);
     border-left:2px solid var(--faint);border-radius:4px;padding:7px 9px;
     font-size:12px;line-height:1.5;cursor:pointer;transition:border-color .15s,background .15s;
@@ -159,6 +173,7 @@
     <a href="result.html">结果页</a>
   </nav>
   <div class="metrics">
+    <span class="chip" id="hd-mock" style="display:none">—</span>
     <span class="chip">run_id <b id="hd-run">—</b></span>
     <span class="chip">条件 <b id="hd-cond">—</b></span>
     <span class="chip">已完成 <b id="hd-gen">—</b> 代</span>
@@ -179,6 +194,7 @@
       <span><i style="background:var(--s3)"></i>综合</span>
       <span style="margin-left:auto;color:var(--faint)">— — 挑战注入</span>
     </div>
+    <div class="hint" id="curve-note" style="display:none"></div>
   </section>
 
   <section class="panel" id="p-gen">
@@ -203,6 +219,12 @@
     <p class="hint">出身与父母；随代次滑块过滤，点开看它的 prompt。</p>
     <div class="cards" id="lin"></div>
   </section>
+
+  <section class="panel" id="p-note">
+    <h2><em>05</em>运行注记</h2>
+    <p class="hint">数据自己声明的缺口与异常，逐条标代次；不改数、不藏数。</p>
+    <div id="notes"></div>
+  </section>
 </main>
 
 <footer>
@@ -217,6 +239,7 @@
   </div>
 </div>
 
+<script src="data.js"></script>
 <script>
 (function () {
   "use strict";
@@ -233,8 +256,9 @@
       "color:#ffc9b0;border-radius:6px;padding:14px 16px;font-size:13px;line-height:1.8";
     box.innerHTML = "<b>数据没加载出来。</b><br>" + msg +
       (detail ? "<br><br><code>" + esc(detail) + "</code>" : "") +
-      "<br><br>用 <code>python app/serve.py</code> 打开 http://127.0.0.1:8000/ 再刷新。" +
-      "直接双击 file:// 打开时浏览器会禁止读取本地 JSON，这不是页面坏了。";
+      "<br><br>先跑 <code>python app/export.py --run runs/&lt;run_id&gt; --out web/history.json</code>，" +
+      "它会同时生成 <code>web/data.js</code> —— 双击本页就能开，不需要服务。" +
+      "若 data.js 也没有，浏览器禁止读本地 JSON，这不是页面坏了。";
   }
 
   /* ------------------------------------------------------------ 01 曲线 */
@@ -433,8 +457,109 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
 
+  /* ------------------------------------------------------------ 平线说明 */
+  /* 三条曲线全贴 0 时，第一眼像"数据没加载"。事实可能是题域对该模型已饱和 ——
+     这是真实结果，不是故障。两种情况必须区分，否则要么冤枉数据，要么放过故障。 */
+  function explainFlatCurve(){
+    var gens = D.generations || [];
+    var note = document.getElementById("curve-note");
+    if (!note) return;
+    if (gens.length < 2){ note.style.display = "none"; return; }
+    var KEYS = ["integral_failure", "det_failure", "balanced_failure"];
+    var measured = 0, nonzero = 0;
+    gens.forEach(function(g){
+      var a = g.ancestor || {};
+      KEYS.forEach(function(k){
+        if (typeof a[k] !== "number") return;
+        measured += 1;
+        if (a[k] > 0) nonzero += 1;
+      });
+    });
+    if (!measured){                       // 一条都没测到 = 真的缺数据
+      note.style.display = "";
+      note.textContent = "注：所有代次都没有祖先题测量值 —— 这是缺数据，不是「全对」。";
+      return;
+    }
+    if (nonzero > 0){
+      /* 全零之外还有另一种误读：整条曲线只偶尔冒一个尖，看起来像"数据不稳"。
+         其实那正是能力饱和的样子 —— 63 个点里 62 个是 0。讲清楚，别让人猜。 */
+      var zeros = measured - nonzero;
+      if (zeros / measured >= 0.9){
+        note.style.display = "";
+        note.textContent = "注：" + measured + " 个测量点里 " + zeros +
+          " 个为零失败，仅有 " + nonzero + " 个非零 —— 该题域对这一模型已接近饱和，" +
+          "学习环节几乎没有失败可供归纳。曲线为真实结果（run_id " +
+          (D.run_id || "—") + "）。";
+      } else {
+        note.style.display = "none";
+      }
+      return;
+    }
+    note.style.display = "";
+    note.textContent = "注：全部 " + gens.length + " 代、" + measured +
+      " 个测量点均为零失败 —— 该题域对这一模型已无难度梯度，" +
+      "学习环节因此没有失败可供归纳。曲线是真实结果（run_id " +
+      (D.run_id || "—") + "），不是缺数据。";
+  }
+
+  /* ------------------------------------------------ 05 运行注记 */
+  function renderNotes(){
+    var host = document.getElementById("notes");
+    if (!host) return;
+    var gens = D.generations || [];
+    var chalGens = 0, infraTotal = 0, others = [];
+
+    /* 每代 warnings 都在，但直接平铺会得到 21 条重复句。
+       两类高频句做聚合（挑战题未注入、infra 剔除），其余逐条按代次列出。 */
+    gens.forEach(function(g){
+      (g.warnings || []).forEach(function(w){
+        var s = String(w);
+        if (s.indexOf("未注入挑战题") !== -1){ chalGens++; return; }
+        var m = s.match(/^(\d+)\s*次调用属基础设施异常/);
+        if (m){ infraTotal += parseInt(m[1], 10); return; }
+        others.push({ gen: g.gen, text: s });
+      });
+    });
+
+    var rows = [];
+    if (chalGens){
+      rows.push(["全程", "挑战题 <b>0 次</b>注入（" + chalGens + " 代全部为空）：本运行器没有 challenge 队列。" +
+        "03 区那行「本次运行没有注入挑战」是数据缺口，不是渲染失败。"]);
+    }
+    if (infraTotal){
+      rows.push(["累计", "<b>" + infraTotal + " 次</b>调用属基础设施异常（推理截断 / 超时），" +
+        "已排除在能力分与判定之外——不算模型答错，也不进学习器。"]);
+    }
+    others.forEach(function(o){ rows.push(["g" + o.gen, esc(o.text)]); });
+
+    host.innerHTML = rows.length ? rows.map(function(r){
+      return '<div class="nt"><span class="ntg">' + r[0] + '</span>' +
+             '<span class="ntt">' + r[1] + '</span></div>';
+    }).join("") : '<div class="nt"><span class="ntg">—</span>' +
+      '<span class="ntt">本次运行没有声明任何异常。</span></div>';
+  }
+
   /* ------------------------------------------------------------ 启动 */
   function boot(){
+    /* 数据真伪标记：缺字段也算不合格 —— 分不清真假比显示假数据更危险 */
+    var mockEl = document.getElementById("hd-mock");
+    if (D.is_mock === true) {
+      mockEl.className = "chip mock";
+      mockEl.innerHTML = "<b>MOCK</b> 假数据";
+      mockEl.title = D.mock_reason || "这份数据不是真模型产出，不得进结论";
+      mockEl.style.display = "";
+    } else if (D.is_mock === false) {
+      mockEl.className = "chip live";
+      mockEl.innerHTML = "<b>REAL</b> 真模型";
+      mockEl.title = D.mock_reason || "真模型产出";
+      mockEl.style.display = "";
+    } else {
+      mockEl.className = "chip mock";
+      mockEl.innerHTML = "<b>?</b> 未标明真假";
+      mockEl.title = "history.json 缺 is_mock 字段，请用 app/export.py 重新导出";
+      mockEl.style.display = "";
+    }
+
     document.getElementById("hd-run").textContent = D.run_id || "—";
     document.getElementById("hd-cond").textContent = D.condition || "—";
     document.getElementById("hd-gen").textContent = (D.generations || []).length;
@@ -455,6 +580,8 @@
     renderBars(D.generations.length - 1);
     renderChal();
     renderLineage(D.generations.length - 1);
+    renderNotes();
+    explainFlatCurve();
 
     if ((D.problems || []).length){
       var box = document.getElementById("err");
@@ -479,10 +606,20 @@
     }
   });
 
-  fetch("history.json", {cache: "no-store"})
-    .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status + " " + r.statusText); return r.json(); })
-    .then(function(data){ D = data; boot(); })
-    .catch(function(e){ fail("无法读取 <code>history.json</code>。", e && e.message ? e.message : String(e)); });
+  /* 数据加载：双击 file:// 打开时浏览器把读本地 JSON 当跨域拦掉，所以优先读
+     data.js（app/webdata.py 打包的三份 JSON）。本地服务下两者都在，fetch 只是兜底。 */
+  var BUNDLE = window.WB_DATA || null;
+  function loadData(name, done, onerr){
+    var inlined = BUNDLE && BUNDLE[name];
+    if (inlined){ done(inlined); return; }
+    fetch(name, {cache: "no-store"})
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(done)
+      .catch(onerr);
+  }
+
+  loadData("history.json", function(data){ D = data; boot(); },
+    function(e){ fail("无法读取 <code>history.json</code>。", e && e.message ? e.message : String(e)); });
 })();
 </script>
 </body>

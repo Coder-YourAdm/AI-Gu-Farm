@@ -1,0 +1,5662 @@
+[
+ {
+  "id": "H001",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c3n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ + 3x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H002",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n4|c-3n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁴ − 3x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "3"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H003",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-9n3|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-9x³ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-13",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H004",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n3|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x³ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "9",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H005",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-7n4|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-7x⁴ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-15",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H006",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-6n3|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-6x³ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-1",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H007",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c3n4|c3n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (3x⁴ + 3x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "27",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H008",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n4|c8n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x⁴ + 8x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "9"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H009",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c2n4|c-2n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (2x⁴ − 2x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "1"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H010",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n4|c-9n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ − 9x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-75",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H011",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c6n4|c-9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (6x⁴ − 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "9",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H012",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c6n4|c8n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (6x⁴ + 8x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H013",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "33",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H014",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c-6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ − 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "9",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H015",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n4|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x⁴ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "31",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H016",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c-9n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ − 9x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "27",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H017",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ + 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "9"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H018",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n4|c-5n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁴ − 5x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "9",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H019",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 3
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-3n3|c3n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-3x³ + 3x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-3",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H020",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-5n4|c-6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-5x⁴ − 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-21",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H021",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n4|c9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁴ + 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "21",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H022",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-5n4|c-6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-5x⁴ − 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-6"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H023",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n4|c4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x⁴ + 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "7"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H024",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 3
+    },
+    {
+     "c": -8,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-5n3|c-8n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-5x³ − 8x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-31",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H025",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c2n4|c-7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (2x⁴ − 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-1",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H026",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n4|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁴ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "17",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H027",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-4n4|c-9n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-4x⁴ − 9x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-51",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H028",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 5,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n4|c5n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ + 5x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-33",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H029",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n4|c-4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ − 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-7"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H030",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-9n4|c-9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-9x⁴ − 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-9"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H031",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-4n4|c-4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-4x⁴ − 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H032",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n4|c8n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ + 8x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-3"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H033",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-6n3|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-6x³ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-3",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H034",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n3|c9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x³ + 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "21",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H035",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-6n3|c-5n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-6x³ − 5x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-7",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H036",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n4|c-9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x⁴ − 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H037",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 4
+    },
+    {
+     "c": -7,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-2n4|c-7n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-2x⁴ − 7x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-33",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H038",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-3n4|c-6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-3x⁴ − 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-9",
+   "denominator": "2"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H039",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n4|c3n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁴ + 3x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "4"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H040",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-7n4|c-3n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-7x⁴ − 3x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-51",
+   "denominator": "8"
+  },
+  "level": "L1"
+ },
+ {
+  "id": "H041",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": -7,
+     "n": 3
+    },
+    {
+     "c": -8,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-6n4|c-7n3|c-8n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-6x⁴ − 7x³ − 8x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-73",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H042",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n5|c2n4|c-5n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁵ + 2x⁴ − 5x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-59",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H043",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-7n5|c-9n4|c2n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-7x⁵ − 9x⁴ + 2x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-155",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H044",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 3
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c6n4|c-3n3|c8n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (6x⁴ − 3x³ + 8x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "43",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H045",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 3
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-8n4|c-3n3|c-7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ − 3x³ − 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-71",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H046",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n5|c8n3|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁵ + 8x³ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "111",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H047",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 5
+    },
+    {
+     "c": -2,
+     "n": 3
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c7n5|c-2n3|c9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (7x⁵ − 2x³ + 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "117",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H048",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-2n4|c-4n3|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-2x⁴ − 4x³ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-5",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H049",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": 5,
+     "n": 4
+    },
+    {
+     "c": 2,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n5|c5n4|c2n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁵ + 5x⁴ + 2x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "111",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H050",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": -8,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c6n5|c9n4|c-8n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (6x⁵ + 9x⁴ − 8x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "15"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H051",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": 2,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c2n4|c2n3|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (2x⁴ + 2x³ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H052",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 5
+    },
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n5|c-3n4|c-6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁵ − 3x⁴ − 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H053",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c6n5|c-5n4|c-4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (6x⁵ − 5x⁴ − 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "13",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H054",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-2n5|c4n4|c6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-2x⁵ + 4x⁴ + 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "3",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H055",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 5
+    },
+    {
+     "c": -4,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c7n5|c-4n4|c-4n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (7x⁵ − 4x⁴ − 4x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "69",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H056",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 3
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-7n4|c-5n3|c-2n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-7x⁴ − 5x³ − 2x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-61",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H057",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 5
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": -7,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-3n5|c3n4|c-7n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-3x⁵ + 3x⁴ − 7x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-6"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H058",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c3n5|c9n4|c-7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (3x⁵ + 9x⁴ − 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "85",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H059",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n4|c8n3|c-9n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁴ + 8x³ − 9x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "9",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H060",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": 5,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n5|c9n4|c5n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁵ + 9x⁴ + 5x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "129",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H061",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-4n5|c8n4|c6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-4x⁵ + 8x⁴ + 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "3",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H062",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c4n5|c-7n4|c4n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (4x⁵ − 7x⁴ + 4x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "15",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H063",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 5
+    },
+    {
+     "c": 7,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c8n5|c7n4|c6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (8x⁵ + 7x⁴ + 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "87",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H064",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": 5,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c7n5|c-6n3|c5n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (7x⁵ − 6x³ + 5x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "97",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H065",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n5|c-7n4|c-5n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ − 7x⁴ − 5x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "83",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H066",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-5n4|c6n3|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-5x⁴ + 6x³ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H067",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-9n4|c-6n3|c-4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-9x⁴ − 6x³ − 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-10"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H068",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c2n4|c-9n3|c4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (2x⁴ − 9x³ + 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-7",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H069",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": 7,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c9n5|c7n4|c4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ + 7x⁴ + 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "185",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H070",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": 5,
+     "n": 4
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n5|c5n4|c7n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁵ + 5x⁴ + 7x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "119",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H071",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 5
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c7n5|c3n4|c3n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (7x⁵ + 3x⁴ + 3x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "129",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H072",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-3n4|c8n3|c-2n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-3x⁴ + 8x³ − 2x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H073",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-5n5|c8n4|c-6n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-5x⁵ + 8x⁴ − 6x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-45",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H074",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    },
+    {
+     "c": -6,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-4n4|c-4n3|c-6n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-4x⁴ − 4x³ − 6x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "integer",
+   "value": "-6"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H075",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-4n5|c4n4|c-4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-4x⁵ + 4x⁴ − 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-11",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H076",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c2n5|c-7n4|c8n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (2x⁵ − 7x⁴ + 8x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H077",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c7n4|c4n3|c2n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (7x⁴ + 4x³ + 2x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "29",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H078",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 3
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c5n5|c-5n3|c-5n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (5x⁵ − 5x³ − 5x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "25",
+   "denominator": "4"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H079",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c-7n5|c-6n4|c8n3|rate=2",
+  "statement": "计算积分 ∫₀^∞ (-7x⁵ − 6x⁴ + 8x³) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-117",
+   "denominator": "8"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H080",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": -3,
+     "n": 3
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 2
+  },
+  "signature": "gamma_sum|c3n5|c-3n3|c4n2|rate=2",
+  "statement": "计算积分 ∫₀^∞ (3x⁵ − 3x³ + 4x²) e^(−2x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "11",
+   "denominator": "2"
+  },
+  "level": "L2"
+ },
+ {
+  "id": "H081",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 6
+    },
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n6|c-8n5|c-5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁶ − 8x⁵ − 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-890",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H082",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n5|c8n4|c9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁵ + 8x⁴ + 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "26",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H083",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 6
+    },
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c6n6|c2n5|c-7n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (6x⁶ + 2x⁵ − 7x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "434",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H084",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 6
+    },
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n6|c-6n4|c9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁶ − 6x⁴ + 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-74",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H085",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 6
+    },
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n6|c9n5|c-7n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁶ + 9x⁵ − 7x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "158",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H086",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 6
+    },
+    {
+     "c": -4,
+     "n": 5
+    },
+    {
+     "c": -3,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n6|c-4n5|c-3n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁶ − 4x⁵ − 3x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-2",
+   "denominator": "9"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H087",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n5|c-6n4|c-3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁵ − 6x⁴ − 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-478",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H088",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": 5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n5|c8n3|c5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁵ + 8x³ + 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-86",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H089",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 6
+    },
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": -9,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-9n6|c2n5|c-9n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-9x⁶ + 2x⁵ − 9x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-802",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H090",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n5|c-7n4|c4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁵ − 7x⁴ + 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-416",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H091",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 6
+    },
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n6|c2n4|c-4n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁶ + 2x⁴ − 4x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-88",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H092",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": -2,
+     "n": 3
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n5|c-2n3|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁵ − 2x³ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "76",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H093",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n4|c-9n3|c4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁴ − 9x³ + 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-26",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H094",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 6
+    },
+    {
+     "c": -5,
+     "n": 5
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n6|c-5n5|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁶ − 5x⁵ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-706",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H095",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n5|c-6n3|c2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁵ − 6x³ + 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "16",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H096",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 6
+    },
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-5n6|c-7n5|c9n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-5x⁶ − 7x⁵ + 9x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-518",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H097",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-4n6|c3n5|c-2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-4x⁶ + 3x⁵ − 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-236",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H098",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 6
+    },
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c8n6|c-9n4|c-5n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (8x⁶ − 9x⁴ − 5x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "334",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H099",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-9n4|c-9n3|c-7n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-9x⁴ − 9x³ − 7x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-56",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H100",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 6
+    },
+    {
+     "c": 7,
+     "n": 5
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-4n6|c7n5|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-4x⁶ + 7x⁵ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "14",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H101",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 6
+    },
+    {
+     "c": -6,
+     "n": 5
+    },
+    {
+     "c": 5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n6|c-6n5|c5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁶ − 6x⁵ + 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "10",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H102",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 3
+    },
+    {
+     "c": -7,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n6|c3n3|c-7n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁶ + 3x³ − 7x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-184",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H103",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 6
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n6|c4n3|c-2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁶ + 4x³ − 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "92",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H104",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 6
+    },
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": -8,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c4n6|c2n5|c-8n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (4x⁶ + 2x⁵ − 8x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "208",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H105",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 3
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n5|c9n3|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ + 9x³ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "64",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H106",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 6
+    },
+    {
+     "c": 6,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n6|c6n5|c4n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁶ + 6x⁵ + 4x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "352",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H107",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n4|c8n3|c-5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁴ + 8x³ − 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-2",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H108",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 6
+    },
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c8n6|c6n4|c4n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (8x⁶ + 6x⁴ + 4x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "856",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H109",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 6
+    },
+    {
+     "c": 5,
+     "n": 4
+    },
+    {
+     "c": 2,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n6|c5n4|c2n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁶ + 5x⁴ + 2x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-4",
+   "denominator": "3"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H110",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n5|c4n3|c2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ + 4x³ + 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "52",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H111",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 6,
+     "n": 6
+    },
+    {
+     "c": -6,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c6n6|c-6n5|c8n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (6x⁶ − 6x⁵ + 8x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "16",
+   "denominator": "9"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H112",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 6
+    },
+    {
+     "c": 8,
+     "n": 5
+    },
+    {
+     "c": -8,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n6|c8n5|c-8n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁶ + 8x⁵ − 8x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-32",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H113",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n5|c-3n4|c-4n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ − 3x⁴ − 4x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "8",
+   "denominator": "9"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H114",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 4
+    },
+    {
+     "c": 5,
+     "n": 3
+    },
+    {
+     "c": -5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n4|c5n3|c-5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁴ + 5x³ − 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-8",
+   "denominator": "27"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H115",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 6
+    },
+    {
+     "c": -9,
+     "n": 5
+    },
+    {
+     "c": 6,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n6|c-9n5|c6n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁶ − 9x⁵ + 6x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-4",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H116",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 5
+    },
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n5|c-9n4|c-3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁵ − 9x⁴ − 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-130",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H117",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 6
+    },
+    {
+     "c": 7,
+     "n": 3
+    },
+    {
+     "c": 5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n6|c7n3|c5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁶ + 7x³ + 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-8",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H118",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 3
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n5|c9n3|c4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁵ + 9x³ + 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "118",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H119",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": -2,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n5|c-2n4|c3n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁵ − 2x⁴ + 3x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "86",
+   "denominator": "243"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H120",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 3
+    },
+    {
+     "c": 4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n4|c6n3|c4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁴ + 6x³ + 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-4",
+   "denominator": "81"
+  },
+  "level": "L3"
+ },
+ {
+  "id": "H121",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 7
+    },
+    {
+     "c": 5,
+     "n": 6
+    },
+    {
+     "c": -5,
+     "n": 5
+    },
+    {
+     "c": -8,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n7|c5n6|c-5n5|c-8n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁷ + 5x⁶ − 5x⁵ − 8x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-1112",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H122",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 7
+    },
+    {
+     "c": 6,
+     "n": 6
+    },
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n7|c6n6|c5n5|c-6n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁷ + 6x⁶ + 5x⁵ − 6x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-2872",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H123",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 7
+    },
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": 7,
+     "n": 3
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c4n7|c6n4|c7n3|c-2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (4x⁷ + 6x⁴ + 7x³ − 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "2942",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H124",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 7
+    },
+    {
+     "c": 3,
+     "n": 6
+    },
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 4
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n7|c3n6|c9n5|c9n4|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁷ + 3x⁶ + 9x⁵ + 9x⁴) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-1472",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H125",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 6
+    },
+    {
+     "c": 6,
+     "n": 5
+    },
+    {
+     "c": -7,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c8n6|c6n5|c-7n4|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (8x⁶ + 6x⁵ − 7x⁴ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "856",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H126",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 7
+    },
+    {
+     "c": -2,
+     "n": 5
+    },
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n7|c-2n5|c6n4|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁷ − 2x⁵ + 6x⁴ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1744",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H127",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 7
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": -2,
+     "n": 3
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n7|c3n4|c-2n3|c-4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁷ + 3x⁴ − 2x³ − 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1012",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H128",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 7
+    },
+    {
+     "c": 2,
+     "n": 6
+    },
+    {
+     "c": -8,
+     "n": 3
+    },
+    {
+     "c": -3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n7|c2n6|c-8n3|c-3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁷ + 2x⁶ − 8x³ − 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-386",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H129",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 6
+    },
+    {
+     "c": 7,
+     "n": 4
+    },
+    {
+     "c": 2,
+     "n": 3
+    },
+    {
+     "c": 6,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c5n6|c7n4|c2n3|c6n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (5x⁶ + 7x⁴ + 2x³ + 6x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "712",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H130",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 6
+    },
+    {
+     "c": 4,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n6|c4n5|c4n3|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁶ + 4x⁵ + 4x³ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "536",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H131",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 7
+    },
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": 5,
+     "n": 3
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n7|c4n4|c5n3|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁷ + 4x⁴ + 5x³ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "1840",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H132",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 6
+    },
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-5n6|c-7n5|c-6n4|c-9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-5x⁶ − 7x⁵ − 6x⁴ − 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-986",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H133",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -9,
+     "n": 7
+    },
+    {
+     "c": -3,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": -4,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-9n7|c-3n6|c3n4|c-4n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-9x⁷ − 3x⁶ + 3x⁴ − 4x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-640",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H134",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    },
+    {
+     "c": -6,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n5|c-5n4|c3n3|c-6n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁵ − 5x⁴ + 3x³ − 6x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "62",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H135",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 7
+    },
+    {
+     "c": -7,
+     "n": 6
+    },
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n7|c-7n6|c8n4|c9n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁷ − 7x⁶ + 8x⁴ + 9x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-442",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H136",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 7
+    },
+    {
+     "c": -9,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 4
+    },
+    {
+     "c": -3,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-5n7|c-9n5|c-6n4|c-3n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-5x⁷ − 9x⁵ − 6x⁴ − 3x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-4474",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H137",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 7
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": -2,
+     "n": 3
+    },
+    {
+     "c": 5,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n7|c3n4|c-2n3|c5n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁷ + 3x⁴ − 2x³ + 5x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "686",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H138",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 5,
+     "n": 7
+    },
+    {
+     "c": 2,
+     "n": 5
+    },
+    {
+     "c": 8,
+     "n": 4
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c5n7|c2n5|c8n4|c9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (5x⁷ + 2x⁵ + 8x⁴ + 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "4102",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H139",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 7,
+     "n": 7
+    },
+    {
+     "c": -2,
+     "n": 5
+    },
+    {
+     "c": 7,
+     "n": 3
+    },
+    {
+     "c": -9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c7n7|c-2n5|c7n3|c-9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (7x⁷ − 2x⁵ + 7x³ − 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "3572",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H140",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -5,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 4
+    },
+    {
+     "c": 8,
+     "n": 3
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-5n5|c-5n4|c8n3|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-5x⁵ − 5x⁴ + 8x³ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-122",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H141",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -3,
+     "n": 7
+    },
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": 7,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-3n7|c-9n4|c4n3|c7n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-3x⁷ − 9x⁴ + 4x³ + 7x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-578",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H142",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 8,
+     "n": 5
+    },
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": 4,
+     "n": 3
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c8n5|c6n4|c4n3|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (8x⁵ + 6x⁴ + 4x³ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "680",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H143",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 7
+    },
+    {
+     "c": -5,
+     "n": 6
+    },
+    {
+     "c": -9,
+     "n": 4
+    },
+    {
+     "c": -9,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n7|c-5n6|c-9n4|c-9n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁷ − 5x⁶ − 9x⁴ − 9x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-6254",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H144",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 7
+    },
+    {
+     "c": -6,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 4
+    },
+    {
+     "c": -5,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n7|c-6n5|c9n4|c-5n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁷ − 6x⁵ + 9x⁴ − 5x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "446",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H145",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -6,
+     "n": 7
+    },
+    {
+     "c": 7,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": -6,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-6n7|c7n6|c3n5|c-6n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-6x⁷ + 7x⁶ + 3x⁵ − 6x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-548",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H146",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 4,
+     "n": 7
+    },
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": 7,
+     "n": 3
+    },
+    {
+     "c": -4,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c4n7|c2n4|c7n3|c-4n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (4x⁷ + 2x⁴ + 7x³ − 4x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "2546",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H147",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 9,
+     "n": 6
+    },
+    {
+     "c": -4,
+     "n": 5
+    },
+    {
+     "c": 3,
+     "n": 4
+    },
+    {
+     "c": 6,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c9n6|c-4n5|c3n4|c6n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (9x⁶ − 4x⁵ + 3x⁴ + 6x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "740",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H148",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 7
+    },
+    {
+     "c": -2,
+     "n": 6
+    },
+    {
+     "c": -7,
+     "n": 5
+    },
+    {
+     "c": -2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n7|c-2n6|c-7n5|c-2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁷ − 2x⁶ − 7x⁵ − 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-5348",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H149",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 7
+    },
+    {
+     "c": -9,
+     "n": 6
+    },
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n7|c-9n6|c-9n3|c2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁷ − 9x⁶ − 9x³ + 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-3658",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H150",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": 2,
+     "n": 4
+    },
+    {
+     "c": -2,
+     "n": 3
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n5|c2n4|c-2n3|c9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁵ + 2x⁴ − 2x³ + 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-146",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H151",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 3,
+     "n": 7
+    },
+    {
+     "c": -2,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 3
+    },
+    {
+     "c": 8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c3n7|c-2n6|c3n3|c8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (3x⁷ − 2x⁶ + 3x³ + 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "598",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H152",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 7
+    },
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n7|c-8n4|c3n3|c2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁷ − 8x⁴ + 3x³ + 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-1426",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H153",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 6
+    },
+    {
+     "c": 3,
+     "n": 5
+    },
+    {
+     "c": 4,
+     "n": 4
+    },
+    {
+     "c": -8,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n6|c3n5|c4n4|c-8n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁶ + 3x⁵ + 4x⁴ − 8x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-88",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H154",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -4,
+     "n": 6
+    },
+    {
+     "c": -3,
+     "n": 5
+    },
+    {
+     "c": 9,
+     "n": 3
+    },
+    {
+     "c": 9,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-4n6|c-3n5|c9n3|c9n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-4x⁶ − 3x⁵ + 9x³ + 9x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-116",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H155",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -8,
+     "n": 7
+    },
+    {
+     "c": -4,
+     "n": 5
+    },
+    {
+     "c": -5,
+     "n": 3
+    },
+    {
+     "c": 3,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-8n7|c-4n5|c-5n3|c3n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-8x⁷ − 4x⁵ − 5x³ + 3x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-5068",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H156",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": 2,
+     "n": 6
+    },
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": 6,
+     "n": 4
+    },
+    {
+     "c": -6,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c2n6|c-8n5|c6n4|c-6n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (2x⁶ − 8x⁵ + 6x⁴ − 6x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-124",
+   "denominator": "243"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H157",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 6
+    },
+    {
+     "c": 5,
+     "n": 5
+    },
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n6|c5n5|c-8n4|c3n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁶ + 5x⁵ − 8x⁴ + 3x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-166",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H158",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 6
+    },
+    {
+     "c": -8,
+     "n": 5
+    },
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": 3,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n6|c-8n5|c-8n4|c3n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁶ − 8x⁵ − 8x⁴ + 3x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-206",
+   "denominator": "81"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H159",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -2,
+     "n": 7
+    },
+    {
+     "c": -6,
+     "n": 6
+    },
+    {
+     "c": -8,
+     "n": 4
+    },
+    {
+     "c": -2,
+     "n": 3
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-2n7|c-6n6|c-8n4|c-2n3|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-2x⁷ − 6x⁶ − 8x⁴ − 2x³) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-3244",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "H160",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "integral",
+  "template": "gamma_sum",
+  "params": {
+   "terms": [
+    {
+     "c": -7,
+     "n": 7
+    },
+    {
+     "c": 2,
+     "n": 6
+    },
+    {
+     "c": -9,
+     "n": 3
+    },
+    {
+     "c": 2,
+     "n": 2
+    }
+   ],
+   "rate": 3
+  },
+  "signature": "gamma_sum|c-7n7|c2n6|c-9n3|c2n2|rate=3",
+  "statement": "计算积分 ∫₀^∞ (-7x⁷ + 2x⁶ − 9x³ + 2x²) e^(−3x) dx 的精确值。",
+  "reference": {
+   "kind": "rational",
+   "numerator": "-3818",
+   "denominator": "729"
+  },
+  "level": "L4"
+ },
+ {
+  "id": "D11",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     4,
+     2,
+     8,
+     5,
+     -6
+    ],
+    [
+     0,
+     -1,
+     -9,
+     -9,
+     -4
+    ],
+    [
+     -4,
+     -5,
+     -7,
+     6,
+     2
+    ],
+    [
+     -5,
+     7,
+     -3,
+     3,
+     1
+    ],
+    [
+     -2,
+     -3,
+     4,
+     1,
+     -7
+    ]
+   ]
+  },
+  "signature": "det|matrix=4,2,8,5,-6;0,-1,-9,-9,-4;-4,-5,-7,6,2;-5,7,-3,3,1;-2,-3,4,1,-7",
+  "statement": "计算下列 5 阶矩阵的行列式：[[4, 2, 8, 5, -6], [0, -1, -9, -9, -4], [-4, -5, -7, 6, 2], [-5, 7, -3, 3, 1], [-2, -3, 4, 1, -7]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "66060"
+  }
+ },
+ {
+  "id": "D12",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -7,
+     7,
+     -4,
+     -2
+    ],
+    [
+     7,
+     4,
+     -7,
+     -5
+    ],
+    [
+     -9,
+     8,
+     -9,
+     -4
+    ],
+    [
+     4,
+     -5,
+     7,
+     -3
+    ]
+   ]
+  },
+  "signature": "det|matrix=-7,7,-4,-2;7,4,-7,-5;-9,8,-9,-4;4,-5,7,-3",
+  "statement": "计算下列 4 阶矩阵的行列式：[[-7, 7, -4, -2], [7, 4, -7, -5], [-9, 8, -9, -4], [4, -5, 7, -3]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "-2378"
+  }
+ },
+ {
+  "id": "D13",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     0,
+     -8,
+     8,
+     0
+    ],
+    [
+     -9,
+     9,
+     -3,
+     3
+    ],
+    [
+     2,
+     7,
+     2,
+     -8
+    ],
+    [
+     0,
+     -6,
+     4,
+     -2
+    ]
+   ]
+  },
+  "signature": "det|matrix=0,-8,8,0;-9,9,-3,3;2,7,2,-8;0,-6,4,-2",
+  "statement": "计算下列 4 阶矩阵的行列式：[[0, -8, 8, 0], [-9, 9, -3, 3], [2, 7, 2, -8], [0, -6, 4, -2]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "2544"
+  }
+ },
+ {
+  "id": "D14",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -5,
+     7,
+     2
+    ],
+    [
+     -2,
+     -8,
+     -3
+    ],
+    [
+     -7,
+     1,
+     -3
+    ]
+   ]
+  },
+  "signature": "det|matrix=-5,7,2;-2,-8,-3;-7,1,-3",
+  "statement": "计算下列 3 阶矩阵的行列式：[[-5, 7, 2], [-2, -8, -3], [-7, 1, -3]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "-146"
+  }
+ },
+ {
+  "id": "D15",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -5,
+     4,
+     -4,
+     7
+    ],
+    [
+     1,
+     -7,
+     3,
+     -2
+    ],
+    [
+     -9,
+     -1,
+     -7,
+     9
+    ],
+    [
+     -3,
+     0,
+     2,
+     6
+    ]
+   ]
+  },
+  "signature": "det|matrix=-5,4,-4,7;1,-7,3,-2;-9,-1,-7,9;-3,0,2,6",
+  "statement": "计算下列 4 阶矩阵的行列式：[[-5, 4, -4, 7], [1, -7, 3, -2], [-9, -1, -7, 9], [-3, 0, 2, 6]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "138"
+  }
+ },
+ {
+  "id": "D16",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -2,
+     8,
+     7
+    ],
+    [
+     -4,
+     3,
+     -8
+    ],
+    [
+     8,
+     1,
+     6
+    ]
+   ]
+  },
+  "signature": "det|matrix=-2,8,7;-4,3,-8;8,1,6",
+  "statement": "计算下列 3 阶矩阵的行列式：[[-2, 8, 7], [-4, 3, -8], [8, 1, 6]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "-568"
+  }
+ },
+ {
+  "id": "D17",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     9,
+     -5,
+     -4,
+     8
+    ],
+    [
+     -6,
+     -7,
+     0,
+     4
+    ],
+    [
+     2,
+     -6,
+     -4,
+     -8
+    ],
+    [
+     5,
+     6,
+     -8,
+     6
+    ]
+   ]
+  },
+  "signature": "det|matrix=9,-5,-4,8;-6,-7,0,4;2,-6,-4,-8;5,6,-8,6",
+  "statement": "计算下列 4 阶矩阵的行列式：[[9, -5, -4, 8], [-6, -7, 0, 4], [2, -6, -4, -8], [5, 6, -8, 6]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "12248"
+  }
+ },
+ {
+  "id": "D18",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -7,
+     -5,
+     -1
+    ],
+    [
+     -4,
+     4,
+     -6
+    ],
+    [
+     4,
+     8,
+     -5
+    ]
+   ]
+  },
+  "signature": "det|matrix=-7,-5,-1;-4,4,-6;4,8,-5",
+  "statement": "计算下列 3 阶矩阵的行列式：[[-7, -5, -1], [-4, 4, -6], [4, 8, -5]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "72"
+  }
+ },
+ {
+  "id": "D19",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -9,
+     8,
+     -7
+    ],
+    [
+     -6,
+     -9,
+     -7
+    ],
+    [
+     0,
+     0,
+     -3
+    ]
+   ]
+  },
+  "signature": "det|matrix=-9,8,-7;-6,-9,-7;0,0,-3",
+  "statement": "计算下列 3 阶矩阵的行列式：[[-9, 8, -7], [-6, -9, -7], [0, 0, -3]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "-387"
+  }
+ },
+ {
+  "id": "D20",
+  "source": "hard_bank",
+  "by": null,
+  "gen": null,
+  "type": "det",
+  "template": "det",
+  "params": {
+   "matrix": [
+    [
+     -2,
+     7,
+     -3,
+     9
+    ],
+    [
+     -5,
+     3,
+     9,
+     -1
+    ],
+    [
+     -4,
+     1,
+     0,
+     8
+    ],
+    [
+     6,
+     -6,
+     6,
+     -5
+    ]
+   ]
+  },
+  "signature": "det|matrix=-2,7,-3,9;-5,3,9,-1;-4,1,0,8;6,-6,6,-5",
+  "statement": "计算下列 4 阶矩阵的行列式：[[-2, 7, -3, 9], [-5, 3, 9, -1], [-4, 1, 0, 8], [6, -6, 6, -5]]。",
+  "reference": {
+   "kind": "integer",
+   "value": "-3927"
+  }
+ }
+]

@@ -10,8 +10,9 @@
             → `--allow-rollback` 打开 POST /api/rollback，页面按钮一点就真回退
 
 为什么必须有它：
-    浏览器不允许 file:// 页面 fetch 本地 JSON（CORS）。双击 index.html 会白屏，
-    不是页面坏了。这个脚本把 web/ 目录挂到 127.0.0.1，断网也能演示。
+    页面现在有两条数据通路：同目录的 `data.js`（`<script src>` 同步加载，file:// 双击
+    也能开）和 `fetch("*.json")`（本地服务下的兜底）。这个脚本提供后者，并且是
+    唯一能让"点按钮真回退"生效的地方 —— file:// 下没有服务端，回退只能手动敲命令。
 
 用法
 ----
@@ -62,8 +63,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self._json(400, {"error": "evolve.json 里没有 pair_id"})
                 return
             sys.path.insert(0, str(ROOT))
-            from app.demo import rollback  # 延迟导入，静态服务不依赖它
+            from app.demo import mark_rollback_verified, rollback  # 延迟导入，静态服务不依赖它
             res = rollback(pair, "v0_seed")
+            mark_rollback_verified(res)     # 留下"真的回退过"的证据
             self._json(200, res)
         except SystemExit as e:          # demo.rollback 用 SystemExit 报错
             self._json(400, {"error": str(e)})

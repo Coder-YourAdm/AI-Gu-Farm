@@ -42,6 +42,7 @@ import concurrent.futures as cf
 import hashlib
 import json
 import os
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -51,7 +52,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from app.evolve_schema import (  # noqa: E402
-    SCHEMA, SCHEMA_VERSION, validate, verdict_of,
+    SCHEMA, SCHEMA_VERSION, compare_passes, validate, verdict_of,
 )
 
 RUNS = ROOT / "runs"
@@ -122,8 +123,6 @@ def seed_state() -> dict:
 
 
 def pair_dir(pair: str) -> Path:
-    if not pair or pair.strip() != pair or any(s in pair for s in ('/', '\\', ':', '..')):
-        raise ValueError('pair 必须是单一目录名称')
     return RUNS / pair
 
 
@@ -155,12 +154,25 @@ def learn_from(pass1: dict, prev_state: dict) -> dict:
     规则由族级失败率触发，记忆文本直接引自 pass1 的错误原因。
     """
     st = json.loads(json.dumps(prev_state))
-    if pass1.get('status') == 'aborted' or any(t.get('transport_error') for t in pass1['per_task']):
-        raise ValueError('调用失败的运行不能生成学习规则')
+    # 整趟挂掉不许归纳。C 这边的判据是 status=aborted（全题 infra 才置位）；
+    # 也认旧的 transport_error 标记，兼容 B 侧历史数据。
+    # 注意区分：**部分题**故障仍可学习（下面逐题排除），只有整趟失败才拒绝。
+    if (pass1.get("status") == "aborted"
+            or any(t.get("transport_error") for t in pass1["per_task"])):
+        raise ValueError("调用失败的运行不能生成学习规则")
     fail: dict[str, list[dict]] = {}
+    infra_ids: list[str] = []
     for t in pass1["per_task"]:
-        if not t["correct"]:
-            fail.setdefault(t["family"], []).append(t)
+        if t["correct"]:
+            continue
+        # 基础设施故障不进学习。2026-11-13 实测：K11 因推理 token 超预算被截断，
+        # 学习器把它当成"行列式算法不行"，自动写出一条 Bareiss 主元规则 —— 一条
+        # 完全对症不了的假规则，还会被注入下一趟的 prompt。人不会被自己的手滑
+        # 教会东西，机器也不该。所以超时/截断/接口报错一律隔离上报，不参与归纳。
+        if t.get("infra"):
+            infra_ids.append(t["id"])
+            continue
+        fail.setdefault(t["family"], []).append(t)
 
     total_by_fam: dict[str, int] = {}
     for t in pass1["per_task"]:
@@ -196,6 +208,11 @@ def learn_from(pass1: dict, prev_state: dict) -> dict:
 
     st["rules"].extend(new_rules)
     st["memories"].extend(new_mems)
+    # 被排除的故障要留在账上，否则"这趟没学到东西"会被误读成"模型全对了"
+    if infra_ids:
+        st["infra_excluded"] = sorted(set(st.get("infra_excluded") or []) | set(infra_ids))
+        print(f"  ⚠ {len(infra_ids)} 题因基础设施异常被排除在学习之外："
+              f"{'、'.join(infra_ids)}（不是能力问题，别据此加规则）", flush=True)
     if new_rules:
         st["verify_depth"] = min(3, int(st.get("verify_depth", 1)) + 1)
     st["version"] = "v1_learned"
@@ -221,20 +238,40 @@ def build_check_instruction(state: dict) -> str:
 
 
 # ────────────────────────────── 题库 ──────────────────────────────
-def load_bank() -> list[dict]:
-    """返回 bank 行：{"family", "answer_format", "mock_wrong_reason", "task"}。"""
-    if not BANK_FILE.exists():
+def load_bank(path: Path | None = None) -> list[dict]:
+    """返回 bank 行：{"family", "answer_format", "mock_wrong_reason", "task"}。
+
+    兼容两种磁盘格式：
+      · verify_bank.json —— 每条已包好 `{"task": {...}, "family": ...}`
+      · calibration.json / common_dev.json —— 裸 task 数组
+    为什么要兼容：verify_bank 是附录 A 的**执行器验收用例**（∫(x+1)dx 一类），
+    拿它做能力演示必然 10/10，20 代曲线会是一条毫无信息的直线。演示要用的
+    是 calibration 那种有难度梯度的题集，而它是裸 task 格式，直接喂会 KeyError。
+    """
+    path = path or BANK_FILE
+    if not path.exists():
         raise SystemExit(
-            f"✗ 找不到验证题库 {BANK_FILE}\n"
+            f"✗ 找不到验证题库 {path}\n"
             "  先运行 python tests/make_verify_bank.py\n"
             "  题库必须冻结：现场生成 = 换题 = 两次不可比"
         )
-    payload = json.loads(BANK_FILE.read_text(encoding="utf-8"))
+    payload = json.loads(path.read_text(encoding="utf-8"))
     rows = payload["tasks"] if isinstance(payload, dict) else payload
+
+    out: list[dict] = []
     for i, r in enumerate(rows):
-        if "task" not in r:
-            raise SystemExit(f"✗ 题库第 {i} 条缺 task 子对象，请重新跑 make_verify_bank.py")
-    return rows
+        if "task" in r:                       # 已包装格式
+            out.append(r)
+            continue
+        if "statement" not in r:              # 既没包装也不是 task
+            raise SystemExit(f"✗ 题库 {path} 第 {i} 条既无 task 也无 statement")
+        out.append({
+            "family": r.get("family") or r.get("type") or "?",
+            "answer_format": (r.get("answer_format")
+                              or "integer, fraction or finite decimal"),
+            "task": r,
+        })
+    return out
 
 
 def reference_text(task: dict) -> str:
@@ -295,6 +332,22 @@ def wrong_answer_text(task: dict) -> str:
         num = int(ref["numerator"]) + int(ref["denominator"])
         return "%s/%s" % (num, ref["denominator"])
     return "0"
+
+
+def _assert_statement_visible(system_prompt: str, user_prompt: str, statement: str) -> None:
+    """题面必须真的出现在发给模型的消息里，否则立刻停。
+
+    为什么值得一条硬断言：题面丢失时模型照样吐合法 JSON，判分照样返回 wrong，
+    整趟跑完只是通过率安静地变成 0 —— 没有任何一个环节会抛错。
+    本地能拦住这件事的地方，只有这里。
+    """
+    if not statement or not statement.strip():
+        raise SystemExit("✗ 题面为空，无法作答")
+    if statement not in system_prompt and statement not in user_prompt:
+        raise SystemExit(
+            "✗ 题面没有进入发给模型的消息\n"
+            f"  题面: {statement[:60]}\n"
+            "  查 prompts/solver.md 的占位符与 demo.py 的消息构造")
 
 
 def make_solver(backend: str) -> tuple[Callable, str]:
@@ -367,16 +420,36 @@ def make_solver(backend: str) -> tuple[Callable, str]:
             "      solver_view(task) -> {'type','statement','answer_format'}   # 可选\n"
             "  缺它无法判分，先用 --backend mock 联调链路。"
         ) from e
+    # B 的 app/llm.py 是正式实现（LLMClient.chat，异步）；它没有 complete()。
+    # C 侧的双跑编排要的是同步三元组，所以先找 B 的，找不到再退回独立实现。
+    _llm = None
     try:
         from app import llm as _llm  # type: ignore
         _complete = _llm.complete
-    except Exception as e:  # noqa: BLE001
-        raise SystemExit(
-            f"✗ 缺少模型客户端：{e}\n"
-            "  需要 app/llm.py：\n"
-            "      complete(messages: list[dict]) -> (text, tokens_in, tokens_out)\n"
-            "  仓库里已有一份按此签名写好的实现，检查文件是否被删。"
-        ) from e
+    except (ImportError, AttributeError):
+        try:
+            from app import llm_standalone as _llm  # type: ignore
+            _complete = _llm.complete
+        except Exception as e:  # noqa: BLE001
+            raise SystemExit(
+                f"✗ 缺少模型客户端：{e}\n"
+                "  需要 app/llm.py（B）或 app/llm_standalone.py（C 的备用实现）：\n"
+                "      complete(messages: list[dict]) -> (text, tokens_in, tokens_out)"
+            ) from e
+
+    # 预算从 config.json 读，不再吃模块常量。
+    # `deepseek-flash` 是推理模型：内容生成前先烧 reasoning_tokens，5 阶行列式
+    # 一道题实测 3700+ 推理 token。按 1200 给预算，推理尚未收敛就被砍断，
+    # content 为空 → 判成 unanswered，看着像"模型不会做"。
+    _budget_fn = getattr(_llm, "budget", None)
+    solver_max_tokens = _budget_fn("solver", 1200) if callable(_budget_fn) else 1200
+
+    def _ask(messages: list[dict]):
+        """带预算的调用；B 的实现若不接受 max_tokens 就退回裸调用。"""
+        try:
+            return _complete(messages, max_tokens=solver_max_tokens)
+        except TypeError:
+            return _complete(messages)
 
     # 配置错一次就够了：不 preflight 的话，10 道题并发会吐出 10 条一样的报错。
     _preflight = getattr(_llm, "preflight", None)
@@ -399,20 +472,25 @@ def make_solver(backend: str) -> tuple[Callable, str]:
         view = _solver_view(row["task"]) if _solver_view else solver_view_local(row)
         check = build_check_instruction(state)
 
-        if solver_tpl:
-            prompt = (solver_tpl
-                      .replace("{solve_prompt}", "逐步求解，最后只输出答案。")
-                      .replace("{check_instruction}", check)
-                      .replace("{statement}", view["statement"]))
-        else:
-            prompt = (f"{view['statement']}\n\n"
-                      f"答案格式：{view['answer_format']}\n"
-                      + (f"\n{check}\n" if check else "")
-                      + "\n最后一行只写答案，不要解释。")
+        # 两条消息，不是一条：`solver.md` 是 **system** prompt（规格 §3.3），
+        # 它的全文只有「求解给定数学题 + 输出格式 + 策略占位符」，从来没有
+        # `{statement}` 这个占位符。题面必须走 user 消息。
+        #
+        # 2026-11-13 22:40 修：原先写成下面这样，`replace` 是静默空操作 ——
+        #     prompt = solver_tpl.replace("{solve_prompt}", ...).replace("{statement}", stmt)
+        # 模型收到的只有「求解给定数学题」+ 格式要求，**没有题目本身**。
+        # 表现是 10 题全错、答案长度全落在 12–17 字符。这类 bug 不会报错，
+        # 只会安静地把通过率打成 0，所以下面留了一条硬断言。
+        system_prompt = (solver_tpl
+                         .replace("{solve_prompt}", "逐步求解，最后只输出答案。")
+                         .replace("{check_instruction}", check)).strip()
+        user_prompt = f"{view['statement']}\n\n答案格式：{view['answer_format']}"
 
-        # solver.md is a system template; the task always has its own user message.
-        from app.llm import build_solver_messages
-        raw = _complete(build_solver_messages(prompt, view['statement'], view['answer_format']))
+        _assert_statement_visible(system_prompt, user_prompt, view["statement"])
+
+        raw = _ask([{"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt}]) if system_prompt \
+            else _ask([{"role": "user", "content": user_prompt}])
         if isinstance(raw, tuple):
             text, tin, tout = (list(raw) + [0, 0])[:3]
         else:                                    # 对象式返回也认
@@ -436,12 +514,42 @@ def _guess_model_id() -> str:
         return "unknown"
 
 
+# ────────────────────────────── 归档 ──────────────────────────────
+def _atomic_json(path: Path, obj: dict, *, overwrite: bool = False) -> None:
+    """tmp + os.replace 落盘。半截文件比没有文件更危险：页面会读到一个残缺的 JSON。"""
+    if path.exists() and not overwrite:
+        return
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(obj, ensure_ascii=False, indent=1), encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def _archive_pass(directory: Path, result: dict) -> None:
+    """每趟结束把整趟结果归档成 `pass{n}.json`（取自 B 的 `_archive_pass` 语义）。
+
+    为什么整趟也要落盘：`calls_pass{n}.jsonl` 只存逐题记录，复算一遍要重跑模型。
+    整趟汇总（含 state_version、token 账）是"这一趟确实跑过"的最小证据。
+
+    失败趟必须立刻停：一趟全挂说明模型根本调不通，此时若继续 learn_from()，
+    会把"接口 500"归纳成"某族题不会做"，凭空造出一条规则再拿去测 pass2。
+    宁可交白卷并留下 `failure.json`，也不许用半趟数据编出提升。
+    """
+    _atomic_json(directory / f"pass{result['pass']}.json", result)
+    if result.get("status") == "aborted":
+        _atomic_json(directory / "failure.json",
+                     {"status": "aborted", "pass": result["pass"],
+                      "reason": "transport_error"}, overwrite=True)
+        raise SystemExit("✗ 模型调用失败，已归档；不生成学习规则或准确率提升结论")
+
+
 # ────────────────────────────── 单次运行 ──────────────────────────────
 def run_pass(pass_no: int, pair: str, state: dict, bank: list[dict],
              solver: Callable) -> dict:
     print(f"  → pass{pass_no} 开始（{len(bank)} 题，并发 {CONCURRENCY}）", flush=True)
     t0 = time.time()
     per_task: list[dict] = []
+    calls: list[dict] = []
     with cf.ThreadPoolExecutor(max_workers=CONCURRENCY) as ex:
         futs = {ex.submit(solver, row, state): row for row in bank}
         for f in cf.as_completed(futs):
@@ -449,50 +557,66 @@ def run_pass(pass_no: int, pair: str, state: dict, bank: list[dict],
             try:
                 r = f.result()
             except Exception as e:  # noqa: BLE001
+                # infra=True：这是"我们这边出错"，不是"模型不会"。
+                # 判分统计里两者都算 0 分，但学习器必须区别对待，
+                # 否则会从自己的故障里归纳出假规则。
                 r = {"answer": "", "correct": False, "reason": f"调用异常：{e}",
-                     "tokens_in": None, "tokens_out": None, "latency_s": 0,
-                     'transport_error': True}
+                     "tokens_in": 0, "tokens_out": 0, "latency_s": 0, "infra": True}
             per_task.append({
                 "id": row["task"]["id"], "family": row["family"],
                 "correct": r["correct"], "answer_chars": len(str(r["answer"])),
-                "reason": r.get("reason"),
-                'transport_error': r.get('transport_error', False),
+                "reason": r.get("reason"), "infra": bool(r.get("infra")),
                 "tokens_in": r["tokens_in"], "tokens_out": r["tokens_out"],
                 "latency_s": r["latency_s"],
+            })
+            # 原始回答落盘（runs/ 下，不进 web/）。
+            # 没有它就只能看到 answer_chars=12，查不出是「算错」还是「没看懂题」——
+            # 22:40 那次 0/10 就是靠这一条才定位到题面丢失。
+            calls.append({
+                "pass": pass_no, "task_id": row["task"]["id"],
+                "family": row["family"], "correct": r["correct"],
+                "reason": r.get("reason"), "answer": str(r["answer"])[:2000],
+                "latency_s": r["latency_s"],
+                "tokens_in": r["tokens_in"], "tokens_out": r["tokens_out"],
             })
     per_task.sort(key=lambda x: x["id"])
     dur = round(time.time() - t0, 1)
     correct = sum(1 for t in per_task if t["correct"])
-    failed = any(t['transport_error'] for t in per_task)
     print(f"  ✓ pass{pass_no} 完成 {correct}/{len(bank)} 用时 {dur}s", flush=True)
+
+    cdir = pair_dir(pair)
+    cdir.mkdir(parents=True, exist_ok=True)
+    with (cdir / f"calls_pass{pass_no}.jsonl").open("w", encoding="utf-8") as fh:
+        for c in sorted(calls, key=lambda x: x["task_id"]):
+            fh.write(json.dumps(c, ensure_ascii=False) + "\n")
+
+    n_infra = sum(1 for t in per_task if t["infra"])
+    # 整趟全挂 = 传输层失败，不是能力结论。这个判定必须在这里做：
+    # 上层拿到 aborted 就只能归档退出，没法把它读成"模型只答对 0 题"。
+    status = "aborted" if per_task and n_infra == len(per_task) else "ok"
     return {
         "pass": pass_no, "duration_s": dur, "correct": correct, "total": len(bank),
-        "accuracy": None if failed else correct / len(bank), "per_task": per_task,
-        'status': 'aborted' if failed else 'completed',
-        "state_version": state["version"],
-        "tokens_in": None if failed else sum(t["tokens_in"] for t in per_task),
-        "tokens_out": None if failed else sum(t["tokens_out"] for t in per_task),
+        # aborted 时准确率给 None 而不是 0.0：0% 是"测了，全错"，
+        # None 才是"没测成"。把前者渲染出来等于用我们的断网指责模型。
+        "accuracy": None if status == "aborted" else correct / len(bank),
+        "per_task": per_task,
+        "state_version": state["version"], "status": status, "infra": n_infra,
+        "tokens_in": sum(t["tokens_in"] for t in per_task),
+        "tokens_out": sum(t["tokens_out"] for t in per_task),
     }
 
 
-def _archive_pass(directory: Path, result: dict):
-    from .store import atomic_write_json
-    atomic_write_json(directory / f"pass{result['pass']}.json", result, overwrite=False)
-    if result['status'] == 'aborted':
-        atomic_write_json(directory / 'failure.json',
-            {'status':'aborted', 'pass':result['pass'], 'reason':'transport_error'}, overwrite=False)
-        raise SystemExit('模型调用失败，已归档；不生成学习规则或准确率提升结论')
-
-
 # ────────────────────────────── 双跑 ──────────────────────────────
-def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
-    bank = load_bank()
+def run_pair(pair: str, backend: str, out: Path | None = None,
+             bank_path: Path | None = None) -> dict:
+    bank = load_bank(bank_path)
     solver, model_id = make_solver(backend)
 
     fp_before = frozen_fingerprint()
     d = pair_dir(pair)
     if d.exists():
-        raise SystemExit(f'运行 {pair} 已存在；请换一个 --pair，原始证据已保留')
+        # 上一趟的证据不许被一次手滑覆盖掉。要重跑就换个 --pair 名。
+        raise SystemExit(f"运行 {pair} 已存在；请换一个 --pair，原始证据已保留")
     (d / "state").mkdir(parents=True, exist_ok=False)
 
     # ① 起点快照 —— 回退目标，必须在任何运行之前
@@ -503,7 +627,7 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
 
     # ② 第一次运行（state = seed）
     p1 = run_pass(1, pair, seed, bank, solver)
-    _archive_pass(d, p1)
+    _archive_pass(pair_dir(pair), p1)
 
     # ③ 学习：pass1 的失败模式 → 新 state（人不参与）
     learned = learn_from(p1, seed)
@@ -514,15 +638,17 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
 
     # ④ 第二次运行（state = learned）
     p2 = run_pass(2, pair, learned, bank, solver)
-    _archive_pass(d, p2)
+    _archive_pass(pair_dir(pair), p2)
 
     # ⑤ 冻结校验：config 与 prompts 必须一字未变
     fp_after = frozen_fingerprint()
     identical = (fp_before["config_sha256"] == fp_after["config_sha256"]
                  and fp_before["prompts_sha256"] == fp_after["prompts_sha256"])
 
-    delta_pp = round((p2["accuracy"] - p1["accuracy"]) * 100, 1)
-    verdict = verdict_of(delta_pp)
+    cmp = compare_passes(p1, p2)
+    ok1, n1, ok2, n2 = cmp["ok1"], cmp["n1"], cmp["ok2"], cmp["n2"]
+    delta_pp, resolution, verdict = cmp["delta_pp"], cmp["resolution_pp"], cmp["verdict"]
+    infra_p1, infra_p2 = cmp["infra_p1"], cmp["infra_p2"]
 
     params_changed = []
     for k, v in learned["rule_weight"].items():
@@ -538,13 +664,18 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
         params_changed.append({"key": "fitness_window", "scope": "config",
                                "before": cfg_win, "after": cfg_win})
 
-    failed_fams = sorted({t["family"] for t in p1["per_task"] if not t["correct"]})
+    failed_fams = sorted({t["family"] for t in p1["per_task"]
+                          if not t["correct"] and not t.get("infra")})
     one_line = (
-        f"{len(bank)} 道冻结验证题正确率 {p1['correct']}/{len(bank)} → {p2['correct']}/{len(bank)}"
-        f"（{'+' if delta_pp >= 0 else ''}{delta_pp:.1f} 个百分点）；"
+        f"{n1} 道冻结验证题能力正确率 {ok1}/{n1} → {ok2}/{n2}"
+        f"（{'+' if delta_pp >= 0 else ''}{delta_pp:.1f} 个百分点，"
+        f"单题分辨率 {resolution:.1f}pp）；"
         f"从 pass1 的 {len(failed_fams)} 个失败族自动生成 {len(learned['rules'])} 条解题校验规则、"
         f"{len(learned['memories'])} 条案例记忆，代码与提示词零改动"
     )
+    if infra_p1 or infra_p2:
+        one_line += (f"；另有 {infra_p1 + infra_p2} 次调用属基础设施异常（截断/超时），"
+                     f"已排除在正确率与判定之外")
 
     payload: dict[str, Any] = {
         "schema": SCHEMA,
@@ -552,6 +683,9 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
         "pair_id": pair,
         "model_id": model_id,
         "backend": backend,
+        # 真假必须由生产者声明，不能靠页面猜。mock 抽签出来的 4/10 → 8/10
+        # 和真模型跑出来的长得一模一样，不声明就是骗自己。
+        "is_mock": backend != "real",
         "frozen": {
             "config_sha256": fp_after["config_sha256"],
             "prompts_sha256": fp_after["prompts_sha256"],
@@ -581,7 +715,16 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
             "verified": None,
             "note": "回退后 state/current.json 逐字节恢复为 pass1 之前的版本，规则与记忆全部清空",
         },
-        "conclusion": {"delta_accuracy_pp": delta_pp, "verdict": verdict, "one_line": one_line},
+        "conclusion": {
+            "delta_accuracy_pp": delta_pp,
+            "verdict": verdict,
+            "one_line": one_line,
+            # 判定可复核所需的三样东西：分母、分辨率、被排除的故障数。
+            # 少了它们，-5.0pp 到底是"退步"还是"翻了一道题"没人能看出来。
+            "capability_accuracy": {"pass1": [ok1, n1], "pass2": [ok2, n2]},
+            "resolution_pp": resolution,
+            "infra_excluded": infra_p1 + infra_p2,
+        },
     }
 
     errs = validate(payload)
@@ -596,9 +739,14 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
 
     out = out or (WEB / "evolve.json")
     out.parent.mkdir(parents=True, exist_ok=True)
-    tmp = out.with_suffix(".tmp")
-    tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
-    os.replace(tmp, out)
+    if out.resolve() == (WEB / "evolve.json").resolve():
+        # 走统一出口：写完自动重建 data.js，file:// 双击才有数据
+        from app.webdata import write_json
+        write_json("evolve.json", payload, indent=1)
+    else:
+        tmp = out.with_suffix(".tmp")
+        tmp.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+        os.replace(tmp, out)
     (d / "evolve.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1),
                                    encoding="utf-8")
 
@@ -628,6 +776,29 @@ def rollback(pair: str, to: str) -> dict:
     return {"pair": pair, "snapshot_id": to, "restored_bytes": len(after), "preview": preview}
 
 
+def mark_rollback_verified(res: dict) -> None:
+    """把"真的回退过一次"记进 web/evolve.json。
+
+    为什么需要这一步：`rollback.verified` 原来是写死的 `None`，页面也不显示它。
+    规格点名要"回退验证"，而一个永远为 null 的字段既不能证明跑过，也不能证明没跑过。
+    现在只有真的执行过一次回退，这里才会被写成 True，并留下时间与字节数。
+    """
+    p = WEB / "evolve.json"
+    if not p.exists():
+        return
+    try:
+        d = json.loads(p.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return
+    rb = d.setdefault("rollback", {})
+    rb["verified"] = True
+    rb["verified_at"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+    rb["restored_bytes"] = res.get("restored_bytes")
+    rb["verify_preview"] = res.get("preview")
+    from app.webdata import write_json
+    write_json("evolve.json", d, indent=1)
+
+
 def status(pair: str) -> None:
     d = pair_dir(pair)
     if not d.exists():
@@ -651,6 +822,9 @@ def main(argv: list[str] | None = None) -> int:
     p_pair.add_argument("--pair", default=time.strftime("demo_pair_%m%d_%H%M"))
     p_pair.add_argument("--backend", choices=("mock", "real"), default="mock")
     p_pair.add_argument("--out", default=None)
+    p_pair.add_argument("--bank", default=None,
+                        help="题集路径，默认 data/verify_bank.json；"
+                             "演示建议用 data/calibration.json（有难度梯度）")
 
     p_rb = sub.add_parser("rollback", help="退回到指定快照")
     p_rb.add_argument("--pair", required=True)
@@ -662,7 +836,8 @@ def main(argv: list[str] | None = None) -> int:
     a = ap.parse_args(argv)
     if a.cmd == "pair":
         print(f"══ 双跑开始：{a.pair}（backend={a.backend}）", flush=True)
-        run_pair(a.pair, a.backend, Path(a.out) if a.out else None)
+        run_pair(a.pair, a.backend, Path(a.out) if a.out else None,
+                 Path(a.bank) if a.bank else None)
         print("══ 完成。刷新 web/evolve.html 查看", flush=True)
         return 0
     if a.cmd == "rollback":

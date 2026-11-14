@@ -75,11 +75,31 @@ def test_schema_passes(payload):
     assert validate(payload) == []
 
 
-def test_on_disk_json_matches_builder(payload):
-    """页面读的是磁盘上那份，不是内存里那份。两份不一致就先修生成脚本。"""
+def test_on_disk_json_is_consistent_with_its_producer():
+    """页面读的是磁盘上那份，不是内存里那份。
+
+    磁盘那份可能是假数据（`tests/make_fake_result.py`），也可能是留出评测的
+    真数据（`app/evaluate.py`）。所以检查分两路：假数据必须能逐字段重建；
+    真数据打接口才能重建，离线只核对内部一致性 —— 但两者都必须通过同一份契约。
+    """
+    from app.result_schema import validate as v
     disk = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
-    assert validate(disk) == []
-    assert [r["run_id"] for r in disk["runs"]] == [r["run_id"] for r in payload["runs"]]
+    assert v(disk) == []
+
+    producer = disk.get("generated_by")
+    assert producer in {"tests/make_fake_result.py", "app/evaluate.py"}, \
+        f"未知生产者 {producer!r}：要么改这个测试，要么别往 web/ 写"
+
+    if producer == "tests/make_fake_result.py":
+        from tests.make_fake_result import build
+        assert [r["run_id"] for r in disk["runs"]] == \
+               [r["run_id"] for r in build()["runs"]], "磁盘与假数据生成器不一致"
+    else:
+        assert disk["is_mock"] is False, "真数据必须自证 is_mock=False"
+        ids = [r["run_id"] for r in disk["runs"]]
+        assert ids == list(dict.fromkeys(ids)), "run_id 有重复"
+        assert disk["provenance"]["runs_count"] == len(disk["runs"])
+        assert disk["provenance"]["calls_total"] == sum(r["calls"] for r in disk["runs"])
 
 
 def test_every_run_has_one_champion(payload):
@@ -235,17 +255,24 @@ def test_no_external_resources(live_html):
     """断网可播是硬要求：不许有 http(s) 外链、CDN、外部字体。
 
     `http://www.w3.org/2000/svg` 是 SVG 命名空间常量，不发请求，不算外链。
+    `data.js` 是同目录的本地文件（file:// 兜底包），也不是外链 —— 但仍要求
+    src 不带任何协议前缀，防止有人把它换成 CDN 地址。
     """
     body = live_html.replace("http://www.w3.org/2000/svg", "").replace("https://www.w3.org/2000/svg", "")
     assert "http://" not in body and "https://" not in body, "页面出现外部 URL"
-    assert not re.search(r"<script[^>]+src=", body), "页面引入外部脚本"
+    for m in re.finditer(r"<script[^>]+src=[\"']([^\"']+)", body):
+        src = m.group(1)
+        assert src.startswith("data.js"), f"页面引入了外部脚本：{src}"
+        assert not src.startswith("//") and ":" not in src, f"脚本 src 带协议：{src}"
     assert not re.search(r"<link[^>]+href=", body), "页面引入外部样式/字体"
 
 
-def test_only_fetches_result_json(html):
-    fetches = re.findall(r"fetch\(([^)]*)\)", html)
-    assert fetches, "页面没有任何 fetch，数据从哪来？"
-    assert all('"result.json"' in f or "'result.json'" in f for f in fetches)
+def test_only_loads_result_json(html):
+    """页面只能读 result.json（外加同目录的 file:// 兜底包 data.js）。"""
+    names = set(re.findall(r'loadData\(\s*"([^"]+)"', html))
+    assert names == {"result.json"}, f"页面读了别的数据文件：{names}"
+    # fetch 只允许出现相对文件名，不许连绝对地址
+    assert not re.search(r"fetch\(\s*[\"'](?:https?:)?//", html), "页面发起跨域请求"
 
 
 def test_no_hardcoded_scores(live_html):

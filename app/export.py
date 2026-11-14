@@ -31,6 +31,7 @@ from typing import Any, Iterable
 
 SCHEMA_VERSION = "5.1"
 EXPORT_SCHEMA = "export/1"
+ROOT = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------------------------------
 # 白名单：字段名逐字照抄技术规格，一个都不许改名（§8 L486 的三方对接约束）
@@ -254,6 +255,44 @@ def find_leaks(obj: Any, path: str = "$") -> list[str]:
 # --------------------------------------------------------------------------
 # 主流程
 # --------------------------------------------------------------------------
+def resolve_is_mock(run_dir: Path) -> tuple[bool, str]:
+    """判定这份数据是不是假数据。返回 `(is_mock, 依据说明)`。
+
+    为什么导出器要自己算这个字段：`web/history.json` 会进静态目录，观众打开大屏
+    看到 20 代曲线，无法从任何数字上分辨它是 `runs/fake_s42` 还是真跑出来的。
+    `run_id` 里带 "fake" 只是命名习惯，不是机制。
+
+    判定方向只有一个：**证明不了是真的，就标成假的。**
+    反过来（缺证明就当真）会把 mock 数据混进正式结论，那是比赛里唯一不可挽回的错。
+    解除红标的唯一条件：`runs/<run_id>/manifest.json` 里 `backend == "real"`
+    或 `is_mock == false`。
+
+    这个字段不来自代记录，是导出器自己算的，所以不违反 §8 的白名单要求
+    （白名单管的是「不许把记录里的字段整份透传」）。
+    """
+    man = run_dir / "manifest.json"
+    if man.exists():
+        try:
+            obj = json.loads(man.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return True, f"{man.name} 不是合法 JSON，按假数据标记"
+        if isinstance(obj, dict):
+            if isinstance(obj.get("is_mock"), bool):
+                return obj["is_mock"], f"manifest.is_mock={obj['is_mock']}"
+            backend = str(obj.get("backend") or "").strip().lower()
+            if backend == "real":
+                return False, "manifest.backend=real"
+            if backend:
+                return True, f"manifest.backend={backend}"
+
+    name = run_dir.name.lower()
+    if name.startswith(("fake", "mock")):
+        return True, f"目录名 {run_dir.name} 是假数据/联调数据的命名"
+
+    return True, ("没有 manifest.json 能证明是 --backend real 的产出，"
+                  "按假数据标记（宁误标假，不误标真）")
+
+
 def load_history(path: Path) -> list[dict]:
     """读 history.jsonl：只收 status=completed，同代后者覆盖（§8 L512 不把半行当一代）。"""
     if not path.exists():
@@ -293,11 +332,14 @@ def export_run(run_dir: Path, out_path: Path, lenient: bool = False,
         problems.extend(probs)
 
     first = recs[0]
+    is_mock, mock_reason = resolve_is_mock(run_dir)
     payload = {
         "schema": EXPORT_SCHEMA,
         "schema_version": first.get("schema_version", SCHEMA_VERSION),
         "run_id": first.get("run_id"),
         "condition": first.get("condition"),
+        "is_mock": is_mock,
+        "mock_reason": mock_reason,
         "n_gen": len(gens),
         "generations": gens,
         "lineage": build_lineage(recs, include_genes=include_genes),
@@ -318,7 +360,11 @@ def export_run(run_dir: Path, out_path: Path, lenient: bool = False,
 
 
 def verify(out_path: Path) -> int:
-    """§8 L516 的两条硬自检：reference 计数必须为 0，留出题面不得出现。"""
+    """§8 L516 的两条硬自检：reference 计数必须为 0，留出题面不得出现。
+
+    2026-11-13 增：`is_mock` 必须是真布尔值。缺了这个字段，页面就只能猜数据真假，
+    而「分不清真假」比「显示假数据」危险得多。
+    """
     text = out_path.read_text(encoding="utf-8")
     checks = {
         "reference 出现次数": text.count('"reference"'),
@@ -329,10 +375,19 @@ def verify(out_path: Path) -> int:
     bad = {k: v for k, v in checks.items() if v}
     for k, v in checks.items():
         print(f"  {k}: {v}")
+
+    probed = json.loads(text)
+    flag = probed.get("is_mock")
+    if not isinstance(flag, bool):
+        bad["is_mock 缺失或不是布尔值"] = repr(flag)
+        print(f"  is_mock: {flag!r} ← 必须是 true / false")
+    else:
+        print(f"  is_mock: {str(flag).lower()}（{probed.get('mock_reason', '')}）")
+
     if bad:
         print("✗ 自检未通过：" + ", ".join(f"{k}={v}" for k, v in bad.items()))
         return 2
-    print("✓ 自检通过：无参考值、无留出题面、无原始请求、无 api_key")
+    print("✓ 自检通过：无参考值、无留出题面、无原始请求、无 api_key；is_mock 已声明")
     return 0
 
 
@@ -358,10 +413,22 @@ def main(argv: list[str] | None = None) -> int:
     print(f"✓ 已导出 {out_path}（{payload['n_gen']} 代 / "
           f"{len(payload['lineage'])} 个个体 / "
           f"{len(payload['challenges'])} 道挑战）")
+    print(f"  数据真伪: {'假（mock）' if payload['is_mock'] else '真（real）'}"
+          f" —— {payload['mock_reason']}")
     if payload["problems"]:
         print(f"⚠ {len(payload['problems'])} 条字段告警：")
         for p in payload["problems"][:10]:
             print("   -", p)
+
+    # 顺手刷新 file:// 兜底包（只在输出落在 web/ 时有意义）
+    if out_path.resolve().parent == (ROOT / "web").resolve():
+        try:
+            from app.webdata import bundle
+        except ModuleNotFoundError:      # `python app/export.py` 时 sys.path 里没有仓库根
+            sys.path.insert(0, str(ROOT))
+            from app.webdata import bundle
+        bundle()
+
     return verify(out_path)
 
 

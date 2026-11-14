@@ -95,6 +95,8 @@
     width:21px;height:21px;border-radius:3px;font-size:11px;font-family:var(--font-mono)}
   .mark.y{background:rgba(69,209,154,.16);color:var(--good);border:1px solid rgba(69,209,154,.45)}
   .mark.n{background:rgba(255,107,107,.13);color:var(--bad);border:1px solid rgba(255,107,107,.42)}
+  /* 截断不是答错：显示 ⊘ 而不是红叉，否则「预算不够」会被读成「模型不会」 */
+  .mark.x{background:rgba(255,209,102,.13);color:var(--accent);border:1px solid rgba(255,209,102,.42)}
   .dlt{font-size:10.5px;font-family:var(--font-mono);text-align:right;padding-right:2px}
   .dlt.up{color:var(--good)} .dlt.dn{color:var(--bad)} .dlt.fl{color:var(--faint)}
   .note{font-size:11.5px;color:var(--faint);margin-top:9px;padding-top:2px;line-height:1.5;flex:0 0 auto}
@@ -171,6 +173,7 @@
   <div class="roll" id="roll"></div>
 </main>
 
+<script src="data.js"></script>
 <script>
 (function(){
   "use strict";
@@ -188,6 +191,19 @@
       '<p>' + esc(msg) + '<br>请先在项目根目录运行 <code>python tests/make_fake_evolve.py</code> 或 <code>python -m app.demo pair</code></p></div>';
   }
 
+  function mockBadge(){
+    /* 双跑页最容易误读：4/10 → 8/10 看上去就是成绩，但 mock 抽签能造出一模一样的数字。
+       所以真假必须由数据自己声明，页面只负责显眼。缺字段按「未标明」处理，不给默认绿标。 */
+    if (D.is_mock === true) {
+      return '<span class="badge bad" title="' + esc(D.mock_reason || '这份数据不是真模型产出') +
+             '">● MOCK · 假数据（不得进比赛结论）</span>';
+    }
+    if (D.is_mock === false) {
+      return '<span class="badge ok" title="真模型产出">● REAL · 真模型</span>';
+    }
+    return '<span class="badge bad" title="evolve.json 缺 is_mock 字段">● 未标明真假</span>';
+  }
+
   function renderFrozen(){
     var f = D.frozen || {};
     var same = f.identical_across_passes === true;
@@ -198,6 +214,7 @@
         : '<span class="badge">' + label + ' <b>' + esc(v) + '</b></span>';
     }
     el("frozen").innerHTML =
+      mockBadge() +
       '<span class="badge ' + (same ? 'ok' : 'bad') + '">' +
         (same ? '✓ 代码 / 参数 / 提示词 两次完全一致' : '✗ 冻结校验未通过，本次结果不可用') + '</span>' +
       fp(f.config_sha256, 'config') +
@@ -207,20 +224,33 @@
 
   function renderHero(){
     var p1 = D.passes[0], p2 = D.passes[1], c = D.conclusion || {};
+    var cap = c.capability_accuracy || {};
     var dpp = Number(c.delta_accuracy_pp || 0);
     var cls = dpp > 1 ? "up" : dpp < -1 ? "dn" : "fl";
     var col = dpp > 1 ? "var(--good)" : dpp < -1 ? "var(--bad)" : "var(--accent)";
 
+    /* 口径必须一致：DELTA 和一句话结论都按「排除 infra 后的有效题数」算，
+       大字若用原始 correct/total，会出现「两个 95% 却写 +0.0pp」和
+       「19/20 与 19/19 并列」两处自相矛盾。大字取 capability_accuracy，
+       副标题把原始题数与被排除的题数一并写出来，两个口径都看得见。 */
+    function figure(p, key, label, klass){
+      var eff = cap[key] || [p.correct, p.total];
+      var nc = eff[0], nt = eff[1];
+      var dropped = p.total - nt;
+      var sub = p.correct + '/' + p.total + ' 题 · ' + p.duration_s.toFixed(1) + 's';
+      if (dropped > 0) sub += ' · ' + dropped + ' 题调用截断已排除';
+      var acc = nt > 0 ? nc / nt : 0;
+      return '<div class="cell ' + klass + '"><div class="lb">' + label + '</div>' +
+        '<div class="big">' + pct(acc) + '<small style="font-size:18px">%</small></div>' +
+        '<div class="sub">' + sub + '</div></div>';
+    }
+
     el("hero").innerHTML =
-      '<div class="cell p1"><div class="lb">第一次 · PASS 1</div>' +
-        '<div class="big">' + pct(p1.accuracy) + '<small style="font-size:18px">%</small></div>' +
-        '<div class="sub">' + p1.correct + '/' + p1.total + ' 题 · ' + p1.duration_s.toFixed(1) + 's</div></div>' +
-      '<div class="cell p2"><div class="lb">第二次 · PASS 2</div>' +
-        '<div class="big">' + pct(p2.accuracy) + '<small style="font-size:18px">%</small></div>' +
-        '<div class="sub">' + p2.correct + '/' + p2.total + ' 题 · ' + p2.duration_s.toFixed(1) + 's</div></div>' +
+      figure(p1, "pass1", "第一次 · PASS 1", "p1") +
+      figure(p2, "pass2", "第二次 · PASS 2", "p2") +
       '<div class="cell dt"><div class="lb">差 值 · DELTA</div>' +
         '<div class="big" style="color:' + col + '">' + sign(dpp) + '<small>pp</small></div>' +
-        '<div class="sub">' + esc(D.metric.name) + '</div></div>' +
+        '<div class="sub">' + esc(D.metric.name) + '（按有效题数）</div></div>' +
       '<div class="cell one"><div class="lb">一句话结论</div>' +
         '<p>' + esc(c.one_line || "") + '</p></div>';
   }
@@ -229,29 +259,40 @@
     var p1 = D.passes[0], p2 = D.passes[1];
     var m2 = {};
     (p2.per_task || []).forEach(function(t){ m2[t.id] = t; });
-    var up = 0, dn = 0;
+    var up = 0, dn = 0, infra = 0;
+
+    // 三态标记：对（✓）/ 错（✗）/ 调用截断（⊘）。截断绝不能画成红叉,
+    // 否则观众会把「token 给少了」读成「模型这道题不会」。
+    function mark(t){
+      if (t.correct) return '<i class="mark y">\u2713</i>';
+      if (t.infra) return '<i class="mark x" title="' + esc(t.reason || '调用异常，未计入判定') + '">\u2298</i>';
+      return '<i class="mark n">\u2717</i>';
+    }
 
     var rows = ['<div class="trow head"><span>题目</span><span>族</span>' +
                 '<span>pass 1</span><span>pass 2</span><span class="dlt">变化</span></div>'];
     (p1.per_task || []).forEach(function(a){
       var b = m2[a.id] || {correct:false};
       var tag, cls;
-      if (!a.correct && b.correct){ tag = "错→对"; cls = "up"; up++; }
+      if (b.infra){ tag = "截断"; cls = "fl"; infra++; }
+      else if (!a.correct && b.correct){ tag = "错→对"; cls = "up"; up++; }
       else if (a.correct && !b.correct){ tag = "对→错"; cls = "dn"; dn++; }
       else if (a.correct && b.correct){ tag = "稳定"; cls = "fl"; }
       else { tag = "仍错"; cls = "fl"; }
       rows.push('<div class="trow">' +
         '<span class="id">' + esc(a.id) + '</span>' +
         '<span class="fam">' + esc(a.family) + '</span>' +
-        '<span><i class="mark ' + (a.correct ? 'y' : 'n') + '">' + (a.correct ? '✓' : '✗') + '</i></span>' +
-        '<span><i class="mark ' + (b.correct ? 'y' : 'n') + '">' + (b.correct ? '✓' : '✗') + '</i></span>' +
+        '<span>' + mark(a) + '</span>' +
+        '<span>' + mark(b) + '</span>' +
         '<span class="dlt ' + cls + '">' + tag + '</span>' +
       '</div>');
     });
     el("tasks").innerHTML = rows.join("");
     el("lhint").textContent = D.metric.n_tasks + " 题 · 判分由 executor 精确计算，不经 LLM 裁判";
-    el("tnote").innerHTML = '净变化 <b style="color:var(--good)">+' + up + '</b> 题转对，' +
-      '<b style="color:var(--bad)">-' + dn + '</b> 题转错。' +
+    el("tnote").innerHTML = '净变化 <b style="color:var(--good)">' + (up ? '+' + up : '0') + '</b> 题转对，' +
+      '<b style="color:var(--bad)">' + (dn ? '-' + dn : '0') + '</b> 题转错' +
+      (infra ? '；另有 <b style="color:var(--accent)">' + infra + '</b> 题为调用截断（\u2298），' +
+               '已排除在正确率与判定之外，不算模型答错' : '') + '。' +
       '规则只增补解题步骤校验，不替换题面，因此失败模式可迁移到同类新题。';
   }
 
@@ -288,10 +329,17 @@
 
   function renderRoll(){
     var r = D.rollback || {};
+    /* 回退是不是"演过"必须能看出来。原先 verified 恒为 null，
+       页面上没有任何痕迹，等于把最硬的一条验收项挂在嘴上。 */
+    var vb = r.verified === true
+      ? '<span class="badge ok" title="' + esc(r.verified_at || '') +
+        ' · 恢复 ' + esc(r.restored_bytes == null ? '?' : r.restored_bytes) + ' 字节">回退已验证</span>'
+      : '<span class="badge wait" title="还没真跑过一次回退；点右侧按钮即验证">回退未验证</span>';
     el("roll").innerHTML =
       '<span class="lb">回 退</span>' +
       '<span class="snap">' + esc(r.snapshot_id) + '</span>' +
       '<span class="cmd">' + esc(r.command) + '</span>' +
+      vb +
       '<span class="st" id="rst"></span>' +
       '<button id="rbtn"' + (r.available ? '' : ' disabled') + '>退回到第一次之前</button>';
     el("rbtn").addEventListener("click", doRollback);
@@ -323,10 +371,19 @@
     document.body.classList.remove("loading");
   }
 
-  fetch("evolve.json", { cache: "no-store" })
-    .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
-    .then(function(j){ D = j; render(); })
-    .catch(function(e){ fail("evolve.json 读取失败：" + e.message); });
+  /* 优先读 data.js（file:// 双击可用），fetch 只作本地服务下的兜底 */
+  var BUNDLE = window.WB_DATA || null;
+  function loadData(name, done, onerr){
+    var inlined = BUNDLE && BUNDLE[name];
+    if (inlined){ done(inlined); return; }
+    fetch(name, { cache: "no-store" })
+      .then(function(r){ if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(done)
+      .catch(onerr);
+  }
+
+  loadData("evolve.json", function(j){ D = j; render(); },
+    function(e){ fail("evolve.json 与 data.js 都没读到：" + e.message); });
 })();
 </script>
 </body>
