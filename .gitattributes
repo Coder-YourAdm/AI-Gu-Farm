@@ -1,0 +1,2 @@
+# Dataset manifests hash exact bytes; Windows checkouts must retain LF.
+data/*.json text eol=lf

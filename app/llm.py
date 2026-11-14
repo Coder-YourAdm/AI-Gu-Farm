@@ -1,18 +1,8 @@
-"""模型客户端：`complete(messages) -> (text, tokens_in, tokens_out)`。
+"""模型接口的兼容入口。
 
-**这个文件的归属**
-
-分工方案 v7.3 把 `app/llm.py` 划给 B（`complete()` 是代循环的组成部分）。
-但 B 到 21:40 为止一行未交，而 C 侧 `--backend real` 只差这一个函数。
-
-所以这里放一份**按冻结签名写好的标准实现**，目的只有一个：让「缺函数」不再阻塞
-联调。B 交文件时整份替换即可，调用方（`app/demo.py`）不需要改一行——签名就是契约。
-
-**依赖只用标准库**（`urllib`）。不引 requests / openai SDK：
-赛场上少一个依赖就少一个装不上的可能，而这里是纯粹的 HTTP POST。
-
-**配置**：`config.json` 的 `model` / `base_url`，密钥读环境变量（默认 `LLM_API_KEY`）。
-密钥不进仓库，`config.json` 里只存变量名 `api_key_env`。
+演示保留同步 complete(messages) -> (text, tokens_in, tokens_out)，使用 urllib。
+正式演化导出 llm_async 的 LLMClient / CallResult，使用 httpx，并统一限流、
+重试、审计和预算。依赖见 requirements.txt。两种调用方式都只从环境变量读取密钥。
 """
 
 from __future__ import annotations
@@ -24,6 +14,13 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 from typing import Any
+
+# The evolution engine uses structured async results; keep the synchronous
+# demo interface for existing callers instead of replacing either contract.
+from .llm_async import (
+    CallResult, LLMClient, ProtocolError, JSONExtractError,
+    extract_json_object, build_solver_messages,
+)
 
 ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config.json"

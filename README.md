@@ -17,10 +17,14 @@
 | 快照回退 | ✅ `v0_seed` 一键回退，实测逐字节可逆 |
 | 演化大屏 / 双跑对照 / 结果页 | ✅ 三个单文件页面，零依赖、断网可演示 |
 | 真模型调用 `app/llm.py` | ⚠️ 代码就绪，`config.json` 的 `model`/`base_url` 未填、缺 API key |
+| B 演化引擎 `app/run.py` | ✅ 异步接口、校准、pilot、冻结 E/F 协议、失败归档与独立恢复分支；已通过离线回归 |
+| B 留出评测 | ✅ 冻结 g0 / 实际参评检查点、全组终态门禁、跨运行交错计划与严格配对；尚未运行真实模型实验 |
 | 留出评测 `web/result.json` | ⚠️ 页面已按契约实现，数据待评测产出（现为 mock，页面挂红标） |
 
 **诚实标注**：仓库里 `web/evolve.json`、`web/result.json` 当前是 `is_mock: true` 的
 演示数据，用于跑通链路与排练。页面上有 `mock` 徽章，不会把假数字当真结果展示。
+
+B 的运行命令、预算限制和修复清单见 [B 修复说明](docs/B修复说明.md)。
 
 ## 跑起来
 
@@ -38,7 +42,7 @@ python -m app.demo pair --pair demo_pair_dev --backend mock
 python -m app.demo rollback --pair demo_pair_dev --to v0_seed
 
 # 4. 真模型（需先填 config.json 的 model / base_url，并 export LLM_API_KEY）
-python -m app.demo pair --pair demo_pair_dev --backend real
+python -m app.demo pair --pair demo_pair_real --backend real
 ```
 
 ## 目录
@@ -46,7 +50,13 @@ python -m app.demo pair --pair demo_pair_dev --backend real
 ```text
 app/
   executor.py        判分内核：题面生成 / 边界校验 / Bareiss 行列式 / judge（A）
-  llm.py             complete(messages) -> (text, tokens_in, tokens_out)（B 的契约）
+  llm.py             同步 complete() 与异步 LLMClient 的兼容入口
+  llm_async.py       异步 HTTP、角色参数、限流、重试、日志与硬限额
+  run.py             校准 / pilot / 锁协议 / 正式 E/F / 组间评测 CLI
+  runtime.py         初始状态冻结与独立恢复分支
+  runner.py          代事务、不可覆盖快照、完整运行汇总
+  protocol.py        校准祖先选择与预登记 E/F 运行
+  dataset_adapter.py C 的 JSON 题库到 B Dataset 接口
   demo.py            双跑编排：pair / rollback / status
   export.py          白名单导出，reference / holdout / raw_response 不进静态目录
   serve.py           标准库静态服务，禁目录列表，--allow-rollback 提供回退接口
@@ -55,7 +65,7 @@ app/
 data/                125 道题：calibration 20 / common_dev 80 / challenge_pool 5 / holdout 20
 prompts/             setter / solver / 六份种子基因 / crossover / mutate
 web/                 三个单文件页面 + 两份 mock 数据
-tests/               151 条测试
+tests/               A/B/C 单元测试、集成测试与 B 缺陷回归
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3
 tools/               开发期交叉验证（sympy 对照 / 题面自检），不进判分链路
 ```
@@ -70,8 +80,8 @@ tools/               开发期交叉验证（sympy 对照 / 题面自检），�
 | 返回 | 含义 |
 |---|---|
 | `right` | 答案正确 |
-| `wrong` | 答案错误（含格式错、超长、非数值） |
-| `unanswered` | 拒答 / 空响应 |
+| `wrong` | 格式合法但数值错误 |
+| `unanswered` | 拒答 / 空响应 / 格式错 / 超长 / 非数值 |
 
 **拒答与算错必须分开**——把两者混成一个 `False`，会让「模型拒答」看起来像
 「模型算错」，于是针对错误类型学到的规则全是错的方向。
@@ -79,7 +89,8 @@ tools/               开发期交叉验证（sympy 对照 / 题面自检），�
 ## 测试
 
 ```bash
-pytest            # 151 passed, 1 skipped
+python -m pip install -r requirements.txt
+python -m pytest
 ```
 
 几条值得单说的：

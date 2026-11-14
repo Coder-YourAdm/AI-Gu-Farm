@@ -32,6 +32,8 @@ from app.genotype import Genes, Individual, Meta, build_solver_system, load_seed
 from app.llm import CallResult, ProtocolError, build_solver_messages
 from app.orchestrator import Engine, ChatClient, judge_call
 from app.store import SnapshotStore, atomic_write_json
+from .integrity import task_digest, digest, source_manifest
+from .async_tools import gather_strict
 
 SCHEMA_VERSION = "5.1"
 
@@ -128,21 +130,11 @@ def individual_from_payload(payload: Mapping[str, Any]) -> Individual:
 def population_at_checkpoint(*, store_root: str | Path, run_id: str, checkpoint: int,
                              seed_path: str | Path = "prompts/seed_genotypes.json",
                              max_chars: int = 200) -> tuple[list[Individual], str]:
-    """取检查点上的六人。返回 `(population, source)`，source ∈ {seed, snapshot}。
-
-    checkpoint=0 就是初代（还没跑过任何一代），读种子文件。
-    checkpoint>0 读该代的 completed 快照：优先 `next_population`（跑完第 k 代后
-    进场的人），末代没有 `next_population` 就用 `evaluated_population`——这两者
-    是同一批人（末代不重组），不是「拿更早的代替」。
-    """
-    if checkpoint == 0:
-        people = load_seed_genotypes(seed_path, max_chars=max_chars)
-        return people, "seed"
-
+    """只取该代实际参评的六人，包括运行开始时冻结的第 0 代。"""
     store = SnapshotStore(root=store_root, run_id=run_id)
     data = store.load_generation(checkpoint)       # 只接受 completed
     rec = data.get("record") or {}
-    payload = rec.get("next_population") or rec.get("evaluated_population") or []
+    payload = rec.get("evaluated_population") or []
     if not payload:
         raise ProtocolError(f"检查点 {checkpoint} 的快照里没有可评测的个体")
     return [individual_from_payload(p) for p in payload], "snapshot"
@@ -167,25 +159,29 @@ async def run_plan(*, plan: Sequence[EvalSlot],
                    concurrency: int = 10) -> list[dict]:
     """逐槽位新上下文作答并判分。槽位之间无共享状态。
 
-    传输错误在本代留出评测里**不中止整趟**：留出是运行结束后的离线测量，
-    中止只会把已有结果一起丢掉。它被单独计数并写进结果，评均分时按 0 计
-    （与「格式错占分母」同一口径，避免通过率虚高）。
+    调用失败单独归档；汇总时受影响的检查点记 NA，不视为能力答错。
     """
     sem = asyncio.Semaphore(max(1, int(concurrency)))
 
     async def _one(slot: EvalSlot) -> dict:
         task = tasks_by_id[slot.task_id]
         view = engine.solver_view(task)
-        system_prompt = build_solver_system(genes_by[(slot.checkpoint,
-                                                      slot.individual_id)])
+        key = (slot.run_id, slot.checkpoint, slot.individual_id)
+        genes = genes_by[key] if key in genes_by else genes_by[(slot.checkpoint, slot.individual_id)]
+        system_prompt = build_solver_system(genes)
         messages = build_solver_messages(system_prompt, view["statement"],
                                          view["answer_format"])
-        async with sem:
-            res: CallResult = await chat.chat("solver", messages,
-                                              slot_id=slot.slot_id, attempt=1)
+        try:
+            async with sem:
+                res: CallResult = await chat.chat("solver", messages,
+                    slot_id=f'{slot.run_id}_{slot.slot_id}', attempt=1)
+        except Exception as exc:
+            return {**slot.to_dict(), 'call_id':None, 'status':'transport_error',
+                    'raw_answer':None, 'error':f'{type(exc).__name__}: {exc}',
+                    'attempts':None, 'latency_ms':None, 'usage':{}}
         row = {**slot.to_dict(), "call_id": res.call_id, "status": None,
                "raw_answer": None, "attempts": res.attempts,
-               "latency_ms": res.latency_ms}
+               "latency_ms": res.latency_ms, 'usage':res.usage}
         if res.is_transport_error:
             row["status"] = "transport_error"
             return row
@@ -194,7 +190,7 @@ async def run_plan(*, plan: Sequence[EvalSlot],
         row["raw_answer"] = raw
         return row
 
-    return list(await asyncio.gather(*[_one(s) for s in plan]))
+    return list(await gather_strict([_one(s) for s in plan]))
 
 
 # --------------------------------------------------------------------------
@@ -340,9 +336,10 @@ def _run_task_signatures(store_root: str | Path, run_id: str,
     store = SnapshotStore(root=store_root, run_id=run_id)
     for cp in checkpoints:
         try:
-            data = store.load_generation(cp)
-        except ProtocolError:
-            continue
+            data = json.loads(store.snapshot_path(cp).read_text(encoding='utf-8'))
+        except (OSError, ValueError) as exc:
+            raise ProtocolError(f'Cannot audit snapshot {cp}') from exc
+        sigs.update((data.get('record') or {}).get('exposed_signatures') or [])
         for task in (data.get("record") or {}).get("tasks") or []:
             if task.get("signature"):
                 sigs.add(task["signature"])
@@ -359,6 +356,20 @@ def prepare_evaluation(*, run_id: str, cfg: Config, tasks: Sequence[dict],
     单独拆出来是为了「先审计划再花钱」：600 个槽位可以先落盘核对
     （检查点 × 人数 × 题数是否等于 dry-run），确认无误再开跑。
     """
+    store = SnapshotStore(root=store_root, run_id=run_id)
+    manifest = store.load_manifest()
+    if manifest.get('parent_run_id'):
+        raise ProtocolError('Demo branches are not independent evaluation runs')
+    if manifest.get('config_fingerprint') != cfg.semantic_fingerprint():
+        raise ProtocolError('Evaluation config differs from the frozen run')
+    if manifest.get('source') != source_manifest():
+        raise ProtocolError('Code/prompts differ from the frozen run')
+    for member in manifest.get('group_runs') or [run_id]:
+        other = SnapshotStore(root=store_root, run_id=member)
+        if other.load_summary().get('status') not in ('completed', 'aborted'):
+            raise ProtocolError(f'Run {member} has not terminated; holdout is locked')
+    if manifest.get('dataset', {}).get('holdout_digest') != task_digest(tasks):
+        raise ProtocolError('Holdout differs from the frozen dataset')
     tasks_by_id = index_tasks(tasks)
     if check_mix_quota:
         check_mix(tasks_by_id)
@@ -405,15 +416,15 @@ def prepare_evaluation(*, run_id: str, cfg: Config, tasks: Sequence[dict],
 
     # 留出题与本次运行出过的题是否撞签名：撞了就说明留出没留出，必须留痕
     overlap = holdout_signatures(tasks_by_id) & _run_task_signatures(
-        store_root, run_id, populations)
+        store_root, run_id, store.gens())
     if overlap:
-        warnings.append(f"留出题与运行内题目签名重叠 {len(overlap)} 条："
-                        f"{sorted(overlap)[:5]}（该留出题不再算作留出）")
+        raise ProtocolError(f'Holdout contamination: {len(overlap)} overlapping signatures')
 
     return {"tasks_by_id": tasks_by_id, "plan": plan,
             "populations": populations, "sources": sources,
             "missing": missing, "warnings": warnings, "genes_by": genes_by,
-            "order_seed": plan_seed(run_id) if order_seed is None else order_seed}
+            "order_seed": plan_seed(run_id) if order_seed is None else order_seed,
+            'manifest': manifest}
 
 
 async def evaluate_run(*, run_id: str, cfg: Config, engine: Engine, chat: ChatClient,
@@ -427,15 +438,25 @@ async def evaluate_run(*, run_id: str, cfg: Config, engine: Engine, chat: ChatCl
                               store_root=store_root, seed_path=seed_path,
                               order_seed=order_seed,
                               check_mix_quota=check_mix_quota)
+    if prep['manifest'].get('protocol_id'):
+        raise ProtocolError('Formal evaluation must interleave the registered group')
     tasks_by_id, plan = prep["tasks_by_id"], prep["plan"]
+    if evaluation_path(store_root, run_id).exists():
+        raise ProtocolError('Evaluation already exists; refusing to replace evidence')
+    write_plan(plan, run_id=run_id, root=store_root, order_seed=prep['order_seed'])
+    claim_evaluation(store_root, run_id)
 
     rows = await run_plan(plan=plan, genes_by=prep["genes_by"],
                           tasks_by_id=tasks_by_id, engine=engine, chat=chat,
                           concurrency=concurrency if concurrency is not None
                           else cfg.concurrency)
 
-    result = summarize(run_id=run_id, plan=plan, rows=rows,
-                       tasks_by_id=tasks_by_id,
+    return finish_evaluation(run_id, cfg, tasks, prep, rows)
+
+
+def finish_evaluation(run_id, cfg, tasks, prep, rows):
+    result = summarize(run_id=run_id, plan=prep['plan'], rows=rows,
+                       tasks_by_id=prep['tasks_by_id'],
                        populations=prep["populations"], sources=prep["sources"],
                        condition=cfg.condition, n_gen=cfg.n_gen,
                        missing_checkpoints=prep["missing"],
@@ -443,13 +464,90 @@ async def evaluate_run(*, run_id: str, cfg: Config, engine: Engine, chat: ChatCl
     result["n_checkpoints"] = len(cfg.checkpoints)
     result["order_seed"] = prep["order_seed"]
     result["usage"] = _aggregate_rows(rows)
+    result['answers'] = rows
+    result['seed'] = cfg.seed
+    result['data_seed'] = cfg.data_seed
+    result['protocol_id'] = prep['manifest'].get('protocol_id')
+    result['comparison_fingerprint'] = prep['manifest']['comparison_fingerprint']
+    result['initial_fingerprint'] = digest(prep['manifest']['initial_population'])
+    result['ancestor_fingerprint'] = digest(prep['manifest']['ancestors'])
+    result['holdout_digest'] = task_digest(tasks)
+    result['status'] = 'incomplete' if any(r['status']=='transport_error' for r in rows) else 'completed'
+    if result['status'] == 'incomplete':
+        for cp in result['checkpoints']:
+            if any(r['status']=='transport_error' and r['checkpoint']==cp['checkpoint'] for r in rows):
+                cp.update(mean=None, integral_mean=None, det_mean=None, na=True)
+                for person in cp['individuals']:
+                    if person['statuses']['transport_error']:
+                        person.update(score=None, integral=None, det=None)
+                for task in cp['per_task'].values():
+                    if task['transport_error']:
+                        task['p_t'] = None
+        result['warnings'].append('Transport errors: affected checkpoint scores are NA, not capability failures')
     return result
+
+
+def claim_evaluation(root, run_id):
+    """A started attempt cannot be silently retried or selected after seeing holdout."""
+    if evaluation_path(root, run_id).exists():
+        raise ProtocolError('Evaluation already exists')
+    atomic_write_json(Path(root) / 'evaluations' / f'{run_id}.started.json',
+                      {'run_id':run_id, 'status':'started'}, overwrite=False)
+
+
+async def evaluate_group(protocol, *, tasks, engine, chat, store_root='runs', plan_only=False):
+    from .protocol import member_config
+    prepared = {}
+    for member in protocol['members']:
+        run_id = member['run_id']
+        cfg = member_config(protocol, member)
+        prep = prepare_evaluation(run_id=run_id, cfg=cfg, tasks=tasks, store_root=store_root)
+        manifest = prep['manifest']
+        if (manifest.get('protocol_id') != protocol['id'] or
+            manifest['group_runs'] != [m['run_id'] for m in protocol['members']] or
+            manifest['dataset'] != protocol['dataset'] or
+            manifest['ancestors'] != protocol['ancestors'] or
+            manifest['initial_population'] != protocol['initial_population']):
+            raise ProtocolError('Run does not match registered group')
+        if evaluation_path(store_root, run_id).exists() or (
+            Path(store_root) / 'evaluations' / f'{run_id}.started.json').exists():
+            raise ProtocolError(f'Evaluation already started: {run_id}')
+        prepared[run_id] = (cfg, prep)
+    order_seed = plan_seed(protocol['id'])
+    plan = [s for _, prep in prepared.values() for s in prep['plan']]
+    random.Random(order_seed).shuffle(plan)
+    write_plan(plan, run_id=f"group_{protocol['id']}", root=store_root, order_seed=order_seed)
+    if plan_only:
+        return {'n_slots':len(plan), 'plan':[s.to_dict() for s in plan]}
+    for run_id, (_, prep) in prepared.items():
+        # Each per-run plan preserves its relative position in the group schedule.
+        prep['plan'] = [s for s in plan if s.run_id == run_id]
+        prep['order_seed'] = order_seed
+        write_plan(prep['plan'], run_id=run_id, root=store_root, order_seed=order_seed)
+        claim_evaluation(store_root, run_id)
+    genes = {(run_id, cp, person):g for run_id, (_, prep) in prepared.items()
+             for (cp, person), g in prep['genes_by'].items()}
+    rows = await run_plan(plan=plan, genes_by=genes, tasks_by_id=index_tasks(tasks),
+                          engine=engine, chat=chat, concurrency=cfg.concurrency)
+    results = []
+    for run_id, (cfg, prep) in prepared.items():
+        result = finish_evaluation(run_id, cfg, tasks, prep, [r for r in rows if r['run_id']==run_id])
+        write_evaluation(result, root=store_root)
+        results.append(result)
+    return results
 
 
 def _aggregate_rows(rows: Sequence[dict]) -> dict:
     statuses = {s: sum(1 for r in rows if r["status"] == s) for s in STATUSES}
-    return {"calls": len(rows), "statuses": statuses,
-            "latency_ms_total": sum(int(r.get("latency_ms") or 0) for r in rows)}
+    out = {'calls':sum(r.get('call_id') is not None for r in rows),
+           'call_total_lower_bound':any(r.get('call_id') is None for r in rows),
+           'slot_total':len(rows), 'statuses':statuses, 'cost':None,
+           'latency_ms_total':sum(int(r.get('latency_ms') or 0) for r in rows)}
+    for key in ('input_tokens','output_tokens','reasoning_tokens'):
+        values = [r.get('usage', {}).get(key) for r in rows]
+        out[key] = (sum(values) if values and all(type(v) is int for v in values)
+                    and all(r.get('attempts') == 1 for r in rows) else None)
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -468,17 +566,23 @@ def write_plan(plan: Sequence[EvalSlot], *, run_id: str,
                root: str | Path = "runs",
                order_seed: int | None = None) -> Path:
     """先落盘再开跑：600 个槽位可以在花钱之前被核对一遍。"""
-    return atomic_write_json(plan_path(root, run_id), {
+    payload = {
         "schema_version": SCHEMA_VERSION,
         "run_id": run_id,
         "n_slots": len(plan),
         "order_seed": plan_seed(run_id) if order_seed is None else order_seed,
         "plan": [s.to_dict() for s in plan],
-    })
+    }
+    path = plan_path(root, run_id)
+    if path.exists():
+        if json.loads(path.read_text(encoding='utf-8')) != payload:
+            raise ProtocolError('Frozen evaluation plan differs')
+        return path
+    return atomic_write_json(path, payload, overwrite=False)
 
 
 def write_evaluation(result: Mapping[str, Any], *, root: str | Path = "runs") -> Path:
-    return atomic_write_json(evaluation_path(root, result["run_id"]), dict(result))
+    return atomic_write_json(evaluation_path(root, result["run_id"]), dict(result), overwrite=False)
 
 
 def load_evaluation(path_or_run_id: str | Path, *, root: str | Path = "runs") -> dict:
@@ -498,6 +602,12 @@ def pair_evaluations(e: Mapping[str, Any], f: Mapping[str, Any]
 
     缺失检查点或 NA 一律给 None——不跳过失败种子、不换配对对象（规格 §5）。
     """
+    if e.get('condition') != 'E' or f.get('condition') != 'F':
+        raise ProtocolError('Pair requires E then F')
+    for key in ('seed','data_seed','n_gen','n_holdout','holdout_digest','comparison_fingerprint',
+                'initial_fingerprint','ancestor_fingerprint','protocol_id'):
+        if key not in e or key not in f or e[key] != f[key]:
+            raise ProtocolError(f'Incompatible pair: {key}')
     em, fm = _mean_by_checkpoint(e), _mean_by_checkpoint(f)
     cps = sorted(set(em) | set(fm))
     e0, f0 = em.get(0), fm.get(0)
@@ -517,7 +627,7 @@ def pair_evaluations(e: Mapping[str, Any], f: Mapping[str, Any]
                                 else round(f_mean - f0, 10)),
         })
 
-    g = max(cps) if cps else None
+    g = e['n_gen']
     final = next((r for r in rows if r["checkpoint"] == g), None) if g is not None else None
     return {
         "schema_version": SCHEMA_VERSION,
@@ -602,11 +712,14 @@ def load_holdout_tasks(path: str | Path, engine: Engine, *,
         raise FileNotFoundError(f"留出卷不存在: {p}")
     tasks: list[dict] = []
     seen: set[str] = set()
-    for lineno, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
-        line = line.strip()
-        if not line:
-            continue
-        raw = json.loads(line)
+    text = p.read_text(encoding='utf-8')
+    if p.suffix == '.json':
+        source_rows = json.loads(text)
+        if isinstance(source_rows, dict):
+            source_rows = source_rows['tasks']
+    else:
+        source_rows = [json.loads(line) for line in text.splitlines() if line.strip()]
+    for lineno, raw in enumerate(source_rows, 1):
         tid = raw.get("id") or f"H{len(tasks) + 1:02d}"
         if tid in seen:
             raise ValueError(f"{p}:{lineno} 题 ID 重复: {tid}")

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import asdict, dataclass, field
 from decimal import Decimal, InvalidOperation
 from fractions import Fraction
@@ -81,6 +82,7 @@ _FIELD_SPECS: list[tuple[str, str, bool]] = [
     ("budget_currency", "opt_str", True),
     ("budget_amount", "opt_num", True),
     ("wall_limit_s", "opt_num", True),
+    ("max_calls", "opt_num", False),
 ]
 
 FIELD_NAMES: tuple[str, ...] = tuple(name for name, _, _ in _FIELD_SPECS)
@@ -96,7 +98,7 @@ _PLACEHOLDER_MARKERS = ("REPLACE_WITH",)
 
 
 def _is_num(v: Any) -> bool:
-    return isinstance(v, (int, float)) and not isinstance(v, bool)
+    return isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
 
 
 def _check_type(name: str, kind: str, value: Any) -> Any:
@@ -195,6 +197,7 @@ class Config:
     budget_currency: str | None
     budget_amount: float | None
     wall_limit_s: float | None
+    max_calls: float | None = None
     # 非 JSON 字段：只用于提示，不参与指纹
     source_path: str | None = field(default=None, compare=False)
 
@@ -215,7 +218,7 @@ class Config:
 
         values = {}
         for name, kind, _ in _FIELD_SPECS:
-            values[name] = _check_type(name, kind, raw[name])
+            values[name] = _check_type(name, kind, raw.get(name))
 
         cfg = cls(**values, source_path=source_path)
         cfg.validate()
@@ -322,6 +325,8 @@ class Config:
             raise ConfigError(f"budget_amount 必须 > 0 或为 null，当前 {self.budget_amount}")
         if self.wall_limit_s is not None and self.wall_limit_s <= 0:
             raise ConfigError(f"wall_limit_s 必须 > 0 或为 null，当前 {self.wall_limit_s}")
+        if self.max_calls is not None and (self.max_calls <= 0 or self.max_calls != int(self.max_calls)):
+            raise ConfigError('max_calls must be a positive integer or null')
 
     def _validate_challenge_gens(self) -> None:
         gens = self.challenge_gens
@@ -377,10 +382,12 @@ class Config:
                 raise MissingConfigError(
                     f"{name} 还是占位符 {value!r}；真实运行前必须替换为冻结值"
                 )
-        if self.budget_amount is None and self.wall_limit_s is None:
+        if self.budget_amount is not None:
+            raise MissingConfigError('当前没有可靠单次费用上界，不能承诺 budget_amount；'
+                                     '请设为 null，并使用 wall_limit_s / max_calls 硬限额（费用未知）')
+        if self.wall_limit_s is None and self.max_calls is None:
             raise MissingConfigError(
-                "budget_amount 与 wall_limit_s 都是 null；"
-                "正式运行要求填写费用上限，或明确选择仅按时间/调用上限控制"
+                "必须设置 wall_limit_s 或 max_calls；当前费用未知，不能承诺货币上限"
             )
 
     def to_dict(self) -> dict:

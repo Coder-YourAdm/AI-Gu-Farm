@@ -42,7 +42,6 @@ import concurrent.futures as cf
 import hashlib
 import json
 import os
-import shutil
 import sys
 import time
 from pathlib import Path
@@ -123,6 +122,8 @@ def seed_state() -> dict:
 
 
 def pair_dir(pair: str) -> Path:
+    if not pair or pair.strip() != pair or any(s in pair for s in ('/', '\\', ':', '..')):
+        raise ValueError('pair 必须是单一目录名称')
     return RUNS / pair
 
 
@@ -154,6 +155,8 @@ def learn_from(pass1: dict, prev_state: dict) -> dict:
     规则由族级失败率触发，记忆文本直接引自 pass1 的错误原因。
     """
     st = json.loads(json.dumps(prev_state))
+    if pass1.get('status') == 'aborted' or any(t.get('transport_error') for t in pass1['per_task']):
+        raise ValueError('调用失败的运行不能生成学习规则')
     fail: dict[str, list[dict]] = {}
     for t in pass1["per_task"]:
         if not t["correct"]:
@@ -407,7 +410,9 @@ def make_solver(backend: str) -> tuple[Callable, str]:
                       + (f"\n{check}\n" if check else "")
                       + "\n最后一行只写答案，不要解释。")
 
-        raw = _complete([{"role": "user", "content": prompt}])
+        # solver.md is a system template; the task always has its own user message.
+        from app.llm import build_solver_messages
+        raw = _complete(build_solver_messages(prompt, view['statement'], view['answer_format']))
         if isinstance(raw, tuple):
             text, tin, tout = (list(raw) + [0, 0])[:3]
         else:                                    # 对象式返回也认
@@ -445,25 +450,38 @@ def run_pass(pass_no: int, pair: str, state: dict, bank: list[dict],
                 r = f.result()
             except Exception as e:  # noqa: BLE001
                 r = {"answer": "", "correct": False, "reason": f"调用异常：{e}",
-                     "tokens_in": 0, "tokens_out": 0, "latency_s": 0}
+                     "tokens_in": None, "tokens_out": None, "latency_s": 0,
+                     'transport_error': True}
             per_task.append({
                 "id": row["task"]["id"], "family": row["family"],
                 "correct": r["correct"], "answer_chars": len(str(r["answer"])),
                 "reason": r.get("reason"),
+                'transport_error': r.get('transport_error', False),
                 "tokens_in": r["tokens_in"], "tokens_out": r["tokens_out"],
                 "latency_s": r["latency_s"],
             })
     per_task.sort(key=lambda x: x["id"])
     dur = round(time.time() - t0, 1)
     correct = sum(1 for t in per_task if t["correct"])
+    failed = any(t['transport_error'] for t in per_task)
     print(f"  ✓ pass{pass_no} 完成 {correct}/{len(bank)} 用时 {dur}s", flush=True)
     return {
         "pass": pass_no, "duration_s": dur, "correct": correct, "total": len(bank),
-        "accuracy": correct / len(bank), "per_task": per_task,
+        "accuracy": None if failed else correct / len(bank), "per_task": per_task,
+        'status': 'aborted' if failed else 'completed',
         "state_version": state["version"],
-        "tokens_in": sum(t["tokens_in"] for t in per_task),
-        "tokens_out": sum(t["tokens_out"] for t in per_task),
+        "tokens_in": None if failed else sum(t["tokens_in"] for t in per_task),
+        "tokens_out": None if failed else sum(t["tokens_out"] for t in per_task),
     }
+
+
+def _archive_pass(directory: Path, result: dict):
+    from .store import atomic_write_json
+    atomic_write_json(directory / f"pass{result['pass']}.json", result, overwrite=False)
+    if result['status'] == 'aborted':
+        atomic_write_json(directory / 'failure.json',
+            {'status':'aborted', 'pass':result['pass'], 'reason':'transport_error'}, overwrite=False)
+        raise SystemExit('模型调用失败，已归档；不生成学习规则或准确率提升结论')
 
 
 # ────────────────────────────── 双跑 ──────────────────────────────
@@ -474,8 +492,8 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
     fp_before = frozen_fingerprint()
     d = pair_dir(pair)
     if d.exists():
-        shutil.rmtree(d)
-    (d / "state").mkdir(parents=True, exist_ok=True)
+        raise SystemExit(f'运行 {pair} 已存在；请换一个 --pair，原始证据已保留')
+    (d / "state").mkdir(parents=True, exist_ok=False)
 
     # ① 起点快照 —— 回退目标，必须在任何运行之前
     seed = seed_state()
@@ -485,6 +503,7 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
 
     # ② 第一次运行（state = seed）
     p1 = run_pass(1, pair, seed, bank, solver)
+    _archive_pass(d, p1)
 
     # ③ 学习：pass1 的失败模式 → 新 state（人不参与）
     learned = learn_from(p1, seed)
@@ -495,6 +514,7 @@ def run_pair(pair: str, backend: str, out: Path | None = None) -> dict:
 
     # ④ 第二次运行（state = learned）
     p2 = run_pass(2, pair, learned, bank, solver)
+    _archive_pass(d, p2)
 
     # ⑤ 冻结校验：config 与 prompts 必须一字未变
     fp_after = frozen_fingerprint()

@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 import random
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping
@@ -60,18 +61,24 @@ def rng_from_dict(obj: Mapping[str, Any]) -> random.Random:
 # 原子写
 # --------------------------------------------------------------------------
 
-def atomic_write_json(path: str | Path, payload: Any) -> Path:
+def atomic_write_json(path: str | Path, payload: Any, *, overwrite: bool = True) -> Path:
     """写同目录临时文件再 `os.replace`。失败不会污染已有快照。"""
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
-    tmp = p.with_name(p.name + ".tmp")
+    tmp = p.with_name(p.name + '.' + uuid.uuid4().hex + ".tmp")
     text = json.dumps(payload, ensure_ascii=False, sort_keys=True,
                       separators=(",", ":"))
     with open(tmp, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
         f.flush()
         os.fsync(f.fileno())
-    os.replace(tmp, p)
+    if overwrite:
+        os.replace(tmp, p)
+    else:
+        try:
+            os.link(tmp, p)  # Atomic create-if-absent; never replace evidence.
+        finally:
+            tmp.unlink(missing_ok=True)
     return p
 
 
@@ -81,6 +88,32 @@ class SnapshotStore:
 
     root: str | Path = "runs"
     run_id: str = "run"
+
+    def __post_init__(self):
+        if (not self.run_id or self.run_id.strip() != self.run_id or
+                any(c in self.run_id for c in ('/', '\\', ':', '..'))):
+            raise ValueError('Invalid run_id')
+
+    @property
+    def manifest_path(self):
+        return Path(self.root) / 'manifests' / f'{self.run_id}.json'
+
+    @property
+    def summary_path(self):
+        return Path(self.root) / 'summaries' / f'{self.run_id}.json'
+
+    def write_manifest(self, manifest):
+        return atomic_write_json(self.manifest_path, manifest, overwrite=False)
+
+    def load_manifest(self):
+        if not self.manifest_path.exists():
+            raise ProtocolError(f'No frozen manifest for {self.run_id}')
+        return json.loads(self.manifest_path.read_text(encoding='utf-8'))
+
+    def load_summary(self):
+        if not self.summary_path.exists():
+            raise ProtocolError(f'Run {self.run_id} has no terminal state')
+        return json.loads(self.summary_path.read_text(encoding='utf-8'))
 
     @property
     def run_dir(self) -> Path:
@@ -106,7 +139,7 @@ class SnapshotStore:
             "state": dict(state_payload or {}),
             "rng": rng_state_to_dict(rng),
         }
-        return atomic_write_json(self.snapshot_path(int(record["gen"])), payload)
+        return atomic_write_json(self.snapshot_path(int(record["gen"])), payload, overwrite=False)
 
     def append_history(self, record: Mapping[str, Any]) -> None:
         p = self.history_path
@@ -126,3 +159,29 @@ class SnapshotStore:
         if data.get("phase") != "completed":
             raise ProtocolError(f"只从 completed 快照恢复，当前 {data.get('phase')}")
         return data
+
+    # -- 续跑用：只看「存在哪些代」，不解析内容 --------------------------
+
+    def gens(self) -> list[int]:
+        """已落盘的代次（升序）。文件名不合 `gNN.json` 一律不算。"""
+        out: list[int] = []
+        for p in self.run_dir.glob("g*.json"):
+            stem = p.stem
+            if len(stem) >= 3 and stem[0] == "g" and stem[1:].isdigit():
+                out.append(int(stem[1:]))
+        return sorted(out)
+
+    def completed_gens(self) -> list[int]:
+        """`phase=completed` 的代次。读取失败的单个文件跳过，不打断扫描。"""
+        out: list[int] = []
+        for gen in self.gens():
+            try:
+                data = json.loads(self.snapshot_path(gen).read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                continue
+            if data.get("phase") == "completed" and data.get("gen") == gen:
+                out.append(gen)
+        return out
+
+    def has_snapshots(self) -> bool:
+        return bool(self.gens())

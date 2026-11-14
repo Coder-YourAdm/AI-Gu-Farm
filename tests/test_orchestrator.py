@@ -580,7 +580,7 @@ def test_unknown_error_code_rejected():
 # 诚实性：执行器 bug 必须炸出来，不能被当成「模型出不了题」
 # --------------------------------------------------------------------------
 
-async def test_executor_bug_propagates_instead_of_becoming_invalid_generation():
+async def test_executor_bug_is_archived_as_execution_error():
     class BrokenEngine(FakeEngine):
         def solve_exact(self, task):
             if task.get("source") == "evolved":
@@ -593,9 +593,11 @@ async def test_executor_bug_propagates_instead_of_becoming_invalid_generation():
     seed_dedup(state, dataset)
     chat = ScriptedChat(cfg, BrokenEngine(), answer_policy=ALL_RIGHT)
 
-    with pytest.raises(NameError):
-        await run_generation(gen=1, state=state, engine=BrokenEngine(),
-                             dataset=dataset, chat=chat)
+    rec = await run_generation(gen=1, state=state, engine=BrokenEngine(),
+                               dataset=dataset, chat=chat)
+    assert rec['status'] == 'aborted' and rec['reason'] == 'execution_error'
+    assert 'NameError' in rec['warnings'][0]
+    assert state.last_gen == 0 and state.gene_history.to_dict() == {}
 
 
 async def test_executor_arithmetic_error_is_treated_as_bad_params():

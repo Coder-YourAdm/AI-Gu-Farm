@@ -15,6 +15,7 @@ import itertools
 import json
 import random
 import time
+import copy
 from dataclasses import dataclass, field
 from typing import Any, Iterator, Mapping, Protocol, Sequence
 
@@ -29,6 +30,9 @@ from app.genotype import (
     gene_key,
 )
 from app.llm import CallResult, ProtocolError, build_solver_messages
+from .async_tools import gather_strict
+from .budget import BudgetExceeded
+from .llm_async import TransportFailure
 
 SCHEMA_VERSION = "5.1"
 
@@ -253,7 +257,7 @@ async def collect_tasks(*, gen: int, evaluated: Sequence[Individual], cfg: Confi
                                       attempt=n)
                 return res, n
 
-            results = await asyncio.gather(*[_one(ind) for ind in pending])
+            results = await gather_strict([_one(ind) for ind in pending])
 
             still: list[Individual] = []
             for ind, (res, n) in zip(pending, results):
@@ -316,6 +320,7 @@ class Slot:
             "individual_id": self.individual_id,
             "status": self.status,
             "call_ids": list(self.call_ids),
+            "raw_answer": self.raw_answer,
         }
 
 
@@ -421,7 +426,7 @@ async def fill_slots(*, slots: Sequence[Slot], genes_by_id: Mapping[str, Genes],
                                                   slot_id=slot.slot_id)
         return res
 
-    return list(await asyncio.gather(*[_one(s) for s in slots]))
+    return list(await gather_strict([_one(s) for s in slots]))
 
 
 # --------------------------------------------------------------------------
@@ -577,6 +582,24 @@ def update_challenge(ch: Challenge, *, gen: int, challenge_slots: Sequence[Slot]
         ch.retired_reason = "window_closed"
 
 
+def _challenge_view(state: RunState, *, closed_reason: str | None = None) -> list[dict]:
+    """代记录里的挑战快照；`closed_reason` 非空时把未退役的标成 censored。
+
+    规格 §6.3 要求「运行提前中止时为 run_aborted 或 budget_limit，对外写观察被截断」。
+    **只改返回的副本**，不动 `state.challenges` 本体：中止后代记录写 censored，
+    但内存里若还是 active，续跑时仍能按窗口继续注入；否则一次传输抖动就会让整个
+    挑战窗口作废（那一道题只观测了 1 次就被永久关闭）。
+    """
+    rows: list[dict] = []
+    for ch in state.challenges.values():
+        row = ch.to_dict()
+        if closed_reason is not None and row["state"] in ("scheduled", "active"):
+            row["state"] = "censored"
+            row["retired_reason"] = closed_reason
+        rows.append(row)
+    return rows
+
+
 # --------------------------------------------------------------------------
 # 运行状态
 # --------------------------------------------------------------------------
@@ -593,6 +616,8 @@ class RunState:
     challenges: dict[str, Challenge]
     last_gen: int = 0
     phase: str = "init"
+    frozen_manifest: dict = field(default_factory=dict)
+    restored: bool = False
 
     def genes_by_id(self) -> dict[str, Genes]:
         out = {ind.id: ind.genes for ind in self.next_population}
@@ -625,7 +650,8 @@ def _aggregate_usage(results: Sequence[CallResult]) -> dict:
     def _sum(key: str) -> int | None:
         vals = [r.usage.get(key) for r in results
                 if isinstance(r.usage, Mapping) and type(r.usage.get(key)) is int]
-        return sum(vals) if vals else None
+        return (sum(vals) if vals and len(vals) == len(results)
+                and all(r.attempts == 1 for r in results) else None)
 
     return {
         "call_count": len(results),
@@ -646,10 +672,16 @@ def _role_timing(results: Sequence[CallResult]) -> dict:
 def build_aborted_record(*, state: RunState, gen: int, reason: str,
                          attempts: Sequence[TaskAttempt], refetch_round: int,
                          results: Sequence[CallResult] = (),
-                         warnings: Sequence[str] = ()) -> dict:
+                         warnings: Sequence[str] = (),
+                         censor_reason: str = "run_aborted") -> dict:
     """失败代写单独记录，不提交为 completed。slots 为空。
 
     保留题目尝试与已完成调用，供事后判断是「模型出不了题」还是「我们的校验有 bug」。
+
+    挑战状态走 `_challenge_view(closed_reason=censor_reason)`：未退役的（scheduled /
+    active）在**记录里**标成 `censored`，符合规格 §6.3「运行提前中止时对外写观察被截断」。
+    注意只改记录的视图，不动 `state.challenges` 本体——中止后若续跑（--resume），
+    内存里的挑战仍是 active，能继续按窗口注入；否则一次传输抖动就会把整个挑战窗口废掉。
     """
     return {
         "schema_version": SCHEMA_VERSION,
@@ -669,7 +701,7 @@ def build_aborted_record(*, state: RunState, gen: int, reason: str,
         "ranking": [],
         "evaluated_population": [_ind_payload(i) for i in state.next_population],
         "next_population": None,
-        "challenges": [c.to_dict() for c in state.challenges.values()],
+        "challenges": _challenge_view(state, closed_reason=censor_reason),
         "timing": {"wall_ms": None, "role_ms": _role_timing(results)},
         "usage": _aggregate_usage(results),
         "warnings": list(warnings),
@@ -680,7 +712,7 @@ def build_aborted_record(*, state: RunState, gen: int, reason: str,
 # 一代事务（规格 §7）
 # --------------------------------------------------------------------------
 
-async def run_generation(*, gen: int, state: RunState, engine: Engine,
+async def _run_generation(*, gen: int, state: RunState, engine: Engine,
                          dataset: Dataset, chat: ChatClient,
                          operators: Any | None = None,
                          ) -> dict:
@@ -813,6 +845,7 @@ async def run_generation(*, gen: int, state: RunState, engine: Engine,
             "det": sum(1 for t in valid if t["type"] == "det"),
         },
         "slots": role_counts,
+        "answers": [s.to_dict() for s in slots],
         "slot_total": len(slots),
         # 78 = 6 次出题 + 72 个解题槽位。两个数分开落盘，别混：
         # §8 的 slots 只数解题槽位，而「每代 78 次调用」含 6 次 setter。
@@ -839,7 +872,7 @@ async def run_generation(*, gen: int, state: RunState, engine: Engine,
         "next_population": ([_ind_payload(i) for i in next_population]
                             if next_population is not None else None),
         "breed": breed_stats,
-        "challenges": [c.to_dict() for c in state.challenges.values()],
+        "challenges": _challenge_view(state),          # 正常代不截断，等价原样
         "timing": {"wall_ms": int((time.perf_counter() - t0) * 1000),
                    "role_ms": _role_timing(results)},
         "usage": _aggregate_usage(results),
@@ -850,6 +883,75 @@ async def run_generation(*, gen: int, state: RunState, engine: Engine,
     state.last_gen = gen
     state.phase = "completed"
     return record
+
+
+class RecordingChat:
+    def __init__(self, inner):
+        self.inner = inner
+        self.results = []
+        self.roles = []
+
+    async def chat(self, role, messages, **kwargs):
+        self.roles.append(role)
+        try:
+            result = await self.inner.chat(role, messages, **kwargs)
+        except ProtocolError as exc:
+            if hasattr(exc, 'result'):
+                self.results.append(exc.result)
+            raise
+        self.results.append(result)
+        return result
+
+
+async def run_generation(*, gen, state, engine, dataset, chat, operators=None):
+    """Commit state only on success; infrastructure failures never select genes."""
+    working = copy.deepcopy(state)
+    recorded = RecordingChat(chat)
+    op = copy.copy(operators) if operators is not None else None
+    if op is not None:
+        if hasattr(op, 'chat'):
+            op.chat = recorded
+        if hasattr(op, 'rng'):
+            op.rng = working.rng
+    budget = getattr(chat, 'budget', None)
+    http_before = budget.used if budget else None
+    cancellation = None
+    try:
+        result = await _run_generation(gen=gen, state=working, engine=engine,
+                                       dataset=dataset, chat=recorded, operators=op)
+    except (Exception, asyncio.CancelledError) as exc:
+        cancellation = exc if isinstance(exc, asyncio.CancelledError) else None
+        reason = ('cancelled' if cancellation is not None else
+                  'budget_limit' if isinstance(exc, (BudgetExceeded, TimeoutError)) else
+                  'transport_error' if isinstance(exc, TransportFailure) else
+                  'broken_reference' if isinstance(exc, BrokenReference) else
+                  'protocol_error' if isinstance(exc, ProtocolError) else 'execution_error')
+        result = build_aborted_record(state=state, gen=gen, reason=reason,
+                    attempts=[], refetch_round=0, results=recorded.results,
+                    warnings=[f'{type(exc).__name__}: {exc}'],
+                    censor_reason='budget_limit' if reason == 'budget_limit' else 'run_aborted')
+    result['exposed_signatures'] = sorted(working.dedup_set - state.dedup_set)
+    if result['status'] == 'completed':
+        state.__dict__.update(working.__dict__)
+    else:
+        state.phase = 'aborted'
+    result['setter_calls'] = recorded.roles.count('setter')
+    result['operator_calls'] = recorded.roles.count('operator')
+    result['call_total'] = len(recorded.roles)
+    result['http_attempts'] = (budget.used - http_before if budget else
+                               sum(r.attempts for r in recorded.results))
+    result['call_total_lower_bound'] = len(recorded.results) != len(recorded.roles)
+    result['usage'] = _aggregate_usage(recorded.results)
+    result['usage']['call_count'] = len(recorded.roles)
+    result['call_ids'] = [r.call_id for r in recorded.results]
+    result['usage']['unknown_calls'] = len(recorded.roles) - len(recorded.results)
+    if result['usage']['unknown_calls']:
+        for key in ('input_tokens', 'output_tokens', 'reasoning_tokens'):
+            result['usage'][key] = None
+    if cancellation is not None:
+        cancellation.record = result
+        raise cancellation
+    return result
 
 
 async def run_generations(*, state: RunState, engine: Engine, dataset: Dataset,

@@ -455,6 +455,9 @@ class Operators:
         for attempt in range(1, self.cfg.operator_attempts + 1):
             res = await self.chat.chat("operator", messages,
                                        slot_id=f"{cid}_cross_a{attempt}")
+            if getattr(res, 'is_transport_error', False):
+                from .llm_async import TransportFailure
+                raise TransportFailure('crossover transport retries exhausted')
             if not getattr(res, "content_ok", False):
                 stats.failures.append(f"{cid}_a{attempt}:{getattr(res, 'parse_error', None) or getattr(res, 'status', 'unknown')}")
                 continue
@@ -503,6 +506,9 @@ class Operators:
         for attempt in range(1, self.cfg.operator_attempts + 1):
             res = await self.chat.chat("operator", messages,
                                        slot_id=f"{cid}_mut_a{attempt}")
+            if getattr(res, 'is_transport_error', False):
+                from .llm_async import TransportFailure
+                raise TransportFailure('mutation transport retries exhausted')
             if not getattr(res, "content_ok", False):
                 stats.failures.append(f"{cid}_a{attempt}:{getattr(res, 'parse_error', None) or getattr(res, 'status', 'unknown')}")
                 continue

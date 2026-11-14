@@ -180,13 +180,16 @@ def test_placeholder_blocks_real_run_but_not_dry_run():
 
 
 def test_budget_null_blocks_real_run():
-    cfg = _cfg(model="some-model", base_url="https://example.com/v1")
-    with pytest.raises(ConfigError) as e:
+    cfg = _cfg(model="some-model", base_url="https://example.com/v1", wall_limit_s=None)
+    with pytest.raises(ConfigError):
         cfg.require_runtime_ready()
-    assert "budget_amount" in str(e.value)
-    ok = _cfg(model="some-model", base_url="https://example.com/v1",
-              budget_amount=15.0, budget_currency="CNY")
-    ok.require_runtime_ready()
+    money = _cfg(model="some-model", base_url="https://example.com/v1",
+                 budget_amount=15.0, budget_currency="CNY")
+    with pytest.raises(ConfigError):
+        money.require_runtime_ready()
+    for limit in ({'wall_limit_s':60}, {'max_calls':100}):
+        _cfg(model='some-model', base_url='https://example.com/v1',
+             budget_amount=None, **limit).require_runtime_ready()
 
 
 def test_fingerprint_stable_and_sensitive():

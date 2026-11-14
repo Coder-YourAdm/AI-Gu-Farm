@@ -85,24 +85,27 @@ def _make(engine: FakeEngine, raw: dict, task_id: str) -> dict:
 async def _freeze_run(tmp_path: Path, *, gens: int, n_gen: int = 5):
     """跑 `gens` 代并把每代快照写进 tmp_path，模拟一次已冻结的运行。"""
     from app.store import SnapshotStore
+    from app.runtime import new_run
+    from app.runner import run_loop
+    from app.integrity import task_digest
 
     cfg = _cfg(n_gen=n_gen, challenge_gens=[])
     engine = FakeEngine()
     dataset = FakeDataset(engine, n_gens=cfg.n_gen)
-    state = build_state(cfg, run_id="run_e")
-    seed_dedup(state, dataset, challenge_ids=())
+    dataset.holdout_digest = task_digest(_holdout_tasks(engine))
+    state = new_run(cfg=cfg, dataset=dataset, run_id='run_e')
     chat = ScriptedChat(cfg, engine, answer_policy=ALL_RIGHT)
     operators = FakeOperators(cfg)      # condition=E 要走重组
     store = SnapshotStore(root=str(tmp_path), run_id="run_e")
 
-    for gen in range(1, gens + 1):
-        rec = await run_generation(gen=gen, state=state, engine=engine,
-                                   dataset=dataset, chat=chat,
-                                   operators=operators)
-        assert rec["status"] == "completed"
-        store.save_generation(rec, rng=state.rng,
-                              state_payload={"phase": state.phase,
-                                             "last_gen": state.last_gen})
+    class FailingChat:
+        async def chat(self, *args, **kwargs):
+            raise RuntimeError('simulated terminal failure')
+    await run_loop(state=state, engine=engine, dataset=dataset, chat=chat,
+                   operators=operators, store=store, until=gens)
+    if gens < n_gen:
+        await run_loop(state=state, engine=engine, dataset=dataset, chat=FailingChat(),
+                       operators=operators, store=store)
     return cfg, engine, chat
 
 
@@ -253,7 +256,7 @@ async def test_population_at_checkpoint(tmp_path):
     people0, src0 = population_at_checkpoint(store_root=tmp_path, run_id="run_e",
                                              checkpoint=0,
                                              seed_path="prompts/seed_genotypes.json")
-    assert src0 == "seed" and len(people0) == 6
+    assert src0 == "snapshot" and len(people0) == 6
     assert {p.meta.id for p in people0} == {f"G00_S{j + 1}" for j in range(6)}
 
     people5, src5 = population_at_checkpoint(store_root=tmp_path, run_id="run_e",
@@ -330,19 +333,16 @@ async def test_missing_final_checkpoint_is_na(tmp_path):
     assert any("NA" in w for w in result["warnings"])
 
 
-async def test_only_checkpoint_zero_still_evaluates(tmp_path):
-    """一代都没跑：第 0 代（种子）仍可评测，锁定的末代写 NA。"""
+async def test_nonexistent_run_cannot_evaluate(tmp_path):
+    """没有冻结运行不能凭当前种子文件生成评测。"""
+    from app.llm import ProtocolError
     cfg = _cfg(n_gen=5, challenge_gens=[])
     engine = FakeEngine()
     chat = ScriptedChat(cfg, engine, answer_policy=ALL_RIGHT)
-    result = await evaluate_run(run_id="nope", cfg=cfg, engine=engine, chat=chat,
-                                tasks=_holdout_tasks(engine), store_root=tmp_path)
-    by_cp = {c["checkpoint"]: c for c in result["checkpoints"]}
-    assert set(by_cp) == {0, 5}
-    assert by_cp[0]["mean"] == 20.0        # 种子六人照常测
-    assert by_cp[5]["na"] is True          # 末代 NA
-    assert result["n_slots"] == 6 * 20     # 只测了第 0 代
-    assert any("NA" in w for w in result["warnings"])
+    with pytest.raises(ProtocolError):
+        await evaluate_run(run_id='nope', cfg=cfg, engine=engine, chat=chat,
+                           tasks=_holdout_tasks(engine), store_root=tmp_path)
+    assert chat.count() == 0
 
 
 # --------------------------------------------------------------------------
@@ -357,6 +357,11 @@ def test_pair_evaluations():
         {"checkpoint": 0, "mean": 8.0}, {"checkpoint": 10, "mean": 9.0},
         {"checkpoint": 20, "mean": None}]}       # 末代 NA
 
+    shared = dict(seed=42, data_seed=7, n_gen=20, holdout_digest='h',
+                  comparison_fingerprint='c', initial_fingerprint='i',
+                  ancestor_fingerprint='a', protocol_id='p')
+    e.update(shared, condition='E')
+    f.update(shared, condition='F')
     pair = pair_evaluations(e, f)
     rows = {r["checkpoint"]: r for r in pair["rows"]}
     assert rows[10]["diff"] == 3.0
