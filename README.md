@@ -71,6 +71,22 @@ python -m app.demo pair --pair demo_pair_real --backend real
 （占位符 / 硬限额）、密钥环境变量、数据 125 题自校验、判分链路往返、运行目录可写、
 调用量是否装得下 `max_calls`。**任何一项 FAIL 都不要开跑**——`--probe` 只花几个 token。
 
+### 配真模型：一条命令
+
+```bash
+python tools/set_model.py --list                                    # 看预设服务商
+python tools/set_model.py --provider deepseek --model deepseek-chat --key sk-xxxx
+python tools/preflight.py --config config.local.json --require-key --probe
+```
+
+`set_model.py` 从 `config.dev.json` 复制一份 `config.local.json`，按服务商填 `base_url`、
+补 `max_calls`（默认 3000，E 一趟 2289），并**把 key 只写进 `.env`**。
+`config.local.json` 与 `.env` 都在 `.gitignore` 里（第 19、20 行），**永远不会进仓库**。
+
+> `preflight` 会自动读 `.env`，不需要每次 `export`。
+> `--probe` 会显示**服务端回显的 model**：如果它和你填的不一样，说明走的是别名或中转，
+> 实验报告里要如实写「我们传 X，服务端回显 Y」。
+
 > 助教侧命令随今日施工落地：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
 > `python app/serve.py --port 8123 --allow-tutor`。契约见 [AI 可读实施方案](docs/AI可读_实施方案.md)。
 
