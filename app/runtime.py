@@ -63,10 +63,24 @@ def build_challenges(cfg: Config, dataset: Dataset) -> dict[str, Challenge]:
             f"挑战池只有 {len(pool_ids)} 道题，但配置了 {len(gens)} 个注入代 "
             f"{gens}；不能靠 zip 截断静默少注入"
         )
+
+    # 指定了 challenge_task_ids 就按它配题（顺序对应 challenge_gens），
+    # 否则沿用「池内 id 排序取前 N 道」。指定值必须都在池中——静默换成
+    # 别的题会让协议里写的题目与实际注入的题目不是同一道。
+    if cfg.challenge_task_ids is not None:
+        chosen = list(cfg.challenge_task_ids)
+        missing = [tid for tid in chosen if tid not in set(pool_ids)]
+        if missing:
+            raise ValueError(
+                f"challenge_task_ids 指定的 {missing} 不在挑战池 {pool_ids} 中"
+            )
+    else:
+        chosen = pool_ids[:len(gens)]
+
     return {
-        pool_id: Challenge(task_id=pool_id, born_gen=born,
+        task_id: Challenge(task_id=task_id, born_gen=born,
                            window=cfg.challenge_window)
-        for pool_id, born in zip(pool_ids, gens)
+        for task_id, born in zip(chosen, gens)
     }
 
 
@@ -246,6 +260,7 @@ def state_to_payload(state: RunState) -> dict:
         # 按 task_id 排序：字典序不该取决于 dict 的插入顺序
         "challenges": [c.to_dict() for c in
                        sorted(state.challenges.values(), key=lambda c: c.task_id)],
+        "recent_tasks": list(state.recent_tasks)[-30:],
     }
 
 
@@ -297,6 +312,7 @@ def state_from_payload(payload: Mapping[str, Any], *, cfg: Config, run_id: str,
         ancestors=ancestors,
         gene_history=GeneHistory.from_dict(payload.get("gene_history") or {}),
         dedup_set=set(payload.get("dedup_set") or []),
+        recent_tasks=[dict(t) for t in (payload.get("recent_tasks") or [])][-30:],
         challenges={},
     )
     for raw in payload.get("challenges") or []:

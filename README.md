@@ -24,17 +24,24 @@
 | 双跑编排 `app/demo.py` | ✅ `pair` / `rollback` / `status`，`--backend mock\|real` |
 | 快照回退 | ✅ `v0_seed` 一键回退，实测逐字节可逆 |
 | 演化大屏 / 双跑对照 / 结果页 | ✅ 三个单文件页面，零依赖、断网可演示 |
-| B 演化引擎 `app/run.py` | ✅ 异步接口、校准、pilot、冻结 E/F 协议、失败归档与独立恢复分支；已通过离线回归 |
-| B 留出评测 | ✅ 冻结 g0 / 实际参评检查点、全组终态门禁、跨运行交错计划与严格配对；尚未运行真实模型实验 |
+| B 演化引擎 `app/run.py` | ✅ 已用真模型跑完 4 趟 20 代（2 对 E/F），协议冻结为 `runs/protocol_v5.json` |
+| B 留出评测 | ✅ 已跑：2,640 次调用，两对末代 E−F = +0.50 / +0.17（均值 +0.33 题/20） |
 | 端到端回归 | ✅ 439 条用例（含 3 代 mock pilot、导出白名单自检、断点续跑） |
-| 真模型调用 `app/llm.py` | ⚠️ 代码就绪，`config.json` 的 `model`/`base_url` 未填、缺 API key |
-| 留出评测 `web/result.json` | ⚠️ 页面已按契约实现，数据待评测产出（现为 mock，页面挂红标） |
+| 真模型调用 `app/llm.py` | ✅ `deepseek-flash` @ `api.deepseek.com/v1`，三角色温度、限流、重试、审计已跑通 |
+| 留出评测 `web/result.json` | ✅ 数据已产出（`runs/result_brief.json` + `docs/B_交付简报.md`），页面待接 |
 | 学生模型 + 记忆（`app/student/`、`app/tutor/`） | 🚧 施工中：契约已冻结，BKT / 难度 / 记忆 / 提示梯度今日落地 |
 | 学生端（回放 + 实时） | 🚧 施工中：`web/tutor.html` + `POST /api/ask`；**回放模式不依赖网络** |
 | 三套教法对照 | 🚧 施工中：`loose / verbose / answer_only`，fitness = 学生增益 − 0.25 × 交互成本 |
 
+**实验结论（2026-11-14）**：未观察到可靠的策略改善；两对方向一致为正但幅度在噪声内。
+稳定可复现的发现是挑战题越界——5 阶行列式连续六代 0/6，4 阶最高 2/6。
+完整结果与限制见 [B 交付简报](docs/B_交付简报.md)，协议偏离见
+[B 协议偏离说明](docs/B_协议偏离说明.md)。
+
 **诚实标注**：仓库里 `web/evolve.json`、`web/result.json` 当前是 `is_mock: true` 的
 演示数据，用于跑通链路与排练。页面上有 `mock` 徽章，不会把假数字当真结果展示。
+
+B 的运行命令、预算限制和修复清单见 [B 修复说明](docs/B修复说明.md)。
 
 ## 两个阶段怎么接
 
