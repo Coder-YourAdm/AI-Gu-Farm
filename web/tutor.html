@@ -337,7 +337,7 @@
       <div class="clickhint">点题面 → 看理由　·　点知识点 → 过滤对话　·　点记忆 → 看来源</div>
       <div class="composer">
         <div class="line">
-          <input id="answer" placeholder="输入答案（整数 / 分数 / 小数）" autocomplete="off">
+          <input id="answer" placeholder="输入答案（整数 / 分数 / 小数）" autocomplete="off" maxlength="100">
           <button id="send">提交</button>
         </div>
         <div class="quick">
@@ -901,7 +901,7 @@
       selKC = null; selTurn = null;          // 回放里的过滤/选中的题不该带到实时会话
       el("live-hint").textContent = "实时会话 " + LIVE.sid +
         (LIVE.endpoint ? "：判分与提示走后端 " + LIVE.endpoint
-                       : "：本地状态机（未接后端）");
+                       : "：本地状态机（未接后端）") + "　·　想从第一题重来点「重置」";
       if (!LIVE.log.length) liveRequest("start");
       else render();
     } else {
@@ -913,12 +913,12 @@
   }
 
   el("send").addEventListener("click", function(){
-    liveRequest("submit", el("answer").value);
+    liveRequest("submit", String(el("answer").value).slice(0, 100));
   });
   el("answer").addEventListener("keydown", function(e){
     if (e.key === "Enter" && !e.isComposing){
       e.preventDefault();
-      liveRequest("submit", el("answer").value);
+      liveRequest("submit", String(el("answer").value).slice(0, 100));
     }
   });
   Array.prototype.forEach.call(document.querySelectorAll(".quick button"), function(b){

@@ -54,6 +54,9 @@ def main() -> int:
     missing = [i for i in IDS if f'id="{i}"' not in texts["tutor.html"]]
     print("  missing:", missing or "none")
     failed += 0 if not missing else 1
+    has_max = 'maxlength="100"' in texts["tutor.html"]
+    print("  answer maxlength=100:", has_max)
+    failed += 0 if has_max else 1
 
     print("== 3. three hard checks ==")
     for p in PAGES:
