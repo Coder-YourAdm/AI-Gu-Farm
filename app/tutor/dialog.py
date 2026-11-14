@@ -74,10 +74,13 @@ class Tutor:
             # schedule.due_items 需要带时区的时间（L1 事件流的标准字段名是 t）
             "t": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         })
-        # 只有「独立答对」才更新掌握度；带提示的正确不计入
-        if correct and not hint_used:
-            self.mastery[kc] = bkt.update(self.mastery[kc], True)
-        elif not correct:
+        # 独立答对全额计入；看过提示再答对只算「半次独立答对」（与离线 fixture 同口径）。
+        # 不取 0 是因为演示时曲线会只降不升；不取 1 就是评审点过的「提示后也涨」。
+        if correct:
+            full = bkt.update(self.mastery[kc], True)
+            self.mastery[kc] = (full if not hint_used
+                                else self.mastery[kc] + 0.5 * (full - self.mastery[kc]))
+        else:
             self.mastery[kc] = bkt.update(self.mastery[kc], False)
         self.book.update(self.task, self.mastery[kc], bool(correct))
 

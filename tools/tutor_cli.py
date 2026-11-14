@@ -47,6 +47,10 @@ from app.student.difficulty import DifficultyBook  # noqa: E402
 PROFILE_VERSION = "manual-v1"
 DEFAULT_AT = "2026-11-14T15:40:00+08:00"
 
+# 辅助答对（看过提示再答对）在掌握度里算「半次独立答对」。
+# 不取 0：演示曲线会变成只降不升；不取 1：等于回到「提示后答对也算独立」的老问题。
+ASSISTED_WEIGHT = 0.5
+
 # 提示梯度（契约 §6.5，0 基）。文案是规则文本，不经过模型。
 HINT_TEXT = {
     0: "先别算，把题目问的是什么、积分区间（或矩阵阶数）再念一遍。",
@@ -133,7 +137,22 @@ def _last_error(events: list[dict], kc_id: str) -> str | None:
 
 
 def _mastery_map(events: list[dict]) -> dict[str, float]:
-    return {name: bkt.mastery_of(name, events) for name in kc.KC_IDS}
+    """按 KC 折叠事件流。**带提示答对只按半次独立答对计入**。
+
+    为什么：BKT 测的是「独立会做」。提示后答对直接按全量更新，掌握度会虚高，
+    画像就不可信了（评审在 0b73d1b 上点过这条）。这里不改 A 的 bkt 公式，
+    只在折叠时对 assisted 事件取半步，口径写进 tutor.json 的 notes。
+    """
+    out: dict[str, float] = {}
+    for name in kc.KC_IDS:
+        p = bkt.BKTParams().init
+        for ev in events:
+            if ev.get("kc") != name:
+                continue
+            full = bkt.update(p, bool(ev["correct"]))
+            p = p + ASSISTED_WEIGHT * (full - p) if ev.get("assisted") else full
+        out[name] = p
+    return out
 
 
 def _memory_text(err: str) -> str:
@@ -245,7 +264,7 @@ def build(*, sid: str = "demo", turns: int = 8,
         })
         hint_used[kc_id] += 1
 
-        # ── turn 4：独立答对 ────────────────────────────────────
+        # ── turn 4：提示后答对（辅助，不计作独立掌握）──────────
         n += 1
         out_turns.append({
             "n": n, "role": "student", "kc": kc_id,
@@ -254,7 +273,7 @@ def build(*, sid: str = "demo", turns: int = 8,
         })
         t_right = "2026-11-14T15:%02d:00+08:00" % (r * 4 + 2)
         events.append({"id": "evt_%04d" % (900 + n), "t": t_right,
-                       "kc": kc_id, "correct": True,
+                       "kc": kc_id, "correct": True, "assisted": True,
                        "err": right_err})
 
         # 错因入记忆时间轴：conf = 该事件之后该 KC 的 BKT 掌握度，
@@ -295,6 +314,7 @@ def build(*, sid: str = "demo", turns: int = 8,
         "notes": [
             "本文件为离线回放 fixture：判分/掌握度/难度/复习排期均由本地引擎计算",
             "conf = 该错题之后该知识点的 BKT 掌握度，越高表示错因越已被克服",
+            "带提示答对记为 assisted，只按半次独立答对计入掌握度",
             "时间与事件固定，重复运行逐字节相同",
         ],
         "kcs": kcs,
