@@ -934,8 +934,8 @@
     transition:transform .22s cubic-bezier(.16,1,.3,1)}
   nav.pages a:hover::after{transform:scaleX(1)}
   @media (prefers-reduced-motion: reduce){
-    #scene-curtain{display:none}
-    body.scene-leaving main{transform:none;opacity:1;filter:none}
+    #scene-curtain{transition-duration:.12s}
+    #scene-curtain .sc-inner{transition-duration:.1s}
   }
 </style>
 <script>
@@ -962,7 +962,7 @@
   var entering=false;
   try { entering=sessionStorage.getItem("scene:in")==="1";
         if(entering) sessionStorage.removeItem("scene:in"); } catch(_){}
-  if(entering && !reduced){
+  if(entering){
     label(idx);
     curtain.classList.add("enter");
     requestAnimationFrame(function(){ requestAnimationFrame(function(){
@@ -976,7 +976,6 @@
   function go(i){
     if(i<0||i>=PAGES.length||i===idx||lock) return;
     lock=true;
-    if(reduced){ location.href=PAGES[i][0]; return; }
     label(i);
     curtain.classList.add("on");
     document.body.classList.add("scene-leaving");
