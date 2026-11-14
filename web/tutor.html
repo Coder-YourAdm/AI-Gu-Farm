@@ -889,19 +889,64 @@
     }).then(function(){ setBusy(false); });
   }
 
-  function setMode(m){
-    var liveMode = m === "live";
-    LIVE.epoch += 1;                 // 让在途请求的响应失效
-    LIVE.on = liveMode;
-    document.body.classList.toggle("live", liveMode);
+  function markModeButton(m){
     Array.prototype.forEach.call(el("mode").querySelectorAll("button"), function(x){
       x.classList.toggle("on", x.getAttribute("data-m") === m);
     });
+  }
+
+  function setLiveHint(){
+    el("live-hint").textContent = "实时会话 " + LIVE.sid +
+      (LIVE.endpoint ? "：判分与提示走后端 " + LIVE.endpoint
+                     : "：本地状态机（未接后端）") + "　·　想从第一题重来点「重置」";
+  }
+
+  /* 把失败翻译成"能照做"的一句话；原始错误保留在括号里，便于排查 */
+  function describeLiveError(err){
+    var msg = (err && err.message) || String(err);
+    if (/Unexpected token|not valid JSON|HTTP 501|HTTP 404|Failed to fetch|NetworkError|Load failed/i.test(msg)){
+      return "实时模式不可用：当前页面没有可用的 /api/ask（常见于 8123 旧静态服务、或 file:// 直接打开）。" +
+             "请用 <b>python app/serve.py --port 8124 --allow-tutor</b> 后访问 " +
+             "<b>127.0.0.1:8124/tutor.html</b>。";
+    }
+    return "实时模式不可用（" + esc(msg) + "）。回放内容不受影响。";
+  }
+
+  function setMode(m){
+    var liveMode = m === "live";
+    LIVE.epoch += 1;                 // 让在途请求的响应失效
+
+    /* 首次进实时：先探测接口，成功后才把界面切过去。
+       否则接口不可用时会出现"闪一下又弹回回放"的错觉。 */
+    if (liveMode && LIVE.endpoint && !LIVE.log.length){
+      selKC = null; selTurn = null;
+      var epoch = LIVE.epoch;
+      setBusy(true);
+      liveAsk("start").then(function(res){
+        if (epoch !== LIVE.epoch) return;
+        if (!res || res.ok === false){
+          throw new Error((res && res.error) || "响应里没有 ok 字段");
+        }
+        LIVE.on = true;
+        document.body.classList.add("live");
+        markModeButton("live");
+        setLiveHint();
+        LIVE.log = [];
+        applyLiveResp(res, "start");
+      }).catch(function(err){
+        if (epoch !== LIVE.epoch) return;
+        LIVE.on = false;
+        showNotice(describeLiveError(err));
+      }).then(function(){ setBusy(false); });
+      return;
+    }
+
+    LIVE.on = liveMode;
+    document.body.classList.toggle("live", liveMode);
+    markModeButton(m);
     if (liveMode){
       selKC = null; selTurn = null;          // 回放里的过滤/选中的题不该带到实时会话
-      el("live-hint").textContent = "实时会话 " + LIVE.sid +
-        (LIVE.endpoint ? "：判分与提示走后端 " + LIVE.endpoint
-                       : "：本地状态机（未接后端）") + "　·　想从第一题重来点「重置」";
+      setLiveHint();
       if (!LIVE.log.length) liveRequest("start");
       else render();
     } else {
