@@ -27,33 +27,34 @@
     background-image:radial-gradient(900px 300px at 15% -10%,rgba(76,201,240,.09),transparent 70%)}
   a{color:inherit;text-decoration:none}
 
-  /* ── 顶栏 ── */
+  /* ── 顶栏：三页同一份（C6 统一样式，改一处三页一起改） ── */
   header{display:flex;align-items:center;gap:18px;padding:12px 22px;flex:0 0 auto;
     border-bottom:1px solid var(--line-strong);background:rgba(12,15,19,.86);
-    position:relative;z-index:20}
+    position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
   .brand{display:flex;align-items:baseline;gap:10px;min-width:0}
   .brand h1{font-family:var(--font-display);font-size:19px;font-weight:600;margin:0;letter-spacing:.02em}
   .brand .sub{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;
-    color:var(--faint);text-transform:uppercase}
+    color:var(--faint);text-transform:uppercase;white-space:nowrap}
   nav.pages{display:flex;gap:2px;margin-left:8px}
   nav.pages a{font-size:12.5px;color:var(--muted);padding:5px 11px;border-radius:5px;
     transition:.18s var(--ease)}
   nav.pages a:hover{color:var(--text);background:var(--surface-2)}
   nav.pages a.on{color:var(--accent);background:var(--accent-dim)}
+  nav.pages a:focus-visible,.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   .mode{margin-left:auto;display:flex;align-items:center;gap:10px}
   .seg{display:flex;border:1px solid var(--line-strong);border-radius:6px;overflow:hidden}
   .seg button{background:transparent;border:0;color:var(--muted);font-family:var(--font-body);
-    font-size:12px;padding:6px 13px;cursor:pointer;transition:.18s}
+    font-size:12px;padding:6px 14px;cursor:pointer;transition:.18s}
   .seg button:hover{color:var(--text)}
   .seg button.on{background:var(--accent-dim);color:var(--accent);font-weight:600}
-  .ver{font-family:var(--font-mono);font-size:11px;color:var(--faint);
+  .ver{font-family:var(--font-mono);font-size:11px;color:var(--faint);white-space:nowrap;
     border:1px solid var(--line);border-radius:4px;padding:4px 8px}
 
-  /* ── 提示条 ── */
-  #notice{display:none;flex:0 0 auto;margin:10px 22px 0;padding:8px 13px;border-radius:6px;
-    background:var(--warn-dim);border:1px solid rgba(255,209,102,.28);
-    color:var(--warn);font-size:12px;line-height:1.55}
+  /* ── 提示条：与 tutor.html 同一条 ── */
+  #notice{display:none;flex:0 0 auto;padding:7px 22px;font-size:12.5px;line-height:1.55;
+    background:var(--warn-dim);border-bottom:1px solid rgba(255,209,102,.28);
+    color:var(--warn)}
   #notice.on{display:block}
   #notice b{color:#fff}
 
