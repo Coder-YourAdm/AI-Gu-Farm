@@ -212,6 +212,19 @@ function near(a, b, eps) {
      "提示里带出后端错误原文", els["notice"].innerHTML.slice(0, 60));
   dbg.state.endpoint = null;
 
+  console.log("== J. 大整数判分：超过 2^53 不能失精 ==");
+  const pf = dbg.parseFrac;
+  ok(typeof pf === "function", "调试钩子暴露 parseFrac");
+  if (typeof pf === "function") {
+    const big1 = pf("9007199254740993");   // 2^53 + 1
+    const big2 = pf("9007199254740992");   // 2^53
+    ok(!!big1 && !!big2 && big1.n !== big2.n, "2^53 与 2^53+1 不再相等");
+    const half = pf("1/2"), twoQ = pf("2/4");
+    ok(!!half && !!twoQ && half.n * twoQ.d === twoQ.n * half.d, "1/2 与 2/4 仍判相等");
+    const dec = pf("0.5");
+    ok(!!dec && dec.n * half.d === half.n * dec.d, "0.5 与 1/2 仍判相等");
+  }
+
   console.log("");
   if (failed === 0) {
     console.log("RESULT: PASS（" + 0 + " 项失败）");
