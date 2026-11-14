@@ -10,6 +10,7 @@ from app.student.schedule import (
     MIN_EASE,
     due_items,
     item_after,
+    plan_items,
 )
 
 T0 = "2026-11-10T09:00:00+08:00"
@@ -150,3 +151,38 @@ def test_due_items_rejects_bad_events():
         due_items([{"t": T0, "kc": "det", "correct": 1}], T0)
     with pytest.raises(ValueError, match="ISO"):
         due_items([{"t": "昨天", "kc": "det", "correct": True}], T0)
+
+
+# ---------------------------------------------------------------------------
+# plan_items（未来复习计划，不过滤是否到期）
+# ---------------------------------------------------------------------------
+
+def test_plan_items_includes_future_due_that_due_items_filters_out():
+    """契约 §4.3 的 review_plan 是「下次什么时候复习」，不是「今天到期」。"""
+    events = [_ev("2026-11-28T09:00:00+08:00", "poly", True)]
+    assert due_items(events, "2026-11-29T09:00:00+08:00") == []
+    plan = plan_items(events)
+    assert len(plan) == 1
+    assert plan[0]["due"] == "2026-12-02T15:00:00+08:00"
+
+
+def test_plan_items_covers_every_kc_and_is_sorted():
+    events = [
+        _ev("2026-11-01T09:00:00+08:00", "det", False),
+        _ev("2026-11-02T09:00:00+08:00", "poly", False),
+        _ev("2026-11-03T09:00:00+08:00", "gamma", True),
+    ]
+    plan = plan_items(events)
+    assert len(plan) == 3
+    assert plan == sorted(plan, key=lambda r: (r["due"], r["kc"]))
+    assert plan_items([]) == []
+
+
+def test_plan_items_shares_fold_logic_with_due_items():
+    """同一个事件的 due/interval 在两个 API 里必须完全一致（只有一份公式）。"""
+    events = [_ev("2026-11-01T09:00:00+08:00", "det", False)]
+    far = "2026-12-20T09:00:00+08:00"
+    a = due_items(events, far)[0]
+    b = plan_items(events)[0]
+    for key in ("due", "interval", "ease", "streak", "reason"):
+        assert a[key] == b[key]

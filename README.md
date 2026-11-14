@@ -89,6 +89,11 @@ python tools/preflight.py --config config.local.json --require-key --probe
 
 > 助教侧命令随今日施工落地：`python tools/tutor_cli.py --sid demo --turns 8 --out web/tutor.json`、
 > `python app/serve.py --port 8123 --allow-tutor`。契约见 [AI 可读实施方案](docs/AI可读_实施方案.md)。
+>
+> **放进 `web/` 之前先跑数据契约自检**：`python tools/check_web_contract.py`
+> （`tutor.json` 的四条验收 + `compare.json` 的 9 行 rows / 顶层 5 字段 / 逐行
+> `cost=0.3·items/20+0.7·hints/20`、`fitness=gain−0.25·cost`，容差 0.002）。
+> `compare.json` 尚未生成时跳过，最终冻结加 `--require-compare`。
 
 ## 目录
 
@@ -115,7 +120,8 @@ web/                 现有三个单文件页面 + 两份 mock 数据；🚧 tut
 tests/               A/B/C 单元测试、集成测试与 B 缺陷回归
 docs/                完整方案 / 12 小时分工 / AI 实施方案 / skill 包装 / B 修复说明
 方案/                技术规格 v5、项目大纲 v5、分工方案 v7.3（含 12 小时冲刺附记）
-tools/               开发期工具：sympy 交叉验证 / 题面自检 / pilot 前置体检，均不进判分链路
+tools/               开发期工具：sympy 交叉验证 / 题面自检 / pilot 前置体检 /
+                      助教回放生成 / web 数据契约自检，均不进判分链路
 ```
 
 ## 判分为什么值得看

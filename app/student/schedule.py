@@ -125,3 +125,21 @@ def due_items(events: list[dict], now, ease: float = 2.5) -> list[dict]:
 
     out.sort(key=lambda r: (r["due"], r["kc"]))
     return out
+
+
+# `plan_items` 借 `due_items` 的折叠逻辑，用一个足够远的 now 让过滤恒不触发。
+# 不改 `due_items` 一行，已有 528 条测试完全不受影响。
+_ALL_PLAN_NOW = "9999-12-31T00:00:00+00:00"
+
+
+def plan_items(events: list[dict], ease: float = 2.5) -> list[dict]:
+    """列出**所有** KC 的下次复习计划，不管是否已到期。
+
+    `due_items()` 回答「今天该复习哪些」，只留 `due <= now` 的项；
+    `plan_items()` 回答「接下来分别什么时候复习」——契约 §4.3 的
+    `review_plan` 属于后者，示例里 `due=2026-11-17` 本来就在生成时间之后。
+
+    两者共用同一套间隔折叠公式，不存在第二份排期实现。没答过题的 KC
+    同样不会出现在计划里（它还没有记忆可复习）。
+    """
+    return due_items(events, _ALL_PLAN_NOW, ease=ease)
