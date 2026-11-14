@@ -91,9 +91,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File docs/demo/check_all.ps1
 
 1. ✅ `web/tutor.json` / `web/compare.json` 已由 A 产出并合入 `main`（14:30 核对），页面不再挂黄条。
    `tools/check_web_contract.py --require-compare` 与 `check_pages.py` 第 7 项均 PASS。
-2. `app/serve.py` 没有 `/api/ask` 分支（实测 501）→ 实时模式走本地假 Tutor；B 交付后改一处 `endpoint`。
-3. 推送与合并均已完成：`main` = `origin/feat/tutor-c` = `4f99000`，三页已在主干上，B10 可直接从 main 打包。
-4. 真人验收尚未做（三页互跳、实时连答 5 题、断接口自动回放、C13 六格 1280/1920）——
-   脚本自检全绿 ≠ 演示验收通过，这部分需要人在浏览器里过一遍。
+2. ✅ **B7 已交付并接入**（`840a94c`，`dialog.py`+`hint.py`+serve 分支）：`LIVE.endpoint` 已切 `"/api/ask"`，
+   `probe_ask.py` 对真服务 PASS，`check_browser_live.js --base` 真浏览器 PASS。
+3. 推送与合并均已完成：`feat/tutor-c` 与 `main` 同步，三页已在主干上，B10 可直接从 main 打包。
+4. 渲染与点击已由 `check_browser.js`（真 Chrome CDP）覆盖；**人眼看投影可读性、C12 彩排计时**仍需现场做。
 5. **打开方式**：`file://` 双击读不到本地 JSON，永远显示示例数据。正式演示/截图必须
-   `python app/serve.py --port 8123`（或 `python -m http.server 8123 --directory web`）后走 HTTP。
+   `python app/serve.py --port 8124 --allow-tutor`（8123 常被旧预览进程占用）后走 HTTP。
